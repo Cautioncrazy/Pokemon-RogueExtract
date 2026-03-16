@@ -5,7 +5,6 @@
 # Hook into the end of battle phase
 EventHandlers.add(:on_end_battle, :nuzlocke_permadeath,
   proc { |_decision, _canLose|
-    # $player is standard for v21.1 instead of $Trainer in many cases, but $player.party is typical
     next if !$player || !$player.party
 
     # Identify the last box in the PC
@@ -27,13 +26,11 @@ EventHandlers.add(:on_end_battle, :nuzlocke_permadeath,
         # Start looking from the Graveyard box and spill over to previous boxes if full
         box_to_put = graveyard_box_index
         while box_to_put >= 0
-          # Use standard pbStoreCaught logic or manually find free slot
-          # Manual slot assignment gives us more control over exactly which box
-          # `pbGetFreeSpace(box)` or similar might exist, but we can do it directly:
 
           # Iterate slots in the current box
           $PokemonStorage[box_to_put].length.times do |slot|
             if $PokemonStorage[box_to_put][slot].nil?
+              # Store fainted pokemon in the box slot
               $PokemonStorage[box_to_put][slot] = pkmn
 
               # Auto-name spillover boxes if we end up using them
@@ -61,21 +58,29 @@ EventHandlers.add(:on_end_battle, :nuzlocke_permadeath,
 )
 
 # Auto-purge the Graveyard box(es) when the PC is accessed.
-# Hooking into the start of the PC access.
-EventHandlers.add(:on_enter_map, :auto_purge_graveyard_safeguard,
-  proc { |_old_map_id|
-    # A safe fallback hook: when entering a map, clean up any Graveyard boxes.
-    next if !$PokemonStorage
-
+# We alias the main pbPokeCenterPC method to trigger the auto-purge
+# right before the PC interface is actually loaded.
+alias original_pbPokeCenterPC pbPokeCenterPC unless defined?(original_pbPokeCenterPC)
+def pbPokeCenterPC
+  # Auto-purge logic before PC opens
+  if $PokemonStorage
+    purged_any = false
     ($PokemonStorage.maxBoxes).times do |box_idx|
       if $PokemonStorage[box_idx].name == "Graveyard"
         $PokemonStorage[box_idx].length.times do |slot|
-          $PokemonStorage[box_idx][slot] = nil # Release the fainted Pokémon
+          if !$PokemonStorage[box_idx][slot].nil?
+            $PokemonStorage[box_idx][slot] = nil # Release the fainted Pokémon
+            purged_any = true
+          end
         end
       end
     end
-  }
-)
 
-# You can also hook into standard PC access if a standard event handler exists for it,
-# but using `on_enter_map` or aliasing `pbPokeCenterPC` ensures it gets purged regularly.
+    if purged_any
+      pbMessage(_INTL("The Graveyard has been purged."))
+    end
+  end
+
+  # Call original PC logic
+  original_pbPokeCenterPC
+end
