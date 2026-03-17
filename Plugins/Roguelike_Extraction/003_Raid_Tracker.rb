@@ -8,12 +8,16 @@
 class PokemonGlobalMetadata
   attr_writer :current_raid_floor
   attr_writer :raid_bag_snapshot
+  attr_writer :secure_pouch_items
+  attr_writer :secure_pouch_capacity
 
   alias roguelike_extraction_init initialize
   def initialize
     roguelike_extraction_init
     @current_raid_floor = 0
     @raid_bag_snapshot = nil
+    @secure_pouch_items = []
+    @secure_pouch_capacity = RoguelikeExtraction::SECURE_POUCH_START_CAPACITY
   end
 
   # Lazy Initialization getters.
@@ -26,6 +30,16 @@ class PokemonGlobalMetadata
 
   def raid_bag_snapshot
     return @raid_bag_snapshot
+  end
+
+  def secure_pouch_items
+    @secure_pouch_items ||= []
+    return @secure_pouch_items
+  end
+
+  def secure_pouch_capacity
+    @secure_pouch_capacity ||= RoguelikeExtraction::SECURE_POUCH_START_CAPACITY
+    return @secure_pouch_capacity
   end
 end
 
@@ -54,43 +68,75 @@ module RoguelikeExtraction
 
     snapshot = {}
 
-    # In v21.1, $PokemonBag.pockets is an array of pockets, where each pocket
-    # is an array of [item_id, quantity]. We need to iterate through them.
-    # The pocket ID for Key Items is typically 8 in standard Essentials,
-    # but we can also use GameData::Item.get(item).is_key_item? to be safe.
+    # Mobile Optimization: Iterate ONLY the active pockets and items
+    # instead of scanning the entire GameData::Item database (O(N) vs O(1000+)).
+    $PokemonBag.pockets.each_with_index do |pocket, pocket_idx|
+      next if pocket.empty?
+      pocket.each do |item_entry|
+        item_id = item_entry[0]
+        qty = item_entry[1]
 
-    GameData::Item.each do |item_data|
-      item = item_data.id
-      qty = $PokemonBag.pbQuantity(item)
-      if qty > 0 && !item_data.is_key_item?
-        snapshot[item] = qty
+        # Pocket 8 is typically Key Items, but we explicitly verify via GameData
+        item_data = GameData::Item.try_get(item_id)
+        if item_data && !item_data.is_key_item? && qty > 0
+          snapshot[item_id] = qty
+        end
       end
     end
 
     $PokemonGlobal.raid_bag_snapshot = snapshot
   end
 
-  # Reverts the player's bag to the snapshot taken at the start of the raid.
-  # This deletes any non-key items acquired during the failed run.
+  # Reverts the player's bag to the snapshot taken at the start of the current floor.
+  # This deletes any non-key items acquired during the failed floor run.
   def self.revert_bag_to_snapshot
     return if !$PokemonBag || !$PokemonGlobal.raid_bag_snapshot
 
     # 1. Clear all non-key items from the current bag
-    GameData::Item.each do |item_data|
-      item = item_data.id
-      qty = $PokemonBag.pbQuantity(item)
-      if qty > 0 && !item_data.is_key_item?
-        # Remove the exact quantity the player currently holds
-        $PokemonBag.pbDeleteItem(item, qty)
+    $PokemonBag.pockets.each_with_index do |pocket, pocket_idx|
+      next if pocket.empty?
+
+      # Iterate in reverse because pbDeleteItem alters the array during iteration
+      (0...pocket.length).to_a.reverse.each do |i|
+        item_id = pocket[i][0]
+        qty = pocket[i][1]
+
+        item_data = GameData::Item.try_get(item_id)
+        if item_data && !item_data.is_key_item? && qty > 0
+          $PokemonBag.pbDeleteItem(item_id, qty)
+        end
       end
     end
 
     # 2. Restore the non-key items from the snapshot
-    $PokemonGlobal.raid_bag_snapshot.each do |item, qty|
-      $PokemonBag.pbStoreItem(item, qty)
+    # Note: Duplication/Deletion exploits are actively prevented in 004_Secure_Pouch.rb
+    # where the snapshot is dynamically updated the moment an item is deposited or withdrawn.
+    $PokemonGlobal.raid_bag_snapshot.each do |item_id, qty|
+      $PokemonBag.pbStoreItem(item_id, qty)
     end
 
     # Clear the snapshot
+    $PokemonGlobal.raid_bag_snapshot = nil
+  end
+
+  # Hardcore wipe: Completely deletes all non-key items from the bag.
+  def self.wipe_bag_hardcore
+    return if !$PokemonBag
+
+    $PokemonBag.pockets.each_with_index do |pocket, pocket_idx|
+      next if pocket.empty?
+
+      (0...pocket.length).to_a.reverse.each do |i|
+        item_id = pocket[i][0]
+        qty = pocket[i][1]
+
+        item_data = GameData::Item.try_get(item_id)
+        if item_data && !item_data.is_key_item? && qty > 0
+          $PokemonBag.pbDeleteItem(item_id, qty)
+        end
+      end
+    end
+
     $PokemonGlobal.raid_bag_snapshot = nil
   end
 
@@ -116,6 +162,8 @@ module RoguelikeExtraction
         pbMessage(_INTL("You have conquered the final floor! Extracting..."))
         extract
       else
+        # Standard Mode: Create a new snapshot checkpoint at the start of each new floor.
+        snapshot_bag
         transfer_to_current_floor
       end
     end
@@ -151,11 +199,18 @@ module RoguelikeExtraction
     end
   end
 
-  # Fails the raid, reverting the bag to the snapshot.
+  # Fails the raid, penalizing the player based on the current Mode.
   def self.blackout
     $PokemonGlobal.current_raid_floor = 0
-    revert_bag_to_snapshot
-    pbMessage(_INTL("You blacked out! All unextracted loot was lost..."))
+
+    # Check if Hardcore Mode is enabled
+    if $game_switches[RoguelikeExtraction::HARDCORE_MODE_SWITCH]
+      wipe_bag_hardcore
+      pbMessage(_INTL("HARDCORE BLACKOUT! Your entire bag was wiped..."))
+    else
+      revert_bag_to_snapshot
+      pbMessage(_INTL("You blacked out! The loot you found on this floor was lost..."))
+    end
 
     # Teleport to Hub
     pbFadeOutIn do

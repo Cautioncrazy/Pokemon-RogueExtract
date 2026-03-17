@@ -7089,3 +7089,12 @@ Price = 0
 Flags = KeyItem
 Description = A proof copy of the exploration notes, along with Briar's thoughts covering the Area Zero Underdepths.
 
+
+[SECUREPOUCH]
+Name = Secure Pouch
+NamePlural = Secure Pouches
+Pocket = 8
+Price = 0
+FieldUse = Direct
+Flags = KeyItem
+Description = A reinforced container capable of securing a limited number of items, completely bypassing extraction blackouts.

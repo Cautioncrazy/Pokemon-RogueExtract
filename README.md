@@ -38,3 +38,7 @@ The `RaidTracker` module also fully manages the player's inventory during a raid
 * **Start**: When a raid begins, it generates a hash of `$PokemonBag` tracking all non-Key items and their quantities.
 * **Extract**: When calling `pbExtractRaid`, the raid ends successfully. The floor resets to 0, the snapshot is cleared, and the player retains all their gathered loot.
 * **Blackout**: When calling `pbBlackoutRaid`, the player fails the raid. The floor resets to 0, and the script purges the player's inventory, completely restoring the original snapshot state (meaning all unextracted non-Key loot is permanently lost).
+
+### Hardcore Mode & Secure Pouch
+* **Hardcore Mode**: Triggered by a configurable game switch. When active, blacking out results in a total loss of the player's Bag (minus Key Items), rather than just reverting to the start-of-floor snapshot.
+* **Secure Pouch**: A functional Key Item that completely bypasses both Standard and Hardcore blackout mechanics. The pouch contains its own array (`$PokemonGlobal.secure_pouch_items`) and capacity limit. Players can manually interact with the `SECUREPOUCH` from their bag to deposit or withdraw stacks of items they want to guarantee they extract with.
