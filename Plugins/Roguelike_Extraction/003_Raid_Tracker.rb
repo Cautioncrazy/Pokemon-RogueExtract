@@ -173,3 +173,26 @@ module RoguelikeExtraction
     end
   end
 end
+
+#===============================================================================
+# RPG Maker Event Script Call Helpers
+#===============================================================================
+# These shorter method names fit easily inside the strict RPG Maker XP
+# Script Call box width limit without throwing NoMethodError line-breaks.
+#===============================================================================
+
+def pbStartRaid
+  RoguelikeExtraction.resume_or_start_raid
+end
+
+def pbAdvanceRaid
+  RoguelikeExtraction.advance_floor
+end
+
+def pbExtractRaid
+  RoguelikeExtraction.extract
+end
+
+def pbBlackoutRaid
+  RoguelikeExtraction.blackout
+end
