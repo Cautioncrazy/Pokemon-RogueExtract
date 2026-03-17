@@ -1,4 +1,7 @@
 Name = Roguelike Extraction - Core Systems
 Version = 1.0.0
-Description = Core gameplay scripts for the Pokémon Roguelike/Extraction Hybrid featuring Nuzlocke permadeath.
-Author = Jules
+Essentials = 21.1
+Website = https://github.com/Cautioncrazy/Pokemon-RogueExtract
+Credits = Jules, CautionCrazy
+
+# Description = Core gameplay scripts for the Pokémon Roguelike/Extraction Hybrid featuring Nuzlocke permadeath.

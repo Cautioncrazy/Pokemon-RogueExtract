@@ -11,8 +11,8 @@
 # @param whiteList     [Array<Symbol>, nil] An array of item IDs (Symbols) to
 #                                           choose ONLY from. If nil, considers
 #                                           all items (filtered by blackList/flags).
-# @param blackList     [Array<Symbol>, nil] An array of item IDs (Symbols) to
-#                                           EXCLUDE from the random selection.
+# @param blackList     [Array<Symbol>, String, nil] An array of item IDs to
+#                                           EXCLUDE, or "nuzlocke" to use default bans.
 # @param exclude_flags [Array<Symbol>, nil] An array of item flags (Symbols)
 #                                           whose items should be excluded.
 #                                           e.g., [:TR, :HM, :KeyItem, :PokeBall]
@@ -22,9 +22,15 @@
 # @return [Symbol, nil] The ID of the randomly chosen item, or nil if no item
 #                       could be chosen based on the criteria.
 def pbChooseRandomItem(whiteList = nil, blackList = nil, exclude_flags = nil, include_pockets = nil)
-  # Ensure blackList and exclude_flags are arrays if provided, otherwise empty
-  blackList     = [] if blackList.nil?
-  exclude_flags = [] if exclude_flags.nil?
+  
+  # Method 2: If no blacklist is provided, or the user types "nuzlocke", fetch the banned array
+  if blackList.nil? || blackList == "nuzlocke"
+    blackList = getNuzlockeBannedItems
+  end
+
+  # Ensure variables are arrays if they are somehow still nil
+  blackList       = [] if blackList.nil?
+  exclude_flags   = [] if exclude_flags.nil?
   include_pockets = [] if include_pockets.nil?
 
   arr = [] # Array to store eligible item IDs
@@ -67,31 +73,31 @@ end
 # This can be called from an event using `pbGiveRandomGeneralItem`
 def pbGiveRandomGeneralItem
   # Define flags to exclude for "general items" (e.g., TRs/HMs, PokeBalls, KeyItems)
-  # Updated :TM to :TR based on your items.txt
   excluded_flags = [:TR, :HM, :PokeBall, :KeyItem, :Berry, :Apricorn, :Mail, :TypeGem]
+  
   # Define pockets to include (e.g., Pocket 1 for general items, Pocket 2 for medicine)
-  # You can see pocket numbers in your items.txt file.
-  included_pockets = [1, 2, 7] # Example: General, Medicine, Battle Items
+  included_pockets = [1, 2, 7] 
 
-  # You can also define a blacklist for specific items you never want
-  # e.g., blacklisted_items = [:MASTERBALL, :SACREDASH]
-  blacklisted_items = []
+  # Tell the function to use the nuzlocke helper method
+  blacklisted_items = "nuzlocke"
 
   # Choose a random item
   item_id = pbChooseRandomItem(
     nil,                # No whitelist, consider all (filtered)
-    blacklisted_items,  # Apply specific blacklist
+    blacklisted_items,  # Apply specific blacklist (calls the nuzlocke helper)
     excluded_flags,     # Apply flag-based exclusions
     included_pockets    # Restrict to these pockets
   )
 
   if item_id
     # Use pbReceiveItem for proper messaging and bag handling
-    # This also indirectly helps with $Trainer being nil in early game states
-    # as pbReceiveItem is more robustly designed for such situations.
     pbReceiveItem(item_id)
   else
     pbMessage(_INTL("No suitable item could be found!"))
   end
 end
 
+# The Helper Method
+def getNuzlockeBannedItems
+  return [:REVIVE, :MAXREVIVE, :REVIVALHERB, :MAXHONEY, :SACREDASH]
+end
