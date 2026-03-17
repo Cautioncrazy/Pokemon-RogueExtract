@@ -6,14 +6,26 @@
 
 # Add variables to PokemonGlobalMetadata to persist across saves
 class PokemonGlobalMetadata
-  attr_accessor :current_raid_floor
-  attr_accessor :raid_bag_snapshot
+  attr_writer :current_raid_floor
+  attr_writer :raid_bag_snapshot
 
   alias roguelike_extraction_init initialize
   def initialize
     roguelike_extraction_init
     @current_raid_floor = 0
     @raid_bag_snapshot = nil
+  end
+
+  # Lazy Initialization getters.
+  # This prevents crashes (like `undefined method '+' for nil:NilClass`)
+  # when the player loads a save file created *before* this script was added.
+  def current_raid_floor
+    @current_raid_floor ||= 0
+    return @current_raid_floor
+  end
+
+  def raid_bag_snapshot
+    return @raid_bag_snapshot
   end
 end
 
