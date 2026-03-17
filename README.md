@@ -25,3 +25,7 @@ To maintain the integrity of the permadeath rules, revival items (e.g., Revive, 
 ## Project Constraints
 * **Version Lock**: Strictly built on **Pokémon Essentials v21.1**. All Ruby (RGSS) scripts adhere to v21.1 syntax.
 * **Asset Management**: This repository strictly contains code, scripts, and PBS files. Visual and audio implementation is handled manually in RPG Maker XP. Reference PBS files directly when calling specific Pokémon, Item, or Move names.
+### Procedural Dungeon Spawning
+Dungeon floors use the core Essentials `Overworld_RandomDungeons` generator (`Dungeon = true`). Because standard static RPG Maker events would spawn in walls or the void on procedurally drawn maps, a custom Ruby hook intercepts the map generation.
+* **Mobile-Optimized Detection**: Instead of a heavy full-map scan that strains mobile CPUs, the system uses a random coordinate sampler. It validates tiles by performing dual checks: it ensures the tile is passable (walkable) and checks that it matches a valid Terrain Tag.
+* **Event Teleportation**: The spawner identifies predefined dynamic entities (e.g., VIPs, standard Trainers, and Loot Chests) strictly by their Event Name in RPG Maker. These events are then safely teleported (`.moveto`) onto the valid coordinates before the player gains control.
