@@ -29,3 +29,12 @@ To maintain the integrity of the permadeath rules, revival items (e.g., Revive, 
 Dungeon floors use the core Essentials `Overworld_RandomDungeons` generator (`Dungeon = true`). Because standard static RPG Maker events would spawn in walls or the void on procedurally drawn maps, a custom Ruby hook intercepts the map generation.
 * **Mobile-Optimized Detection**: Instead of a heavy full-map scan that strains mobile CPUs, the system uses a random coordinate sampler. It validates tiles by performing dual checks: it ensures the tile is passable (walkable) and checks that it matches a valid Terrain Tag.
 * **Event Teleportation**: The spawner identifies predefined dynamic entities (e.g., VIPs, standard Trainers, and Loot Chests) strictly by their Event Name in RPG Maker. These events are then safely teleported (`.moveto`) onto the valid coordinates before the player gains control.
+
+### Raid Tracker & Progression
+The system completely replaces traditional RPG Maker Variable tracking with a custom Ruby module (`RoguelikeExtraction::RaidTracker`). This module stores the `current_raid_floor` inside `$PokemonGlobal` (so it persists across saves) and dictates automated map transfers. NPCs like the Challenge Guide (Steven) only need to call `RoguelikeExtraction.resume_or_start_raid` to intelligently route the player to the next correct floor based on their progress.
+
+### Bag Snapshotting (Extract & Blackout)
+The `RaidTracker` module also fully manages the player's inventory during a raid:
+* **Start**: When a raid begins, it generates a hash of `$PokemonBag` tracking all non-Key items and their quantities.
+* **Extract**: When calling `RoguelikeExtraction.extract`, the raid ends successfully. The floor resets to 0, the snapshot is cleared, and the player retains all their gathered loot.
+* **Blackout**: When calling `RoguelikeExtraction.blackout`, the player fails the raid. The floor resets to 0, and the script purges the player's inventory, completely restoring the original snapshot state (meaning all unextracted non-Key loot is permanently lost).
