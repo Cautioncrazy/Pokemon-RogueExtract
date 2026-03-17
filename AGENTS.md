@@ -48,10 +48,11 @@ You are responsible for writing and maintaining scripts for the following core s
 - **Event Teleportation**: Dynamic entities are identified by parsing their RPG Maker Event Name (e.g., "VIP", "Trainer", "Chest") and teleported to valid coordinates using `.moveto(x, y)` right as the map loads.
 - **Loot**: Utilize the existing item-randomizer and HM-TM selector plugins to populate loot chests.
 
-### 3. Extraction & Stash (Bag Snapshotting)
-- **Snapshot Start**: At the start of a raid, write a script to take a snapshot of the `$PokemonBag`, completely excluding Key Items (which are permanent unlocks).
-- **Blackout (Failure)**: If the player "Blacks Out", the bag state must revert entirely to the snapshot taken at the start of the raid. Any non-key items acquired during the failed run are lost.
-- **Extraction (Success)**: If the player successfully extracts to the Hub, they keep the loot and can manually deposit it into their PC (acting as an "Item PC / Stash").
+### 3. Extraction, Stash, and Raid Tracking
+- **Raid Tracking**: Hook custom variables `current_raid_floor` and `raid_bag_snapshot` into `$PokemonGlobal` so they persist through saves. NPCs use `RoguelikeExtraction.resume_or_start_raid` to automatically check the floor and transfer the player via `pbFadeOutIn` to the appropriate map from a defined configuration hash.
+- **Snapshot Start**: At the start of a raid, write a script to take a hash snapshot of the `$PokemonBag` via `GameData::Item`, completely excluding Key Items (which are permanent unlocks).
+- **Blackout (Failure)**: If the player calls `RoguelikeExtraction.blackout`, the bag state must revert entirely to the snapshot taken at the start of the raid, deleting any new non-key items acquired. The floor resets to 0.
+- **Extraction (Success)**: If the player successfully extracts to the Hub (`RoguelikeExtraction.extract`), they keep the loot, the snapshot clears, the floor resets to 0, and they can manually deposit it into their PC (acting as an "Item PC / Stash").
 
 ### 4. Item Blacklists
 - **Revival Items**: Provide logic to scan items for revival effects.
