@@ -42,9 +42,10 @@ You are responsible for writing and maintaining scripts for the following core s
 - **Graveyard Box**: Move fainted Pokémon to the last PC box (in `$PokemonStorage`), which should be auto-named "Graveyard" (spilling over to previous boxes if full).
 - **Auto-Purge**: Hook into the `pbPokeCenterPC` access method to automatically release all Pokémon in any "Graveyard" box before the interface opens, avoiding overflow.
 
-### 2. Procedural Dungeons & Dynamic Injection
-- **Dungeons**: The project relies on the built-in `Overworld_RandomDungeons` module.
-- **Injection**: Write logic to dynamically spawn a "VIP Trainer" (boss/teleporter) and Loot Chests onto valid floor tiles *after* a dungeon floor generates. Use terrain tags to verify valid tiles if necessary.
+### 2. Procedural Dungeons & Dynamic Injection (Spawning)
+- **Dungeons**: The project relies on the built-in `Overworld_RandomDungeons` module triggered via `Dungeon = true` map metadata.
+- **Valid Tile Detection**: Since standard static events spawn in walls on dynamically generated maps, we use a mobile-optimized random coordinate sampler to hook into the generator. The script scans tiles via a dual-check: passability (`passable?`) and predefined Terrain Tags (e.g., standard floor tags) to prevent heavy full-map iteration loops.
+- **Event Teleportation**: Dynamic entities are identified by parsing their RPG Maker Event Name (e.g., "VIP", "Trainer", "Chest") and teleported to valid coordinates using `.moveto(x, y)` right as the map loads.
 - **Loot**: Utilize the existing item-randomizer and HM-TM selector plugins to populate loot chests.
 
 ### 3. Extraction & Stash (Bag Snapshotting)
