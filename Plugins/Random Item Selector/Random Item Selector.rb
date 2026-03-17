@@ -30,8 +30,8 @@ def pbChooseRandomItem(whiteList = nil, blackList = nil, exclude_flags = nil, in
 
   # Ensure variables are arrays if they are somehow still nil
   blackList       = [] if blackList.nil?
-  exclude_flags   = [] if exclude_flags.nil?
-  include_pockets = [] if include_pockets.nil?
+  exclude_flags   = [:TR, :HM, :PokeBall, :KeyItem, :Berry, :Apricorn, :Mail, :TypeGem] if exclude_flags.nil?
+  include_pockets = [1, 2, 7] if include_pockets.nil?
 
   arr = [] # Array to store eligible item IDs
 
