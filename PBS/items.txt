@@ -7246,3 +7246,12 @@ FieldUse = Direct
 Description = DISABLED: All Pokémon in the party to receive Exp, even if they don't participate in battle.
 
 
+
+[SECUREPOUCH]
+Name = Secure Pouch
+NamePlural = Secure Pouches
+Pocket = 8
+Price = 0
+FieldUse = Direct
+Flags = KeyItem
+Description = A reinforced container capable of securing a limited number of items, completely bypassing extraction blackouts.
