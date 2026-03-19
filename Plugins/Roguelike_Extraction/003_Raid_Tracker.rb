@@ -92,6 +92,12 @@ module RoguelikeExtraction
   def self.revert_bag_to_snapshot
     return if !$PokemonBag || !$PokemonGlobal.raid_bag_snapshot
 
+    # Clone the snapshot and immediately clear the global variable.
+    # This temporarily disables the `pbDeleteItem` alias from modifying
+    # the snapshot while we are actively trying to clear the player's bag.
+    safe_snapshot = $PokemonGlobal.raid_bag_snapshot.clone
+    $PokemonGlobal.raid_bag_snapshot = nil
+
     # 1. Clear all non-key items from the current bag
     $PokemonBag.pockets.each_with_index do |pocket, pocket_idx|
       next if pocket.empty?
@@ -108,20 +114,17 @@ module RoguelikeExtraction
       end
     end
 
-    # 2. Restore the non-key items from the snapshot
-    # Note: Duplication/Deletion exploits are actively prevented in 004_Secure_Pouch.rb
-    # where the snapshot is dynamically updated the moment an item is deposited or withdrawn.
-    $PokemonGlobal.raid_bag_snapshot.each do |item_id, qty|
+    # 2. Restore the non-key items from the safe snapshot
+    safe_snapshot.each do |item_id, qty|
       $PokemonBag.pbStoreItem(item_id, qty)
     end
-
-    # Clear the snapshot
-    $PokemonGlobal.raid_bag_snapshot = nil
   end
 
   # Hardcore wipe: Completely deletes all non-key items from the bag.
   def self.wipe_bag_hardcore
     return if !$PokemonBag
+
+    $PokemonGlobal.raid_bag_snapshot = nil
 
     $PokemonBag.pockets.each_with_index do |pocket, pocket_idx|
       next if pocket.empty?
@@ -136,8 +139,6 @@ module RoguelikeExtraction
         end
       end
     end
-
-    $PokemonGlobal.raid_bag_snapshot = nil
   end
 
   #-----------------------------------------------------------------------------
@@ -262,4 +263,38 @@ end
 
 def pbBlackoutRaid
   RoguelikeExtraction.blackout
+end
+
+#===============================================================================
+# Dynamic Snapshot Syncing (Consumables)
+#===============================================================================
+# Hooks into the core Pokémon Bag to ensure that if a player consumes an item
+# (e.g., uses a Potion) during a raid, it is permanently deducted from the
+# start-of-floor snapshot so they cannot simply get it back by blacking out.
+#===============================================================================
+
+class PokemonBag
+  alias roguelike_extraction_pbDeleteItem pbDeleteItem unless method_defined?(:roguelike_extraction_pbDeleteItem)
+
+  def pbDeleteItem(item, qty = 1)
+    # Perform the original item deletion
+    result = roguelike_extraction_pbDeleteItem(item, qty)
+
+    # If the deletion was successful, the player is currently in a raid,
+    # and a valid snapshot exists, we must permanently deduct this item
+    # from the snapshot so it isn't "refunded" on a blackout.
+    if result && $PokemonGlobal && $PokemonGlobal.current_raid_floor.to_i > 0 && $PokemonGlobal.raid_bag_snapshot
+      item_id = GameData::Item.get(item).id
+
+      # We only care about non-Key items that were actually in the snapshot
+      if $PokemonGlobal.raid_bag_snapshot.key?(item_id)
+        $PokemonGlobal.raid_bag_snapshot[item_id] -= qty
+        if $PokemonGlobal.raid_bag_snapshot[item_id] <= 0
+          $PokemonGlobal.raid_bag_snapshot.delete(item_id)
+        end
+      end
+    end
+
+    return result
+  end
 end
