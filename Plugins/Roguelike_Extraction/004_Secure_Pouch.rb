@@ -105,15 +105,10 @@ module RoguelikeExtraction
     end
 
     # Remove from bag
+    # Note: Because we aliased pbDeleteItem in 003_Raid_Tracker.rb,
+    # this automatically deducts the quantity from the raid_bag_snapshot as well!
+    # This natively prevents the Duplication Exploit on Blackout without redundant code here.
     $PokemonBag.pbDeleteItem(item, qty_to_deposit)
-
-    # Sync with Raid Snapshot to prevent Duplication Exploit on Blackout
-    if $PokemonGlobal.current_raid_floor > 0 && $PokemonGlobal.raid_bag_snapshot
-      if $PokemonGlobal.raid_bag_snapshot[item]
-        $PokemonGlobal.raid_bag_snapshot[item] -= qty_to_deposit
-        $PokemonGlobal.raid_bag_snapshot.delete(item) if $PokemonGlobal.raid_bag_snapshot[item] <= 0
-      end
-    end
 
     pbMessage(_INTL("{1} {2} secured.", qty_to_deposit, item_data.name))
   end
@@ -144,12 +139,6 @@ module RoguelikeExtraction
       slot[1] -= qty_to_withdraw
       if slot[1] <= 0
         $PokemonGlobal.secure_pouch_items.delete_at(index)
-      end
-
-      # Sync with Raid Snapshot to prevent Permanent Deletion on Blackout
-      if $PokemonGlobal.current_raid_floor > 0 && $PokemonGlobal.raid_bag_snapshot
-        $PokemonGlobal.raid_bag_snapshot[item] ||= 0
-        $PokemonGlobal.raid_bag_snapshot[item] += qty_to_withdraw
       end
 
       pbMessage(_INTL("Withdrew {1} {2}.", qty_to_withdraw, item_data.name))
