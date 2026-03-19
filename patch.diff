@@ -1,0 +1,30 @@
+--- Plugins/Roguelike_Extraction/005_Hardcore_Pokemon_Pool.rb
++++ Plugins/Roguelike_Extraction/005_Hardcore_Pokemon_Pool.rb
+@@ -35,17 +35,17 @@
+     :NYMBLE     => 50,
+
+     # Rare Pokémon (approx. 5-10% total weight)
+-    :DRATINI    => 3,
+-    :LARVITAR   => 3,
+-    :BAGON      => 3,
+-    :BELDUM     => 3,
+-    :GIBLE      => 3,
+-    :RIOLU      => 5,
+-    :DEINO      => 3,
+-    :GOOMY      => 3,
+-    :JANGMOO    => 3,
+-    :DREEPY     => 3,
+-    :FRIGIBAX   => 3,
++    :DRATINI    => 8,
++    :LARVITAR   => 8,
++    :BAGON      => 8,
++    :BELDUM     => 8,
++    :GIBLE      => 8,
++    :RIOLU      => 15,
++    :DEINO      => 8,
++    :GOOMY      => 8,
++    :JANGMOO    => 8,
++    :DREEPY     => 8,
++    :FRIGIBAX   => 8,
+   }
+ end
