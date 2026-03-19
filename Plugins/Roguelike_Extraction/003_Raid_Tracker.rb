@@ -370,3 +370,27 @@ class PokemonBag
     return result
   end
 end
+
+#===============================================================================
+# Overriding Default Game Over / Blackout Sequence
+#===============================================================================
+# In standard Pokémon Essentials, losing a battle triggers `pbStartOver`.
+# `pbStartOver` automatically fully heals the player's party and teleports them
+# to the last visited Pokémon Center.
+# We intercept this globally: if the player is in an active raid, we block the
+# default healing sequence entirely and trigger our custom extraction blackout.
+#===============================================================================
+
+alias roguelike_extraction_pbStartOver pbStartOver unless defined?(roguelike_extraction_pbStartOver)
+
+def pbStartOver(*args)
+  if $PokemonGlobal && $PokemonGlobal.current_raid_floor.to_i > 0
+    # Player organically lost a battle mid-raid.
+    # Block the default Pokémon Center heal entirely.
+    RoguelikeExtraction.blackout
+    return true # Returning true assumes the script handled the wipe sequence.
+  else
+    # Player is not in a raid, proceed with normal Essentials blackout behavior.
+    return roguelike_extraction_pbStartOver(*args)
+  end
+end
