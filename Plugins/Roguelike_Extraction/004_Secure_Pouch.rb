@@ -85,7 +85,7 @@ module RoguelikeExtraction
     end
 
     # Check quantity to deposit
-    max_qty = $PokemonBag.pbQuantity(item)
+    max_qty = $PokemonBag.quantity(item)
     qty_to_deposit = 1
 
     if max_qty > 1
@@ -105,10 +105,10 @@ module RoguelikeExtraction
     end
 
     # Remove from bag
-    # Note: Because we aliased pbDeleteItem in 003_Raid_Tracker.rb,
+    # Note: Because we aliased remove in 003_Raid_Tracker.rb,
     # this automatically deducts the quantity from the raid_bag_snapshot as well!
     # This natively prevents the Duplication Exploit on Blackout without redundant code here.
-    $PokemonBag.pbDeleteItem(item, qty_to_deposit)
+    $PokemonBag.remove(item, qty_to_deposit)
 
     pbMessage(_INTL("{1} {2} secured.", qty_to_deposit, item_data.name))
   end
@@ -132,8 +132,8 @@ module RoguelikeExtraction
     return if qty_to_withdraw <= 0
 
     # Add to bag
-    if $PokemonBag.pbCanStore?(item, qty_to_withdraw)
-      $PokemonBag.pbStoreItem(item, qty_to_withdraw)
+    if $PokemonBag.can_add?(item, qty_to_withdraw)
+      $PokemonBag.add(item, qty_to_withdraw)
 
       # Remove from pouch
       slot[1] -= qty_to_withdraw
