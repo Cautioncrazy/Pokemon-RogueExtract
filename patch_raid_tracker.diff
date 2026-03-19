@@ -1,0 +1,75 @@
+--- Plugins/Roguelike_Extraction/003_Raid_Tracker.rb
++++ Plugins/Roguelike_Extraction/003_Raid_Tracker.rb
+@@ -32,15 +32,18 @@
+
+ module RoguelikeExtraction
+   # Configuration for the raid progression
+-  # Define the map IDs for each "floor" of the raid.
+-  # Format: Floor Number => [Map ID, X, Y]
++  # Base sequence of maps. Floor 1 starts at index 0 (Map 78), etc.
++  # After the sequence ends, a random map from this array is chosen for Endless mode.
++  # Format: [Map ID, X, Y]
+   RAID_FLOORS = [
+-    1 => [78, 7, 10], # Example: Cavetia (from your screenshot)
+-    2 => [79, 10, 10],
+-    3 => [80, 10, 10],
+-    4 => [81, 10, 10]
+-  }
++    [78, 7, 10], # Floor 1
++    [79, 10, 10], # Floor 2
++    [80, 10, 10], # Floor 3
++    [81, 10, 10]  # Floor 4
++  ]
+
+   # The Hub location where the player returns after an extract or blackout
+   HUB_LOCATION = [77, 20, 14, 6] # Map ID 77 (where Steven is), X, Y
+@@ -151,14 +154,16 @@
+       start_raid
+     else
+       $PokemonGlobal.current_raid_floor += 1
+-      if !RAID_FLOORS.key?($PokemonGlobal.current_raid_floor)
+-        # Reached the end of the raid! Treat as successful extraction.
+-        pbMessage(_INTL("You have conquered the final floor! Extracting..."))
+-        extract
+-      else
+-        # Standard Mode: Create a new snapshot checkpoint at the start of each new floor.
+-        snapshot_bag
+-        transfer_to_current_floor
+-      end
++
++      # Update encounter version based on floor tier (e.g. F1-4 = v0, F5-8 = v1, F9+ = v2)
++      # This natively scales wild encounters.
++      tier = ($PokemonGlobal.current_raid_floor - 1) / 4
++      # Cap the version at 2 assuming we define 3 tiers of encounters in PBS
++      $PokemonGlobal.encounter_version = [tier, 2].min
++
++      # Standard Mode: Create a new snapshot checkpoint at the start of each new floor.
++      snapshot_bag
++      transfer_to_current_floor
+     end
+   end
+
+@@ -198,16 +203,14 @@
+
+   # Internal helper to transfer the player based on the current floor
+   def self.transfer_to_current_floor
+-    floor_data = RAID_FLOORS[$PokemonGlobal.current_raid_floor]
+-    return if !floor_data
+-
+-    map_id = floor_data[0]
+-    x = floor_data[1]
+-    y = floor_data[2]
++    floor_index = $PokemonGlobal.current_raid_floor - 1
++
++    # Endless mode logic: pick sequentially for the first 4, then randomly from the 4 maps
++    floor_data = (floor_index < RAID_FLOORS.length) ? RAID_FLOORS[floor_index] : RAID_FLOORS.sample
+
+     pbFadeOutIn do
+-      $game_temp.player_new_map_id = map_id
+-      $game_temp.player_new_x = x
+-      $game_temp.player_new_y = y
++      $game_temp.player_new_map_id = floor_data[0]
++      $game_temp.player_new_x = floor_data[1]
++      $game_temp.player_new_y = floor_data[2]
+       $game_temp.player_new_direction = 2
+       $scene.transfer_player

@@ -333,3 +333,49 @@ Pokemon = RHYDON,50
 	Item = LIECHIBERRY
 	Moves = HAMMERARM,STONEEDGE,MEGAHORN,DRILLRUN
 	IV = 21,21,21,21,21,21
+
+#===============================================================================
+# Dynamic Raid Trainers
+#===============================================================================
+
+[YOUNGSTER, RaidBen, 0]
+Items = POTION
+Pokemon = RATTATA,5
+Pokemon = PIDGEY,5
+Pokemon = ZIGZAGOON,5
+
+[YOUNGSTER, RaidBen, 1]
+Items = SUPERPOTION
+Pokemon = RATICATE,15
+Pokemon = PIDGEOTTO,15
+Pokemon = LINOONE,15
+Pokemon = KADABRA,15
+
+[YOUNGSTER, RaidBen, 2]
+Items = HYPERPOTION,FULLHEAL
+Pokemon = RATICATE,30
+Pokemon = PIDGEOT,30
+Pokemon = LINOONE,30
+Pokemon = ALAKAZAM,30
+Pokemon = METANG,30
+
+[LASS, RaidLass, 0]
+Items = POTION
+Pokemon = CATERPIE,5
+Pokemon = WEEDLE,5
+Pokemon = PIKACHU,5
+
+[LASS, RaidLass, 1]
+Items = SUPERPOTION
+Pokemon = METAPOD,15
+Pokemon = KAKUNA,15
+Pokemon = RAICHU,15
+Pokemon = NIDORINA,15
+
+[LASS, RaidLass, 2]
+Items = HYPERPOTION,FULLHEAL
+Pokemon = BUTTERFREE,30
+Pokemon = BEEDRILL,30
+Pokemon = RAICHU,30
+Pokemon = NIDOQUEEN,30
+Pokemon = CLEFABLE,30
