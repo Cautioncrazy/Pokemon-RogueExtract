@@ -141,6 +141,75 @@ module RoguelikeExtraction
     end
   end
 
+  # Hardcore wipe: Soft-Resets the player's Pokemon Party and PC.
+  def self.wipe_pokemon_hardcore
+    return if !$player || !$PokemonStorage
+
+    # 1. Any remaining Pokémon in the party (e.g. wiped by a non-battle script or poison tick)
+    # are permanently moved to the Graveyard box.
+    graveyard_box_index = $PokemonStorage.maxBoxes - 1
+
+    party_size = $player.party.length
+    (0...party_size).to_a.reverse.each do |i|
+      pkmn = $player.party[i]
+      if pkmn
+        # Store in graveyard with full spillover logic to prevent accidental deletion
+        box_to_put = graveyard_box_index
+        placed = false
+
+        while box_to_put >= 0
+          $PokemonStorage[box_to_put].length.times do |slot|
+            if $PokemonStorage[box_to_put][slot].nil?
+              $PokemonStorage[box_to_put][slot] = pkmn
+
+              if $PokemonStorage[box_to_put].name.empty? || $PokemonStorage[box_to_put].name.start_with?("Box")
+                 $PokemonStorage[box_to_put].name = "Graveyard"
+              end
+
+              placed = true
+              break
+            end
+          end
+          break if placed
+          box_to_put -= 1
+        end
+
+        $player.party.delete_at(i)
+      end
+    end
+
+    $player.party.compact!
+
+    # 2. Search all PC boxes (excluding any box named "Graveyard") for a valid replacement Pokémon.
+    valid_pc_pokemon = []
+
+    ($PokemonStorage.maxBoxes).times do |box_idx|
+      next if $PokemonStorage[box_idx].name == "Graveyard"
+
+      $PokemonStorage[box_idx].length.times do |slot|
+        pkmn = $PokemonStorage[box_idx][slot]
+        if pkmn && !pkmn.egg?
+          valid_pc_pokemon.push({ box: box_idx, slot: slot, pokemon: pkmn })
+        end
+      end
+    end
+
+    # 3. Handle Replacement or Soft-Reset Switch
+    if valid_pc_pokemon.empty?
+      # The player is completely out of Pokémon.
+      $game_switches[RoguelikeExtraction::RAID_BLACKOUT_SWITCH] = true
+      pbMessage(_INTL("HARDCORE BLACKOUT! Your entire party and PC have been wiped. Speak to Steven to start over..."))
+    else
+      # Randomly select one Pokémon from the PC to save the run
+      chosen = valid_pc_pokemon.sample
+      $player.party.push(chosen[:pokemon])
+      $PokemonStorage[chosen[:box]][chosen[:slot]] = nil # Remove it from the PC
+
+      $game_switches[RoguelikeExtraction::RAID_BLACKOUT_SWITCH] = false
+      pbMessage(_INTL("HARDCORE BLACKOUT! Your party was wiped, but {1} was randomly summoned from your PC to save you!", chosen[:pokemon].name))
+    end
+  end
+
   #-----------------------------------------------------------------------------
   # Raid Progression Logic
   #-----------------------------------------------------------------------------
@@ -148,6 +217,7 @@ module RoguelikeExtraction
   # Starts a new raid from Floor 1
   def self.start_raid
     snapshot_bag
+    $game_system.save_disabled = true # Prevent mid-raid save-scumming
     $PokemonGlobal.current_raid_floor = 1
     transfer_to_current_floor
   end
@@ -188,6 +258,7 @@ module RoguelikeExtraction
   def self.extract
     $PokemonGlobal.current_raid_floor = 0
     $PokemonGlobal.raid_bag_snapshot = nil # Clear the snapshot, loot is secured
+    $game_system.save_disabled = false     # Re-enable saving
     pbMessage(_INTL("Extraction successful! Your loot has been secured."))
 
     # Teleport to Hub
@@ -203,11 +274,12 @@ module RoguelikeExtraction
   # Fails the raid, penalizing the player based on the current Mode.
   def self.blackout
     $PokemonGlobal.current_raid_floor = 0
+    $game_system.save_disabled = false # Re-enable saving
 
     # Check if Hardcore Mode is enabled
     if $game_switches[RoguelikeExtraction::HARDCORE_MODE_SWITCH]
       wipe_bag_hardcore
-      pbMessage(_INTL("HARDCORE BLACKOUT! Your entire bag was wiped..."))
+      wipe_pokemon_hardcore
     else
       revert_bag_to_snapshot
       pbMessage(_INTL("You blacked out! The loot you found on this floor was lost..."))
