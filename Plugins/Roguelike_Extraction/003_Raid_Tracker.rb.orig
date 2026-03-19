@@ -220,13 +220,6 @@ module RoguelikeExtraction
     snapshot_bag
     $game_system.save_disabled = true # Prevent mid-raid save-scumming
     $PokemonGlobal.current_raid_floor = 1
-
-    # Reset raid states for the new run
-    $PokemonGlobal.encounter_version = 0
-    if $PokemonGlobal.instance_variable_defined?(:@fought_raid_trainers)
-      $PokemonGlobal.instance_variable_set(:@fought_raid_trainers, [])
-    end
-
     transfer_to_current_floor
   end
 
@@ -235,10 +228,6 @@ module RoguelikeExtraction
     if $PokemonGlobal.current_raid_floor == 0
       start_raid
     else
-      # Clear fought trainers when advancing to a new floor
-      if $PokemonGlobal.instance_variable_defined?(:@fought_raid_trainers)
-        $PokemonGlobal.instance_variable_set(:@fought_raid_trainers, [])
-      end
       $PokemonGlobal.current_raid_floor += 1
 
       # Update encounter version based on floor tier (e.g. F1-4 = v0, F5-8 = v1, F9+ = v2)
@@ -408,9 +397,9 @@ end
 
 def pbDefeatedVIP
   if pbConfirmMessage(_INTL("You defeated the VIP! Do you want to extract with your loot?"))
-    RoguelikeExtraction.extract
+    pbExtractRaid
   else
     pbMessage(_INTL("You chose to delve deeper. Good luck!"))
-    RoguelikeExtraction.advance_floor
+    pbAdvanceRaid
   end
 end
