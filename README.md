@@ -40,5 +40,8 @@ The `RaidTracker` module also fully manages the player's inventory during a raid
 * **Blackout**: When calling `pbBlackoutRaid`, the player fails the raid. The floor resets to 0, and the script purges the player's inventory, completely restoring the original snapshot state (meaning all unextracted non-Key loot is permanently lost).
 
 ### Hardcore Mode & Secure Pouch
-* **Hardcore Mode**: Triggered by a configurable game switch. When active, blacking out results in a total loss of the player's Bag (minus Key Items), rather than just reverting to the start-of-floor snapshot.
+* **Hardcore Mode**: Triggered by a configurable game switch. When active, blacking out results in a total loss of the player's Bag (minus Key Items), rather than just reverting to the start-of-floor snapshot. It also triggers a "Soft Reset" on the player's party: surviving Pokémon are sent to the Graveyard, and a random Pokémon from the PC is drafted to save the run. If the PC is empty, the `RAID_BLACKOUT_SWITCH` turns ON, forcing the player to start over entirely with a new starter.
 * **Secure Pouch**: A functional Key Item that completely bypasses both Standard and Hardcore blackout mechanics. The pouch contains its own array (`$PokemonGlobal.secure_pouch_items`) and capacity limit. Players can manually interact with the `SECUREPOUCH` from their bag to deposit or withdraw stacks of items they want to guarantee they extract with.
+
+### Mid-Raid Saving
+* To enforce extraction game mechanics and prevent a known tile-generation glitch with `Overworld_RandomDungeons`, saving the game via the start menu is completely disabled while the player is inside an active raid floor. Players must find an extraction point and return to the Hub if they wish to save.

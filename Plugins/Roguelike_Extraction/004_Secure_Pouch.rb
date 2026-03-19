@@ -11,6 +11,10 @@ module RoguelikeExtraction
   # The starting capacity of the Secure Pouch (measured in slots/stacks).
   # You can increase this globally or dynamically via events later.
   SECURE_POUCH_START_CAPACITY = 2
+
+  # The Game Switch ID that toggles when the player's Hardcore Blackout
+  # completely wipes their party and PC, requiring Steven to give them a new starter.
+  RAID_BLACKOUT_SWITCH = 101
 end
 
 #===============================================================================
