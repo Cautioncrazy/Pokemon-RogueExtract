@@ -309,3 +309,155 @@ Land,21
     10,PIKACHU,11,14
     10,SANDSHREW_1,11,14
     10,VULPIX_1,11,14
+
+#===============================================================================
+# Map 78 - RAID FLOOR
+#===============================================================================
+[078] # F1-F4
+Land,21
+    20,RATTATA,3,5
+    20,ZIGZAGOON,3,5
+    10,PIDGEY,3,5
+    10,STARLY,3,5
+    10,BIDOOF,3,5
+    10,CATERPIE,3,5
+    10,WEEDLE,3,5
+    5,ABRA,3,5
+    4,PIKACHU,3,5
+    1,BELDUM,3,5
+Land_1,21 # F5-F8
+    20,RATICATE,10,15
+    20,LINOONE,10,15
+    10,PIDGEOTTO,10,15
+    10,STARAVIA,10,15
+    10,BIBAREL,10,15
+    10,METAPOD,10,15
+    10,KAKUNA,10,15
+    5,KADABRA,10,15
+    4,RAICHU,10,15
+    1,METANG,10,15
+Land_2,21 # F9+
+    20,RATICATE,20,30
+    20,LINOONE,20,30
+    10,PIDGEOT,20,30
+    10,STARAPTOR,20,30
+    10,BIBAREL,20,30
+    10,BUTTERFREE,20,30
+    10,BEEDRILL,20,30
+    5,ALAKAZAM,20,30
+    4,RAICHU,20,30
+    1,METAGROSS,20,30
+
+#===============================================================================
+# Map 79 - RAID FLOOR
+#===============================================================================
+[079] # F1-F4
+Land,21
+    20,GEODUDE,5,7
+    20,ZUBAT,5,7
+    10,MACHOP,5,7
+    10,SANDSHREW,5,7
+    10,DIGLETT,5,7
+    10,PARAS,5,7
+    10,MANKEY,5,7
+    5,ONIX,5,7
+    4,MAGNEMITE,5,7
+    1,LARVITAR,5,7
+Land_1,21 # F5-F8
+    20,GRAVELER,15,20
+    20,GOLBAT,15,20
+    10,MACHOKE,15,20
+    10,SANDSLASH,15,20
+    10,DUGTRIO,15,20
+    10,PARASECT,15,20
+    10,PRIMEAPE,15,20
+    5,ONIX,15,20
+    4,MAGNETON,15,20
+    1,PUPITAR,15,20
+Land_2,21 # F9+
+    20,GOLEM,30,40
+    20,CROBAT,30,40
+    10,MACHAMP,30,40
+    10,SANDSLASH,30,40
+    10,DUGTRIO,30,40
+    10,PARASECT,30,40
+    10,PRIMEAPE,30,40
+    5,STEELIX,30,40
+    4,MAGNEZONE,30,40
+    1,TYRANITAR,30,40
+
+#===============================================================================
+# Map 80 - RAID FLOOR
+#===============================================================================
+[080] # F1-F4
+Land,21
+    20,BELLSPROUT,5,7
+    20,ODDISH,5,7
+    10,VENONAT,5,7
+    10,MEOWTH,5,7
+    10,PSYDUCK,5,7
+    10,SLOWPOKE,5,7
+    10,GASTLY,5,7
+    5,DROWZEE,5,7
+    4,VOLTORB,5,7
+    1,DRATINI,5,7
+Land_1,21 # F5-F8
+    20,WEEPINBELL,15,20
+    20,GLOOM,15,20
+    10,VENOMOTH,15,20
+    10,PERSIAN,15,20
+    10,GOLDUCK,15,20
+    10,SLOWBRO,15,20
+    10,HAUNTER,15,20
+    5,HYPNO,15,20
+    4,ELECTRODE,15,20
+    1,DRAGONAIR,15,20
+Land_2,21 # F9+
+    20,VICTREEBEL,30,40
+    20,VILEPLUME,30,40
+    10,VENOMOTH,30,40
+    10,PERSIAN,30,40
+    10,GOLDUCK,30,40
+    10,SLOWKING,30,40
+    10,GENGAR,30,40
+    5,HYPNO,30,40
+    4,ELECTRODE,30,40
+    1,DRAGONITE,30,40
+
+#===============================================================================
+# Map 81 - RAID FLOOR
+#===============================================================================
+[081] # F1-F4
+Land,21
+    20,TENTACOOL,5,7
+    20,SHELLDER,5,7
+    10,KRABBY,5,7
+    10,HORSEA,5,7
+    10,GOLDEEN,5,7
+    10,STARYU,5,7
+    10,MAGIKARP,5,7
+    5,LAPRAS,5,7
+    4,VAPOREON,5,7
+    1,BAGON,5,7
+Land_1,21 # F5-F8
+    20,TENTACRUEL,15,20
+    20,CLOYSTER,15,20
+    10,KINGLER,15,20
+    10,SEADRA,15,20
+    10,SEAKING,15,20
+    10,STARMIE,15,20
+    10,GYARADOS,15,20
+    5,LAPRAS,15,20
+    4,VAPOREON,15,20
+    1,SHELGON,15,20
+Land_2,21 # F9+
+    20,TENTACRUEL,30,40
+    20,CLOYSTER,30,40
+    10,KINGLER,30,40
+    10,KINGDRA,30,40
+    10,SEAKING,30,40
+    10,STARMIE,30,40
+    10,GYARADOS,30,40
+    5,LAPRAS,30,40
+    4,VAPOREON,30,40
+    1,SALAMENCE,30,40
