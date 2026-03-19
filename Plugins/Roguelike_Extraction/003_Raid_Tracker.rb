@@ -55,7 +55,7 @@ module RoguelikeExtraction
   }
 
   # The Hub location where the player returns after an extract or blackout
-  HUB_LOCATION = [77, 10, 10] # Map ID 77 (where Steven is), X, Y
+  HUB_LOCATION = [77, 20, 14, 6] # Map ID 77 (where Steven is), X, Y
 
   #-----------------------------------------------------------------------------
   # Bag Snapshot Logic
@@ -290,7 +290,7 @@ module RoguelikeExtraction
       $game_temp.player_new_map_id = HUB_LOCATION[0]
       $game_temp.player_new_x = HUB_LOCATION[1]
       $game_temp.player_new_y = HUB_LOCATION[2]
-      $game_temp.player_new_direction = 2
+      $game_temp.player_new_direction = 6
       $scene.transfer_player
     end
   end
