@@ -93,7 +93,7 @@ module RoguelikeExtraction
     return if !$PokemonBag || !$PokemonGlobal.raid_bag_snapshot
 
     # Clone the snapshot and immediately clear the global variable.
-    # This temporarily disables the `pbDeleteItem` alias from modifying
+    # This temporarily disables the `remove` alias from modifying
     # the snapshot while we are actively trying to clear the player's bag.
     safe_snapshot = $PokemonGlobal.raid_bag_snapshot.clone
     $PokemonGlobal.raid_bag_snapshot = nil
@@ -102,21 +102,21 @@ module RoguelikeExtraction
     $PokemonBag.pockets.each_with_index do |pocket, pocket_idx|
       next if pocket.empty?
 
-      # Iterate in reverse because pbDeleteItem alters the array during iteration
+      # Iterate in reverse because remove alters the array during iteration
       (0...pocket.length).to_a.reverse.each do |i|
         item_id = pocket[i][0]
         qty = pocket[i][1]
 
         item_data = GameData::Item.try_get(item_id)
         if item_data && !item_data.is_key_item? && qty > 0
-          $PokemonBag.pbDeleteItem(item_id, qty)
+          $PokemonBag.remove(item_id, qty)
         end
       end
     end
 
     # 2. Restore the non-key items from the safe snapshot
     safe_snapshot.each do |item_id, qty|
-      $PokemonBag.pbStoreItem(item_id, qty)
+      $PokemonBag.add(item_id, qty)
     end
   end
 
@@ -135,7 +135,7 @@ module RoguelikeExtraction
 
         item_data = GameData::Item.try_get(item_id)
         if item_data && !item_data.is_key_item? && qty > 0
-          $PokemonBag.pbDeleteItem(item_id, qty)
+          $PokemonBag.remove(item_id, qty)
         end
       end
     end
@@ -274,11 +274,11 @@ end
 #===============================================================================
 
 class PokemonBag
-  alias roguelike_extraction_pbDeleteItem pbDeleteItem unless method_defined?(:roguelike_extraction_pbDeleteItem)
+  alias roguelike_extraction_remove remove unless method_defined?(:roguelike_extraction_remove)
 
-  def pbDeleteItem(item, qty = 1)
+  def remove(item, qty = 1)
     # Perform the original item deletion
-    result = roguelike_extraction_pbDeleteItem(item, qty)
+    result = roguelike_extraction_remove(item, qty)
 
     # If the deletion was successful, the player is currently in a raid,
     # and a valid snapshot exists, we must permanently deduct this item
