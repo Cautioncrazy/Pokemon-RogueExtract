@@ -407,10 +407,15 @@ def pbStartOver(*args)
 end
 
 def pbDefeatedVIP
-  if pbConfirmMessage(_INTL("You defeated the VIP! Do you want to extract with your loot?"))
-    RoguelikeExtraction.extract
+  choice = pbMessage(_INTL("You defeated the VIP! Do you want to extract with your loot or continue?"), [
+    _INTL("Continue"),
+    _INTL("Extract")
+  ], 1)
+
+  if choice == 1
+    pbExtractRaid
   else
     pbMessage(_INTL("You chose to delve deeper. Good luck!"))
-    RoguelikeExtraction.advance_floor
+    pbAdvanceRaid
   end
 end
