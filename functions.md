@@ -29,11 +29,11 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
     *   **Description:** Gives the player a scaled item based on their current floor depth (e.g., Potions on F1 -> Full Restores on F10) and automatically toggles the Event's `Self Switch A` to ON.
     *   **Usage:** Create a template Chest Event on your dungeon maps. On Page 1, add the `Script...` command `pbDynamicChestLoot`. On Page 2, set the condition to `Self Switch A is ON` and change the graphic to an open chest.
 *   **`pbDynamicTrainerBattle(is_vip = false)`**
-    *   **Description:** Dynamically draws a random trainer from `DYNAMIC_TRAINERS` (or `DYNAMIC_VIPS` if `is_vip` is set to `true`). Calculates the scaling difficulty version based on the current floor, prevents duplicate trainer spawns on the same floor, and initiates the battle.
-    *   **Usage:** Create a standard Trainer Event. Call `pbDynamicTrainerBattle` in a script command, followed by a Conditional Branch checking if the script returned true (won the battle), and set `Self Switch A` to ON if so to permanently disable the event. For a Boss, use `pbDynamicTrainerBattle(true)`.
+    *   **Description:** Dynamically draws a random trainer from `DYNAMIC_TRAINERS` (or `DYNAMIC_VIPS` if `is_vip` is set to `true`). It instantly replaces the event's overworld graphic with `trainer_{type}.png`, calculates the scaling difficulty, prevents duplicate trainer spawns, and initiates the battle.
+    *   **Usage:** Create a standard Trainer Event. Setup a Conditional Branch checking the `Script...` command `pbDynamicTrainerBattle` (or `pbDynamicTrainerBattle(true)` for bosses). Inside the "Win" outcome of the Conditional Branch, set `Self Switch A` to ON. Leave the "Else" (Loss) outcome completely empty so the game's native blackout sequence can handle deaths safely.
 *   **`pbDefeatedVIP`**
-    *   **Description:** Triggers a Yes/No prompt asking the player if they want to extract their loot or delve deeper. Automatically calls `pbExtractRaid` or `pbAdvanceRaid` based on their answer.
-    *   **Usage:** Place this directly underneath the `pbDynamicTrainerBattle(true)` command inside the "Win" outcome of the Conditional Branch on your VIP Boss event.
+    *   **Description:** Triggers a prompt asking the player if they want to "Extract" their loot or "Continue" deeper. Automatically calls `pbExtractRaid` or `pbAdvanceRaid` based on their answer.
+    *   **Usage:** Place this directly underneath the `Control Self Switch A = ON` command inside the "Win" outcome of the Conditional Branch on your VIP Boss event.
 
 ---
 
