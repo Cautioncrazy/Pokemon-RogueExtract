@@ -73,7 +73,7 @@ def pbDynamicChestLoot
 
   # Set self switch A to ON so the chest graphic changes to open
   # We extract the event ID automatically so the user doesn't have to pass it
-  event_id = $game_system.map_interpreter.get_character(0).id
+  event_id = pbMapInterpreter.get_character(0).id
   pbSetSelfSwitch(event_id, "A", true)
 end
 
@@ -107,6 +107,6 @@ def pbDynamicTrainerBattle(is_vip = false)
 
   RoguelikeExtraction.fought_trainers.push(chosen_trainer)
 
-  # Start the battle using the calculated version
-  pbTrainerBattle(trainer_type, trainer_name, _INTL("You are tough!"), false, version, false)
+  # Start the battle using the calculated version (v21.1 Standard)
+  TrainerBattle.start(trainer_type, trainer_name, version)
 end
