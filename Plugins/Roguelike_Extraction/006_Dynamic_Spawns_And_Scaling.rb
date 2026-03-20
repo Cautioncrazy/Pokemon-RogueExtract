@@ -107,6 +107,24 @@ def pbDynamicTrainerBattle(is_vip = false)
 
   RoguelikeExtraction.fought_trainers.push(chosen_trainer)
 
+  # Dynamically update the overworld sprite to match the trainer class
+  # Expected format: Graphics/Characters/trainer_YOUNGSTER.png
+  event_id = pbMapInterpreter.get_character(0).id
+  event = $game_map.events[event_id]
+
+  if event
+    # Update the event's character graphic safely via Move Route
+    # PBMoveRoute::Graphic is 41
+    graphic_name = "trainer_#{trainer_type.to_s}"
+    route = RPG::MoveRoute.new
+    route.repeat = false
+    route.skippable = true
+    route.list.clear
+    route.list.push(RPG::MoveCommand.new(41, [graphic_name, 0, 0, 0]))
+    route.list.push(RPG::MoveCommand.new(0))
+    event.force_move_route(route)
+  end
+
   # Start the battle using the calculated version (v21.1 Standard)
   TrainerBattle.start(trainer_type, trainer_name, version)
 end
