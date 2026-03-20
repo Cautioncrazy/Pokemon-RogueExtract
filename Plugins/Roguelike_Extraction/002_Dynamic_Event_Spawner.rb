@@ -67,6 +67,35 @@ module RoguelikeExtraction
         # Teleport the event to the valid tile
         event.moveto(valid_coords[0], valid_coords[1])
 
+        # Pre-calculate Trainer/VIP and apply graphics immediately
+        if name.include?("vip") || name.include?("trainer")
+          is_vip = name.include?("vip")
+          pool = is_vip ? RoguelikeExtraction::DYNAMIC_VIPS : RoguelikeExtraction::DYNAMIC_TRAINERS
+
+          # Filter fought trainers natively inside the spawner
+          available = pool.reject { |t| RoguelikeExtraction.fought_trainers.include?(t) }
+          available = pool if available.empty?
+
+          chosen_trainer = available.sample
+
+          # Store the mapping for this specific event ID
+          $PokemonGlobal.instance_variable_set(:@raid_event_trainers, {}) if !$PokemonGlobal.instance_variable_defined?(:@raid_event_trainers) || $PokemonGlobal.instance_variable_get(:@raid_event_trainers).nil?
+          $PokemonGlobal.instance_variable_get(:@raid_event_trainers)[event.id] = chosen_trainer
+
+          # Update the overworld graphic. The user confirmed the graphics
+          # are strictly named without prefixes, e.g., 'YOUNGSTER.png'
+          trainer_type = chosen_trainer[0]
+          graphic_name = trainer_type.to_s
+
+          route = RPG::MoveRoute.new
+          route.repeat = false
+          route.skippable = true
+          route.list.clear
+          route.list.push(RPG::MoveCommand.new(41, [graphic_name, 0, 0, 0]))
+          route.list.push(RPG::MoveCommand.new(0))
+          event.force_move_route(route)
+        end
+
         # Ensure the event's sprite/graphic updates to the new location immediately
         event.refresh if event.respond_to?(:refresh)
       end
