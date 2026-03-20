@@ -399,4 +399,8 @@ MapPosition = 1,13,16
 BattleBack = city
 #-------------------------------
 [078]   # Cavetia
+Name = Cavetia
+Dungeon = true
+#-------------------------------
+[079]   # Crysalo
 Dungeon = true
