@@ -226,6 +226,9 @@ module RoguelikeExtraction
     if $PokemonGlobal.instance_variable_defined?(:@fought_raid_trainers)
       $PokemonGlobal.instance_variable_set(:@fought_raid_trainers, [])
     end
+    if $PokemonGlobal.instance_variable_defined?(:@raid_event_trainers)
+      $PokemonGlobal.instance_variable_set(:@raid_event_trainers, {})
+    end
 
     transfer_to_current_floor
   end
@@ -238,6 +241,9 @@ module RoguelikeExtraction
       # Clear fought trainers when advancing to a new floor
       if $PokemonGlobal.instance_variable_defined?(:@fought_raid_trainers)
         $PokemonGlobal.instance_variable_set(:@fought_raid_trainers, [])
+      end
+      if $PokemonGlobal.instance_variable_defined?(:@raid_event_trainers)
+        $PokemonGlobal.instance_variable_set(:@raid_event_trainers, {})
       end
       $PokemonGlobal.current_raid_floor += 1
 

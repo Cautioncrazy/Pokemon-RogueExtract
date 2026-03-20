@@ -13,6 +13,18 @@ module RoguelikeExtraction
     3 => [:ULTRABALL, :MAXPOTION, :FULLRESTORE, :MAXREPEL, :RARECANDY, :MAXELIXIR]
   }
 
+  # Lists of possible trainers.
+  # Format: [ trainer_type, trainer_name ]
+  DYNAMIC_TRAINERS = [
+    [:YOUNGSTER, "RaidBen"],
+    [:LASS, "RaidLass"]
+  ]
+
+  DYNAMIC_VIPS = [
+    [:YOUNGSTER, "RaidBen"], # Example, update with real boss types later
+    [:LASS, "RaidLass"]
+  ]
+
   def self.dynamic_chest_loot
     floor = $PokemonGlobal.current_raid_floor
     tier = (floor - 1) / 4
@@ -80,50 +92,28 @@ end
 # To be placed inside a Trainer or VIP event
 def pbDynamicTrainerBattle(is_vip = false)
   version = RoguelikeExtraction.calculate_trainer_version
+  event_id = pbMapInterpreter.get_character(0).id
 
-  # Lists of possible trainers.
-  # Format: [ trainer_type, trainer_name ]
-  trainers_pool = [
-    [:YOUNGSTER, "RaidBen"],
-    [:LASS, "RaidLass"]
-  ]
+  # Attempt to fetch the pre-calculated trainer assigned by the spawner
+  if $PokemonGlobal.instance_variable_defined?(:@raid_event_trainers) &&
+     $PokemonGlobal.instance_variable_get(:@raid_event_trainers) &&
+     $PokemonGlobal.instance_variable_get(:@raid_event_trainers)[event_id]
 
-  vips_pool = [
-    [:YOUNGSTER, "RaidBen"], # Example, update with real boss types later
-    [:LASS, "RaidLass"]
-  ]
+    chosen_trainer = $PokemonGlobal.instance_variable_get(:@raid_event_trainers)[event_id]
+  else
+    # Failsafe if the spawner didn't run or wasn't assigned properly
+    pool = is_vip ? RoguelikeExtraction::DYNAMIC_VIPS : RoguelikeExtraction::DYNAMIC_TRAINERS
+    available = pool.reject { |t| RoguelikeExtraction.fought_trainers.include?(t) }
+    available = pool if available.empty?
+    chosen_trainer = available.sample
+  end
 
-  pool = is_vip ? vips_pool : trainers_pool
-
-  # Filter out trainers we've already fought on this floor
-  available = pool.reject { |t| RoguelikeExtraction.fought_trainers.include?(t) }
-
-  # If we run out of unique trainers, fallback to the full pool
-  available = pool if available.empty?
-
-  chosen_trainer = available.sample
   trainer_type = chosen_trainer[0]
   trainer_name = chosen_trainer[1]
 
   RoguelikeExtraction.fought_trainers.push(chosen_trainer)
 
-  # Dynamically update the overworld sprite to match the trainer class
-  # Expected format: Graphics/Characters/trainer_YOUNGSTER.png
-  event_id = pbMapInterpreter.get_character(0).id
-  event = $game_map.events[event_id]
-
-  if event
-    # Update the event's character graphic safely via Move Route
-    # PBMoveRoute::Graphic is 41
-    graphic_name = "trainer_#{trainer_type.to_s}"
-    route = RPG::MoveRoute.new
-    route.repeat = false
-    route.skippable = true
-    route.list.clear
-    route.list.push(RPG::MoveCommand.new(41, [graphic_name, 0, 0, 0]))
-    route.list.push(RPG::MoveCommand.new(0))
-    event.force_move_route(route)
-  end
+  # We no longer need to update the sprite here because the Spawner does it on map entry!
 
   # Start the battle using the calculated version (v21.1 Standard)
   TrainerBattle.start(trainer_type, trainer_name, version)
