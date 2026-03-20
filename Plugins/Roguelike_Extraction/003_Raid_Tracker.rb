@@ -11,7 +11,7 @@ class PokemonGlobalMetadata
   attr_writer :secure_pouch_items
   attr_writer :secure_pouch_capacity
 
-  alias roguelike_extraction_init initialize
+  alias roguelike_extraction_init initialize unless private_method_defined?(:roguelike_extraction_init)
   def initialize
     roguelike_extraction_init
     @current_raid_floor = 0
