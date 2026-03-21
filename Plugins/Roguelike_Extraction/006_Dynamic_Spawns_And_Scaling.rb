@@ -118,3 +118,69 @@ def pbDynamicTrainerBattle(is_vip = false)
   # Start the battle using the calculated version (v21.1 Standard)
   TrainerBattle.start(trainer_type, trainer_name, version)
 end
+
+class Interpreter
+  # An all-in-one function to dynamically set and start a trainer encounter.
+  # Intelligently handles being placed in a Parallel Process: it will update
+  # its graphic immediately on map load, then convert itself into an Action Button
+  # event to wait for player interaction without triggering the battle instantly.
+  def pbSetAndStartDynamicTrainer(possible_types, possible_names = nil, victory_switch = "A")
+    return false if !possible_types || possible_types.empty?
+
+    event = get_character(0)
+    return false if !event
+
+    # 1. Setup Phase: Has this event already generated its trainer data?
+    # We store the selected trainer persistently on this specific event instance.
+    if !event.instance_variable_defined?(:@dynamic_trainer_initialized) || !event.instance_variable_get(:@dynamic_trainer_initialized)
+
+      chosen_type = possible_types.sample
+      if possible_names && !possible_names.empty?
+        chosen_name = possible_names.sample
+      else
+        # Pull from the existing generated pool of trainers for this specific class
+        pool_names = RoguelikeExtraction::DYNAMIC_TRAINERS.select { |t| t[0] == chosen_type }.map { |t| t[1] }
+        chosen_name = pool_names.empty? ? chosen_type.to_s.capitalize : pool_names.sample
+      end
+
+      # Dynamically update the overworld graphic instance safely
+      event.character_name = "trainer_#{chosen_type.to_s}"
+      event.character_hue = 0
+      event.refresh if event.respond_to?(:refresh)
+
+      # Save state to the event
+      event.instance_variable_set(:@dynamic_trainer_initialized, true)
+      event.instance_variable_set(:@dynamic_trainer_type, chosen_type)
+      event.instance_variable_set(:@dynamic_trainer_name, chosen_name)
+
+      # If the event is running automatically (Autorun or Parallel Process),
+      # we convert it to an Action Button event and return early to prevent the battle from triggering.
+      if event.trigger == 3 || event.trigger == 4
+        event.instance_variable_set(:@trigger, 0) # Convert to Action Button
+        return true # Stop execution of this script block so the battle does not start yet
+      end
+    end
+
+    # 2. Battle Phase: The player has interacted with the event
+    # Retrieve the saved trainer state
+    chosen_type = event.instance_variable_get(:@dynamic_trainer_type) || possible_types.sample
+    chosen_name = event.instance_variable_get(:@dynamic_trainer_name) || "Trainer"
+
+    version = RoguelikeExtraction.calculate_trainer_version
+
+    # Pre-battle message
+    display_class = GameData::TrainerType.exists?(chosen_type) ? GameData::TrainerType.get(chosen_type).name : chosen_type.to_s.capitalize
+    pbMessage(_INTL("{1} {2} would like to battle!", display_class, chosen_name))
+
+    # Start the battle
+    outcome = TrainerBattle.start(chosen_type, chosen_name, version)
+
+    # Check if player won
+    if outcome
+      pbSetSelfSwitch(event.id, victory_switch, true)
+      return true
+    end
+
+    return false
+  end
+end
