@@ -14,8 +14,11 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
     *   **Description:** Increments the floor counter, calculates the scaling difficulty, creates a new Bag snapshot for standard extraction mechanics, and teleports the player to the next random dungeon map.
     *   **Usage:** Use this when a player steps on a staircase event or chooses to delve deeper after defeating a VIP.
 *   **`pbExtractRaid`**
-    *   **Description:** Safely concludes a run. Secures all obtained loot, re-enables saving, and teleports the player back to the Hub.
-    *   **Usage:** Use this when a player interacts with an Escape Rope item, or defeats a VIP and chooses to leave with their loot.
+    *   **Description:** Safely concludes a run early. Secures all obtained loot, resets the current run entirely (back to Floor 0 and clears map self-switches), re-enables saving, and teleports the player back to the Hub.
+    *   **Usage:** Use this when a player uses an Escape Rope item or interacts with an exit specifically designed to end the current run.
+*   **`pbExtractRaidVIP`**
+    *   **Description:** Extracts via the VIP, securing loot but keeping the player's current floor progress (they do not revert to Floor 0). Resets the self-switches for the current floor only, allowing them to resume from the next floor later.
+    *   **Usage:** Use this in a specific event that calls the VIP extract method so the player can continue their progress later.
 *   **`pbBlackoutRaid`**
     *   **Description:** Fails the current run. Depending on whether Hardcore Mode is enabled, this will either wipe the player's Bag/Party completely or revert their Bag to the floor's initial snapshot, and then teleports them to the Hub. *(Note: This is automatically called if all Pokémon faint in battle).*
     *   **Usage:** Use this if you have traps or environmental hazards that instantly kill the player outside of battle.

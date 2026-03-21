@@ -83,9 +83,9 @@ module RoguelikeExtraction
           $PokemonGlobal.instance_variable_get(:@raid_event_trainers)[event.id] = chosen_trainer
 
           # Update the overworld graphic. The user confirmed the graphics
-          # are strictly named without prefixes, e.g., 'YOUNGSTER.png'
+          # are prefixed with trainer_ e.g., 'trainer_YOUNGSTER.png'
           trainer_type = chosen_trainer[0]
-          graphic_name = trainer_type.to_s
+          graphic_name = "trainer_#{trainer_type.to_s}"
 
           route = RPG::MoveRoute.new
           route.repeat = false
