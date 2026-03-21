@@ -124,8 +124,11 @@ class Interpreter
   # Intelligently handles being placed in a Parallel Process: it will update
   # its graphic immediately on map load, then convert itself into an Action Button
   # event to wait for player interaction without triggering the battle instantly.
-  def pbSetAndStartDynamicTrainer(possible_types, possible_names = nil, victory_switch = "A")
-    return false if !possible_types || possible_types.empty?
+  def pbSetAndStartDynamicTrainer(possible_types = nil, possible_names = nil, victory_switch = "A")
+    # If no types are provided, pull the keys from our dynamically generated pool
+    if !possible_types || possible_types.empty?
+      possible_types = RoguelikeExtraction::DYNAMIC_TRAINERS.map { |t| t[0] }.uniq
+    end
 
     event = get_character(0)
     return false if !event
