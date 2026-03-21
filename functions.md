@@ -35,7 +35,7 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
     *   **Description:** Dynamically draws a random trainer from `DYNAMIC_TRAINERS` (or `DYNAMIC_VIPS` if `is_vip` is set to `true`). It instantly replaces the event's overworld graphic with `trainer_{type}.png`, calculates the scaling difficulty, prevents duplicate trainer spawns, and initiates the battle.
     *   **Usage:** Create a standard Trainer Event. Setup a Conditional Branch checking the `Script...` command `pbDynamicTrainerBattle` (or `pbDynamicTrainerBattle(true)` for bosses). Inside the "Win" outcome of the Conditional Branch, set `Self Switch A` to ON. Leave the "Else" (Loss) outcome completely empty so the game's native blackout sequence can handle deaths safely.
 *   **`pbDefeatedVIP`**
-    *   **Description:** Triggers a prompt asking the player if they want to "Extract" their loot or "Continue" deeper. Automatically calls `pbExtractRaid` or `pbAdvanceRaid` based on their answer.
+    *   **Description:** Triggers a prompt asking the player if they want to "Extract" their loot or "Continue" deeper. Automatically calls `pbExtractRaidVIP` or `pbAdvanceRaid` based on their answer.
     *   **Usage:** Place this directly underneath the `Control Self Switch A = ON` command inside the "Win" outcome of the Conditional Branch on your VIP Boss event.
 
 ---
