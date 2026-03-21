@@ -11,47 +11,9 @@ module RoguelikeExtraction
   # Typically 0 is standard passable ground, 1 is ledge, 2 is grass, etc.
   VALID_FLOOR_TERRAIN_TAGS = [:None, :Grass, :TallGrass, :Sand]
 
-  # Mobile Optimized Valid Tile Finder
-  # Randomly samples coordinates instead of iterating the entire map array.
-  # This prevents heavy O(W*H) loops that drain mobile CPUs (JoiPlay).
-  def self.find_random_valid_tile(max_attempts = 100)
-    return [0, 0] if !$game_map || !$game_map.valid?(0, 0)
-
-    width = $game_map.width
-    height = $game_map.height
-
-    max_attempts.times do
-      x = rand(width)
-      y = rand(height)
-
-      # 1. Check if the tile is within the map boundaries and not the void
-      next if !$game_map.valid?(x, y)
-
-      # 2. Check Passability (can the player actually walk here?)
-      # Ruby 3.1 crashes on negative bit shifts if d = 0, so we check standard movement directions.
-      # If the player can move onto the tile from at least one adjacent direction, it's walkable.
-      passable_directions = [2, 4, 6, 8]
-      is_passable = passable_directions.any? { |d| $game_player.passable?(x, y, d) }
-      next if !is_passable
-
-      # 3. Check Terrain Tag
-      terrain_tag = $game_map.terrain_tag(x, y)
-      next if !VALID_FLOOR_TERRAIN_TAGS.include?(terrain_tag.id)
-
-      # 4. Check if another event is already here
-      event_present = $game_map.events.values.any? { |e| e.x == x && e.y == y }
-      next if event_present
-
-      # Tile is valid!
-      return [x, y]
-    end
-
-    # Fallback to (0,0) or a known safe spot if we fail max_attempts
-    # This ensures the game doesn't hang in an infinite loop on tiny/broken maps
-    return [0, 0]
-  end
-
   # The Spawner Function
+  # Note: Movement/Teleportation is natively handled by Overworld_RandomDungeons.
+  # This function strictly assigns dynamic properties (Trainer Classes) and graphics.
   def self.spawn_dynamic_events
     return if !$game_map || !$game_map.events
 
@@ -61,11 +23,6 @@ module RoguelikeExtraction
       name = event.name.downcase
 
       if name.include?("vip") || name.include?("trainer") || name.include?("chest")
-        # Find a valid coordinate for this specific event
-        valid_coords = find_random_valid_tile(150)
-
-        # Teleport the event to the valid tile
-        event.moveto(valid_coords[0], valid_coords[1])
 
         # Pre-calculate Trainer/VIP and apply graphics immediately
         if name.include?("vip") || name.include?("trainer")
@@ -87,13 +44,21 @@ module RoguelikeExtraction
           trainer_type = chosen_trainer[0]
           graphic_name = "trainer_#{trainer_type.to_s}"
 
-          route = RPG::MoveRoute.new
-          route.repeat = false
-          route.skippable = true
-          route.list.clear
-          route.list.push(RPG::MoveCommand.new(41, [graphic_name, 0, 0, 0]))
-          route.list.push(RPG::MoveCommand.new(0))
-          event.force_move_route(route)
+          # To prevent graphic glitches or the native engine overriding our route,
+          # we inject the graphic directly onto the event object before it renders.
+          if event.respond_to?(:character_name=)
+            event.character_name = graphic_name
+            event.character_hue = 0
+          else
+            # Fallback to MoveRoute injection if the attr_writer is strictly private
+            route = RPG::MoveRoute.new
+            route.repeat = false
+            route.skippable = true
+            route.list.clear
+            route.list.push(RPG::MoveCommand.new(41, [graphic_name, 0, 0, 0]))
+            route.list.push(RPG::MoveCommand.new(0))
+            event.force_move_route(route)
+          end
         end
 
         # Ensure the event's sprite/graphic updates to the new location immediately
@@ -106,18 +71,25 @@ end
 #===============================================================================
 # Hooking into Map Generation
 #===============================================================================
-# We hook into the end of the map setup process. In Essentials, maps are setup
-# via Game_Map#setup. The Overworld_RandomDungeons module modifies this process.
-# By hooking after the setup finishes, we ensure the dungeon has been generated.
+# Instead of waiting for on_enter_map (which might trigger too late),
+# we alias Game_Map.setup to run our logic immediately after the engine's
+# Random Dungeon map generation finishes, guaranteeing our event data is processed
+# BEFORE the player enters and the sprites render.
+#===============================================================================
 
-EventHandlers.add(:on_enter_map, :dynamic_dungeon_spawner,
-  proc { |_old_map_id|
-    # Only run the spawner if the current map is flagged as a Dungeon in map_metadata.txt
-    if GameData::MapMetadata.exists?($game_map.map_id)
-      metadata = GameData::MapMetadata.get($game_map.map_id)
+class Game_Map
+  alias roguelike_extraction_map_setup setup unless method_defined?(:roguelike_extraction_map_setup)
+
+  def setup(map_id)
+    # 1. Run the native setup (which triggers Overworld_RandomDungeons)
+    roguelike_extraction_map_setup(map_id)
+
+    # 2. Check if this newly generated map is a Dungeon
+    if GameData::MapMetadata.exists?(@map_id)
+      metadata = GameData::MapMetadata.get(@map_id)
       if metadata.has_flag?("Dungeon")
         RoguelikeExtraction.spawn_dynamic_events
       end
     end
-  }
-)
+  end
+end
