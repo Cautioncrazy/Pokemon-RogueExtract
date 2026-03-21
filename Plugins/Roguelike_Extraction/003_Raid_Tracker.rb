@@ -212,6 +212,42 @@ module RoguelikeExtraction
   end
 
   #-----------------------------------------------------------------------------
+  # Event State Management
+  #-----------------------------------------------------------------------------
+
+  # Resets all self-switches (A, B, C, D) for the given map ID.
+  # This ensures trainers, chests, and VIPs are ready for a new run.
+  def self.reset_map_events(map_id)
+    return if !$game_self_switches
+
+    # Iterate over all stored self-switches and clear any belonging to this map
+    # $game_self_switches is a wrapper class, we must access the underlying hash data
+    data_hash = $game_self_switches.instance_variable_get(:@data)
+    if data_hash
+      data_hash.keys.each do |key|
+        # In RPG Maker XP, the key is an array: [map_id, event_id, "switch_name"]
+        if key.is_a?(Array) && key[0] == map_id
+          $game_self_switches[key] = false
+        end
+      end
+    end
+
+    # If the map is currently loaded, ensure events on it get their sprites updated
+    if $game_map && $game_map.map_id == map_id && $game_map.events
+      $game_map.events.values.each do |event|
+        event.refresh if event.respond_to?(:refresh)
+      end
+    end
+  end
+
+  def self.reset_all_raid_maps
+    # Loop over the unique map IDs defined in RAID_FLOORS
+    RAID_FLOORS.map { |floor_data| floor_data[0] }.uniq.each do |map_id|
+      reset_map_events(map_id)
+    end
+  end
+
+  #-----------------------------------------------------------------------------
   # Raid Progression Logic
   #-----------------------------------------------------------------------------
 
@@ -273,11 +309,54 @@ module RoguelikeExtraction
     end
   end
 
+  # Extracts via the VIP, securing loot but keeping the player's current floor progress.
+  # This allows them to resume from the *next* floor later.
+  def self.extract_vip
+    $PokemonGlobal.raid_bag_snapshot = nil # Clear the snapshot, loot is secured
+    $game_system.save_disabled = false     # Re-enable saving
+
+    # We clear the map events for the CURRENT floor only, so when they
+    # re-roll this map in endless mode later, it is fresh.
+    if $game_map
+      reset_map_events($game_map.map_id)
+    end
+
+    # The VIP signifies the end of the current floor.
+    # To properly resume later via `resume_or_start_raid`, we need to
+    # officially log that they *completed* this floor.
+    # We advance the floor number here but do not transfer them yet.
+    if $PokemonGlobal.instance_variable_defined?(:@fought_raid_trainers)
+      $PokemonGlobal.instance_variable_set(:@fought_raid_trainers, [])
+    end
+    if $PokemonGlobal.instance_variable_defined?(:@raid_event_trainers)
+      $PokemonGlobal.instance_variable_set(:@raid_event_trainers, {})
+    end
+    $PokemonGlobal.current_raid_floor += 1
+
+    tier = ($PokemonGlobal.current_raid_floor - 1) / 4
+    $PokemonGlobal.encounter_version = [tier, 2].min
+
+    pbMessage(_INTL("VIP defeated! Extraction successful. Your loot has been secured, and your progress saved."))
+
+    # Teleport to Hub
+    pbFadeOutIn do
+      $game_temp.player_new_map_id = HUB_LOCATION[0]
+      $game_temp.player_new_x = HUB_LOCATION[1]
+      $game_temp.player_new_y = HUB_LOCATION[2]
+      $game_temp.player_new_direction = 2
+      $scene.transfer_player
+    end
+  end
+
   # Successfully leaves the raid, keeping all loot.
   def self.extract
     $PokemonGlobal.current_raid_floor = 0
     $PokemonGlobal.raid_bag_snapshot = nil # Clear the snapshot, loot is secured
     $game_system.save_disabled = false     # Re-enable saving
+
+    # Completely reset all maps so the next run starts fresh
+    reset_all_raid_maps
+
     pbMessage(_INTL("Extraction successful! Your loot has been secured."))
 
     # Teleport to Hub
@@ -294,6 +373,9 @@ module RoguelikeExtraction
   def self.blackout
     $PokemonGlobal.current_raid_floor = 0
     $game_system.save_disabled = false # Re-enable saving
+
+    # Completely reset all maps so the next run starts fresh
+    reset_all_raid_maps
 
     # Check if Hardcore Mode is enabled
     if $game_switches[RoguelikeExtraction::HARDCORE_MODE_SWITCH]
@@ -348,6 +430,10 @@ end
 
 def pbExtractRaid
   RoguelikeExtraction.extract
+end
+
+def pbExtractRaidVIP
+  RoguelikeExtraction.extract_vip
 end
 
 def pbBlackoutRaid
@@ -419,7 +505,7 @@ def pbDefeatedVIP
   ], 1)
 
   if choice == 1
-    pbExtractRaid
+    pbExtractRaidVIP
   else
     pbMessage(_INTL("You chose to delve deeper. Good luck!"))
     pbAdvanceRaid
