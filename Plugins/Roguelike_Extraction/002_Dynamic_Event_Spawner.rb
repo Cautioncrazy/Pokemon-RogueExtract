@@ -44,24 +44,21 @@ module RoguelikeExtraction
           trainer_type = chosen_trainer[0]
           graphic_name = "trainer_#{trainer_type.to_s}"
 
-          # To prevent graphic glitches or the native engine overriding our route,
-          # we inject the graphic directly onto the event object before it renders.
-          if event.respond_to?(:character_name=)
-            event.character_name = graphic_name
-            event.character_hue = 0
-          else
-            # Fallback to MoveRoute injection if the attr_writer is strictly private
-            route = RPG::MoveRoute.new
-            route.repeat = false
-            route.skippable = true
-            route.list.clear
-            route.list.push(RPG::MoveCommand.new(41, [graphic_name, 0, 0, 0]))
-            route.list.push(RPG::MoveCommand.new(0))
-            event.force_move_route(route)
+          # The engine natively calls `event.refresh` repeatedly during map load.
+          # If we try to inject a MoveRoute or temporarily change `character_name`,
+          # the engine will just read the Editor graphic (e.g. NPC 20) and wipe it.
+          # To fix this, we permanently overwrite the event's actual page data in memory.
+          if event.event && event.event.pages
+            event.event.pages.each do |page|
+              if page.graphic
+                page.graphic.character_name = graphic_name
+                page.graphic.character_hue = 0
+              end
+            end
           end
         end
 
-        # Ensure the event's sprite/graphic updates to the new location immediately
+        # Tell the event to immediately re-read its (now modified) page data
         event.refresh if event.respond_to?(:refresh)
       end
     end
