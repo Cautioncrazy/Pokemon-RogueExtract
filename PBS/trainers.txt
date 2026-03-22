@@ -821,20 +821,20 @@ Pokemon = MIGHTYENA,30
 Pokemon = BIBAREL,30
 Pokemon = PIDGEOT,30
 
-[ACE_TRAINER_M, Boss Ace, 0]
+[TEAMROCKET_M, Boss Grunt, 0]
 LoseText = You beat me! Good luck on your run.
 Pokemon = PIDGEY,5
 Pokemon = WEEDLE,5
 Pokemon = BIDOOF,5
 
-[ACE_TRAINER_M, Boss Ace, 1]
+[TEAMROCKET_M, Boss Grunt, 1]
 LoseText = Again?! You are getting stronger...
 Pokemon = BEEDRILL,15
 Pokemon = LINOONE,15
 Pokemon = BIBAREL,15
 Pokemon = BUTTERFREE,15
 
-[ACE_TRAINER_M, Boss Ace, 2]
+[TEAMROCKET_M, Boss Grunt, 2]
 LoseText = I'll never defeat you! You are a master.
 Pokemon = STARAPTOR,30
 Pokemon = STARAPTOR,30
@@ -842,20 +842,20 @@ Pokemon = STARAPTOR,30
 Pokemon = RATICATE,30
 Pokemon = BIBAREL,30
 
-[ACE_TRAINER_F, Boss Alice, 0]
+[BEAUTY, Boss Bella, 0]
 LoseText = You beat me! Good luck on your run.
 Pokemon = STARLY,5
 Pokemon = RATTATA,5
 Pokemon = POOCHYENA,5
 
-[ACE_TRAINER_F, Boss Alice, 1]
+[BEAUTY, Boss Bella, 1]
 LoseText = Again?! You are getting stronger...
 Pokemon = LINOONE,15
 Pokemon = RATICATE,15
 Pokemon = STARAVIA,15
 Pokemon = PIDGEOTTO,15
 
-[ACE_TRAINER_F, Boss Alice, 2]
+[BEAUTY, Boss Bella, 2]
 LoseText = I'll never defeat you! You are a master.
 Pokemon = MIGHTYENA,30
 Pokemon = RATICATE,30
@@ -863,20 +863,20 @@ Pokemon = STARAPTOR,30
 Pokemon = LINOONE,30
 Pokemon = STARAPTOR,30
 
-[VETERAN_M, Boss Victor, 0]
+[FISHERMAN, Boss Finn, 0]
 LoseText = You beat me! Good luck on your run.
 Pokemon = RATTATA,5
 Pokemon = CATERPIE,5
 Pokemon = RATTATA,5
 
-[VETERAN_M, Boss Victor, 1]
+[FISHERMAN, Boss Finn, 1]
 LoseText = Again?! You are getting stronger...
 Pokemon = LINOONE,15
 Pokemon = PIDGEOTTO,15
 Pokemon = BEEDRILL,15
 Pokemon = PIDGEOTTO,15
 
-[VETERAN_M, Boss Victor, 2]
+[FISHERMAN, Boss Finn, 2]
 LoseText = I'll never defeat you! You are a master.
 Pokemon = RATICATE,30
 Pokemon = BUTTERFREE,30
@@ -884,20 +884,20 @@ Pokemon = RATICATE,30
 Pokemon = BEEDRILL,30
 Pokemon = RATICATE,30
 
-[VETERAN_F, Boss Victoria, 0]
+[SWIMMER2_F, Boss Ariel, 0]
 LoseText = You beat me! Good luck on your run.
 Pokemon = CATERPIE,5
 Pokemon = STARLY,5
 Pokemon = CATERPIE,5
 
-[VETERAN_F, Boss Victoria, 1]
+[SWIMMER2_F, Boss Ariel, 1]
 LoseText = Again?! You are getting stronger...
 Pokemon = MIGHTYENA,15
 Pokemon = PIDGEOTTO,15
 Pokemon = BUTTERFREE,15
 Pokemon = RATICATE,15
 
-[VETERAN_F, Boss Victoria, 2]
+[SWIMMER2_F, Boss Ariel, 2]
 LoseText = I'll never defeat you! You are a master.
 Pokemon = RATICATE,30
 Pokemon = MIGHTYENA,30
@@ -905,20 +905,20 @@ Pokemon = STARAPTOR,30
 Pokemon = RATICATE,30
 Pokemon = BEEDRILL,30
 
-[ROUGHNECK, Boss Rocco, 0]
+[CHAMPION, Boss Blue, 0]
 LoseText = You beat me! Good luck on your run.
 Pokemon = ZIGZAGOON,5
 Pokemon = RATTATA,5
 Pokemon = CATERPIE,5
 
-[ROUGHNECK, Boss Rocco, 1]
+[CHAMPION, Boss Blue, 1]
 LoseText = Again?! You are getting stronger...
 Pokemon = BIBAREL,15
 Pokemon = PIDGEOTTO,15
 Pokemon = RATICATE,15
 Pokemon = BIBAREL,15
 
-[ROUGHNECK, Boss Rocco, 2]
+[CHAMPION, Boss Blue, 2]
 LoseText = I'll never defeat you! You are a master.
 Pokemon = RATICATE,30
 Pokemon = BUTTERFREE,30
