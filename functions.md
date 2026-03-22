@@ -34,6 +34,12 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
 *   **`pbDynamicTrainerBattle(is_vip = false)`**
     *   **Description:** Dynamically draws a random trainer from `DYNAMIC_TRAINERS` (or `DYNAMIC_VIPS` if `is_vip` is set to `true`). It instantly replaces the event's overworld graphic with `trainer_{type}.png`, calculates the scaling difficulty, prevents duplicate trainer spawns, and initiates the battle.
     *   **Usage:** Create a standard Trainer Event. Setup a Conditional Branch checking the `Script...` command `pbDynamicTrainerBattle` (or `pbDynamicTrainerBattle(true)` for bosses). Inside the "Win" outcome of the Conditional Branch, set `Self Switch A` to ON. Leave the "Else" (Loss) outcome completely empty so the game's native blackout sequence can handle deaths safely.
+*   **`pbDynamicTrainer(*args)`** (Alias for `pbSetAndStartDynamicTrainer`)
+    *   **Description:** An all-in-one smart dynamic trainer generator. It automatically selects a unique trainer from the entire `DYNAMIC_TRAINERS` pool, updates the graphic instantly on map load, then automatically sets **Self Switch 'D' to ON** to transition to an interactive battle page. It safely skips regeneration on subsequent calls, shows the battle message, and triggers the victory switch (e.g., 'A') upon winning.
+    *   **Usage:** For standard dynamic trainers, use a 3-page event structure. If you omit the trainer classes, it automatically pulls from ALL available types in the script:
+        *   **Page 1 (Setup):** Set Trigger to `Parallel Process`. No graphic. Add script `pbDynamicTrainer("A")` (or `pbDynamicTrainer` if you want it to default to Self Switch A). If you only want specific types, you can pass them like this: `pbDynamicTrainer(:YOUNGSTER, :LASS, "A")`.
+        *   **Page 2 (Battle):** Condition: `Self Switch D = ON`. Set Trigger to `Action Button`. Add the *exact same script command*.
+        *   **Page 3 (Defeated):** Condition: `Self Switch A = ON`. (Leave empty or add post-battle text).
 *   **`pbDefeatedVIP`**
     *   **Description:** Triggers a prompt asking the player if they want to "Extract" their loot or "Continue" deeper. Automatically calls `pbExtractRaidVIP` or `pbAdvanceRaid` based on their answer.
     *   **Usage:** Place this directly underneath the `Control Self Switch A = ON` command inside the "Win" outcome of the Conditional Branch on your VIP Boss event.
