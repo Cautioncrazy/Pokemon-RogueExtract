@@ -185,8 +185,22 @@ class Interpreter
         end
       end
 
-      # Dynamically update the overworld graphic instance safely
-      event.character_name = "trainer_#{chosen_type.to_s}"
+      # Dynamically update the overworld graphic instance permanently in memory for all pages
+      graphic_name = "trainer_#{chosen_type.to_s}"
+
+      # Modify the underlying event pages so that when Self Switch 'D' transitions
+      # to Page 2 (Action Button), it inherently inherits the correct graphic without
+      # needing another active script call to render it.
+      if event.event && event.event.pages
+        event.event.pages.each do |page|
+          if page.graphic
+            page.graphic.character_name = graphic_name
+            page.graphic.character_hue = 0
+          end
+        end
+      end
+
+      event.character_name = graphic_name
       event.character_hue = 0
       event.refresh if event.respond_to?(:refresh)
 
