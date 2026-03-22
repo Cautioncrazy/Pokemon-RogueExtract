@@ -26,7 +26,9 @@ To maintain the integrity of the permadeath rules, revival items (e.g., Revive, 
 * **Version Lock**: Strictly built on **Pokémon Essentials v21.1**. All Ruby (RGSS) scripts adhere to v21.1 syntax.
 * **Asset Management**: This repository strictly contains code, scripts, and PBS files. Visual and audio implementation is handled manually in RPG Maker XP. Reference PBS files directly when calling specific Pokémon, Item, or Move names.
 ### Dynamic Trainer Management System
-We have implemented a system to easily spawn dynamic trainers on randomly generated maps, consolidating randomization, graphics updates, and battle logic. Instead of needing multiple complex event pages, you can now use a single `Parallel Process` event page with the `pbSetAndStartDynamicTrainer` script call. This function intelligently updates the event's character graphic to the assigned trainer class as soon as the map loads, and then automatically converts itself into an Action Button event to await the player's interaction for battle.
+We have implemented a system to easily spawn dynamic trainers on randomly generated maps, consolidating randomization, graphics updates, and battle logic using the `pbDynamicTrainer` alias (which resolves RPG Maker script box syntax crashes).
+* **Setup**: Place the script call (e.g., `pbDynamicTrainer(:YOUNGSTER)`) on Page 1 as a **Parallel Process**. It updates the overworld graphic instantly on map load and then automatically turns ON Self Switch `D`.
+* **Interaction**: On Page 2 (Condition: Self Switch `D` is ON, Trigger: **Action Button**), add the exact same script call. Because the script detects the trainer is already set up, it safely skips the graphic generation phase and initiates the pre-battle message and combat. If the player wins, it turns ON your specified victory switch (default `A`) to transition to the defeated NPC page.
 
 ### Procedural Dungeon Spawning
 Dungeon floors use the core Essentials `Overworld_RandomDungeons` generator (`Dungeon = true`). Because standard static RPG Maker events would spawn in walls or the void on procedurally drawn maps, a custom Ruby hook intercepts the map generation.
