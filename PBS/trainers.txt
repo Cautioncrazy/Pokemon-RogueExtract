@@ -334,594 +334,469 @@ Pokemon = RHYDON,50
 	Moves = HAMMERARM,STONEEDGE,MEGAHORN,DRILLRUN
 	IV = 21,21,21,21,21,21
 
+
 #===============================================================================
 # Dynamic Raid Trainers
 #===============================================================================
 
-[YOUNGSTER, RaidBen, 0]
-Items = POTION
-Pokemon = RATTATA,5
-Pokemon = PIDGEY,5
-Pokemon = ZIGZAGOON,5
-
-[YOUNGSTER, RaidBen, 1]
-Items = SUPERPOTION
-Pokemon = RATICATE,15
-Pokemon = PIDGEOTTO,15
-Pokemon = LINOONE,15
-Pokemon = KADABRA,15
-
-[YOUNGSTER, RaidBen, 2]
-Items = HYPERPOTION,FULLHEAL
-Pokemon = RATICATE,30
-Pokemon = PIDGEOT,30
-Pokemon = LINOONE,30
-Pokemon = ALAKAZAM,30
-Pokemon = METANG,30
-
-[LASS, RaidLass, 0]
-Items = POTION
-Pokemon = CATERPIE,5
-Pokemon = WEEDLE,5
-Pokemon = PIKACHU,5
-
-[LASS, RaidLass, 1]
-Items = SUPERPOTION
-Pokemon = METAPOD,15
-Pokemon = KAKUNA,15
-Pokemon = RAICHU,15
-Pokemon = NIDORINA,15
-
-[LASS, RaidLass, 2]
-Items = HYPERPOTION,FULLHEAL
-Pokemon = BUTTERFREE,30
-Pokemon = BEEDRILL,30
-Pokemon = RAICHU,30
-Pokemon = NIDOQUEEN,30
-Pokemon = CLEFABLE,30
-
 [YOUNGSTER, Ben, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = CATERPIE,5
-Pokemon = WEEDLE,5
-Pokemon = STARLY,5
+Pokemon = FLETCHLING,5
+Pokemon = PATRAT,5
 
 [YOUNGSTER, Ben, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = BIBAREL,15
-Pokemon = BEEDRILL,15
-Pokemon = LINOONE,15
-Pokemon = LINOONE,15
+Pokemon = BUNNELBY,15
+Pokemon = PIDGEY,15
 
 [YOUNGSTER, Ben, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = MIGHTYENA,30
-Pokemon = MIGHTYENA,30
-Pokemon = MIGHTYENA,30
-Pokemon = PIDGEOT,30
-Pokemon = RATICATE,30
+Pokemon = FLETCHLING,30
+Pokemon = PATRAT,30
+Pokemon = ZIGZAGOON,30
+Pokemon = NIDORANmA,30
 
 [YOUNGSTER, Calvin, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = POOCHYENA,5
-Pokemon = POOCHYENA,5
-Pokemon = ZIGZAGOON,5
+Pokemon = YUNGOOS,5
+Pokemon = SKWOVET,5
 
 [YOUNGSTER, Calvin, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = RATICATE,15
-Pokemon = BUTTERFREE,15
-Pokemon = BUTTERFREE,15
-Pokemon = STARAVIA,15
+Pokemon = ZIGZAGOON,15
+Pokemon = EKANS,15
 
 [YOUNGSTER, Calvin, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = BUTTERFREE,30
-Pokemon = LINOONE,30
-Pokemon = STARAPTOR,30
-Pokemon = MIGHTYENA,30
-Pokemon = RATICATE,30
+Pokemon = SENTRET,30
+Pokemon = RATTATA,30
+Pokemon = RATTATA,30
 
 [YOUNGSTER, Dan, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = POOCHYENA,5
+Pokemon = NIDORANmA,5
 Pokemon = PIDGEY,5
-Pokemon = WEEDLE,5
 
 [YOUNGSTER, Dan, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = PIDGEOTTO,15
-Pokemon = MIGHTYENA,15
-Pokemon = MIGHTYENA,15
-Pokemon = STARAVIA,15
+Pokemon = RATTATA,15
+Pokemon = BUNNELBY,15
+Pokemon = LECHONK,15
 
 [YOUNGSTER, Dan, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = RATICATE,30
-Pokemon = BIBAREL,30
-Pokemon = MIGHTYENA,30
-Pokemon = STARAPTOR,30
-Pokemon = BIBAREL,30
+Pokemon = SENTRET,30
+Pokemon = PIDGEY,30
+Pokemon = YUNGOOS,30
+Pokemon = BIDOOF,30
 
 [LASS, Ali, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = STARLY,5
-Pokemon = PIDGEY,5
-Pokemon = RATTATA,5
+Pokemon = FIDOUGH,5
+Pokemon = JIGGLYPUFF,5
 
 [LASS, Ali, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = MIGHTYENA,15
-Pokemon = MIGHTYENA,15
-Pokemon = RATICATE,15
-Pokemon = BIBAREL,15
+Pokemon = ODDISH,15
+Pokemon = FIDOUGH,15
 
 [LASS, Ali, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = BEEDRILL,30
-Pokemon = LINOONE,30
-Pokemon = BUTTERFREE,30
-Pokemon = BEEDRILL,30
-Pokemon = BUTTERFREE,30
+Pokemon = MINCCINO,30
+Pokemon = FIDOUGH,30
+Pokemon = MARILL,30
+Pokemon = VULPIX,30
 
 [LASS, Betty, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = BIDOOF,5
-Pokemon = ZIGZAGOON,5
-Pokemon = STARLY,5
+Pokemon = FIDOUGH,5
+Pokemon = MINCCINO,5
 
 [LASS, Betty, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = LINOONE,15
-Pokemon = MIGHTYENA,15
-Pokemon = LINOONE,15
-Pokemon = LINOONE,15
+Pokemon = FLABEBE,15
+Pokemon = FIDOUGH,15
+Pokemon = HOPPIP,15
 
 [LASS, Betty, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = BEEDRILL,30
-Pokemon = PIDGEOT,30
-Pokemon = BIBAREL,30
-Pokemon = BIBAREL,30
-Pokemon = BEEDRILL,30
+Pokemon = MINCCINO,30
+Pokemon = NIDORANfE,30
+Pokemon = FIDOUGH,30
+Pokemon = BUNEARY,30
 
 [LASS, Cathy, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = BIDOOF,5
-Pokemon = POOCHYENA,5
-Pokemon = PIDGEY,5
+Pokemon = FLABEBE,5
 
 [LASS, Cathy, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = BUTTERFREE,15
-Pokemon = STARAVIA,15
-Pokemon = STARAVIA,15
-Pokemon = BIBAREL,15
+Pokemon = FLABEBE,15
+Pokemon = NIDORANfE,15
 
 [LASS, Cathy, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = BUTTERFREE,30
-Pokemon = LINOONE,30
-Pokemon = STARAPTOR,30
-Pokemon = BIBAREL,30
-Pokemon = PIDGEOT,30
+Pokemon = TINKATINK,30
+Pokemon = SKITTY,30
+Pokemon = TINKATINK,30
+Pokemon = NIDORANfE,30
 
 [HIKER, Anthony, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = POOCHYENA,5
-Pokemon = RATTATA,5
-Pokemon = BIDOOF,5
+Pokemon = GEODUDE,5
+Pokemon = DRILBUR,5
 
 [HIKER, Anthony, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = PIDGEOTTO,15
-Pokemon = MIGHTYENA,15
-Pokemon = LINOONE,15
-Pokemon = RATICATE,15
+Pokemon = MUDBRAY,15
+Pokemon = MUDBRAY,15
+Pokemon = ONIX,15
 
 [HIKER, Anthony, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = LINOONE,30
-Pokemon = PIDGEOT,30
-Pokemon = PIDGEOT,30
-Pokemon = PIDGEOT,30
-Pokemon = BEEDRILL,30
+Pokemon = ROGGENROLA,30
+Pokemon = ROLYCOLY,30
+Pokemon = MACHOP,30
 
 [HIKER, Bruce, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = WEEDLE,5
-Pokemon = PIDGEY,5
-Pokemon = WEEDLE,5
+Pokemon = ONIX,5
 
 [HIKER, Bruce, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = RATICATE,15
-Pokemon = BIBAREL,15
-Pokemon = MIGHTYENA,15
-Pokemon = BUTTERFREE,15
+Pokemon = MUDBRAY,15
+Pokemon = NOSEPASS,15
+Pokemon = ROLYCOLY,15
 
 [HIKER, Bruce, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = STARAPTOR,30
-Pokemon = BIBAREL,30
-Pokemon = PIDGEOT,30
-Pokemon = STARAPTOR,30
-Pokemon = BUTTERFREE,30
+Pokemon = ONIX,30
+Pokemon = DIGLETT,30
+Pokemon = TIMBURR,30
 
 [HIKER, Clark, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = POOCHYENA,5
-Pokemon = BIDOOF,5
-Pokemon = POOCHYENA,5
+Pokemon = ARON,5
+Pokemon = RHYHORN,5
 
 [HIKER, Clark, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = MIGHTYENA,15
-Pokemon = BIBAREL,15
-Pokemon = PIDGEOTTO,15
-Pokemon = PIDGEOTTO,15
+Pokemon = DRILBUR,15
+Pokemon = ONIX,15
 
 [HIKER, Clark, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = BIBAREL,30
-Pokemon = MIGHTYENA,30
-Pokemon = BEEDRILL,30
-Pokemon = BIBAREL,30
-Pokemon = RATICATE,30
+Pokemon = NUMEL,30
+Pokemon = ONIX,30
+Pokemon = NUMEL,30
+Pokemon = TIMBURR,30
 
 [CAMPER, Dave, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = BIDOOF,5
-Pokemon = RATTATA,5
-Pokemon = BIDOOF,5
+Pokemon = CHARMANDER,5
 
 [CAMPER, Dave, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = BUTTERFREE,15
-Pokemon = STARAVIA,15
-Pokemon = LINOONE,15
-Pokemon = STARAVIA,15
+Pokemon = POLIWAG,15
+Pokemon = SQUIRTLE,15
+Pokemon = PONYTA,15
 
 [CAMPER, Dave, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = BUTTERFREE,30
-Pokemon = BEEDRILL,30
-Pokemon = RATICATE,30
-Pokemon = RATICATE,30
-Pokemon = PIDGEOT,30
+Pokemon = SHROOMISH,30
+Pokemon = POLIWAG,30
+Pokemon = BULBASAUR,30
 
 [CAMPER, Edgar, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = POOCHYENA,5
-Pokemon = WEEDLE,5
-Pokemon = POOCHYENA,5
+Pokemon = BULBASAUR,5
+Pokemon = BULBASAUR,5
 
 [CAMPER, Edgar, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = LINOONE,15
-Pokemon = BEEDRILL,15
-Pokemon = BIBAREL,15
-Pokemon = BEEDRILL,15
+Pokemon = POLIWAG,15
+Pokemon = SEEDOT,15
 
 [CAMPER, Edgar, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = PIDGEOT,30
-Pokemon = RATICATE,30
-Pokemon = BUTTERFREE,30
-Pokemon = BEEDRILL,30
-Pokemon = BIBAREL,30
+Pokemon = MANKEY,30
+Pokemon = BULBASAUR,30
+Pokemon = SQUIRTLE,30
 
 [CAMPER, Frank, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = POOCHYENA,5
-Pokemon = RATTATA,5
-Pokemon = WEEDLE,5
+Pokemon = SQUIRTLE,5
 
 [CAMPER, Frank, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = PIDGEOTTO,15
-Pokemon = BEEDRILL,15
-Pokemon = PIDGEOTTO,15
-Pokemon = RATICATE,15
+Pokemon = MANKEY,15
+Pokemon = MAREEP,15
+Pokemon = MAREEP,15
 
 [CAMPER, Frank, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = BUTTERFREE,30
-Pokemon = LINOONE,30
-Pokemon = MIGHTYENA,30
-Pokemon = LINOONE,30
-Pokemon = PIDGEOT,30
+Pokemon = LOTAD,30
+Pokemon = MAREEP,30
+Pokemon = MANKEY,30
+Pokemon = BULBASAUR,30
 
 [PICNICKER, Gina, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = BIDOOF,5
-Pokemon = BIDOOF,5
-Pokemon = RATTATA,5
+Pokemon = LOTAD,5
+Pokemon = SQUIRTLE,5
 
 [PICNICKER, Gina, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = STARAVIA,15
-Pokemon = BUTTERFREE,15
-Pokemon = BIBAREL,15
-Pokemon = PIDGEOTTO,15
+Pokemon = PONYTA,15
+Pokemon = NUMEL,15
 
 [PICNICKER, Gina, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = BIBAREL,30
-Pokemon = BUTTERFREE,30
-Pokemon = BIBAREL,30
-Pokemon = RATICATE,30
-Pokemon = MIGHTYENA,30
+Pokemon = SHROOMISH,30
+Pokemon = SEEDOT,30
+Pokemon = MANKEY,30
+Pokemon = CHARMANDER,30
 
 [PICNICKER, Helen, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = POOCHYENA,5
-Pokemon = ZIGZAGOON,5
-Pokemon = CATERPIE,5
+Pokemon = POLIWAG,5
 
 [PICNICKER, Helen, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = PIDGEOTTO,15
-Pokemon = PIDGEOTTO,15
-Pokemon = BIBAREL,15
-Pokemon = MIGHTYENA,15
+Pokemon = POLIWAG,15
+Pokemon = POLIWAG,15
 
 [PICNICKER, Helen, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = BIBAREL,30
-Pokemon = BEEDRILL,30
-Pokemon = BUTTERFREE,30
-Pokemon = BUTTERFREE,30
-Pokemon = BUTTERFREE,30
+Pokemon = SQUIRTLE,30
+Pokemon = MAREEP,30
+Pokemon = SQUIRTLE,30
 
 [PICNICKER, Irene, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = POOCHYENA,5
-Pokemon = STARLY,5
-Pokemon = RATTATA,5
+Pokemon = SEEDOT,5
+Pokemon = MANKEY,5
 
 [PICNICKER, Irene, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = RATICATE,15
-Pokemon = RATICATE,15
-Pokemon = BIBAREL,15
-Pokemon = BIBAREL,15
+Pokemon = BULBASAUR,15
+Pokemon = NUMEL,15
 
 [PICNICKER, Irene, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = RATICATE,30
-Pokemon = STARAPTOR,30
-Pokemon = STARAPTOR,30
-Pokemon = STARAPTOR,30
-Pokemon = BEEDRILL,30
+Pokemon = SQUIRTLE,30
+Pokemon = NUMEL,30
+Pokemon = POLIWAG,30
+Pokemon = MAREEP,30
 
 [BUGCATCHER, James, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = PIDGEY,5
-Pokemon = CATERPIE,5
-Pokemon = STARLY,5
+Pokemon = SPINARAK,5
 
 [BUGCATCHER, James, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = STARAVIA,15
-Pokemon = PIDGEOTTO,15
-Pokemon = RATICATE,15
-Pokemon = BIBAREL,15
+Pokemon = CATERPIE,15
+Pokemon = NYMBLE,15
+Pokemon = SPINARAK,15
 
 [BUGCATCHER, James, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = RATICATE,30
-Pokemon = LINOONE,30
-Pokemon = RATICATE,30
-Pokemon = LINOONE,30
-Pokemon = MIGHTYENA,30
+Pokemon = WURMPLE,30
+Pokemon = VENIPEDE,30
+Pokemon = SURSKIT,30
 
 [BUGCATCHER, Ken, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = STARLY,5
-Pokemon = CATERPIE,5
-Pokemon = ZIGZAGOON,5
+Pokemon = VENIPEDE,5
+Pokemon = VENONAT,5
 
 [BUGCATCHER, Ken, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = STARAVIA,15
-Pokemon = BUTTERFREE,15
-Pokemon = BEEDRILL,15
-Pokemon = RATICATE,15
+Pokemon = NINCADA,15
+Pokemon = COMBEE,15
+Pokemon = JOLTIK,15
 
 [BUGCATCHER, Ken, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = BEEDRILL,30
-Pokemon = BIBAREL,30
-Pokemon = LINOONE,30
-Pokemon = BEEDRILL,30
-Pokemon = MIGHTYENA,30
+Pokemon = SCYTHER,30
+Pokemon = COMBEE,30
+Pokemon = KRICKETOT,30
 
 [BUGCATCHER, Leo, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = BIDOOF,5
-Pokemon = STARLY,5
-Pokemon = RATTATA,5
+Pokemon = BURMY,5
 
 [BUGCATCHER, Leo, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = PIDGEOTTO,15
-Pokemon = RATICATE,15
-Pokemon = PIDGEOTTO,15
-Pokemon = LINOONE,15
+Pokemon = SEWADDLE,15
+Pokemon = KARRABLAST,15
 
 [BUGCATCHER, Leo, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = RATICATE,30
-Pokemon = LINOONE,30
-Pokemon = PIDGEOT,30
-Pokemon = BIBAREL,30
-Pokemon = BUTTERFREE,30
+Pokemon = LEDYBA,30
+Pokemon = PINSIR,30
+Pokemon = NYMBLE,30
 
 [SUPERNERD, Mike, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = POOCHYENA,5
-Pokemon = PIDGEY,5
-Pokemon = PIDGEY,5
+Pokemon = PORYGON,5
 
 [SUPERNERD, Mike, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = BUTTERFREE,15
-Pokemon = STARAVIA,15
-Pokemon = RATICATE,15
-Pokemon = BEEDRILL,15
+Pokemon = TRUBBISH,15
+Pokemon = VOLTORB,15
 
 [SUPERNERD, Mike, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = BIBAREL,30
-Pokemon = PIDGEOT,30
-Pokemon = RATICATE,30
-Pokemon = BUTTERFREE,30
-Pokemon = RATICATE,30
+Pokemon = CHARJABUG,30
+Pokemon = VOLTORB,30
+Pokemon = KLINK,30
+Pokemon = PORYGON,30
 
 [SUPERNERD, Nick, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = ZIGZAGOON,5
-Pokemon = PIDGEY,5
-Pokemon = WEEDLE,5
+Pokemon = TRUBBISH,5
+Pokemon = TOGEDEMARU,5
 
 [SUPERNERD, Nick, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = BEEDRILL,15
-Pokemon = BIBAREL,15
-Pokemon = PIDGEOTTO,15
-Pokemon = RATICATE,15
+Pokemon = GOLETT,15
+Pokemon = KLINK,15
+Pokemon = TOGEDEMARU,15
 
 [SUPERNERD, Nick, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = BIBAREL,30
-Pokemon = MIGHTYENA,30
-Pokemon = RATICATE,30
-Pokemon = STARAPTOR,30
-Pokemon = LINOONE,30
+Pokemon = KLINK,30
+Pokemon = VOLTORB,30
+Pokemon = GOLETT,30
 
 [SUPERNERD, Owen, 0]
 LoseText = You beat me! Good luck on your run.
-Pokemon = RATTATA,5
-Pokemon = PIDGEY,5
-Pokemon = ZIGZAGOON,5
+Pokemon = VOLTORB,5
 
 [SUPERNERD, Owen, 1]
 LoseText = Again?! You are getting stronger...
-Pokemon = MIGHTYENA,15
-Pokemon = BUTTERFREE,15
-Pokemon = BIBAREL,15
-Pokemon = LINOONE,15
+Pokemon = KLINK,15
+Pokemon = GOLETT,15
+Pokemon = VAROOM,15
 
 [SUPERNERD, Owen, 2]
 LoseText = I'll never defeat you! You are a master.
-Pokemon = RATICATE,30
-Pokemon = MIGHTYENA,30
-Pokemon = MIGHTYENA,30
-Pokemon = BIBAREL,30
-Pokemon = PIDGEOT,30
+Pokemon = GOLETT,30
+Pokemon = DITTO,30
+Pokemon = VOLTORB,30
+Pokemon = TRUBBISH,30
 
 [TEAMROCKET_M, Boss Grunt, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = PIDGEY,5
-Pokemon = WEEDLE,5
-Pokemon = BIDOOF,5
+LoseText = You've got potential, kid.
+Items = ORANBERRY
+Pokemon = SCRAGGY,7
+Pokemon = CARVANHA,7
+Pokemon = SALANDIT,7
 
 [TEAMROCKET_M, Boss Grunt, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = BEEDRILL,15
-Pokemon = LINOONE,15
-Pokemon = BIBAREL,15
-Pokemon = BUTTERFREE,15
+LoseText = Not bad, but I'm just warming up!
+Items = SITRUSBERRY,SUPERPOTION
+Pokemon = SKUNTANK,18
+Pokemon = GRIMER,18
+Pokemon = TRUBBISH,18
 
 [TEAMROCKET_M, Boss Grunt, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = STARAPTOR,30
-Pokemon = STARAPTOR,30
-Pokemon = STARAPTOR,30
-Pokemon = RATICATE,30
-Pokemon = BIBAREL,30
+LoseText = Unbelievable... You're truly powerful.
+Items = SITRUSBERRY,LUMBERRY,FULLRESTORE
+Pokemon = GRIMER,35
+Pokemon = KOFFING,35
+Pokemon = NICKIT,35
+Pokemon = SALANDIT,35
 
 [BEAUTY, Boss Bella, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = STARLY,5
-Pokemon = RATTATA,5
-Pokemon = POOCHYENA,5
+LoseText = You've got potential, kid.
+Items = ORANBERRY
+Pokemon = TOGEPI,7
+Pokemon = CLEFAIRY,7
+Pokemon = GOLDEEN,7
 
 [BEAUTY, Boss Bella, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = LINOONE,15
-Pokemon = RATICATE,15
-Pokemon = STARAVIA,15
-Pokemon = PIDGEOTTO,15
+LoseText = Not bad, but I'm just warming up!
+Items = SITRUSBERRY,SUPERPOTION
+Pokemon = LAPRAS,18
+Pokemon = VULPIX,18
+Pokemon = GOLDEEN,18
 
 [BEAUTY, Boss Bella, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = MIGHTYENA,30
-Pokemon = RATICATE,30
-Pokemon = STARAPTOR,30
-Pokemon = LINOONE,30
-Pokemon = STARAPTOR,30
+LoseText = Unbelievable... You're truly powerful.
+Items = SITRUSBERRY,LUMBERRY,FULLRESTORE
+Pokemon = MARILL,35
+Pokemon = BELLOSSOM,35
+Pokemon = FOMANTIS,35
+Pokemon = HATENNA,35
+Pokemon = CHERUBI,35
 
 [FISHERMAN, Boss Finn, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = RATTATA,5
-Pokemon = CATERPIE,5
-Pokemon = RATTATA,5
+LoseText = You've got potential, kid.
+Items = ORANBERRY
+Pokemon = BARBOACH,7
+Pokemon = GOLDEEN,7
+Pokemon = BARBOACH,7
 
 [FISHERMAN, Boss Finn, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = LINOONE,15
-Pokemon = PIDGEOTTO,15
-Pokemon = BEEDRILL,15
-Pokemon = PIDGEOTTO,15
+LoseText = Not bad, but I'm just warming up!
+Items = SITRUSBERRY,SUPERPOTION
+Pokemon = REMORAID,18
+Pokemon = CORPHISH,18
+Pokemon = HORSEA,18
 
 [FISHERMAN, Boss Finn, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = RATICATE,30
-Pokemon = BUTTERFREE,30
-Pokemon = RATICATE,30
-Pokemon = BEEDRILL,30
-Pokemon = RATICATE,30
+LoseText = Unbelievable... You're truly powerful.
+Items = SITRUSBERRY,LUMBERRY,FULLRESTORE
+Pokemon = FINNEON,35
+Pokemon = WISHIWASHI,35
+Pokemon = WISHIWASHI,35
+Pokemon = BARBOACH,35
+Pokemon = REMORAID,35
 
 [SWIMMER2_F, Boss Ariel, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = CATERPIE,5
-Pokemon = STARLY,5
-Pokemon = CATERPIE,5
+LoseText = You've got potential, kid.
+Items = ORANBERRY
+Pokemon = STARYU,7
+Pokemon = WAILMER,7
+Pokemon = MARILL,7
 
 [SWIMMER2_F, Boss Ariel, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = MIGHTYENA,15
-Pokemon = PIDGEOTTO,15
-Pokemon = BUTTERFREE,15
-Pokemon = RATICATE,15
+LoseText = Not bad, but I'm just warming up!
+Items = SITRUSBERRY,SUPERPOTION
+Pokemon = WOOPER,18
+Pokemon = POLIWAG,18
+Pokemon = WIMPOD,18
 
 [SWIMMER2_F, Boss Ariel, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = RATICATE,30
-Pokemon = MIGHTYENA,30
-Pokemon = STARAPTOR,30
-Pokemon = RATICATE,30
-Pokemon = BEEDRILL,30
+LoseText = Unbelievable... You're truly powerful.
+Items = SITRUSBERRY,LUMBERRY,FULLRESTORE
+Pokemon = WOOPER,35
+Pokemon = FRILLISH,35
+Pokemon = MARILL,35
+Pokemon = WIMPOD,35
+Pokemon = WOOPER,35
 
 [CHAMPION, Boss Blue, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = ZIGZAGOON,5
-Pokemon = RATTATA,5
-Pokemon = CATERPIE,5
+LoseText = You've got potential, kid.
+Items = ORANBERRY
+Pokemon = CHARMANDER,7
+Pokemon = GABITE,7
+Pokemon = TREECKO,7
 
 [CHAMPION, Boss Blue, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = BIBAREL,15
-Pokemon = PIDGEOTTO,15
-Pokemon = RATICATE,15
-Pokemon = BIBAREL,15
+LoseText = Not bad, but I'm just warming up!
+Items = SITRUSBERRY,SUPERPOTION
+Pokemon = MUDKIP,18
+Pokemon = BULBASAUR,18
+Pokemon = TORCHIC,18
+Pokemon = TREECKO,18
 
 [CHAMPION, Boss Blue, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = RATICATE,30
-Pokemon = BUTTERFREE,30
-Pokemon = STARAPTOR,30
-Pokemon = RATICATE,30
-Pokemon = RATICATE,30
+LoseText = Unbelievable... You're truly powerful.
+Items = SITRUSBERRY,LUMBERRY,FULLRESTORE
+Pokemon = VENUSAUR,35
+Pokemon = FERALIGATR,35
+Pokemon = GYARADOS,35
+Pokemon = CHARIZARD,35
