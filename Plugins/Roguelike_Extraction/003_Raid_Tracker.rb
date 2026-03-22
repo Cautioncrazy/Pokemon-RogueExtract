@@ -297,14 +297,16 @@ module RoguelikeExtraction
 
   # The "Smart" function for Steven (Challenge Guide)
   # If the player isn't in a raid, it starts one.
-  # If they are, it advances them to the next floor.
+  # If they are, it resumes their progress on the exact floor they left off.
   def self.resume_or_start_raid
     if $PokemonGlobal.current_raid_floor == 0
       start_raid
     else
       # Prompt the player if they want to continue their existing raid
       if pbConfirmMessage(_INTL("You are currently on Floor {1}. Continue deeper into the raid?", $PokemonGlobal.current_raid_floor))
-        advance_floor
+        snapshot_bag
+        $game_system.save_disabled = true # Re-disable mid-raid saving
+        transfer_to_current_floor
       end
     end
   end
