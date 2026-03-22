@@ -271,18 +271,19 @@ class Interpreter
       event.instance_variable_set(:@dynamic_trainer_initialized, true)
       event.instance_variable_set(:@dynamic_trainer_type, chosen_type)
       event.instance_variable_set(:@dynamic_trainer_name, chosen_name)
-
-      # If the event is running automatically (Autorun or Parallel Process),
-      # we assume this is the Setup Page (Page 1). We automatically turn ON
-      # Self Switch 'D' so the event transitions to an Action Button page (Page 2)
-      # and return early to prevent the battle from triggering immediately.
-      if event.trigger == 3 || event.trigger == 4
-        pbSetSelfSwitch(event.id, "D", true)
-        return true # Stop execution of this script block so the battle does not start yet
-      end
     end
 
-    # 2. Battle Phase: The player has interacted with the event (e.g., on Page 2)
+    # 2. Transition Guard: If the event is running automatically (Autorun or Parallel Process),
+    # we assume this is the Setup Page (Page 1). We MUST turn ON Self Switch 'D' so the event
+    # transitions to an Action Button page (Page 2) and return early to prevent the battle
+    # from triggering immediately. This must reside outside the initialization block so that
+    # if an event reverts to Page 1 (e.g., after an extract reset), it safely halts again.
+    if event.trigger == 3 || event.trigger == 4
+      pbSetSelfSwitch(event.id, "D", true)
+      return true # Stop execution of this script block so the battle does not start yet
+    end
+
+    # 3. Battle Phase: The player has interacted with the event (e.g., on Page 2)
     # Retrieve the saved trainer state
     chosen_type = event.instance_variable_get(:@dynamic_trainer_type) || possible_types.sample
     chosen_name = event.instance_variable_get(:@dynamic_trainer_name) || "Trainer"
