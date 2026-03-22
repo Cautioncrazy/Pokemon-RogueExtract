@@ -403,4 +403,8 @@ Name = Cavetia
 Dungeon = true
 #-------------------------------
 [079]   # Crysalo
+Name = Crysalo
+Dungeon = true
+#-------------------------------
+[080]   # Abyssys
 Dungeon = true
