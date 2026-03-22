@@ -120,30 +120,69 @@ def pbDynamicTrainerBattle(is_vip = false)
 end
 
 class Interpreter
+  # To avoid RPG Maker XP's notorious script box word-wrapping crash (SyntaxError),
+  # we provide a shorter alias that accepts a flat list of arguments.
+  # Usage: pbDynamicTrainer(:YOUNGSTER, :LASS, "B")
+  def pbDynamicTrainer(*args)
+    victory_switch = "A"
+    possible_types = []
+
+    args.each do |arg|
+      if arg.is_a?(String) && arg.length == 1
+        victory_switch = arg
+      elsif arg.is_a?(Symbol)
+        possible_types.push(arg)
+      elsif arg.is_a?(Array)
+        possible_types.concat(arg.select { |i| i.is_a?(Symbol) })
+      end
+    end
+
+    pbSetAndStartDynamicTrainer(possible_types, nil, victory_switch)
+  end
+
   # An all-in-one function to dynamically set and start a trainer encounter.
   # Intelligently handles being placed in a Parallel Process: it will update
   # its graphic immediately on map load, then convert itself into an Action Button
   # event to wait for player interaction without triggering the battle instantly.
   def pbSetAndStartDynamicTrainer(possible_types = nil, possible_names = nil, victory_switch = "A")
-    # If no types are provided, pull the keys from our dynamically generated pool
-    if !possible_types || possible_types.empty?
-      possible_types = RoguelikeExtraction::DYNAMIC_TRAINERS.map { |t| t[0] }.uniq
-    end
-
     event = get_character(0)
     return false if !event
+
+    # Check if the Spawner (002_Dynamic_Event_Spawner.rb) already pre-calculated this event's trainer.
+    # If this is an event named "VIP" or "Trainer", the spawner assigns it globally.
+    pre_assigned = nil
+    if $PokemonGlobal.instance_variable_defined?(:@raid_event_trainers) &&
+       $PokemonGlobal.instance_variable_get(:@raid_event_trainers) &&
+       $PokemonGlobal.instance_variable_get(:@raid_event_trainers)[event.id]
+      pre_assigned = $PokemonGlobal.instance_variable_get(:@raid_event_trainers)[event.id]
+    end
+
+    # Fix Array coercion to prevent 'empty?' / 'sample' on Symbols if user bypasses the alias
+    possible_types = [possible_types] if possible_types.is_a?(Symbol)
+    possible_names = [possible_names] if possible_names.is_a?(String)
+
+    # If no types are provided, pull the keys from our dynamically generated pool
+    if !possible_types || (!possible_types.is_a?(Array) || possible_types.empty?)
+      possible_types = pre_assigned ? [pre_assigned[0]] : RoguelikeExtraction::DYNAMIC_TRAINERS.map { |t| t[0] }.uniq
+    end
 
     # 1. Setup Phase: Has this event already generated its trainer data?
     # We store the selected trainer persistently on this specific event instance.
     if !event.instance_variable_defined?(:@dynamic_trainer_initialized) || !event.instance_variable_get(:@dynamic_trainer_initialized)
 
-      chosen_type = possible_types.sample
-      if possible_names && !possible_names.empty?
-        chosen_name = possible_names.sample
+      # Use the pre-assigned trainer from the spawner, otherwise randomly generate
+      if pre_assigned
+        chosen_type = pre_assigned[0]
+        chosen_name = pre_assigned[1]
       else
-        # Pull from the existing generated pool of trainers for this specific class
-        pool_names = RoguelikeExtraction::DYNAMIC_TRAINERS.select { |t| t[0] == chosen_type }.map { |t| t[1] }
-        chosen_name = pool_names.empty? ? chosen_type.to_s.capitalize : pool_names.sample
+        chosen_type = possible_types.sample
+        if possible_names && possible_names.is_a?(Array) && !possible_names.empty?
+          chosen_name = possible_names.sample
+        else
+          # Pull from the existing generated pool of trainers for this specific class
+          pool_names = RoguelikeExtraction::DYNAMIC_TRAINERS.select { |t| t[0] == chosen_type }.map { |t| t[1] }
+          chosen_name = pool_names.empty? ? chosen_type.to_s.capitalize : pool_names.sample
+        end
       end
 
       # Dynamically update the overworld graphic instance safely
