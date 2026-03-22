@@ -180,13 +180,26 @@ class Interpreter
       pre_assigned = $PokemonGlobal.instance_variable_get(:@raid_event_trainers)[event.id]
     end
 
+    # Determine if this event is natively a VIP based on its RPG Maker editor name
+    rpg_event = event.instance_variable_get(:@event)
+    is_vip = false
+    if rpg_event && rpg_event.name.downcase.include?("vip")
+      is_vip = true
+    end
+
     # Fix Array coercion to prevent 'empty?' / 'sample' on Symbols if user bypasses the alias
     possible_types = [possible_types] if possible_types.is_a?(Symbol)
     possible_names = [possible_names] if possible_names.is_a?(String)
 
-    # If no types are provided, pull the keys from our dynamically generated pool
+    # If no types are provided, pull the keys from our dynamically generated pool.
+    # If the event is a VIP, we natively pull from DYNAMIC_VIPS instead of DYNAMIC_TRAINERS.
     if !possible_types || (!possible_types.is_a?(Array) || possible_types.empty?)
-      possible_types = pre_assigned ? [pre_assigned[0]] : RoguelikeExtraction::DYNAMIC_TRAINERS.map { |t| t[0] }.uniq
+      if pre_assigned
+        possible_types = [pre_assigned[0]]
+      else
+        target_pool = is_vip ? RoguelikeExtraction::DYNAMIC_VIPS : RoguelikeExtraction::DYNAMIC_TRAINERS
+        possible_types = target_pool.map { |t| t[0] }.uniq
+      end
     end
 
     # 1. Setup Phase: Has this event already generated its trainer data?
@@ -205,13 +218,14 @@ class Interpreter
             possible_names.each { |name| available_pairs.push([type, name]) }
           end
         else
-          # Otherwise filter the global pool by the requested types
-          available_pairs = RoguelikeExtraction::DYNAMIC_TRAINERS.select { |t| possible_types.include?(t[0]) }
+          # Otherwise filter the target global pool by the requested types
+          target_pool = is_vip ? RoguelikeExtraction::DYNAMIC_VIPS : RoguelikeExtraction::DYNAMIC_TRAINERS
+          available_pairs = target_pool.select { |t| possible_types.include?(t[0]) }
 
           # Failsafe if the types provided don't exist in our global pool at all.
           # We must pull a random valid pair from the entire pool so the game doesn't crash or prompt for creation.
           if available_pairs.empty?
-            available_pairs = RoguelikeExtraction::DYNAMIC_TRAINERS.dup
+            available_pairs = target_pool.dup
           end
         end
 
