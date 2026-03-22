@@ -16,13 +16,35 @@ module RoguelikeExtraction
   # Lists of possible trainers.
   # Format: [ trainer_type, trainer_name ]
   DYNAMIC_TRAINERS = [
-    [:YOUNGSTER, "RaidBen"],
-    [:LASS, "RaidLass"]
+    [:YOUNGSTER, "Ben"],
+    [:YOUNGSTER, "Calvin"],
+    [:YOUNGSTER, "Dan"],
+    [:LASS, "Ali"],
+    [:LASS, "Betty"],
+    [:LASS, "Cathy"],
+    [:HIKER, "Anthony"],
+    [:HIKER, "Bruce"],
+    [:HIKER, "Clark"],
+    [:CAMPER, "Dave"],
+    [:CAMPER, "Edgar"],
+    [:CAMPER, "Frank"],
+    [:PICNICKER, "Gina"],
+    [:PICNICKER, "Helen"],
+    [:PICNICKER, "Irene"],
+    [:BUGCATCHER, "James"],
+    [:BUGCATCHER, "Ken"],
+    [:BUGCATCHER, "Leo"],
+    [:SUPERNERD, "Mike"],
+    [:SUPERNERD, "Nick"],
+    [:SUPERNERD, "Owen"]
   ]
 
   DYNAMIC_VIPS = [
-    [:YOUNGSTER, "RaidBen"], # Example, update with real boss types later
-    [:LASS, "RaidLass"]
+    [:ACE_TRAINER_M, "Boss Ace"],
+    [:ACE_TRAINER_F, "Boss Alice"],
+    [:VETERAN_M, "Boss Victor"],
+    [:VETERAN_F, "Boss Victoria"],
+    [:ROUGHNECK, "Boss Rocco"]
   ]
 
   def self.dynamic_chest_loot
@@ -175,15 +197,35 @@ class Interpreter
         chosen_type = pre_assigned[0]
         chosen_name = pre_assigned[1]
       else
-        chosen_type = possible_types.sample
         if possible_names && possible_names.is_a?(Array) && !possible_names.empty?
-          chosen_name = possible_names.sample
+          # If names are explicitly provided, we randomly construct pairs and filter against fought trainers
+          available_pairs = []
+          possible_types.each do |type|
+            possible_names.each { |name| available_pairs.push([type, name]) }
+          end
         else
-          # Pull from the existing generated pool of trainers for this specific class
-          pool_names = RoguelikeExtraction::DYNAMIC_TRAINERS.select { |t| t[0] == chosen_type }.map { |t| t[1] }
-          chosen_name = pool_names.empty? ? chosen_type.to_s.capitalize : pool_names.sample
+          # Otherwise filter the global pool by the requested types
+          available_pairs = RoguelikeExtraction::DYNAMIC_TRAINERS.select { |t| possible_types.include?(t[0]) }
+
+          # Failsafe if the types provided don't exist in our global pool at all
+          if available_pairs.empty?
+            available_pairs = possible_types.map { |type| [type, type.to_s.capitalize] }
+          end
         end
+
+        # Remove trainers already fought on this floor to avoid duplicates
+        available_pairs = available_pairs.reject { |t| RoguelikeExtraction.fought_trainers.include?(t) }
+
+        # If all available trainers of this type are exhausted, fallback to reusing them
+        available_pairs = possible_types.map { |type| [type, type.to_s.capitalize] } if available_pairs.empty?
+
+        chosen_pair = available_pairs.sample
+        chosen_type = chosen_pair[0]
+        chosen_name = chosen_pair[1]
       end
+
+      # Register this newly created trainer so they aren't generated again on this floor
+      RoguelikeExtraction.fought_trainers.push([chosen_type, chosen_name])
 
       # Dynamically update the overworld graphic instance permanently in memory for all pages
       graphic_name = "trainer_#{chosen_type.to_s}"
