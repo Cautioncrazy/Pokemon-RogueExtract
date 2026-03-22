@@ -31,18 +31,15 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
 *   **`pbDynamicChestLoot`**
     *   **Description:** Gives the player a scaled item based on their current floor depth (e.g., Potions on F1 -> Full Restores on F10) and automatically toggles the Event's `Self Switch A` to ON.
     *   **Usage:** Create a template Chest Event on your dungeon maps. On Page 1, add the `Script...` command `pbDynamicChestLoot`. On Page 2, set the condition to `Self Switch A is ON` and change the graphic to an open chest.
-*   **`pbDynamicTrainerBattle(is_vip = false)`**
-    *   **Description:** Dynamically draws a random trainer from `DYNAMIC_TRAINERS` (or `DYNAMIC_VIPS` if `is_vip` is set to `true`). It instantly replaces the event's overworld graphic with `trainer_{type}.png`, calculates the scaling difficulty, prevents duplicate trainer spawns, and initiates the battle.
-    *   **Usage:** Create a standard Trainer Event. Setup a Conditional Branch checking the `Script...` command `pbDynamicTrainerBattle` (or `pbDynamicTrainerBattle(true)` for bosses). Inside the "Win" outcome of the Conditional Branch, set `Self Switch A` to ON. Leave the "Else" (Loss) outcome completely empty so the game's native blackout sequence can handle deaths safely.
 *   **`pbDynamicTrainer(*args)`** (Alias for `pbSetAndStartDynamicTrainer`)
-    *   **Description:** An all-in-one smart dynamic trainer generator. It automatically selects a unique trainer from the entire `DYNAMIC_TRAINERS` pool, updates the graphic instantly on map load, then automatically sets **Self Switch 'D' to ON** to transition to an interactive battle page. It safely skips regeneration on subsequent calls, shows the battle message, and triggers the victory switch (e.g., 'A') upon winning.
-    *   **Usage:** For standard dynamic trainers, use a 3-page event structure. If you omit the trainer classes, it automatically pulls from ALL available types in the script:
+    *   **Description:** An all-in-one smart dynamic trainer generator for **BOTH** standard trainers and VIP bosses. It automatically selects a unique trainer from the global pool, updates the graphic instantly on map load, then automatically sets **Self Switch 'D' to ON** to transition to an interactive battle page. If the event is named "VIP", it natively detects this and pulls from the `DYNAMIC_VIPS` pool instead. It safely skips regeneration on subsequent calls, shows the battle message, and triggers the victory switch (e.g., 'A') upon winning.
+    *   **Usage (Standard Trainers & VIPs):** Use the exact same 3-page event structure. *(Note: To make it a boss, simply name the event "VIP" in the top-left of the editor).*
         *   **Page 1 (Setup):** Set Trigger to `Parallel Process`. No graphic. Add script `pbDynamicTrainer("A")` (or `pbDynamicTrainer` if you want it to default to Self Switch A). If you only want specific types, you can pass them like this: `pbDynamicTrainer(:YOUNGSTER, :LASS, "A")`.
         *   **Page 2 (Battle):** Condition: `Self Switch D = ON`. Set Trigger to `Action Button`. Add the *exact same script command*.
-        *   **Page 3 (Defeated):** Condition: `Self Switch A = ON`. (Leave empty or add post-battle text).
+        *   **Page 3 (Defeated):** Condition: `Self Switch A = ON`. Set Trigger to `Action Button`.
 *   **`pbDefeatedVIP`**
     *   **Description:** Triggers a prompt asking the player if they want to "Extract" their loot or "Continue" deeper. Automatically calls `pbExtractRaidVIP` or `pbAdvanceRaid` based on their answer.
-    *   **Usage:** Place this directly underneath the `Control Self Switch A = ON` command inside the "Win" outcome of the Conditional Branch on your VIP Boss event.
+    *   **Usage:** Place this inside the `Script...` box on **Page 3** of your VIP event (the defeated NPC page). When the player interacts with the defeated boss, this prompt will allow them to extract safely.
 
 ---
 
