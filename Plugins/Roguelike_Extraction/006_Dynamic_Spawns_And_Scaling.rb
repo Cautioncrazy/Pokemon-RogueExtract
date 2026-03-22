@@ -191,8 +191,9 @@ class Interpreter
       # Modify the underlying event pages so that when Self Switch 'D' transitions
       # to Page 2 (Action Button), it inherently inherits the correct graphic without
       # needing another active script call to render it.
-      if event.event && event.event.pages
-        event.event.pages.each do |page|
+      rpg_event = event.instance_variable_get(:@event)
+      if rpg_event && rpg_event.pages
+        rpg_event.pages.each do |page|
           if page.graphic
             page.graphic.character_name = graphic_name
             page.graphic.character_hue = 0

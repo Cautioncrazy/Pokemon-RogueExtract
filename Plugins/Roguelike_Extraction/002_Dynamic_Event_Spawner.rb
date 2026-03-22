@@ -48,8 +48,9 @@ module RoguelikeExtraction
           # If we try to inject a MoveRoute or temporarily change `character_name`,
           # the engine will just read the Editor graphic (e.g. NPC 20) and wipe it.
           # To fix this, we permanently overwrite the event's actual page data in memory.
-          if event.event && event.event.pages
-            event.event.pages.each do |page|
+          rpg_event = event.instance_variable_get(:@event)
+          if rpg_event && rpg_event.pages
+            rpg_event.pages.each do |page|
               if page.graphic
                 page.graphic.character_name = graphic_name
                 page.graphic.character_hue = 0
