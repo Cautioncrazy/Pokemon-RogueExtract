@@ -27,7 +27,7 @@ To maintain the integrity of the permadeath rules, revival items (e.g., Revive, 
 * **Asset Management**: This repository strictly contains code, scripts, and PBS files. Visual and audio implementation is handled manually in RPG Maker XP. Reference PBS files directly when calling specific Pokémon, Item, or Move names.
 ### Dynamic Trainer Management System
 We have implemented a system to easily spawn dynamic trainers on randomly generated maps, consolidating randomization, graphics updates, and battle logic using the `pbDynamicTrainer` alias (which resolves RPG Maker script box syntax crashes).
-* **Setup**: Place the script call (e.g., `pbDynamicTrainer(:YOUNGSTER)`) on Page 1 as a **Parallel Process**. It updates the overworld graphic instantly on map load and then automatically turns ON Self Switch `D`.
+* **Setup**: Place the script call (e.g., `pbDynamicTrainer("A")`) on Page 1 as a **Parallel Process**. Calling it this way automatically pulls from the *entire* available pool of trainers. It updates the overworld graphic instantly on map load and then automatically turns ON Self Switch `D`.
 * **Interaction**: On Page 2 (Condition: Self Switch `D` is ON, Trigger: **Action Button**), add the exact same script call. Because the script detects the trainer is already set up, it safely skips the graphic generation phase and initiates the pre-battle message and combat. If the player wins, it turns ON your specified victory switch (default `A`) to transition to the defeated NPC page.
 
 ### Procedural Dungeon Spawning
