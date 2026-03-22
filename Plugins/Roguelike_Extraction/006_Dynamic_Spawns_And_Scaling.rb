@@ -85,11 +85,12 @@ module RoguelikeExtraction
     # Floor 1-3 -> Version 0
     # Floor 4-6 -> Version 1
     # Floor 7-9 -> Version 2
-    # etc.
     version = (floor - 1) / 3
 
-    # Ensure it's at least 0 (base version in PBS)
-    return [version, 0].max
+    # Ensure it's at least 0 (base version in PBS) and capped at 2 (max PBS version)
+    version = 0 if version < 0
+    version = 2 if version > 2
+    return version
   end
 end
 
@@ -207,17 +208,22 @@ class Interpreter
           # Otherwise filter the global pool by the requested types
           available_pairs = RoguelikeExtraction::DYNAMIC_TRAINERS.select { |t| possible_types.include?(t[0]) }
 
-          # Failsafe if the types provided don't exist in our global pool at all
+          # Failsafe if the types provided don't exist in our global pool at all.
+          # We must pull a random valid pair from the entire pool so the game doesn't crash or prompt for creation.
           if available_pairs.empty?
-            available_pairs = possible_types.map { |type| [type, type.to_s.capitalize] }
+            available_pairs = RoguelikeExtraction::DYNAMIC_TRAINERS.dup
           end
         end
+
+        # Preserve the base pool before filtering
+        base_pool = available_pairs.dup
 
         # Remove trainers already fought on this floor to avoid duplicates
         available_pairs = available_pairs.reject { |t| RoguelikeExtraction.fought_trainers.include?(t) }
 
-        # If all available trainers of this type are exhausted, fallback to reusing them
-        available_pairs = possible_types.map { |type| [type, type.to_s.capitalize] } if available_pairs.empty?
+        # If all available trainers of this type are exhausted on this floor, fallback to reusing the base pool!
+        # Do not dynamically construct names (e.g., `type.to_s.capitalize`) or it triggers manual PBS creation.
+        available_pairs = base_pool if available_pairs.empty?
 
         chosen_pair = available_pairs.sample
         chosen_type = chosen_pair[0]
