@@ -40,11 +40,11 @@ module RoguelikeExtraction
   ]
 
   DYNAMIC_VIPS = [
-    [:ACE_TRAINER_M, "Boss Ace"],
-    [:ACE_TRAINER_F, "Boss Alice"],
-    [:VETERAN_M, "Boss Victor"],
-    [:VETERAN_F, "Boss Victoria"],
-    [:ROUGHNECK, "Boss Rocco"]
+    [:TEAMROCKET_M, "Boss Grunt"],
+    [:BEAUTY, "Boss Bella"],
+    [:FISHERMAN, "Boss Finn"],
+    [:SWIMMER2_F, "Boss Ariel"],
+    [:CHAMPION, "Boss Blue"]
   ]
 
   def self.dynamic_chest_loot
