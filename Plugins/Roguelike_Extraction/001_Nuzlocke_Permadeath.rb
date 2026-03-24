@@ -7,6 +7,17 @@ EventHandlers.add(:on_end_battle, :nuzlocke_permadeath,
   proc { |_decision, _canLose|
     next if !$player || !$player.party
 
+    # Total blackout check: Are ALL party members fainted/eggs?
+    # If yes, exit early so RoguelikeExtraction.blackout handles the full party wipe logic.
+    total_blackout = true
+    $player.party.each do |pkmn|
+      if pkmn && !pkmn.egg? && pkmn.hp > 0
+        total_blackout = false
+        break
+      end
+    end
+    next if total_blackout
+
     # Identify the last box in the PC
     graveyard_box_index = $PokemonStorage.maxBoxes - 1
 
@@ -21,6 +32,12 @@ EventHandlers.add(:on_end_battle, :nuzlocke_permadeath,
       pkmn = $player.party[i]
       # If the Pokémon is valid, fainted, and not an egg
       if pkmn && !pkmn.egg? && pkmn.hp <= 0
+        # If Easy Mode is ON, apply cursed flag and Heart marking
+        if $game_switches[105]
+          pkmn.is_cursed = true
+          pkmn.markings |= 8
+        end
+
         placed = false
 
         # Start looking from the Graveyard box and spill over to previous boxes if full
@@ -63,7 +80,8 @@ EventHandlers.add(:on_end_battle, :nuzlocke_permadeath,
 alias original_pbPokeCenterPC pbPokeCenterPC unless defined?(original_pbPokeCenterPC)
 def pbPokeCenterPC
   # Auto-purge logic before PC opens
-  if $PokemonStorage
+  # Skip auto-purge entirely if Easy Mode (Switch 105) is ON
+  if $PokemonStorage && !$game_switches[105]
     purged_any = false
     ($PokemonStorage.maxBoxes).times do |box_idx|
       if $PokemonStorage[box_idx].name == "Graveyard"

@@ -61,10 +61,19 @@ You are responsible for writing and maintaining scripts for the following core s
 - **Revival Items**: Provide logic to scan items for revival effects.
 - **Blacklist Creation**: Programmatically construct a blacklist of their internal names (e.g., `:REVIVE`, `:MAXREVIVE`) so they never spawn from the dynamic loot chests. Must adhere to the Data Compilation Rule (use GameData APIs, not raw txt parsing during gameplay).
 
+### 5. Random Selector Plugins
+You should rely on the following existing custom randomizer script calls whenever possible:
+- `pbChooseRandomPokemon(whiteList=nil, blackList=nil, addList=nil, base_only=true, choose_gen=nil)`
+- `pbGiveRandomGeneralItem`
+- `pbGiveRandomTM`
+- `pbGiveRandomHM`
+- `pbGiveRandomTMorHM`
+- `pbGiveRandomTMorHM([:ITEMNAME])`
+
 ## General Guidelines
 - Always verify your work by checking the syntax and structure of the Ruby code.
 - If you encounter a problem or an ambiguity regarding v21.1 specific features, attempt to look up standard implementations or state your assumptions clearly.
-### 5. Standardized Trainer Pools
+### 6. Standardized Trainer Pools
 - **Single Source of Truth**: The `trainers.md` file in the root directory is the absolute rulebook and central source of truth for all procedural trainer party generation.
 - **Thematic Pools**: When generating, writing scripts for, or modifying the dynamic raid trainers in `PBS/trainers.txt`, you **must** strictly adhere to the thematic species pools assigned to each Trainer Class in `trainers.md`. Do not assign Pokémon outside of a class's designated theme (e.g., no Poochyenas for Hikers).
 - **Dynamic Re-generation**: If the user requests a new generation of the dynamic raid trainers, check `trainers.md` for any changes first, then programmatically pull base species from those pools and mathematically evolve them based on the Run/Floor level (which is mapped to the trainer version: 0, 1, or 2 in `PBS/trainers.txt`).
