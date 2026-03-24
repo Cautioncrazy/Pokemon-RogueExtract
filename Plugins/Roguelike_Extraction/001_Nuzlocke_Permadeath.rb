@@ -35,7 +35,7 @@ EventHandlers.add(:on_end_battle, :nuzlocke_permadeath,
         # If Easy Mode is ON, apply cursed flag and Heart marking
         if $game_switches[105]
           pkmn.is_cursed = true
-          pkmn.markings |= 8
+          pkmn.markings[3] = 1
         end
 
         placed = false

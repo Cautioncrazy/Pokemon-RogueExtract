@@ -427,7 +427,7 @@ module RoguelikeExtraction
         pkmn.hp = pkmn.totalhp
         pkmn.status = :NONE
         pkmn.is_cursed = false
-        pkmn.markings &= ~8 # Remove Heart marking just in case
+        pkmn.markings[3] = 0 # Remove Heart marking just in case
         next
       end
 
@@ -435,7 +435,7 @@ module RoguelikeExtraction
       # If Easy Mode is ON, apply cursed flag and Heart marking
       if easy_mode
         pkmn.is_cursed = true
-        pkmn.markings |= 8
+        pkmn.markings[3] = 1
       end
 
       placed = false
@@ -563,7 +563,7 @@ def pbHealCursedPokemon
           pkmn.hp = pkmn.totalhp
           pkmn.status = :NONE
           pkmn.is_cursed = false
-          pkmn.markings &= ~8 # Remove Heart marking
+          pkmn.markings[3] = 0 # Remove Heart marking
         end
       end
       pbMessage(_INTL("The curse has been lifted, and your Pokémon are fully restored!"))
