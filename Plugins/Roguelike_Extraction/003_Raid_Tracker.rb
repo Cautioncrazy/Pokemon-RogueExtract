@@ -302,7 +302,6 @@ module RoguelikeExtraction
     if $PokemonGlobal.current_raid_floor == 0
       start_raid
     else
-      # Prompt the player if they want to continue their existing raid
       if pbConfirmMessage(_INTL("You are currently on Floor {1}. Continue deeper into the raid?", $PokemonGlobal.current_raid_floor))
         snapshot_bag
         $game_system.save_disabled = true # Re-disable mid-raid saving
