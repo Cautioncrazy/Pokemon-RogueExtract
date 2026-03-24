@@ -7,7 +7,6 @@
 # Add variables to PokemonGlobalMetadata to persist across saves
 class PokemonGlobalMetadata
   attr_writer :current_raid_floor
-  attr_writer :last_raid_floor
   attr_writer :raid_bag_snapshot
   attr_writer :secure_pouch_items
   attr_writer :secure_pouch_capacity
@@ -16,20 +15,17 @@ class PokemonGlobalMetadata
   def initialize
     roguelike_extraction_init
     @current_raid_floor = 0
-    @last_raid_floor = 0
     @raid_bag_snapshot = nil
     @secure_pouch_items = []
     @secure_pouch_capacity = RoguelikeExtraction::SECURE_POUCH_START_CAPACITY
   end
 
+  # Lazy Initialization getters.
+  # This prevents crashes (like `undefined method '+' for nil:NilClass`)
+  # when the player loads a save file created *before* this script was added.
   def current_raid_floor
     @current_raid_floor ||= 0
     return @current_raid_floor
-  end
-
-  def last_raid_floor
-    @last_raid_floor ||= 0
-    return @last_raid_floor
   end
 
   def raid_bag_snapshot
@@ -48,6 +44,10 @@ class PokemonGlobalMetadata
 end
 
 module RoguelikeExtraction
+  # Configuration for the raid progression
+  # Base sequence of maps. Floor 1 starts at index 0 (Map 78), etc.
+  # After the sequence ends, a random map from this array is chosen for Endless mode.
+  # Format: [Map ID, X, Y]
   RAID_FLOORS = [
     [78, 7, 10], # Floor 1
     [79, 10, 10], # Floor 2
@@ -55,19 +55,29 @@ module RoguelikeExtraction
     [81, 10, 10]  # Floor 4
   ]
 
+  # The Hub location where the player returns after an extract or blackout
   HUB_LOCATION = [77, 20, 14, 6] # Map ID 77 (where Steven is), X, Y
 
+  #-----------------------------------------------------------------------------
+  # Bag Snapshot Logic
+  #-----------------------------------------------------------------------------
+
+  # Takes a snapshot of the player's current bag, excluding Key Items.
+  # Key Items are considered permanent unlocks and are never lost on blackout.
   def self.snapshot_bag
     return if !$PokemonBag
 
     snapshot = {}
 
+    # Mobile Optimization: Iterate ONLY the active pockets and items
+    # instead of scanning the entire GameData::Item database (O(N) vs O(1000+)).
     $PokemonBag.pockets.each_with_index do |pocket, pocket_idx|
       next if pocket.empty?
       pocket.each do |item_entry|
         item_id = item_entry[0]
         qty = item_entry[1]
 
+        # Pocket 8 is typically Key Items, but we explicitly verify via GameData
         item_data = GameData::Item.try_get(item_id)
         if item_data && !item_data.is_key_item? && qty > 0
           snapshot[item_id] = qty
@@ -78,15 +88,22 @@ module RoguelikeExtraction
     $PokemonGlobal.raid_bag_snapshot = snapshot
   end
 
+  # Reverts the player's bag to the snapshot taken at the start of the current floor.
+  # This deletes any non-key items acquired during the failed floor run.
   def self.revert_bag_to_snapshot
     return if !$PokemonBag || !$PokemonGlobal.raid_bag_snapshot
 
+    # Clone the snapshot and immediately clear the global variable.
+    # This temporarily disables the `remove` alias from modifying
+    # the snapshot while we are actively trying to clear the player's bag.
     safe_snapshot = $PokemonGlobal.raid_bag_snapshot.clone
     $PokemonGlobal.raid_bag_snapshot = nil
 
+    # 1. Clear all non-key items from the current bag
     $PokemonBag.pockets.each_with_index do |pocket, pocket_idx|
       next if pocket.empty?
 
+      # Iterate in reverse because remove alters the array during iteration
       (0...pocket.length).to_a.reverse.each do |i|
         item_id = pocket[i][0]
         qty = pocket[i][1]
@@ -98,11 +115,13 @@ module RoguelikeExtraction
       end
     end
 
+    # 2. Restore the non-key items from the safe snapshot
     safe_snapshot.each do |item_id, qty|
       $PokemonBag.add(item_id, qty)
     end
   end
 
+  # Hardcore wipe: Completely deletes all non-key items from the bag.
   def self.wipe_bag_hardcore
     return if !$PokemonBag
 
@@ -123,15 +142,19 @@ module RoguelikeExtraction
     end
   end
 
+  # Hardcore wipe: Soft-Resets the player's Pokemon Party and PC.
   def self.wipe_pokemon_hardcore
     return if !$player || !$PokemonStorage
 
+    # 1. Any remaining Pokémon in the party (e.g. wiped by a non-battle script or poison tick)
+    # are permanently moved to the Graveyard box.
     graveyard_box_index = $PokemonStorage.maxBoxes - 1
 
     party_size = $player.party.length
     (0...party_size).to_a.reverse.each do |i|
       pkmn = $player.party[i]
       if pkmn
+        # Store in graveyard with full spillover logic to prevent accidental deletion
         box_to_put = graveyard_box_index
         placed = false
 
@@ -158,6 +181,7 @@ module RoguelikeExtraction
 
     $player.party.compact!
 
+    # 2. Search all PC boxes (excluding any box named "Graveyard") for a valid replacement Pokémon.
     valid_pc_pokemon = []
 
     ($PokemonStorage.maxBoxes).times do |box_idx|
@@ -171,97 +195,44 @@ module RoguelikeExtraction
       end
     end
 
+    # 3. Handle Replacement or Soft-Reset Switch
     if valid_pc_pokemon.empty?
+      # The player is completely out of Pokémon.
       $game_switches[RoguelikeExtraction::RAID_BLACKOUT_SWITCH] = true
       pbMessage(_INTL("HARDCORE BLACKOUT! Your entire party and PC have been wiped. Speak to Steven to start over..."))
     else
+      # Randomly select one Pokémon from the PC to save the run
       chosen = valid_pc_pokemon.sample
       $player.party.push(chosen[:pokemon])
-      $PokemonStorage[chosen[:box]][chosen[:slot]] = nil
+      $PokemonStorage[chosen[:box]][chosen[:slot]] = nil # Remove it from the PC
 
       $game_switches[RoguelikeExtraction::RAID_BLACKOUT_SWITCH] = false
       pbMessage(_INTL("HARDCORE BLACKOUT! Your party was wiped, but {1} was randomly summoned from your PC to save you!", chosen[:pokemon].name))
     end
   end
 
-  def self.wipe_pokemon_standard
-    return if !$player || !$PokemonStorage
+  #-----------------------------------------------------------------------------
+  # Event State Management
+  #-----------------------------------------------------------------------------
 
-    graveyard_box_index = $PokemonStorage.maxBoxes - 1
-
-    # Keep track of who we want to save
-    saved_pokemon = []
-
-    # Save the starter
-    starter_idx = $player.party.index { |pkmn| pkmn && pkmn.respond_to?(:is_roguelike_starter) && pkmn.is_roguelike_starter }
-    if starter_idx
-      saved_pokemon.push($player.party[starter_idx])
-    end
-
-    # If Easy Mode (Switch 105) is ON, randomly save 1 more
-    if $game_switches[105]
-      available = $player.party.reject { |pkmn| saved_pokemon.include?(pkmn) }
-      if !available.empty?
-        saved_pokemon.push(available.sample)
-      end
-    end
-
-    party_size = $player.party.length
-    (0...party_size).to_a.reverse.each do |i|
-      pkmn = $player.party[i]
-      if pkmn
-        # If this pokemon is not in our saved list, it goes to the graveyard
-        if !saved_pokemon.include?(pkmn)
-          box_to_put = graveyard_box_index
-          placed = false
-
-          while box_to_put >= 0
-            $PokemonStorage[box_to_put].length.times do |slot|
-              if $PokemonStorage[box_to_put][slot].nil?
-
-                # Apply cursed mark for Easy Mode (Switch 105)
-                if $game_switches[105]
-                  pkmn.markings |= 8 # Heart marking
-                  pkmn.is_cursed = true if pkmn.respond_to?(:is_cursed=)
-                end
-
-                $PokemonStorage[box_to_put][slot] = pkmn
-
-                if $PokemonStorage[box_to_put].name.empty? || $PokemonStorage[box_to_put].name.start_with?("Box")
-                   $PokemonStorage[box_to_put].name = "Graveyard"
-                end
-
-                placed = true
-                break
-              end
-            end
-            break if placed
-            box_to_put -= 1
-          end
-
-          $player.party.delete_at(i)
-        else
-          # Fully heal the saved pokemon so the player doesn't instantly blackout again
-          pkmn.heal
-        end
-      end
-    end
-
-    $player.party.compact!
-  end
-
+  # Resets all self-switches (A, B, C, D) for the given map ID.
+  # This ensures trainers, chests, and VIPs are ready for a new run.
   def self.reset_map_events(map_id)
     return if !$game_self_switches
 
+    # Iterate over all stored self-switches and clear any belonging to this map
+    # $game_self_switches is a wrapper class, we must access the underlying hash data
     data_hash = $game_self_switches.instance_variable_get(:@data)
     if data_hash
       data_hash.keys.each do |key|
+        # In RPG Maker XP, the key is an array: [map_id, event_id, "switch_name"]
         if key.is_a?(Array) && key[0] == map_id
           $game_self_switches[key] = false
         end
       end
     end
 
+    # If the map is currently loaded, ensure events on it get their sprites updated
     if $game_map && $game_map.map_id == map_id && $game_map.events
       $game_map.events.values.each do |event|
         event.refresh if event.respond_to?(:refresh)
@@ -270,16 +241,23 @@ module RoguelikeExtraction
   end
 
   def self.reset_all_raid_maps
+    # Loop over the unique map IDs defined in RAID_FLOORS
     RAID_FLOORS.map { |floor_data| floor_data[0] }.uniq.each do |map_id|
       reset_map_events(map_id)
     end
   end
 
+  #-----------------------------------------------------------------------------
+  # Raid Progression Logic
+  #-----------------------------------------------------------------------------
+
+  # Starts a new raid from Floor 1
   def self.start_raid
     snapshot_bag
-    $game_system.save_disabled = true
+    $game_system.save_disabled = true # Prevent mid-raid save-scumming
     $PokemonGlobal.current_raid_floor = 1
 
+    # Reset raid states for the new run
     $PokemonGlobal.encounter_version = 0
     if $PokemonGlobal.instance_variable_defined?(:@fought_raid_trainers)
       $PokemonGlobal.instance_variable_set(:@fought_raid_trainers, [])
@@ -291,10 +269,12 @@ module RoguelikeExtraction
     transfer_to_current_floor
   end
 
+  # Advances the player to the next floor
   def self.advance_floor
     if $PokemonGlobal.current_raid_floor == 0
       start_raid
     else
+      # Clear fought trainers when advancing to a new floor
       if $PokemonGlobal.instance_variable_defined?(:@fought_raid_trainers)
         $PokemonGlobal.instance_variable_set(:@fought_raid_trainers, [])
       end
@@ -303,9 +283,13 @@ module RoguelikeExtraction
       end
       $PokemonGlobal.current_raid_floor += 1
 
+      # Update encounter version based on floor tier (e.g. F1-4 = v0, F5-8 = v1, F9+ = v2)
+      # This natively scales wild encounters.
       tier = ($PokemonGlobal.current_raid_floor - 1) / 4
+      # Cap the version at 2 assuming we define 3 tiers of encounters in PBS
       $PokemonGlobal.encounter_version = [tier, 2].min
 
+      # Standard Mode: Create a new snapshot checkpoint at the start of each new floor.
       snapshot_bag
       transfer_to_current_floor
     end
@@ -326,14 +310,22 @@ module RoguelikeExtraction
     end
   end
 
+  # Extracts via the VIP, securing loot but keeping the player's current floor progress.
+  # This allows them to resume from the *next* floor later.
   def self.extract_vip
-    $PokemonGlobal.raid_bag_snapshot = nil
-    $game_system.save_disabled = false
+    $PokemonGlobal.raid_bag_snapshot = nil # Clear the snapshot, loot is secured
+    $game_system.save_disabled = false     # Re-enable saving
 
+    # We clear the map events for the CURRENT floor only, so when they
+    # re-roll this map in endless mode later, it is fresh.
     if $game_map
       reset_map_events($game_map.map_id)
     end
 
+    # The VIP signifies the end of the current floor.
+    # To properly resume later via `resume_or_start_raid`, we need to
+    # officially log that they *completed* this floor.
+    # We advance the floor number here but do not transfer them yet.
     if $PokemonGlobal.instance_variable_defined?(:@fought_raid_trainers)
       $PokemonGlobal.instance_variable_set(:@fought_raid_trainers, [])
     end
@@ -347,6 +339,7 @@ module RoguelikeExtraction
 
     pbMessage(_INTL("VIP defeated! Extraction successful. Your loot has been secured, and your progress saved."))
 
+    # Teleport to Hub
     pbFadeOutIn do
       $game_temp.player_new_map_id = HUB_LOCATION[0]
       $game_temp.player_new_x = HUB_LOCATION[1]
@@ -356,16 +349,18 @@ module RoguelikeExtraction
     end
   end
 
+  # Successfully leaves the raid, keeping all loot.
   def self.extract
-    $PokemonGlobal.last_raid_floor = $PokemonGlobal.current_raid_floor
     $PokemonGlobal.current_raid_floor = 0
-    $PokemonGlobal.raid_bag_snapshot = nil
-    $game_system.save_disabled = false
+    $PokemonGlobal.raid_bag_snapshot = nil # Clear the snapshot, loot is secured
+    $game_system.save_disabled = false     # Re-enable saving
 
+    # Completely reset all maps so the next run starts fresh
     reset_all_raid_maps
 
     pbMessage(_INTL("Extraction successful! Your loot has been secured."))
 
+    # Teleport to Hub
     pbFadeOutIn do
       $game_temp.player_new_map_id = HUB_LOCATION[0]
       $game_temp.player_new_x = HUB_LOCATION[1]
@@ -375,28 +370,24 @@ module RoguelikeExtraction
     end
   end
 
+  # Fails the raid, penalizing the player based on the current Mode.
   def self.blackout
-    $PokemonGlobal.last_raid_floor = $PokemonGlobal.current_raid_floor
     $PokemonGlobal.current_raid_floor = 0
-    $game_system.save_disabled = false
+    $game_system.save_disabled = false # Re-enable saving
 
+    # Completely reset all maps so the next run starts fresh
     reset_all_raid_maps
 
-    if $game_switches && defined?(RoguelikeExtraction::HARDCORE_MODE_SWITCH) && $game_switches[RoguelikeExtraction::HARDCORE_MODE_SWITCH]
+    # Check if Hardcore Mode is enabled
+    if $game_switches[RoguelikeExtraction::HARDCORE_MODE_SWITCH]
       wipe_bag_hardcore
       wipe_pokemon_hardcore
     else
       revert_bag_to_snapshot
-      wipe_pokemon_standard
-
-      mode = $game_switches[105] ? "Easy Mode" : "Normal Mode"
-      if $game_switches[105]
-        pbMessage(_INTL("You blacked out! The loot you found on this floor was lost. Your starter and 1 other Pokémon survived the extraction, the rest were sent to the Graveyard cursed."))
-      else
-        pbMessage(_INTL("You blacked out! The loot you found on this floor was lost. Only your starter survived the extraction..."))
-      end
+      pbMessage(_INTL("You blacked out! The loot you found on this floor was lost..."))
     end
 
+    # Teleport to Hub
     pbFadeOutIn do
       $game_temp.player_new_map_id = HUB_LOCATION[0]
       $game_temp.player_new_x = HUB_LOCATION[1]
@@ -406,8 +397,11 @@ module RoguelikeExtraction
     end
   end
 
+  # Internal helper to transfer the player based on the current floor
   def self.transfer_to_current_floor
     floor_index = $PokemonGlobal.current_raid_floor - 1
+
+    # Endless mode logic: pick sequentially for the first 4, then randomly from the 4 maps
     floor_data = (floor_index < RAID_FLOORS.length) ? RAID_FLOORS[floor_index] : RAID_FLOORS.sample
 
     pbFadeOutIn do
@@ -419,6 +413,13 @@ module RoguelikeExtraction
     end
   end
 end
+
+#===============================================================================
+# RPG Maker Event Script Call Helpers
+#===============================================================================
+# These shorter method names fit easily inside the strict RPG Maker XP
+# Script Call box width limit without throwing NoMethodError line-breaks.
+#===============================================================================
 
 def pbStartRaid
   RoguelikeExtraction.resume_or_start_raid
@@ -440,15 +441,28 @@ def pbBlackoutRaid
   RoguelikeExtraction.blackout
 end
 
+#===============================================================================
+# Dynamic Snapshot Syncing (Consumables)
+#===============================================================================
+# Hooks into the core Pokémon Bag to ensure that if a player consumes an item
+# (e.g., uses a Potion) during a raid, it is permanently deducted from the
+# start-of-floor snapshot so they cannot simply get it back by blacking out.
+#===============================================================================
+
 class PokemonBag
   alias roguelike_extraction_remove remove unless method_defined?(:roguelike_extraction_remove)
 
   def remove(item, qty = 1)
+    # Perform the original item deletion
     result = roguelike_extraction_remove(item, qty)
 
+    # If the deletion was successful, the player is currently in a raid,
+    # and a valid snapshot exists, we must permanently deduct this item
+    # from the snapshot so it isn't "refunded" on a blackout.
     if result && $PokemonGlobal && $PokemonGlobal.current_raid_floor.to_i > 0 && $PokemonGlobal.raid_bag_snapshot
       item_id = GameData::Item.get(item).id
 
+      # We only care about non-Key items that were actually in the snapshot
       if $PokemonGlobal.raid_bag_snapshot.key?(item_id)
         $PokemonGlobal.raid_bag_snapshot[item_id] -= qty
         if $PokemonGlobal.raid_bag_snapshot[item_id] <= 0
@@ -461,12 +475,26 @@ class PokemonBag
   end
 end
 
+#===============================================================================
+# Overriding Default Game Over / Blackout Sequence
+#===============================================================================
+# In standard Pokémon Essentials, losing a battle triggers `pbStartOver`.
+# `pbStartOver` automatically fully heals the player's party and teleports them
+# to the last visited Pokémon Center.
+# We intercept this globally: if the player is in an active raid, we block the
+# default healing sequence entirely and trigger our custom extraction blackout.
+#===============================================================================
+
 alias roguelike_extraction_pbStartOver pbStartOver unless defined?(roguelike_extraction_pbStartOver)
+
 def pbStartOver(*args)
   if $PokemonGlobal && $PokemonGlobal.current_raid_floor.to_i > 0
+    # Player organically lost a battle mid-raid.
+    # Block the default Pokémon Center heal entirely.
     RoguelikeExtraction.blackout
-    return true
+    return true # Returning true assumes the script handled the wipe sequence.
   else
+    # Player is not in a raid, proceed with normal Essentials blackout behavior.
     return roguelike_extraction_pbStartOver(*args)
   end
 end
