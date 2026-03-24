@@ -57,18 +57,18 @@ def pbAddPokemon(*args)
 end
 
 # 3. Cursed Pokemon Restrictions - Healing
-alias roguelike_extraction_pbHealAll pbHealAll unless defined?(roguelike_extraction_pbHealAll)
-def pbHealAll
-  roguelike_extraction_pbHealAll
-
-  # Loop back through and re-faint cursed pokemon
-  if $player && $player.party
-    $player.party.each do |pkmn|
-      if pkmn && pkmn.is_cursed
-        pkmn.hp = 0
-        pkmn.status = :NONE
-      end
+class Pokemon
+  alias roguelike_extraction_heal heal unless method_defined?(:roguelike_extraction_heal)
+  def heal(*args)
+    # If the pokemon is cursed, it cannot be healed by standard means
+    # (like Nurse Joy's "Recover All" which loops through party members calling .heal)
+    if is_cursed
+      # Ensure it stays at 0 HP and no status
+      @hp = 0
+      @status = :NONE
+      return
     end
+    roguelike_extraction_heal(*args)
   end
 end
 
