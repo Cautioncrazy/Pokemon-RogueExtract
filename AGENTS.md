@@ -68,3 +68,13 @@ You are responsible for writing and maintaining scripts for the following core s
 - **Single Source of Truth**: The `trainers.md` file in the root directory is the absolute rulebook and central source of truth for all procedural trainer party generation.
 - **Thematic Pools**: When generating, writing scripts for, or modifying the dynamic raid trainers in `PBS/trainers.txt`, you **must** strictly adhere to the thematic species pools assigned to each Trainer Class in `trainers.md`. Do not assign Pokémon outside of a class's designated theme (e.g., no Poochyenas for Hikers).
 - **Dynamic Re-generation**: If the user requests a new generation of the dynamic raid trainers, check `trainers.md` for any changes first, then programmatically pull base species from those pools and mathematically evolve them based on the Run/Floor level (which is mapped to the trainer version: 0, 1, or 2 in `PBS/trainers.txt`).
+
+### 6. Random Selector Plugins
+- **Usage**: You must use the user's custom random selector plugins for generating rewards and starter Pokémon. Do not write custom randomized pools for these elements unless instructed.
+- **Available Script Calls**:
+  - `pbChooseRandomPokemon(whiteList=nil, blackList=nil, addList=nil, base_only=true, choose_gen=nil)`: Returns a random Pokémon species symbol.
+  - `pbGiveRandomGeneralItem`: Gives the player a random standard item.
+  - `pbGiveRandomTM`: Gives the player a random TM.
+  - `pbGiveRandomHM`: Gives the player a random HM.
+  - `pbGiveRandomTMorHM`: Gives a random TM or HM.
+  - `pbGiveRandomTMorHM([:ITEMNAME])`: Gives a random TM or HM from a specified whitelist array.

@@ -55,3 +55,21 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
 *   **`pbGiveHardcoreStarter`**
     *   **Description:** Instantiates a Level 5 Pokémon from the `HARDCORE_STARTER_POOL` and directly adds it to the player's party.
     *   **Usage:** Use this inside the autorun Event that triggers when `RAID_BLACKOUT_SWITCH` is turned ON (e.g., Steven giving you a new starter after your entire PC/Party wipes).
+
+---
+
+### **4. Easy Mode Mechanics (Cursed Pokémon)**
+*(Located in `007_Pokemon_Cursed_Starter.rb`)*
+
+*   **`pbHealCursedPokemon`**
+    *   **Description:** Checks the player's party for any Pokémon that received the "cursed" tag and Black Heart marking during an Easy Mode blackout (Switch 105). Calculates the revival cost (`200 * cursed_count * current_raid_floor`), deducts the money, fully heals them, and removes the curse/marking.
+    *   **Usage:** Use this in a dialogue choice for Nurse Joy or a custom NPC in the Hub to allow players to pay to revive their cursed Easy Mode Pokémon.
+
+### **5. Random Selector Plugins (External)**
+*(Provided by user's custom plugins)*
+
+*   **`pbChooseRandomPokemon(whiteList=nil, blackList=nil, addList=nil, base_only=true, choose_gen=nil)`**
+    *   **Description:** Returns a random Pokémon species symbol based on the provided parameters.
+    *   **Usage:** Use this when generating a random Pokémon. Example: `pkmn = pbChooseRandomPokemon; pbAddPokemon(pkmn, 10)`
+*   **`pbGiveRandomGeneralItem`**, **`pbGiveRandomTM`**, **`pbGiveRandomHM`**, **`pbGiveRandomTMorHM`**
+    *   **Description:** Gives the player a random item, TM, or HM. Can optionally accept an array whitelist, e.g., `pbGiveRandomTMorHM([:ITEMNAME])`.
