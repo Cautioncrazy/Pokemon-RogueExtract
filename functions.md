@@ -43,7 +43,16 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
 
 ---
 
-### **3. Hardcore Replacements**
+### **3. Cursed Pokemon & Easy Mode**
+*(Located in `007_Pokemon_Cursed_Starter.rb` & `003_Raid_Tracker.rb`)*
+
+*   **`pbHealCursedPokemon`**
+    *   **Description:** Checks the player's party for any cursed Pokémon (acquired from an Easy Mode blackout/wipe). Calculates a revival cost based on the number of cursed Pokémon and the depth of the last failed raid floor (`200 * cursed_count * last_raid_floor`). If the player accepts and pays, it fully heals them and removes the curse/Heart marking.
+    *   **Usage:** Use this in an NPC Event (e.g., a shady individual near Nurse Joy in the Hub) to offer the player a way to revive their dead Pokémon from an Easy Mode run.
+
+---
+
+### **4. Hardcore Replacements**
 *(Located in `005_Hardcore_Pokemon_Pool.rb`)*
 
 *   **`pbChooseHardcorePokemon`**
@@ -52,3 +61,27 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
 *   **`pbGiveHardcoreStarter`**
     *   **Description:** Instantiates a Level 5 Pokémon from the `HARDCORE_STARTER_POOL` and directly adds it to the player's party.
     *   **Usage:** Use this inside the autorun Event that triggers when `RAID_BLACKOUT_SWITCH` is turned ON (e.g., Steven giving you a new starter after your entire PC/Party wipes).
+
+---
+
+### **5. Random Selector Plugins**
+
+*   **`pbChooseRandomPokemon(whiteList=nil, blackList=nil, addList=nil, base_only=true, choose_gen=nil)`**
+    *   **Description:** Returns a random Pokémon species based on the provided filters. `whiteList` acts as a base pool, `blackList` excludes species, `addList` forcibly includes species, `base_only` limits it to base forms, and `choose_gen` filters by generation.
+    *   **Usage:** `pbChooseRandomPokemon(nil, nil, nil, true, 1)` -> Returns a random base-stage Gen 1 Pokémon.
+
+*   **`pbGiveRandomGeneralItem`**
+    *   **Description:** Gives the player a randomly selected general item.
+
+*   **`pbGiveRandomTM`**
+    *   **Description:** Gives the player a randomly selected TM.
+
+*   **`pbGiveRandomHM`**
+    *   **Description:** Gives the player a randomly selected HM.
+
+*   **`pbGiveRandomTMorHM`**
+    *   **Description:** Gives the player a randomly selected TM or HM.
+
+*   **`pbGiveRandomTMorHM([:ITEMNAME])`**
+    *   **Description:** Gives a randomly selected TM/HM from a specific pool of items passed in the array.
+    *   **Usage:** `pbGiveRandomTMorHM([:TM01, :TM02, :HM01])`

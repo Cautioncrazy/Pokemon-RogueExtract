@@ -7,6 +7,7 @@
 # Add variables to PokemonGlobalMetadata to persist across saves
 class PokemonGlobalMetadata
   attr_writer :current_raid_floor
+  attr_writer :last_raid_floor
   attr_writer :raid_bag_snapshot
   attr_writer :secure_pouch_items
   attr_writer :secure_pouch_capacity
@@ -15,6 +16,7 @@ class PokemonGlobalMetadata
   def initialize
     roguelike_extraction_init
     @current_raid_floor = 0
+    @last_raid_floor = 0
     @raid_bag_snapshot = nil
     @secure_pouch_items = []
     @secure_pouch_capacity = RoguelikeExtraction::SECURE_POUCH_START_CAPACITY
@@ -26,6 +28,11 @@ class PokemonGlobalMetadata
   def current_raid_floor
     @current_raid_floor ||= 0
     return @current_raid_floor
+  end
+
+  def last_raid_floor
+    @last_raid_floor ||= 0
+    return @last_raid_floor
   end
 
   def raid_bag_snapshot
@@ -351,6 +358,7 @@ module RoguelikeExtraction
 
   # Successfully leaves the raid, keeping all loot.
   def self.extract
+    $PokemonGlobal.last_raid_floor = $PokemonGlobal.current_raid_floor
     $PokemonGlobal.current_raid_floor = 0
     $PokemonGlobal.raid_bag_snapshot = nil # Clear the snapshot, loot is secured
     $game_system.save_disabled = false     # Re-enable saving
@@ -370,9 +378,98 @@ module RoguelikeExtraction
     end
   end
 
+  # Wipe Pokemon based on Standard/Easy mode.
+  def self.wipe_pokemon_standard
+    return if !$player || !$player.party || !$PokemonStorage
+
+    # Identify the last box in the PC for Graveyard
+    graveyard_box_index = $PokemonStorage.maxBoxes - 1
+
+    easy_mode = $game_switches[105]
+
+    # Find the starter
+    starter_idx = -1
+    $player.party.each_with_index do |pkmn, idx|
+      if pkmn && pkmn.is_roguelike_starter
+        starter_idx = idx
+        break
+      end
+    end
+
+    # In Easy Mode, randomly retain 1 other pokemon
+    retained_idx = -1
+    if easy_mode
+      candidates_with_hp = []
+      all_candidates = []
+
+      $player.party.each_with_index do |pkmn, idx|
+        if pkmn && idx != starter_idx && !pkmn.egg?
+          all_candidates.push(idx)
+          candidates_with_hp.push(idx) if pkmn.hp > 0
+        end
+      end
+
+      if !candidates_with_hp.empty?
+        retained_idx = candidates_with_hp.sample
+      elsif !all_candidates.empty?
+        retained_idx = all_candidates.sample
+      end
+    end
+
+    # Iterate backwards through the party to remove and graveyard
+    party_size = $player.party.length
+    (0...party_size).to_a.reverse.each do |i|
+      pkmn = $player.party[i]
+      next if !pkmn
+
+      if i == starter_idx || i == retained_idx
+        # Retain and fully heal this pokemon (removes curses if any)
+        pkmn.hp = pkmn.totalhp
+        pkmn.status = :NONE
+        pkmn.is_cursed = false
+        pkmn.markings &= ~8 # Remove Heart marking just in case
+        next
+      end
+
+      # Send the rest to the graveyard
+      # If Easy Mode is ON, apply cursed flag and Heart marking
+      if easy_mode
+        pkmn.is_cursed = true
+        pkmn.markings |= 8
+      end
+
+      placed = false
+      box_to_put = graveyard_box_index
+      while box_to_put >= 0
+        $PokemonStorage[box_to_put].length.times do |slot|
+          if $PokemonStorage[box_to_put][slot].nil?
+            $PokemonStorage[box_to_put][slot] = pkmn
+
+            if $PokemonStorage[box_to_put].name.empty? || $PokemonStorage[box_to_put].name.start_with?("Box")
+               $PokemonStorage[box_to_put].name = "Graveyard"
+            end
+
+            placed = true
+            break
+          end
+        end
+        break if placed
+        box_to_put -= 1
+      end
+
+      # Remove from party
+      $player.party.delete_at(i)
+    end
+
+    # Make sure party is compacted
+    $player.party.compact!
+  end
+
   # Fails the raid, penalizing the player based on the current Mode.
   def self.blackout
+    $PokemonGlobal.last_raid_floor = $PokemonGlobal.current_raid_floor
     $PokemonGlobal.current_raid_floor = 0
+    $PokemonGlobal.save_disabled = false if $PokemonGlobal.respond_to?(:save_disabled)
     $game_system.save_disabled = false # Re-enable saving
 
     # Completely reset all maps so the next run starts fresh
@@ -384,6 +481,7 @@ module RoguelikeExtraction
       wipe_pokemon_hardcore
     else
       revert_bag_to_snapshot
+      wipe_pokemon_standard
       pbMessage(_INTL("You blacked out! The loot you found on this floor was lost..."))
     end
 
@@ -439,6 +537,42 @@ end
 
 def pbBlackoutRaid
   RoguelikeExtraction.blackout
+end
+
+def pbHealCursedPokemon
+  return if !$player || !$player.party
+
+  cursed_count = 0
+  $player.party.each do |pkmn|
+    cursed_count += 1 if pkmn && pkmn.is_cursed
+  end
+
+  if cursed_count == 0
+    pbMessage(_INTL("You have no cursed Pokémon in your party."))
+    return
+  end
+
+  floor_multiplier = [$PokemonGlobal.last_raid_floor, 1].max
+  cost = 200 * cursed_count * floor_multiplier
+
+  if pbConfirmMessage(_INTL("I can lift the curse and fully heal your {1} Pokémon for ${2}. Will you pay?", cursed_count, cost))
+    if $player.money >= cost
+      $player.money -= cost
+      $player.party.each do |pkmn|
+        if pkmn && pkmn.is_cursed
+          pkmn.hp = pkmn.totalhp
+          pkmn.status = :NONE
+          pkmn.is_cursed = false
+          pkmn.markings &= ~8 # Remove Heart marking
+        end
+      end
+      pbMessage(_INTL("The curse has been lifted, and your Pokémon are fully restored!"))
+    else
+      pbMessage(_INTL("You don't have enough money..."))
+    end
+  else
+    pbMessage(_INTL("Come back if you change your mind."))
+  end
 end
 
 #===============================================================================
