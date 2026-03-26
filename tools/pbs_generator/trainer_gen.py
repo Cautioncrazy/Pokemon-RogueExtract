@@ -2,7 +2,7 @@ import os
 import random
 from tools.pbs_generator.pbs_parser import PBSFile, PBSSection
 from tools.pbs_generator.encounter_gen import calculate_levels
-from tools.pbs_generator.theme_data import get_species_pool_for_theme, get_pokemon_entry_map
+from tools.pbs_generator.theme_data import get_species_pool_for_theme, get_pokemon_entry_map, filter_species_pool
 
 
 def _default_pbs_dir():
@@ -136,7 +136,7 @@ def _filter_pool_for_floor(species_pool, floor_number):
     return filtered if filtered else species_pool
 
 
-def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None):
+def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None, filter_category="None", filter_value="None"):
     """Generates a dynamic trainer for the floor's theme."""
     if pbs_dir is None:
         pbs_dir = _default_pbs_dir()
@@ -236,7 +236,12 @@ def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None):
          print(f"Warning: No Pokémon pool defined for {trainer_class}. Using Pikachu fallback.")
          available_pokemon = ["PIKACHU"]
 
+    # Filter out legendaries/bosses based on standard floor progression
     available_pokemon = _filter_pool_for_floor(available_pokemon, floor_number)
+
+    # Apply optional semantic filters (e.g. bst_tier, encounter_rarity)
+    if filter_category != "None" and filter_value != "None":
+        available_pokemon = filter_species_pool(available_pokemon, filter_category, filter_value)
 
     # Ensure unique Pokemon in the trainer's party
     unique_pool = list(set(available_pokemon)) # Remove duplicates from the pool just in case

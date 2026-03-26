@@ -1,7 +1,7 @@
 import os
 import random
 from tools.pbs_generator.pbs_parser import PBSFile, PBSSection
-from tools.pbs_generator.theme_data import get_species_pool_for_theme
+from tools.pbs_generator.theme_data import get_species_pool_for_theme, filter_species_pool
 
 
 def _default_pbs_dir():
@@ -33,7 +33,7 @@ def calculate_levels(floor_number):
 
     return base_min, base_max
 
-def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_filepath=None, step_chance=None):
+def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_filepath=None, step_chance=None, filter_category="None", filter_value="None"):
     """Generates encounter entries based on theme and floor number."""
     if pbs_dir is None:
         pbs_dir = _default_pbs_dir()
@@ -47,6 +47,10 @@ def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_f
     if md_pool:
         md_upper = [p.upper() for p in md_pool]
         available_pokemon = md_upper + [p for p in available_pokemon if p not in md_upper]
+
+    # Apply optional semantic filters (e.g. bst_tier, encounter_rarity)
+    if filter_category != "None" and filter_value != "None":
+        available_pokemon = filter_species_pool(available_pokemon, filter_category, filter_value)
 
     # Validations/fallbacks
     if not available_pokemon:

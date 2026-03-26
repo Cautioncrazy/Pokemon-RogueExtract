@@ -119,6 +119,85 @@ def get_species_pool_for_theme(theme, include_special_boss=False):
     return list(dict.fromkeys(filtered))
 
 
+def get_filter_categories():
+    """Returns a list of supported filter categories from the index."""
+    return ["None", "bst_tier", "catch_rate_tier", "encounter_rarity", "egg_groups"]
+
+
+def get_filter_values_for_category(category):
+    """Returns the valid sequential or distinct values for a given category."""
+    if category == "bst_tier":
+        return ["weak", "earlygame", "midgame", "lategame", "ace", "boss"]
+    elif category == "catch_rate_tier":
+        return ["very_easy", "easy", "normal", "hard", "rare", "legendary"]
+    elif category == "encounter_rarity":
+        return ["common", "uncommon", "rare", "very_rare", "legendary"]
+    elif category == "egg_groups":
+        entry_map = get_pokemon_entry_map()
+        egg_groups = set()
+        for entry in entry_map.values():
+            for eg in entry.get("egg_groups", []):
+                egg_groups.add(eg)
+        return sorted(list(egg_groups))
+    return []
+
+
+def filter_species_pool(pool, category, value):
+    """
+    Filters a species pool based on a pokemon_index.json category and value.
+    If the resulting pool is empty, iterates through the category's fallback tiers.
+    If all fallbacks fail, returns the original pool to guarantee spawns.
+    """
+    if not category or category == "None" or not value:
+        return pool
+
+    entry_map = get_pokemon_entry_map()
+    if not entry_map:
+        return pool
+
+    valid_values = get_filter_values_for_category(category)
+
+    # Locate the starting index for fallbacks
+    try:
+        start_index = valid_values.index(value)
+    except ValueError:
+        # If the value isn't in our sequential list (e.g., egg_groups), we can't fall back sequentially.
+        # Just try to filter exactly once.
+        start_index = -1
+
+    def _attempt_filter(target_val):
+        filtered = []
+        for species_id in pool:
+            entry = entry_map.get(species_id)
+            if not entry:
+                continue
+            entry_val = entry.get(category)
+            if isinstance(entry_val, list):
+                if target_val in entry_val:
+                    filtered.append(species_id)
+            elif entry_val == target_val:
+                filtered.append(species_id)
+        return filtered
+
+    # Attempt exact match first
+    result = _attempt_filter(value)
+    if result:
+        return result
+
+    # If exact match failed and we have sequential fallbacks
+    if start_index >= 0:
+        for i in range(start_index + 1, len(valid_values)):
+            fallback_val = valid_values[i]
+            print(f"Filter fallback triggered for '{category}': {valid_values[i-1]} -> {fallback_val}")
+            result = _attempt_filter(fallback_val)
+            if result:
+                return result
+
+    # If all fallbacks failed, return the original pool
+    print(f"Warning: Filter '{category}: {value}' exhausted all fallbacks. Returning unfiltered pool.")
+    return pool
+
+
 def get_all_available_themes(md_themes=None):
     themes = []
     if md_themes:

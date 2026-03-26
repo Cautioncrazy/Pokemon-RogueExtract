@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 from tools.pbs_generator.map_metadata_gen import append_map_metadata
 from tools.pbs_generator.encounter_gen import generate_encounters
 from tools.pbs_generator.trainer_gen import generate_trainers
-from tools.pbs_generator.theme_data import get_all_available_themes
+from tools.pbs_generator.theme_data import get_all_available_themes, get_filter_categories, get_filter_values_for_category
 
 class GeneratorThread(QThread):
     log_signal = pyqtSignal(str)
@@ -21,7 +21,8 @@ class GeneratorThread(QThread):
     finished_signal = pyqtSignal()
 
     def __init__(self, start_map, end_map, num_floors, theme_selection, apply_theme_all, available_themes,
-                 min_step_chance, max_step_chance, step_chance_chunk, pbs_dir):
+                 min_step_chance, max_step_chance, step_chance_chunk,
+                 filter_category, filter_value, apply_filter_trainers, pbs_dir):
         super().__init__()
         self.start_map = start_map
         self.end_map = end_map
@@ -32,6 +33,9 @@ class GeneratorThread(QThread):
         self.min_step_chance = min_step_chance
         self.max_step_chance = max_step_chance
         self.step_chance_chunk = step_chance_chunk
+        self.filter_category = filter_category
+        self.filter_value = filter_value
+        self.apply_filter_trainers = apply_filter_trainers
         self.pbs_dir = pbs_dir
 
     def run(self):
@@ -52,7 +56,9 @@ class GeneratorThread(QThread):
                 self.log_signal.emit(f"\nProcessing Target Map ID: {map_id}")
 
                 for floor_num in range(1, self.num_floors + 1):
-                    # Determine theme for this specific floor
+                    # Determine theme and filter for this specific floor
+                    current_filter_val = self.filter_value
+
                     if self.apply_theme_all:
                         if self.theme_selection == "Random":
                             current_theme = random.choice(self.available_themes) if self.available_themes else "Grass"
@@ -63,7 +69,15 @@ class GeneratorThread(QThread):
                         # ignoring whatever specific theme might be selected in the dropdown.
                         current_theme = random.choice(self.available_themes) if self.available_themes else "Grass"
 
-                    self.log_signal.emit(f"-> Floor {floor_num} | Theme: {current_theme}")
+                        # Randomize the filter value as well if one is active
+                        if self.filter_category != "None":
+                            valid_values = get_filter_values_for_category(self.filter_category)
+                            current_filter_val = random.choice(valid_values) if valid_values else self.filter_value
+                        else:
+                            current_filter_val = "None"
+
+                    filter_str = f" [Filter: {self.filter_category}={current_filter_val}]" if self.filter_category != "None" else ""
+                    self.log_signal.emit(f"-> Floor {floor_num} | Theme: {current_theme}{filter_str}")
 
                     # 1. Generate Metadata
                     append_map_metadata(map_id, theme=current_theme, pbs_dir=self.pbs_dir)
@@ -77,10 +91,19 @@ class GeneratorThread(QThread):
                     # 2. Generate Encounters
                     # Version corresponds to Floor - 1
                     version = floor_num - 1 if floor_num > 1 else 0
-                    encounters_written = generate_encounters(map_id, version, floor_num, current_theme, pbs_dir=self.pbs_dir, step_chance=step_chance)
+                    encounters_written = generate_encounters(map_id, version, floor_num, current_theme,
+                                                             pbs_dir=self.pbs_dir, step_chance=step_chance,
+                                                             filter_category=self.filter_category,
+                                                             filter_value=current_filter_val)
 
                     # 3. Generate Trainers
-                    trainers_written = generate_trainers(floor_num, current_theme, pbs_dir=self.pbs_dir)
+                    t_filter_cat = self.filter_category if self.apply_filter_trainers else "None"
+                    t_filter_val = current_filter_val if self.apply_filter_trainers else "None"
+
+                    trainers_written = generate_trainers(floor_num, current_theme,
+                                                         pbs_dir=self.pbs_dir,
+                                                         filter_category=t_filter_cat,
+                                                         filter_value=t_filter_val)
 
                     # Update Progress
                     current_iteration += 1
@@ -223,15 +246,33 @@ class PBSGeneratorApp(QMainWindow):
         self.step_chunk_spin.setToolTip("Floors are grouped into chunks for step chance calculation.")
         control_layout.addWidget(self.step_chunk_spin, 6, 1)
 
+        # Index Filter Options
+        control_layout.addWidget(QLabel("Index Filter Category:"), 7, 0)
+        self.filter_category_combo = QComboBox()
+        self.filter_category_combo.addItems(get_filter_categories())
+        self.filter_category_combo.currentTextChanged.connect(self.on_filter_category_changed)
+        control_layout.addWidget(self.filter_category_combo, 7, 1)
+
+        control_layout.addWidget(QLabel("Index Filter Value:"), 8, 0)
+        self.filter_value_combo = QComboBox()
+        control_layout.addWidget(self.filter_value_combo, 8, 1)
+        self.on_filter_category_changed(self.filter_category_combo.currentText())
+
+        # Apply Filter to Trainers Checkbox
+        self.apply_filter_trainers_cb = QCheckBox("Apply Filter to Trainers")
+        self.apply_filter_trainers_cb.setStyleSheet("color: white; font-size: 13px; background-color: transparent;")
+        self.apply_filter_trainers_cb.setChecked(True)
+        control_layout.addWidget(self.apply_filter_trainers_cb, 9, 0, 1, 2)
+
         # Apply Theme to All Checkbox
         self.apply_theme_all_cb = QCheckBox("Apply Selected Theme to All Maps")
         self.apply_theme_all_cb.setStyleSheet("color: white; font-size: 13px; background-color: transparent;")
-        control_layout.addWidget(self.apply_theme_all_cb, 7, 0, 1, 2)
+        control_layout.addWidget(self.apply_theme_all_cb, 10, 0, 1, 2)
 
         # Generate Button
         self.generate_btn = QPushButton("Generate Bulk Data")
         self.generate_btn.clicked.connect(self.on_generate_clicked)
-        control_layout.addWidget(self.generate_btn, 8, 0, 1, 2)
+        control_layout.addWidget(self.generate_btn, 11, 0, 1, 2)
 
         # Progress Bars
         self.map_progress_bar = QProgressBar()
@@ -250,7 +291,7 @@ class PBSGeneratorApp(QMainWindow):
                 border-radius: 4px;
             }
         """)
-        control_layout.addWidget(self.map_progress_bar, 9, 0, 1, 2)
+        control_layout.addWidget(self.map_progress_bar, 12, 0, 1, 2)
 
         self.total_progress_bar = QProgressBar()
         self.total_progress_bar.setFormat("Total Batch Progress: %p%")
@@ -268,7 +309,7 @@ class PBSGeneratorApp(QMainWindow):
                 border-radius: 4px;
             }
         """)
-        control_layout.addWidget(self.total_progress_bar, 10, 0, 1, 2)
+        control_layout.addWidget(self.total_progress_bar, 13, 0, 1, 2)
 
         main_layout.addWidget(control_panel)
 
@@ -280,6 +321,16 @@ class PBSGeneratorApp(QMainWindow):
 
     def log(self, message):
         self.log_console.append(message)
+
+    def on_filter_category_changed(self, category):
+        self.filter_value_combo.clear()
+        if category == "None":
+            self.filter_value_combo.addItem("None")
+            self.filter_value_combo.setEnabled(False)
+        else:
+            values = get_filter_values_for_category(category)
+            self.filter_value_combo.addItems(values)
+            self.filter_value_combo.setEnabled(True)
 
     def populate_themes(self):
         md_themes = []
@@ -304,6 +355,9 @@ class PBSGeneratorApp(QMainWindow):
         min_step_chance = self.min_step_spin.value()
         max_step_chance = self.max_step_spin.value()
         step_chance_chunk = self.step_chunk_spin.value()
+        filter_category = self.filter_category_combo.currentText()
+        filter_value = self.filter_value_combo.currentText()
+        apply_filter_trainers = self.apply_filter_trainers_cb.isChecked()
 
         # Get list of valid themes (excluding "Random")
         available_themes = [self.theme_combo.itemText(i) for i in range(self.theme_combo.count()) if self.theme_combo.itemText(i) != "Random"]
@@ -323,6 +377,9 @@ class PBSGeneratorApp(QMainWindow):
         self.min_step_spin.setEnabled(False)
         self.max_step_spin.setEnabled(False)
         self.step_chunk_spin.setEnabled(False)
+        self.filter_category_combo.setEnabled(False)
+        self.filter_value_combo.setEnabled(False)
+        self.apply_filter_trainers_cb.setEnabled(False)
 
         self.map_progress_bar.setValue(0)
         self.total_progress_bar.setValue(0)
@@ -338,6 +395,9 @@ class PBSGeneratorApp(QMainWindow):
             min_step_chance=min_step_chance,
             max_step_chance=max_step_chance,
             step_chance_chunk=step_chance_chunk,
+            filter_category=filter_category,
+            filter_value=filter_value,
+            apply_filter_trainers=apply_filter_trainers,
             pbs_dir=pbs_dir
         )
 
@@ -359,6 +419,11 @@ class PBSGeneratorApp(QMainWindow):
         self.min_step_spin.setEnabled(True)
         self.max_step_spin.setEnabled(True)
         self.step_chunk_spin.setEnabled(True)
+        self.filter_category_combo.setEnabled(True)
+        # Only re-enable value combo if category is not "None"
+        if self.filter_category_combo.currentText() != "None":
+            self.filter_value_combo.setEnabled(True)
+        self.apply_filter_trainers_cb.setEnabled(True)
 
 
 def main():
