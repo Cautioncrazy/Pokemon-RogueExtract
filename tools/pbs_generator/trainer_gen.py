@@ -2,6 +2,7 @@ import os
 import random
 from tools.pbs_generator.pbs_parser import PBSFile, PBSSection
 from tools.pbs_generator.encounter_gen import calculate_levels
+from tools.pbs_generator.theme_data import get_species_pool_for_theme, get_pokemon_entry_map
 
 
 def _default_pbs_dir():
@@ -19,36 +20,76 @@ def load_trainers_rules(md_filepath):
     if not os.path.exists(md_filepath):
         return class_themes, class_pools
 
-    current_class = None
-    parsing_classes = False
+    current_classes = []
+    parsed_any_new_format = False
 
     with open(md_filepath, 'r', encoding='utf-8') as f:
         for line in f:
             stripped = line.strip()
-            if stripped == "## Trainer Classes":
-                parsing_classes = True
-                continue
-            elif stripped.startswith("## "):
-                parsing_classes = False
-                current_class = stripped[3:].strip()
-                class_pools[current_class] = []
+
+            # New format:
+            # ### `CLASS` or ### `CLASS_A` / `CLASS_B`
+            if stripped.startswith("### "):
+                import re
+                header = stripped[4:].strip()
+                tokens = re.findall(r'`([^`]+)`', header)
+                if not tokens and header:
+                    tokens = [header]
+                current_classes = []
+                for token in tokens:
+                    for part in token.split("/"):
+                        class_name = part.strip().upper()
+                        if class_name:
+                            current_classes.append(class_name)
+                            class_themes.setdefault(class_name, [])
+                            class_pools.setdefault(class_name, [])
+                if current_classes:
+                    parsed_any_new_format = True
                 continue
 
-            if parsing_classes and stripped.startswith("- "):
-                # Format: - HIKER (Themes: Heavy, Rock)
-                import re
-                match = re.match(r'- (\w+)(?:\s*\(Themes:\s*(.+)\))?', stripped)
-                if match:
-                    trainer_class = match.group(1)
-                    themes_str = match.group(2)
-                    if themes_str:
-                        themes = [t.strip().lower() for t in themes_str.split(',')]
-                        class_themes[trainer_class] = themes
-                    else:
-                        class_themes[trainer_class] = []
-            elif not parsing_classes and current_class and stripped.startswith("- "):
-                pokemon = stripped[2:].strip().upper()
-                class_pools[current_class].append(pokemon)
+            if current_classes and stripped.startswith("* **Map Themes:**"):
+                raw = stripped.split(":", 1)[1].strip()
+                themes = [t.strip().lower() for t in raw.split(",") if t.strip()]
+                for trainer_class in current_classes:
+                    class_themes[trainer_class] = themes
+                continue
+
+            if current_classes and stripped.startswith("* **Approved Pool:**"):
+                raw = stripped.split(":", 1)[1].strip().rstrip(".")
+                pool = [p.strip().upper() for p in raw.split(",") if p.strip()]
+                for trainer_class in current_classes:
+                    class_pools[trainer_class].extend(pool)
+                continue
+
+            # Legacy fallback format:
+            # - HIKER (Themes: Heavy, Rock)
+            # ## HIKER
+            if not parsed_any_new_format:
+                if stripped == "## Trainer Classes":
+                    current_classes = ["__PARSING_CLASSES__"]
+                    continue
+                if stripped.startswith("## "):
+                    class_name = stripped[3:].strip().upper()
+                    current_classes = [class_name]
+                    class_pools.setdefault(class_name, [])
+                    continue
+
+                if current_classes == ["__PARSING_CLASSES__"] and stripped.startswith("- "):
+                    import re
+                    match = re.match(r'- (\w+)(?:\s*\(Themes:\s*(.+)\))?', stripped)
+                    if match:
+                        trainer_class = match.group(1).upper()
+                        themes_str = match.group(2)
+                        if themes_str:
+                            themes = [t.strip().lower() for t in themes_str.split(',')]
+                            class_themes[trainer_class] = themes
+                        else:
+                            class_themes[trainer_class] = []
+                    continue
+
+                if current_classes and current_classes != ["__PARSING_CLASSES__"] and stripped.startswith("- "):
+                    pokemon = stripped[2:].strip().upper()
+                    class_pools[current_classes[0]].append(pokemon)
 
     return class_themes, class_pools
 
@@ -62,6 +103,38 @@ def calculate_party_size(floor_number):
         return random.randint(3, 5)
     else:
         return random.randint(4, 6)
+
+
+def _target_trainer_roles(floor_number):
+    if floor_number <= 3:
+        return {"earlygame", "midgame"}
+    if floor_number <= 7:
+        return {"midgame", "lategame"}
+    if floor_number <= 12:
+        return {"lategame", "gym_ace", "elite_four"}
+    return {"gym_ace", "elite_four", "champion", "boss"}
+
+
+def _filter_pool_for_floor(species_pool, floor_number):
+    entry_map = get_pokemon_entry_map()
+    if not entry_map:
+        return species_pool
+
+    roles = _target_trainer_roles(floor_number)
+    filtered = []
+    for species_id in species_pool:
+        entry = entry_map.get(species_id)
+        if not entry:
+            filtered.append(species_id)
+            continue
+        if entry.get("legendary") or entry.get("mythical") or entry.get("ultra_beast") or entry.get("paradox"):
+            continue
+        suitability = set(entry.get("trainer_suitability") or [])
+        if suitability.intersection(roles):
+            filtered.append(species_id)
+
+    return filtered if filtered else species_pool
+
 
 def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None):
     """Generates a dynamic trainer for the floor's theme."""
@@ -82,8 +155,26 @@ def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None):
             valid_classes.append(trainer_class)
 
     if not valid_classes:
-        print(f"Warning: No Trainer Class found for theme '{theme}'. Defaulting to random.")
-        valid_classes = list(class_themes.keys())
+        # Fallback: infer suitable classes by overlap with JSON-derived theme pool.
+        theme_pool = set(get_species_pool_for_theme(theme, include_special_boss=False))
+        overlap_scored = []
+        for trainer_class, pool in class_pools.items():
+            class_pool = {p.upper() for p in pool}
+            score = len(class_pool.intersection(theme_pool))
+            if score > 0:
+                overlap_scored.append((trainer_class, score))
+
+        if overlap_scored:
+            overlap_scored.sort(key=lambda x: x[1], reverse=True)
+            best_score = overlap_scored[0][1]
+            valid_classes = [cls for cls, score in overlap_scored if score == best_score]
+            print(
+                f"Info: No explicit Trainer Class mapping for theme '{theme}'. "
+                f"Using best-overlap classes: {', '.join(valid_classes)}"
+            )
+        else:
+            print(f"Warning: No Trainer Class found for theme '{theme}'. Defaulting to random.")
+            valid_classes = list(class_themes.keys())
 
     trainer_class = random.choice(valid_classes)
 
@@ -130,11 +221,22 @@ def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None):
          section.add_line(f"LoseText = I couldn't handle the floor {floor_number} pressure!")
 
     party_size = calculate_party_size(floor_number)
-    available_pokemon = class_pools.get(trainer_class, [])
+    available_pokemon = [p.upper() for p in class_pools.get(trainer_class, [])]
+    theme_pool = get_species_pool_for_theme(theme, include_special_boss=False)
+
+    # Keep trainer class identity from trainers.md while enriching with index data.
+    if available_pokemon and theme_pool:
+        themed_class_pool = [p for p in available_pokemon if p in set(theme_pool)]
+        if themed_class_pool:
+            available_pokemon = themed_class_pool
+    elif theme_pool:
+        available_pokemon = theme_pool
 
     if not available_pokemon:
          print(f"Warning: No Pokémon pool defined for {trainer_class}. Using Pikachu fallback.")
          available_pokemon = ["PIKACHU"]
+
+    available_pokemon = _filter_pool_for_floor(available_pokemon, floor_number)
 
     min_lvl, max_lvl = calculate_levels(floor_number)
 

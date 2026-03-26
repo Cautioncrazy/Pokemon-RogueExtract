@@ -1,0 +1,4040 @@
+# Pokémon Master Index (AI-Ready)
+
+AI ASSISTANT DIRECTIVE (JULES):
+This file is the master indexing reference for all Pokémon species in this project. Use it when generating trainer parties, encounter tables, evolution-aware rosters, loot tables, rarity pools, biome ecosystems, progression gating, and boss-tier selections.
+
+When designing content:
+- Prefer `trainer_suitability` and `bst_tier` for progression balance.
+- Prefer `encounter_rarity` and `catch_rate_tier` for wild encounter weighting.
+- Prefer `evolution.stage` and `evolution.depth` for level-appropriate team building.
+- Prefer `legendary`, `mythical`, `pseudo_legendary`, `ultra_beast`, and `paradox` for boss-tier or special-event logic.
+- Always cross-reference with `pokemon.txt` if a custom species, regional variant, or project-specific form is newly added.
+
+---
+
+## Metadata Key
+
+- **Core Format:** `DEX | SPECIES_ID | Name | [Types] | BST | BST Tier | Catch Tier | Evo Stage | Tags | Trainer Roles`
+- **Evo Stage:** `standalone`, `base`, `baby_or_base`, `middle`, `final`
+- **BST Tiers:** `weak`, `earlygame`, `midgame`, `lategame`, `ace`, `boss`
+- **Catch Tiers:** `very_easy`, `easy`, `normal`, `hard`, `rare`, `legendary`
+
+- **Total Pokémon indexed:** 1025
+
+## Full Species Index
+
+- `0001 | BULBASAUR | Bulbasaur | [GRASS/POISON] | 318 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0002 | IVYSAUR | Ivysaur | [GRASS/POISON] | 405 | midgame | hard | middle | Standard | midgame`
+- `0003 | VENUSAUR | Venusaur | [GRASS/POISON] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0004 | CHARMANDER | Charmander | [FIRE] | 309 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0005 | CHARMELEON | Charmeleon | [FIRE] | 405 | midgame | hard | middle | Standard | midgame`
+- `0006 | CHARIZARD | Charizard | [FIRE/FLYING] | 534 | lategame | hard | final | Standard | midgame, lategame`
+- `0007 | SQUIRTLE | Squirtle | [WATER] | 314 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0008 | WARTORTLE | Wartortle | [WATER] | 405 | midgame | hard | middle | Standard | midgame`
+- `0009 | BLASTOISE | Blastoise | [WATER] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0010 | CATERPIE | Caterpie | [BUG] | 195 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0011 | METAPOD | Metapod | [BUG] | 205 | weak | easy | middle | Standard | earlygame`
+- `0012 | BUTTERFREE | Butterfree | [BUG/FLYING] | 395 | midgame | hard | final | Standard | midgame`
+- `0013 | WEEDLE | Weedle | [BUG/POISON] | 195 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0014 | KAKUNA | Kakuna | [BUG/POISON] | 205 | weak | easy | middle | Standard | earlygame`
+- `0015 | BEEDRILL | Beedrill | [BUG/POISON] | 395 | midgame | hard | final | Standard | midgame`
+- `0016 | PIDGEY | Pidgey | [NORMAL/FLYING] | 251 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0017 | PIDGEOTTO | Pidgeotto | [NORMAL/FLYING] | 349 | earlygame | easy | middle | Standard | earlygame`
+- `0018 | PIDGEOT | Pidgeot | [NORMAL/FLYING] | 479 | lategame | hard | final | Standard | midgame, lategame`
+- `0019 | RATTATA | Rattata | [NORMAL] | 253 | weak | very_easy | baby_or_base | RegionalCapable | earlygame`
+- `0020 | RATICATE | Raticate | [NORMAL] | 413 | midgame | easy | final | RegionalCapable | midgame`
+- `0021 | SPEAROW | Spearow | [NORMAL/FLYING] | 262 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0022 | FEAROW | Fearow | [NORMAL/FLYING] | 442 | midgame | normal | final | Standard | midgame`
+- `0023 | EKANS | Ekans | [POISON] | 288 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0024 | ARBOK | Arbok | [POISON] | 448 | midgame | normal | final | Standard | midgame`
+- `0025 | PIKACHU | Pikachu | [ELECTRIC] | 320 | earlygame | easy | middle | Standard | earlygame`
+- `0026 | RAICHU | Raichu | [ELECTRIC] | 485 | lategame | normal | final | RegionalCapable | midgame, lategame`
+- `0027 | SANDSHREW | Sandshrew | [GROUND] | 300 | earlygame | very_easy | baby_or_base | RegionalCapable | earlygame`
+- `0028 | SANDSLASH | Sandslash | [GROUND] | 450 | midgame | normal | final | RegionalCapable | midgame`
+- `0029 | NIDORANFE | Nidoran♀ | [POISON] | 275 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0030 | NIDORINA | Nidorina | [POISON] | 365 | midgame | easy | middle | Standard | midgame`
+- `0031 | NIDOQUEEN | Nidoqueen | [POISON/GROUND] | 505 | lategame | hard | final | Standard | midgame, lategame`
+- `0032 | NIDORANMA | Nidoran♂ | [POISON] | 273 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0033 | NIDORINO | Nidorino | [POISON] | 365 | midgame | easy | middle | Standard | midgame`
+- `0034 | NIDOKING | Nidoking | [POISON/GROUND] | 505 | lategame | hard | final | Standard | midgame, lategame`
+- `0035 | CLEFAIRY | Clefairy | [FAIRY] | 323 | earlygame | easy | middle | Standard | earlygame`
+- `0036 | CLEFABLE | Clefable | [FAIRY] | 483 | lategame | hard | final | Standard | midgame, lategame`
+- `0037 | VULPIX | Vulpix | [FIRE] | 299 | earlygame | easy | baby_or_base | RegionalCapable | earlygame`
+- `0038 | NINETALES | Ninetales | [FIRE] | 505 | lategame | normal | final | RegionalCapable | midgame, lategame`
+- `0039 | JIGGLYPUFF | Jigglypuff | [NORMAL/FAIRY] | 270 | earlygame | easy | middle | Standard | earlygame`
+- `0040 | WIGGLYTUFF | Wigglytuff | [NORMAL/FAIRY] | 435 | midgame | hard | final | Standard | midgame`
+- `0041 | ZUBAT | Zubat | [POISON/FLYING] | 245 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0042 | GOLBAT | Golbat | [POISON/FLYING] | 455 | midgame | normal | middle | Standard | midgame`
+- `0043 | ODDISH | Oddish | [GRASS/POISON] | 320 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0044 | GLOOM | Gloom | [GRASS/POISON] | 395 | midgame | easy | middle | Standard | midgame`
+- `0045 | VILEPLUME | Vileplume | [GRASS/POISON] | 490 | lategame | hard | final | Standard | midgame, lategame`
+- `0046 | PARAS | Paras | [BUG/GRASS] | 285 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0047 | PARASECT | Parasect | [BUG/GRASS] | 405 | midgame | normal | final | Standard | midgame`
+- `0048 | VENONAT | Venonat | [BUG/POISON] | 305 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0049 | VENOMOTH | Venomoth | [BUG/POISON] | 450 | midgame | normal | final | Standard | midgame`
+- `0050 | DIGLETT | Diglett | [GROUND] | 265 | earlygame | very_easy | baby_or_base | RegionalCapable | earlygame`
+- `0051 | DUGTRIO | Dugtrio | [GROUND] | 425 | midgame | hard | final | RegionalCapable | midgame`
+- `0052 | MEOWTH | Meowth | [NORMAL] | 290 | earlygame | very_easy | baby_or_base | RegionalCapable | earlygame`
+- `0053 | PERSIAN | Persian | [NORMAL] | 440 | midgame | normal | final | RegionalCapable | midgame`
+- `0054 | PSYDUCK | Psyduck | [WATER] | 320 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0055 | GOLDUCK | Golduck | [WATER] | 500 | lategame | normal | final | Standard | midgame, lategame`
+- `0056 | MANKEY | Mankey | [FIGHTING] | 305 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0057 | PRIMEAPE | Primeape | [FIGHTING] | 455 | midgame | normal | middle | Standard | midgame`
+- `0058 | GROWLITHE | Growlithe | [FIRE] | 350 | earlygame | easy | base | RegionalCapable | earlygame`
+- `0059 | ARCANINE | Arcanine | [FIRE] | 555 | ace | normal | final | RegionalCapable | lategame, gym_ace, elite_four`
+- `0060 | POLIWAG | Poliwag | [WATER] | 300 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0061 | POLIWHIRL | Poliwhirl | [WATER] | 385 | midgame | easy | middle | Standard | midgame`
+- `0062 | POLIWRATH | Poliwrath | [WATER/FIGHTING] | 510 | lategame | hard | final | Standard | midgame, lategame`
+- `0063 | ABRA | Abra | [PSYCHIC] | 310 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0064 | KADABRA | Kadabra | [PSYCHIC] | 400 | midgame | normal | middle | Standard | midgame`
+- `0065 | ALAKAZAM | Alakazam | [PSYCHIC] | 500 | lategame | hard | final | Standard | midgame, lategame`
+- `0066 | MACHOP | Machop | [FIGHTING] | 305 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0067 | MACHOKE | Machoke | [FIGHTING] | 405 | midgame | normal | middle | Standard | midgame`
+- `0068 | MACHAMP | Machamp | [FIGHTING] | 505 | lategame | hard | final | Standard | midgame, lategame`
+- `0069 | BELLSPROUT | Bellsprout | [GRASS/POISON] | 300 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0070 | WEEPINBELL | Weepinbell | [GRASS/POISON] | 390 | midgame | easy | middle | Standard | midgame`
+- `0071 | VICTREEBEL | Victreebel | [GRASS/POISON] | 490 | lategame | hard | final | Standard | midgame, lategame`
+- `0072 | TENTACOOL | Tentacool | [WATER/POISON] | 335 | earlygame | easy | base | Standard | earlygame`
+- `0073 | TENTACRUEL | Tentacruel | [WATER/POISON] | 515 | lategame | normal | final | Standard | midgame, lategame`
+- `0074 | GEODUDE | Geodude | [ROCK/GROUND] | 300 | earlygame | very_easy | baby_or_base | RegionalCapable | earlygame`
+- `0075 | GRAVELER | Graveler | [ROCK/GROUND] | 390 | midgame | easy | middle | RegionalCapable | midgame`
+- `0076 | GOLEM | Golem | [ROCK/GROUND] | 495 | lategame | hard | final | RegionalCapable | midgame, lategame`
+- `0077 | PONYTA | Ponyta | [FIRE] | 410 | midgame | easy | base | RegionalCapable | midgame`
+- `0078 | RAPIDASH | Rapidash | [FIRE] | 500 | lategame | normal | final | RegionalCapable | midgame, lategame`
+- `0079 | SLOWPOKE | Slowpoke | [WATER/PSYCHIC] | 315 | earlygame | easy | baby_or_base | RegionalCapable | earlygame`
+- `0080 | SLOWBRO | Slowbro | [WATER/PSYCHIC] | 490 | lategame | normal | final | RegionalCapable | midgame, lategame`
+- `0081 | MAGNEMITE | Magnemite | [ELECTRIC/STEEL] | 325 | earlygame | easy | base | Standard | earlygame`
+- `0082 | MAGNETON | Magneton | [ELECTRIC/STEEL] | 465 | lategame | normal | middle | Standard | midgame, lategame`
+- `0083 | FARFETCHD | Farfetch'd | [NORMAL/FLYING] | 377 | midgame | hard | base | RegionalCapable | midgame`
+- `0084 | DODUO | Doduo | [NORMAL/FLYING] | 310 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0085 | DODRIO | Dodrio | [NORMAL/FLYING] | 470 | lategame | hard | final | Standard | midgame, lategame`
+- `0086 | SEEL | Seel | [WATER] | 325 | earlygame | easy | base | Standard | earlygame`
+- `0087 | DEWGONG | Dewgong | [WATER/ICE] | 475 | lategame | normal | final | Standard | midgame, lategame`
+- `0088 | GRIMER | Grimer | [POISON] | 325 | earlygame | easy | base | RegionalCapable | earlygame`
+- `0089 | MUK | Muk | [POISON] | 500 | lategame | normal | final | RegionalCapable | midgame, lategame`
+- `0090 | SHELLDER | Shellder | [WATER] | 305 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0091 | CLOYSTER | Cloyster | [WATER/ICE] | 525 | lategame | normal | final | Standard | midgame, lategame`
+- `0092 | GASTLY | Gastly | [GHOST/POISON] | 310 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0093 | HAUNTER | Haunter | [GHOST/POISON] | 405 | midgame | normal | middle | Standard | midgame`
+- `0094 | GENGAR | Gengar | [GHOST/POISON] | 500 | lategame | hard | final | Standard | midgame, lategame`
+- `0095 | ONIX | Onix | [ROCK/GROUND] | 385 | midgame | hard | base | Standard | midgame`
+- `0096 | DROWZEE | Drowzee | [PSYCHIC] | 328 | earlygame | easy | base | Standard | earlygame`
+- `0097 | HYPNO | Hypno | [PSYCHIC] | 483 | lategame | normal | final | Standard | midgame, lategame`
+- `0098 | KRABBY | Krabby | [WATER] | 325 | earlygame | very_easy | base | Standard | earlygame`
+- `0099 | KINGLER | Kingler | [WATER] | 475 | lategame | normal | final | Standard | midgame, lategame`
+- `0100 | VOLTORB | Voltorb | [ELECTRIC] | 330 | earlygame | easy | base | RegionalCapable | earlygame`
+- `0101 | ELECTRODE | Electrode | [ELECTRIC] | 490 | lategame | normal | final | RegionalCapable | midgame, lategame`
+- `0102 | EXEGGCUTE | Exeggcute | [GRASS/PSYCHIC] | 325 | earlygame | normal | base | Standard | earlygame`
+- `0103 | EXEGGUTOR | Exeggutor | [GRASS/PSYCHIC] | 530 | lategame | hard | final | RegionalCapable | midgame, lategame`
+- `0104 | CUBONE | Cubone | [GROUND] | 320 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0105 | MAROWAK | Marowak | [GROUND] | 425 | midgame | normal | final | RegionalCapable | midgame`
+- `0106 | HITMONLEE | Hitmonlee | [FIGHTING] | 455 | midgame | hard | final | Standard | midgame`
+- `0107 | HITMONCHAN | Hitmonchan | [FIGHTING] | 455 | midgame | hard | final | Standard | midgame`
+- `0108 | LICKITUNG | Lickitung | [NORMAL] | 385 | midgame | hard | base | Standard | midgame`
+- `0109 | KOFFING | Koffing | [POISON] | 340 | earlygame | easy | base | Standard | earlygame`
+- `0110 | WEEZING | Weezing | [POISON] | 490 | lategame | normal | final | RegionalCapable | midgame, lategame`
+- `0111 | RHYHORN | Rhyhorn | [GROUND/ROCK] | 345 | earlygame | easy | base | Standard | earlygame`
+- `0112 | RHYDON | Rhydon | [GROUND/ROCK] | 485 | lategame | normal | middle | Standard | midgame, lategame`
+- `0113 | CHANSEY | Chansey | [NORMAL] | 450 | midgame | hard | middle | Standard | midgame`
+- `0114 | TANGELA | Tangela | [GRASS] | 435 | midgame | hard | base | Standard | midgame`
+- `0115 | KANGASKHAN | Kangaskhan | [NORMAL] | 490 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0116 | HORSEA | Horsea | [WATER] | 295 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0117 | SEADRA | Seadra | [WATER] | 440 | midgame | normal | middle | Standard | midgame`
+- `0118 | GOLDEEN | Goldeen | [WATER] | 320 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0119 | SEAKING | Seaking | [WATER] | 450 | midgame | normal | final | Standard | midgame`
+- `0120 | STARYU | Staryu | [WATER] | 340 | earlygame | very_easy | base | Standard | earlygame`
+- `0121 | STARMIE | Starmie | [WATER/PSYCHIC] | 520 | lategame | normal | final | Standard | midgame, lategame`
+- `0122 | MRMIME | Mr. Mime | [PSYCHIC/FAIRY] | 460 | lategame | hard | middle | RegionalCapable | midgame, lategame`
+- `0123 | SCYTHER | Scyther | [BUG/FLYING] | 500 | lategame | hard | base | Standard | midgame, lategame`
+- `0124 | JYNX | Jynx | [ICE/PSYCHIC] | 455 | midgame | hard | final | Standard | midgame`
+- `0125 | ELECTABUZZ | Electabuzz | [ELECTRIC] | 490 | lategame | hard | middle | Standard | midgame, lategame`
+- `0126 | MAGMAR | Magmar | [FIRE] | 495 | lategame | hard | middle | Standard | midgame, lategame`
+- `0127 | PINSIR | Pinsir | [BUG] | 500 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0128 | TAUROS | Tauros | [NORMAL] | 490 | lategame | hard | standalone | RegionalCapable | midgame, lategame`
+- `0129 | MAGIKARP | Magikarp | [WATER] | 200 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0130 | GYARADOS | Gyarados | [WATER/FLYING] | 540 | ace | hard | final | Standard | lategame, gym_ace, elite_four`
+- `0131 | LAPRAS | Lapras | [WATER/ICE] | 535 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0132 | DITTO | Ditto | [NORMAL] | 288 | earlygame | hard | standalone | Standard | earlygame`
+- `0133 | EEVEE | Eevee | [NORMAL] | 325 | earlygame | hard | base | Standard | earlygame`
+- `0134 | VAPOREON | Vaporeon | [WATER] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0135 | JOLTEON | Jolteon | [ELECTRIC] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0136 | FLAREON | Flareon | [FIRE] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0137 | PORYGON | Porygon | [NORMAL] | 395 | midgame | hard | base | Standard | midgame`
+- `0138 | OMANYTE | Omanyte | [ROCK/WATER] | 355 | earlygame | hard | base | Fossil | earlygame`
+- `0139 | OMASTAR | Omastar | [ROCK/WATER] | 495 | lategame | hard | final | Fossil | midgame, lategame`
+- `0140 | KABUTO | Kabuto | [ROCK/WATER] | 355 | earlygame | hard | base | Fossil | earlygame`
+- `0141 | KABUTOPS | Kabutops | [ROCK/WATER] | 495 | lategame | hard | final | Fossil | midgame, lategame`
+- `0142 | AERODACTYL | Aerodactyl | [ROCK/FLYING] | 515 | lategame | hard | standalone | Fossil | midgame, lategame`
+- `0143 | SNORLAX | Snorlax | [NORMAL] | 540 | ace | hard | final | Standard | lategame, gym_ace, elite_four`
+- `0144 | ARTICUNO | Articuno | [ICE/FLYING] | 580 | boss | legendary | standalone | Legendary, RegionalCapable | boss, champion`
+- `0145 | ZAPDOS | Zapdos | [ELECTRIC/FLYING] | 580 | boss | legendary | standalone | Legendary, RegionalCapable | boss, champion`
+- `0146 | MOLTRES | Moltres | [FIRE/FLYING] | 580 | boss | legendary | standalone | Legendary, RegionalCapable | boss, champion`
+- `0147 | DRATINI | Dratini | [DRAGON] | 300 | earlygame | hard | baby_or_base | Pseudo | earlygame, elite_four, champion, boss`
+- `0148 | DRAGONAIR | Dragonair | [DRAGON] | 420 | midgame | hard | middle | Pseudo | midgame, elite_four, champion, boss`
+- `0149 | DRAGONITE | Dragonite | [DRAGON/FLYING] | 600 | boss | hard | final | Pseudo | gym_ace, elite_four, champion, boss`
+- `0150 | MEWTWO | Mewtwo | [PSYCHIC] | 680 | boss | legendary | standalone | Legendary | boss, champion`
+- `0151 | MEW | Mew | [PSYCHIC] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0152 | CHIKORITA | Chikorita | [GRASS] | 318 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0153 | BAYLEEF | Bayleef | [GRASS] | 405 | midgame | hard | middle | Standard | midgame`
+- `0154 | MEGANIUM | Meganium | [GRASS] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0155 | CYNDAQUIL | Cyndaquil | [FIRE] | 309 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0156 | QUILAVA | Quilava | [FIRE] | 405 | midgame | hard | middle | Standard | midgame`
+- `0157 | TYPHLOSION | Typhlosion | [FIRE] | 534 | lategame | hard | final | RegionalCapable | midgame, lategame`
+- `0158 | TOTODILE | Totodile | [WATER] | 314 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0159 | CROCONAW | Croconaw | [WATER] | 405 | midgame | hard | middle | Standard | midgame`
+- `0160 | FERALIGATR | Feraligatr | [WATER] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0161 | SENTRET | Sentret | [NORMAL] | 215 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0162 | FURRET | Furret | [NORMAL] | 415 | midgame | normal | final | Standard | midgame`
+- `0163 | HOOTHOOT | Hoothoot | [NORMAL/FLYING] | 262 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0164 | NOCTOWL | Noctowl | [NORMAL/FLYING] | 452 | midgame | normal | final | Standard | midgame`
+- `0165 | LEDYBA | Ledyba | [BUG/FLYING] | 265 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0166 | LEDIAN | Ledian | [BUG/FLYING] | 390 | midgame | normal | final | Standard | midgame`
+- `0167 | SPINARAK | Spinarak | [BUG/POISON] | 250 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0168 | ARIADOS | Ariados | [BUG/POISON] | 400 | midgame | normal | final | Standard | midgame`
+- `0169 | CROBAT | Crobat | [POISON/FLYING] | 535 | lategame | normal | final | Standard | midgame, lategame`
+- `0170 | CHINCHOU | Chinchou | [WATER/ELECTRIC] | 330 | earlygame | easy | base | Standard | earlygame`
+- `0171 | LANTURN | Lanturn | [WATER/ELECTRIC] | 460 | lategame | normal | final | Standard | midgame, lategame`
+- `0172 | PICHU | Pichu | [ELECTRIC] | 205 | weak | easy | baby_or_base | Standard | earlygame`
+- `0173 | CLEFFA | Cleffa | [FAIRY] | 218 | weak | easy | baby_or_base | Standard | earlygame`
+- `0174 | IGGLYBUFF | Igglybuff | [NORMAL/FAIRY] | 210 | weak | easy | baby_or_base | Standard | earlygame`
+- `0175 | TOGEPI | Togepi | [FAIRY] | 245 | weak | easy | baby_or_base | Standard | earlygame`
+- `0176 | TOGETIC | Togetic | [FAIRY/FLYING] | 405 | midgame | normal | middle | Standard | midgame`
+- `0177 | NATU | Natu | [PSYCHIC/FLYING] | 320 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0178 | XATU | Xatu | [PSYCHIC/FLYING] | 470 | lategame | normal | final | Standard | midgame, lategame`
+- `0179 | MAREEP | Mareep | [ELECTRIC] | 280 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0180 | FLAAFFY | Flaaffy | [ELECTRIC] | 365 | midgame | easy | middle | Standard | midgame`
+- `0181 | AMPHAROS | Ampharos | [ELECTRIC] | 510 | lategame | hard | final | Standard | midgame, lategame`
+- `0182 | BELLOSSOM | Bellossom | [GRASS] | 490 | lategame | hard | final | Standard | midgame, lategame`
+- `0183 | MARILL | Marill | [WATER/FAIRY] | 250 | weak | easy | middle | Standard | earlygame`
+- `0184 | AZUMARILL | Azumarill | [WATER/FAIRY] | 420 | midgame | normal | final | Standard | midgame`
+- `0185 | SUDOWOODO | Sudowoodo | [ROCK] | 410 | midgame | normal | final | Standard | midgame`
+- `0186 | POLITOED | Politoed | [WATER] | 500 | lategame | hard | final | Standard | midgame, lategame`
+- `0187 | HOPPIP | Hoppip | [GRASS/FLYING] | 250 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0188 | SKIPLOOM | Skiploom | [GRASS/FLYING] | 340 | earlygame | easy | middle | Standard | earlygame`
+- `0189 | JUMPLUFF | Jumpluff | [GRASS/FLYING] | 460 | lategame | hard | final | Standard | midgame, lategame`
+- `0190 | AIPOM | Aipom | [NORMAL] | 360 | midgame | hard | base | Standard | midgame`
+- `0191 | SUNKERN | Sunkern | [GRASS] | 180 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0192 | SUNFLORA | Sunflora | [GRASS] | 425 | midgame | easy | final | Standard | midgame`
+- `0193 | YANMA | Yanma | [BUG/FLYING] | 390 | midgame | normal | base | Standard | midgame`
+- `0194 | WOOPER | Wooper | [WATER/GROUND] | 210 | weak | very_easy | baby_or_base | RegionalCapable | earlygame`
+- `0195 | QUAGSIRE | Quagsire | [WATER/GROUND] | 430 | midgame | normal | final | Standard | midgame`
+- `0196 | ESPEON | Espeon | [PSYCHIC] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0197 | UMBREON | Umbreon | [DARK] | 525 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0198 | MURKROW | Murkrow | [DARK/FLYING] | 405 | midgame | hard | base | Standard | midgame`
+- `0199 | SLOWKING | Slowking | [WATER/PSYCHIC] | 490 | lategame | normal | final | RegionalCapable | midgame, lategame`
+- `0200 | MISDREAVUS | Misdreavus | [GHOST] | 435 | midgame | hard | base | Standard | midgame`
+- `0201 | UNOWN | Unown | [PSYCHIC] | 336 | earlygame | very_easy | standalone | Standard | earlygame`
+- `0202 | WOBBUFFET | Wobbuffet | [PSYCHIC] | 405 | midgame | hard | final | Standard | midgame`
+- `0203 | GIRAFARIG | Girafarig | [NORMAL/PSYCHIC] | 455 | midgame | normal | base | Standard | midgame`
+- `0204 | PINECO | Pineco | [BUG] | 290 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0205 | FORRETRESS | Forretress | [BUG/STEEL] | 465 | lategame | normal | final | Standard | midgame, lategame`
+- `0206 | DUNSPARCE | Dunsparce | [NORMAL] | 415 | midgame | easy | base | Standard | midgame`
+- `0207 | GLIGAR | Gligar | [GROUND/FLYING] | 430 | midgame | normal | base | Standard | midgame`
+- `0208 | STEELIX | Steelix | [STEEL/GROUND] | 510 | lategame | hard | final | Standard | midgame, lategame`
+- `0209 | SNUBBULL | Snubbull | [FAIRY] | 300 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0210 | GRANBULL | Granbull | [FAIRY] | 450 | midgame | normal | final | Standard | midgame`
+- `0211 | QWILFISH | Qwilfish | [WATER/POISON] | 440 | midgame | hard | base | RegionalCapable | midgame`
+- `0212 | SCIZOR | Scizor | [BUG/STEEL] | 500 | lategame | hard | final | Standard | midgame, lategame`
+- `0213 | SHUCKLE | Shuckle | [BUG/ROCK] | 505 | lategame | easy | standalone | Standard | midgame, lategame`
+- `0214 | HERACROSS | Heracross | [BUG/FIGHTING] | 500 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0215 | SNEASEL | Sneasel | [DARK/ICE] | 430 | midgame | normal | base | RegionalCapable | midgame`
+- `0216 | TEDDIURSA | Teddiursa | [NORMAL] | 330 | earlygame | easy | base | Standard | earlygame`
+- `0217 | URSARING | Ursaring | [NORMAL] | 500 | lategame | normal | middle | Standard | midgame, lategame`
+- `0218 | SLUGMA | Slugma | [FIRE] | 250 | weak | easy | baby_or_base | Standard | earlygame`
+- `0219 | MAGCARGO | Magcargo | [FIRE/ROCK] | 430 | midgame | normal | final | Standard | midgame`
+- `0220 | SWINUB | Swinub | [ICE/GROUND] | 250 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0221 | PILOSWINE | Piloswine | [ICE/GROUND] | 450 | midgame | normal | middle | Standard | midgame`
+- `0222 | CORSOLA | Corsola | [WATER/ROCK] | 410 | midgame | normal | base | RegionalCapable | midgame`
+- `0223 | REMORAID | Remoraid | [WATER] | 300 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0224 | OCTILLERY | Octillery | [WATER] | 480 | lategame | normal | final | Standard | midgame, lategame`
+- `0225 | DELIBIRD | Delibird | [ICE/FLYING] | 330 | earlygame | hard | standalone | Standard | earlygame`
+- `0226 | MANTINE | Mantine | [WATER/FLYING] | 485 | lategame | hard | final | Standard | midgame, lategame`
+- `0227 | SKARMORY | Skarmory | [STEEL/FLYING] | 465 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0228 | HOUNDOUR | Houndour | [DARK/FIRE] | 330 | earlygame | easy | base | Standard | earlygame`
+- `0229 | HOUNDOOM | Houndoom | [DARK/FIRE] | 500 | lategame | hard | final | Standard | midgame, lategame`
+- `0230 | KINGDRA | Kingdra | [WATER/DRAGON] | 540 | ace | hard | final | Standard | lategame, gym_ace, elite_four`
+- `0231 | PHANPY | Phanpy | [GROUND] | 330 | earlygame | easy | base | Standard | earlygame`
+- `0232 | DONPHAN | Donphan | [GROUND] | 500 | lategame | normal | final | Standard | midgame, lategame`
+- `0233 | PORYGON2 | Porygon2 | [NORMAL] | 515 | lategame | hard | middle | Standard | midgame, lategame`
+- `0234 | STANTLER | Stantler | [NORMAL] | 465 | lategame | hard | base | Standard | midgame, lategame`
+- `0235 | SMEARGLE | Smeargle | [NORMAL] | 250 | weak | hard | standalone | Standard | earlygame`
+- `0236 | TYROGUE | Tyrogue | [FIGHTING] | 210 | weak | normal | baby_or_base | Standard | earlygame`
+- `0237 | HITMONTOP | Hitmontop | [FIGHTING] | 455 | midgame | hard | final | Standard | midgame`
+- `0238 | SMOOCHUM | Smoochum | [ICE/PSYCHIC] | 305 | earlygame | hard | baby_or_base | Standard | earlygame`
+- `0239 | ELEKID | Elekid | [ELECTRIC] | 360 | midgame | hard | base | Standard | midgame`
+- `0240 | MAGBY | Magby | [FIRE] | 365 | midgame | hard | base | Standard | midgame`
+- `0241 | MILTANK | Miltank | [NORMAL] | 490 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0242 | BLISSEY | Blissey | [NORMAL] | 540 | ace | hard | final | Standard | lategame, gym_ace, elite_four`
+- `0243 | RAIKOU | Raikou | [ELECTRIC] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0244 | ENTEI | Entei | [FIRE] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0245 | SUICUNE | Suicune | [WATER] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0246 | LARVITAR | Larvitar | [ROCK/GROUND] | 300 | earlygame | hard | baby_or_base | Pseudo | earlygame, elite_four, champion, boss`
+- `0247 | PUPITAR | Pupitar | [ROCK/GROUND] | 410 | midgame | hard | middle | Pseudo | midgame, elite_four, champion, boss`
+- `0248 | TYRANITAR | Tyranitar | [ROCK/DARK] | 600 | boss | hard | final | Pseudo | gym_ace, elite_four, champion, boss`
+- `0249 | LUGIA | Lugia | [PSYCHIC/FLYING] | 680 | boss | legendary | standalone | Legendary | boss, champion`
+- `0250 | HOOH | Ho-Oh | [FIRE/FLYING] | 680 | boss | legendary | standalone | Legendary | boss, champion`
+- `0251 | CELEBI | Celebi | [PSYCHIC/GRASS] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0252 | TREECKO | Treecko | [GRASS] | 310 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0253 | GROVYLE | Grovyle | [GRASS] | 405 | midgame | hard | middle | Standard | midgame`
+- `0254 | SCEPTILE | Sceptile | [GRASS] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0255 | TORCHIC | Torchic | [FIRE] | 310 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0256 | COMBUSKEN | Combusken | [FIRE/FIGHTING] | 405 | midgame | hard | middle | Standard | midgame`
+- `0257 | BLAZIKEN | Blaziken | [FIRE/FIGHTING] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0258 | MUDKIP | Mudkip | [WATER] | 310 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0259 | MARSHTOMP | Marshtomp | [WATER/GROUND] | 405 | midgame | hard | middle | Standard | midgame`
+- `0260 | SWAMPERT | Swampert | [WATER/GROUND] | 535 | lategame | hard | final | Standard | midgame, lategame`
+- `0261 | POOCHYENA | Poochyena | [DARK] | 220 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0262 | MIGHTYENA | Mightyena | [DARK] | 420 | midgame | easy | final | Standard | midgame`
+- `0263 | ZIGZAGOON | Zigzagoon | [NORMAL] | 240 | weak | very_easy | baby_or_base | RegionalCapable | earlygame`
+- `0264 | LINOONE | Linoone | [NORMAL] | 420 | midgame | normal | middle | RegionalCapable | midgame`
+- `0265 | WURMPLE | Wurmple | [BUG] | 195 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0266 | SILCOON | Silcoon | [BUG] | 205 | weak | easy | middle | Standard | earlygame`
+- `0267 | BEAUTIFLY | Beautifly | [BUG/FLYING] | 395 | midgame | hard | final | Standard | midgame`
+- `0268 | CASCOON | Cascoon | [BUG] | 205 | weak | easy | middle | Standard | earlygame`
+- `0269 | DUSTOX | Dustox | [BUG/POISON] | 385 | midgame | hard | final | Standard | midgame`
+- `0270 | LOTAD | Lotad | [WATER/GRASS] | 220 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0271 | LOMBRE | Lombre | [WATER/GRASS] | 340 | earlygame | easy | middle | Standard | earlygame`
+- `0272 | LUDICOLO | Ludicolo | [WATER/GRASS] | 480 | lategame | hard | final | Standard | midgame, lategame`
+- `0273 | SEEDOT | Seedot | [GRASS] | 220 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0274 | NUZLEAF | Nuzleaf | [GRASS/DARK] | 340 | earlygame | easy | middle | Standard | earlygame`
+- `0275 | SHIFTRY | Shiftry | [GRASS/DARK] | 480 | lategame | hard | final | Standard | midgame, lategame`
+- `0276 | TAILLOW | Taillow | [NORMAL/FLYING] | 270 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0277 | SWELLOW | Swellow | [NORMAL/FLYING] | 455 | midgame | hard | final | Standard | midgame`
+- `0278 | WINGULL | Wingull | [WATER/FLYING] | 270 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0279 | PELIPPER | Pelipper | [WATER/FLYING] | 440 | midgame | hard | final | Standard | midgame`
+- `0280 | RALTS | Ralts | [PSYCHIC/FAIRY] | 198 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0281 | KIRLIA | Kirlia | [PSYCHIC/FAIRY] | 278 | earlygame | easy | middle | Standard | earlygame`
+- `0282 | GARDEVOIR | Gardevoir | [PSYCHIC/FAIRY] | 518 | lategame | hard | final | Standard | midgame, lategame`
+- `0283 | SURSKIT | Surskit | [BUG/WATER] | 269 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0284 | MASQUERAIN | Masquerain | [BUG/FLYING] | 454 | midgame | normal | final | Standard | midgame`
+- `0285 | SHROOMISH | Shroomish | [GRASS] | 295 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0286 | BRELOOM | Breloom | [GRASS/FIGHTING] | 460 | lategame | normal | final | Standard | midgame, lategame`
+- `0287 | SLAKOTH | Slakoth | [NORMAL] | 280 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0288 | VIGOROTH | Vigoroth | [NORMAL] | 440 | midgame | easy | middle | Standard | midgame`
+- `0289 | SLAKING | Slaking | [NORMAL] | 670 | boss | hard | final | Standard | gym_ace, elite_four, champion, boss`
+- `0290 | NINCADA | Nincada | [BUG/GROUND] | 266 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0291 | NINJASK | Ninjask | [BUG/FLYING] | 456 | midgame | easy | final | Standard | midgame`
+- `0292 | SHEDINJA | Shedinja | [BUG/GHOST] | 236 | weak | hard | final | Standard | earlygame`
+- `0293 | WHISMUR | Whismur | [NORMAL] | 240 | weak | easy | baby_or_base | Standard | earlygame`
+- `0294 | LOUDRED | Loudred | [NORMAL] | 360 | midgame | easy | middle | Standard | midgame`
+- `0295 | EXPLOUD | Exploud | [NORMAL] | 490 | lategame | hard | final | Standard | midgame, lategame`
+- `0296 | MAKUHITA | Makuhita | [FIGHTING] | 237 | weak | easy | baby_or_base | Standard | earlygame`
+- `0297 | HARIYAMA | Hariyama | [FIGHTING] | 474 | lategame | very_easy | final | Standard | midgame, lategame`
+- `0298 | AZURILL | Azurill | [NORMAL/FAIRY] | 190 | weak | easy | baby_or_base | Standard | earlygame`
+- `0299 | NOSEPASS | Nosepass | [ROCK] | 375 | midgame | very_easy | base | Standard | midgame`
+- `0300 | SKITTY | Skitty | [NORMAL] | 260 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0301 | DELCATTY | Delcatty | [NORMAL] | 400 | midgame | normal | final | Standard | midgame`
+- `0302 | SABLEYE | Sableye | [DARK/GHOST] | 380 | midgame | hard | standalone | Standard | midgame`
+- `0303 | MAWILE | Mawile | [STEEL/FAIRY] | 380 | midgame | hard | standalone | Standard | midgame`
+- `0304 | ARON | Aron | [STEEL/ROCK] | 330 | earlygame | easy | base | Standard | earlygame`
+- `0305 | LAIRON | Lairon | [STEEL/ROCK] | 430 | midgame | normal | middle | Standard | midgame`
+- `0306 | AGGRON | Aggron | [STEEL/ROCK] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0307 | MEDITITE | Meditite | [FIGHTING/PSYCHIC] | 280 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0308 | MEDICHAM | Medicham | [FIGHTING/PSYCHIC] | 410 | midgame | normal | final | Standard | midgame`
+- `0309 | ELECTRIKE | Electrike | [ELECTRIC] | 295 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0310 | MANECTRIC | Manectric | [ELECTRIC] | 475 | lategame | hard | final | Standard | midgame, lategame`
+- `0311 | PLUSLE | Plusle | [ELECTRIC] | 405 | midgame | very_easy | standalone | Standard | midgame`
+- `0312 | MINUN | Minun | [ELECTRIC] | 405 | midgame | very_easy | standalone | Standard | midgame`
+- `0313 | VOLBEAT | Volbeat | [BUG] | 430 | midgame | easy | standalone | Standard | midgame`
+- `0314 | ILLUMISE | Illumise | [BUG] | 430 | midgame | easy | standalone | Standard | midgame`
+- `0315 | ROSELIA | Roselia | [GRASS/POISON] | 400 | midgame | easy | middle | Standard | midgame`
+- `0316 | GULPIN | Gulpin | [POISON] | 302 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0317 | SWALOT | Swalot | [POISON] | 467 | lategame | normal | final | Standard | midgame, lategame`
+- `0318 | CARVANHA | Carvanha | [WATER/DARK] | 305 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0319 | SHARPEDO | Sharpedo | [WATER/DARK] | 460 | lategame | normal | final | Standard | midgame, lategame`
+- `0320 | WAILMER | Wailmer | [WATER] | 400 | midgame | easy | base | Standard | midgame`
+- `0321 | WAILORD | Wailord | [WATER] | 500 | lategame | normal | final | Standard | midgame, lategame`
+- `0322 | NUMEL | Numel | [FIRE/GROUND] | 305 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0323 | CAMERUPT | Camerupt | [FIRE/GROUND] | 460 | lategame | easy | final | Standard | midgame, lategame`
+- `0324 | TORKOAL | Torkoal | [FIRE] | 470 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0325 | SPOINK | Spoink | [PSYCHIC] | 330 | earlygame | very_easy | base | Standard | earlygame`
+- `0326 | GRUMPIG | Grumpig | [PSYCHIC] | 470 | lategame | normal | final | Standard | midgame, lategame`
+- `0327 | SPINDA | Spinda | [NORMAL] | 360 | midgame | very_easy | standalone | Standard | midgame`
+- `0328 | TRAPINCH | Trapinch | [GROUND] | 290 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0329 | VIBRAVA | Vibrava | [GROUND/DRAGON] | 340 | earlygame | easy | middle | Standard | earlygame`
+- `0330 | FLYGON | Flygon | [GROUND/DRAGON] | 520 | lategame | hard | final | Standard | midgame, lategame`
+- `0331 | CACNEA | Cacnea | [GRASS] | 335 | earlygame | easy | base | Standard | earlygame`
+- `0332 | CACTURNE | Cacturne | [GRASS/DARK] | 475 | lategame | normal | final | Standard | midgame, lategame`
+- `0333 | SWABLU | Swablu | [NORMAL/FLYING] | 310 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0334 | ALTARIA | Altaria | [DRAGON/FLYING] | 490 | lategame | hard | final | Standard | midgame, lategame`
+- `0335 | ZANGOOSE | Zangoose | [NORMAL] | 458 | midgame | normal | standalone | Standard | midgame`
+- `0336 | SEVIPER | Seviper | [POISON] | 458 | midgame | normal | standalone | Standard | midgame`
+- `0337 | LUNATONE | Lunatone | [ROCK/PSYCHIC] | 460 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0338 | SOLROCK | Solrock | [ROCK/PSYCHIC] | 460 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0339 | BARBOACH | Barboach | [WATER/GROUND] | 288 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0340 | WHISCASH | Whiscash | [WATER/GROUND] | 468 | lategame | normal | final | Standard | midgame, lategame`
+- `0341 | CORPHISH | Corphish | [WATER] | 308 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0342 | CRAWDAUNT | Crawdaunt | [WATER/DARK] | 468 | lategame | easy | final | Standard | midgame, lategame`
+- `0343 | BALTOY | Baltoy | [GROUND/PSYCHIC] | 300 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0344 | CLAYDOL | Claydol | [GROUND/PSYCHIC] | 500 | lategame | normal | final | Standard | midgame, lategame`
+- `0345 | LILEEP | Lileep | [ROCK/GRASS] | 355 | earlygame | hard | base | Fossil | earlygame`
+- `0346 | CRADILY | Cradily | [ROCK/GRASS] | 495 | lategame | hard | final | Fossil | midgame, lategame`
+- `0347 | ANORITH | Anorith | [ROCK/BUG] | 355 | earlygame | hard | base | Fossil | earlygame`
+- `0348 | ARMALDO | Armaldo | [ROCK/BUG] | 495 | lategame | hard | final | Fossil | midgame, lategame`
+- `0349 | FEEBAS | Feebas | [WATER] | 200 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0350 | MILOTIC | Milotic | [WATER] | 540 | ace | normal | final | Standard | lategame, gym_ace, elite_four`
+- `0351 | CASTFORM | Castform | [NORMAL] | 420 | midgame | hard | standalone | SpecialFormCapable | midgame`
+- `0352 | KECLEON | Kecleon | [NORMAL] | 440 | midgame | very_easy | standalone | Standard | midgame`
+- `0353 | SHUPPET | Shuppet | [GHOST] | 295 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0354 | BANETTE | Banette | [GHOST] | 455 | midgame | hard | final | Standard | midgame`
+- `0355 | DUSKULL | Duskull | [GHOST] | 295 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0356 | DUSCLOPS | Dusclops | [GHOST] | 455 | midgame | normal | middle | Standard | midgame`
+- `0357 | TROPIUS | Tropius | [GRASS/FLYING] | 460 | lategame | very_easy | standalone | Standard | midgame, lategame`
+- `0358 | CHIMECHO | Chimecho | [PSYCHIC] | 455 | midgame | hard | final | Standard | midgame`
+- `0359 | ABSOL | Absol | [DARK] | 465 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0360 | WYNAUT | Wynaut | [PSYCHIC] | 260 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0361 | SNORUNT | Snorunt | [ICE] | 300 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0362 | GLALIE | Glalie | [ICE] | 480 | lategame | normal | final | Standard | midgame, lategame`
+- `0363 | SPHEAL | Spheal | [ICE/WATER] | 290 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0364 | SEALEO | Sealeo | [ICE/WATER] | 410 | midgame | easy | middle | Standard | midgame`
+- `0365 | WALREIN | Walrein | [ICE/WATER] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0366 | CLAMPERL | Clamperl | [WATER] | 345 | earlygame | very_easy | base | Standard | earlygame`
+- `0367 | HUNTAIL | Huntail | [WATER] | 485 | lategame | normal | final | Standard | midgame, lategame`
+- `0368 | GOREBYSS | Gorebyss | [WATER] | 485 | lategame | normal | final | Standard | midgame, lategame`
+- `0369 | RELICANTH | Relicanth | [WATER/ROCK] | 485 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0370 | LUVDISC | Luvdisc | [WATER] | 330 | earlygame | very_easy | standalone | Standard | earlygame`
+- `0371 | BAGON | Bagon | [DRAGON] | 300 | earlygame | hard | baby_or_base | Pseudo | earlygame, elite_four, champion, boss`
+- `0372 | SHELGON | Shelgon | [DRAGON] | 420 | midgame | hard | middle | Pseudo | midgame, elite_four, champion, boss`
+- `0373 | SALAMENCE | Salamence | [DRAGON/FLYING] | 600 | boss | hard | final | Pseudo | gym_ace, elite_four, champion, boss`
+- `0374 | BELDUM | Beldum | [STEEL/PSYCHIC] | 300 | earlygame | rare | baby_or_base | Pseudo | earlygame, elite_four, champion, boss`
+- `0375 | METANG | Metang | [STEEL/PSYCHIC] | 420 | midgame | rare | middle | Pseudo | midgame, elite_four, champion, boss`
+- `0376 | METAGROSS | Metagross | [STEEL/PSYCHIC] | 600 | boss | rare | final | Pseudo | gym_ace, elite_four, champion, boss`
+- `0377 | REGIROCK | Regirock | [ROCK] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0378 | REGICE | Regice | [ICE] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0379 | REGISTEEL | Registeel | [STEEL] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0380 | LATIAS | Latias | [DRAGON/PSYCHIC] | 600 | boss | legendary | standalone | Legendary | boss, champion`
+- `0381 | LATIOS | Latios | [DRAGON/PSYCHIC] | 600 | boss | legendary | standalone | Legendary | boss, champion`
+- `0382 | KYOGRE | Kyogre | [WATER] | 670 | boss | legendary | standalone | Legendary | boss, champion`
+- `0383 | GROUDON | Groudon | [GROUND] | 670 | boss | legendary | standalone | Legendary | boss, champion`
+- `0384 | RAYQUAZA | Rayquaza | [DRAGON/FLYING] | 680 | boss | legendary | standalone | Legendary | boss, champion`
+- `0385 | JIRACHI | Jirachi | [STEEL/PSYCHIC] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0386 | DEOXYS | Deoxys | [PSYCHIC] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0387 | TURTWIG | Turtwig | [GRASS] | 318 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0388 | GROTLE | Grotle | [GRASS] | 405 | midgame | hard | middle | Standard | midgame`
+- `0389 | TORTERRA | Torterra | [GRASS/GROUND] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0390 | CHIMCHAR | Chimchar | [FIRE] | 309 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0391 | MONFERNO | Monferno | [FIRE/FIGHTING] | 405 | midgame | hard | middle | Standard | midgame`
+- `0392 | INFERNAPE | Infernape | [FIRE/FIGHTING] | 534 | lategame | hard | final | Standard | midgame, lategame`
+- `0393 | PIPLUP | Piplup | [WATER] | 314 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0394 | PRINPLUP | Prinplup | [WATER] | 405 | midgame | hard | middle | Standard | midgame`
+- `0395 | EMPOLEON | Empoleon | [WATER/STEEL] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0396 | STARLY | Starly | [NORMAL/FLYING] | 245 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0397 | STARAVIA | Staravia | [NORMAL/FLYING] | 340 | earlygame | easy | middle | Standard | earlygame`
+- `0398 | STARAPTOR | Staraptor | [NORMAL/FLYING] | 485 | lategame | hard | final | Standard | midgame, lategame`
+- `0399 | BIDOOF | Bidoof | [NORMAL] | 250 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0400 | BIBAREL | Bibarel | [NORMAL/WATER] | 410 | midgame | easy | final | Standard | midgame`
+- `0401 | KRICKETOT | Kricketot | [BUG] | 194 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0402 | KRICKETUNE | Kricketune | [BUG] | 384 | midgame | hard | final | Standard | midgame`
+- `0403 | SHINX | Shinx | [ELECTRIC] | 263 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0404 | LUXIO | Luxio | [ELECTRIC] | 363 | midgame | easy | middle | Standard | midgame`
+- `0405 | LUXRAY | Luxray | [ELECTRIC] | 523 | lategame | hard | final | Standard | midgame, lategame`
+- `0406 | BUDEW | Budew | [GRASS/POISON] | 280 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0407 | ROSERADE | Roserade | [GRASS/POISON] | 515 | lategame | normal | final | Standard | midgame, lategame`
+- `0408 | CRANIDOS | Cranidos | [ROCK] | 350 | earlygame | hard | base | Fossil | earlygame`
+- `0409 | RAMPARDOS | Rampardos | [ROCK] | 495 | lategame | hard | final | Fossil | midgame, lategame`
+- `0410 | SHIELDON | Shieldon | [ROCK/STEEL] | 350 | earlygame | hard | base | Fossil | earlygame`
+- `0411 | BASTIODON | Bastiodon | [ROCK/STEEL] | 495 | lategame | hard | final | Fossil | midgame, lategame`
+- `0412 | BURMY | Burmy | [BUG] | 224 | weak | easy | baby_or_base | SpecialFormCapable | earlygame`
+- `0413 | WORMADAM | Wormadam | [BUG/GRASS] | 424 | midgame | hard | final | SpecialFormCapable | midgame`
+- `0414 | MOTHIM | Mothim | [BUG/FLYING] | 424 | midgame | hard | final | Standard | midgame`
+- `0415 | COMBEE | Combee | [BUG/FLYING] | 244 | weak | easy | baby_or_base | Standard | earlygame`
+- `0416 | VESPIQUEN | Vespiquen | [BUG/FLYING] | 474 | lategame | hard | final | Standard | midgame, lategame`
+- `0417 | PACHIRISU | Pachirisu | [ELECTRIC] | 405 | midgame | very_easy | standalone | Standard | midgame`
+- `0418 | BUIZEL | Buizel | [WATER] | 330 | earlygame | easy | base | Standard | earlygame`
+- `0419 | FLOATZEL | Floatzel | [WATER] | 495 | lategame | normal | final | Standard | midgame, lategame`
+- `0420 | CHERUBI | Cherubi | [GRASS] | 275 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0421 | CHERRIM | Cherrim | [GRASS] | 450 | midgame | normal | final | SpecialFormCapable | midgame`
+- `0422 | SHELLOS | Shellos | [WATER] | 325 | earlygame | easy | base | SpecialFormCapable | earlygame`
+- `0423 | GASTRODON | Gastrodon | [WATER/GROUND] | 475 | lategame | normal | final | SpecialFormCapable | midgame, lategame`
+- `0424 | AMBIPOM | Ambipom | [NORMAL] | 482 | lategame | hard | final | Standard | midgame, lategame`
+- `0425 | DRIFLOON | Drifloon | [GHOST/FLYING] | 348 | earlygame | easy | base | Standard | earlygame`
+- `0426 | DRIFBLIM | Drifblim | [GHOST/FLYING] | 498 | lategame | normal | final | Standard | midgame, lategame`
+- `0427 | BUNEARY | Buneary | [NORMAL] | 350 | earlygame | easy | base | Standard | earlygame`
+- `0428 | LOPUNNY | Lopunny | [NORMAL] | 480 | lategame | normal | final | Standard | midgame, lategame`
+- `0429 | MISMAGIUS | Mismagius | [GHOST] | 495 | lategame | hard | final | Standard | midgame, lategame`
+- `0430 | HONCHKROW | Honchkrow | [DARK/FLYING] | 505 | lategame | hard | final | Standard | midgame, lategame`
+- `0431 | GLAMEOW | Glameow | [NORMAL] | 310 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0432 | PURUGLY | Purugly | [NORMAL] | 452 | midgame | normal | final | Standard | midgame`
+- `0433 | CHINGLING | Chingling | [PSYCHIC] | 285 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0434 | STUNKY | Stunky | [POISON/DARK] | 329 | earlygame | very_easy | base | Standard | earlygame`
+- `0435 | SKUNTANK | Skuntank | [POISON/DARK] | 479 | lategame | normal | final | Standard | midgame, lategame`
+- `0436 | BRONZOR | Bronzor | [STEEL/PSYCHIC] | 300 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0437 | BRONZONG | Bronzong | [STEEL/PSYCHIC] | 500 | lategame | normal | final | Standard | midgame, lategame`
+- `0438 | BONSLY | Bonsly | [ROCK] | 290 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0439 | MIMEJR | Mime Jr. | [PSYCHIC/FAIRY] | 310 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0440 | HAPPINY | Happiny | [NORMAL] | 220 | weak | easy | baby_or_base | Standard | earlygame`
+- `0441 | CHATOT | Chatot | [NORMAL/FLYING] | 411 | midgame | hard | standalone | Standard | midgame`
+- `0442 | SPIRITOMB | Spiritomb | [GHOST/DARK] | 485 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0443 | GIBLE | Gible | [DRAGON/GROUND] | 300 | earlygame | hard | baby_or_base | Pseudo | earlygame, elite_four, champion, boss`
+- `0444 | GABITE | Gabite | [DRAGON/GROUND] | 410 | midgame | hard | middle | Pseudo | midgame, elite_four, champion, boss`
+- `0445 | GARCHOMP | Garchomp | [DRAGON/GROUND] | 600 | boss | hard | final | Pseudo | gym_ace, elite_four, champion, boss`
+- `0446 | MUNCHLAX | Munchlax | [NORMAL] | 390 | midgame | hard | base | Standard | midgame`
+- `0447 | RIOLU | Riolu | [FIGHTING] | 285 | earlygame | normal | baby_or_base | Standard | earlygame`
+- `0448 | LUCARIO | Lucario | [FIGHTING/STEEL] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0449 | HIPPOPOTAS | Hippopotas | [GROUND] | 330 | earlygame | easy | base | Standard | earlygame`
+- `0450 | HIPPOWDON | Hippowdon | [GROUND] | 525 | lategame | normal | final | Standard | midgame, lategame`
+- `0451 | SKORUPI | Skorupi | [POISON/BUG] | 330 | earlygame | easy | base | Standard | earlygame`
+- `0452 | DRAPION | Drapion | [POISON/DARK] | 500 | lategame | hard | final | Standard | midgame, lategame`
+- `0453 | CROAGUNK | Croagunk | [POISON/FIGHTING] | 300 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0454 | TOXICROAK | Toxicroak | [POISON/FIGHTING] | 490 | lategame | normal | final | Standard | midgame, lategame`
+- `0455 | CARNIVINE | Carnivine | [GRASS] | 454 | midgame | very_easy | standalone | Standard | midgame`
+- `0456 | FINNEON | Finneon | [WATER] | 330 | earlygame | easy | base | Standard | earlygame`
+- `0457 | LUMINEON | Lumineon | [WATER] | 460 | lategame | normal | final | Standard | midgame, lategame`
+- `0458 | MANTYKE | Mantyke | [WATER/FLYING] | 345 | earlygame | hard | base | Standard | earlygame`
+- `0459 | SNOVER | Snover | [GRASS/ICE] | 334 | earlygame | easy | base | Standard | earlygame`
+- `0460 | ABOMASNOW | Abomasnow | [GRASS/ICE] | 494 | lategame | normal | final | Standard | midgame, lategame`
+- `0461 | WEAVILE | Weavile | [DARK/ICE] | 510 | lategame | hard | final | Standard | midgame, lategame`
+- `0462 | MAGNEZONE | Magnezone | [ELECTRIC/STEEL] | 535 | lategame | hard | final | Standard | midgame, lategame`
+- `0463 | LICKILICKY | Lickilicky | [NORMAL] | 515 | lategame | hard | final | Standard | midgame, lategame`
+- `0464 | RHYPERIOR | Rhyperior | [GROUND/ROCK] | 535 | lategame | hard | final | Standard | midgame, lategame`
+- `0465 | TANGROWTH | Tangrowth | [GRASS] | 535 | lategame | hard | final | Standard | midgame, lategame`
+- `0466 | ELECTIVIRE | Electivire | [ELECTRIC] | 540 | ace | hard | final | Standard | lategame, gym_ace, elite_four`
+- `0467 | MAGMORTAR | Magmortar | [FIRE] | 540 | ace | hard | final | Standard | lategame, gym_ace, elite_four`
+- `0468 | TOGEKISS | Togekiss | [FAIRY/FLYING] | 545 | ace | hard | final | Standard | lategame, gym_ace, elite_four`
+- `0469 | YANMEGA | Yanmega | [BUG/FLYING] | 515 | lategame | hard | final | Standard | midgame, lategame`
+- `0470 | LEAFEON | Leafeon | [GRASS] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0471 | GLACEON | Glaceon | [ICE] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0472 | GLISCOR | Gliscor | [GROUND/FLYING] | 510 | lategame | hard | final | Standard | midgame, lategame`
+- `0473 | MAMOSWINE | Mamoswine | [ICE/GROUND] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0474 | PORYGONZ | Porygon-Z | [NORMAL] | 535 | lategame | hard | final | Standard | midgame, lategame`
+- `0475 | GALLADE | Gallade | [PSYCHIC/FIGHTING] | 518 | lategame | hard | final | Standard | midgame, lategame`
+- `0476 | PROBOPASS | Probopass | [ROCK/STEEL] | 525 | lategame | normal | final | Standard | midgame, lategame`
+- `0477 | DUSKNOIR | Dusknoir | [GHOST] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0478 | FROSLASS | Froslass | [ICE/GHOST] | 480 | lategame | normal | final | Standard | midgame, lategame`
+- `0479 | ROTOM | Rotom | [ELECTRIC/GHOST] | 440 | midgame | hard | standalone | SpecialFormCapable | midgame`
+- `0480 | UXIE | Uxie | [PSYCHIC] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0481 | MESPRIT | Mesprit | [PSYCHIC] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0482 | AZELF | Azelf | [PSYCHIC] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0483 | DIALGA | Dialga | [STEEL/DRAGON] | 680 | boss | legendary | standalone | Legendary | boss, champion`
+- `0484 | PALKIA | Palkia | [WATER/DRAGON] | 680 | boss | legendary | standalone | Legendary | boss, champion`
+- `0485 | HEATRAN | Heatran | [FIRE/STEEL] | 600 | boss | legendary | standalone | Legendary | boss, champion`
+- `0486 | REGIGIGAS | Regigigas | [NORMAL] | 670 | boss | legendary | standalone | Legendary | boss, champion`
+- `0487 | GIRATINA | Giratina | [GHOST/DRAGON] | 680 | boss | legendary | standalone | Legendary, SpecialFormCapable | boss, champion`
+- `0488 | CRESSELIA | Cresselia | [PSYCHIC] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0489 | PHIONE | Phione | [WATER] | 480 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0490 | MANAPHY | Manaphy | [WATER] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0491 | DARKRAI | Darkrai | [DARK] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0492 | SHAYMIN | Shaymin | [GRASS] | 600 | boss | legendary | standalone | Legendary, Mythical, SpecialFormCapable | boss, champion`
+- `0493 | ARCEUS | Arceus | [NORMAL] | 720 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0494 | VICTINI | Victini | [PSYCHIC/FIRE] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0495 | SNIVY | Snivy | [GRASS] | 308 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0496 | SERVINE | Servine | [GRASS] | 413 | midgame | hard | middle | Standard | midgame`
+- `0497 | SERPERIOR | Serperior | [GRASS] | 528 | lategame | hard | final | Standard | midgame, lategame`
+- `0498 | TEPIG | Tepig | [FIRE] | 308 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0499 | PIGNITE | Pignite | [FIRE/FIGHTING] | 418 | midgame | hard | middle | Standard | midgame`
+- `0500 | EMBOAR | Emboar | [FIRE/FIGHTING] | 528 | lategame | hard | final | Standard | midgame, lategame`
+- `0501 | OSHAWOTT | Oshawott | [WATER] | 308 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0502 | DEWOTT | Dewott | [WATER] | 413 | midgame | hard | middle | Standard | midgame`
+- `0503 | SAMUROTT | Samurott | [WATER] | 528 | lategame | hard | final | RegionalCapable | midgame, lategame`
+- `0504 | PATRAT | Patrat | [NORMAL] | 255 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0505 | WATCHOG | Watchog | [NORMAL] | 420 | midgame | very_easy | final | Standard | midgame`
+- `0506 | LILLIPUP | Lillipup | [NORMAL] | 275 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0507 | HERDIER | Herdier | [NORMAL] | 370 | midgame | easy | middle | Standard | midgame`
+- `0508 | STOUTLAND | Stoutland | [NORMAL] | 500 | lategame | hard | final | Standard | midgame, lategame`
+- `0509 | PURRLOIN | Purrloin | [DARK] | 281 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0510 | LIEPARD | Liepard | [DARK] | 446 | midgame | normal | final | Standard | midgame`
+- `0511 | PANSAGE | Pansage | [GRASS] | 316 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0512 | SIMISAGE | Simisage | [GRASS] | 498 | lategame | normal | final | Standard | midgame, lategame`
+- `0513 | PANSEAR | Pansear | [FIRE] | 316 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0514 | SIMISEAR | Simisear | [FIRE] | 498 | lategame | normal | final | Standard | midgame, lategame`
+- `0515 | PANPOUR | Panpour | [WATER] | 316 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0516 | SIMIPOUR | Simipour | [WATER] | 498 | lategame | normal | final | Standard | midgame, lategame`
+- `0517 | MUNNA | Munna | [PSYCHIC] | 292 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0518 | MUSHARNA | Musharna | [PSYCHIC] | 487 | lategame | normal | final | Standard | midgame, lategame`
+- `0519 | PIDOVE | Pidove | [NORMAL/FLYING] | 264 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0520 | TRANQUILL | Tranquill | [NORMAL/FLYING] | 358 | earlygame | easy | middle | Standard | earlygame`
+- `0521 | UNFEZANT | Unfezant | [NORMAL/FLYING] | 488 | lategame | hard | final | Standard | midgame, lategame`
+- `0522 | BLITZLE | Blitzle | [ELECTRIC] | 295 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0523 | ZEBSTRIKA | Zebstrika | [ELECTRIC] | 497 | lategame | normal | final | Standard | midgame, lategame`
+- `0524 | ROGGENROLA | Roggenrola | [ROCK] | 280 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0525 | BOLDORE | Boldore | [ROCK] | 390 | midgame | easy | middle | Standard | midgame`
+- `0526 | GIGALITH | Gigalith | [ROCK] | 515 | lategame | hard | final | Standard | midgame, lategame`
+- `0527 | WOOBAT | Woobat | [PSYCHIC/FLYING] | 323 | earlygame | easy | base | Standard | earlygame`
+- `0528 | SWOOBAT | Swoobat | [PSYCHIC/FLYING] | 425 | midgame | hard | final | Standard | midgame`
+- `0529 | DRILBUR | Drilbur | [GROUND] | 328 | earlygame | easy | base | Standard | earlygame`
+- `0530 | EXCADRILL | Excadrill | [GROUND/STEEL] | 508 | lategame | normal | final | Standard | midgame, lategame`
+- `0531 | AUDINO | Audino | [NORMAL] | 445 | midgame | very_easy | standalone | Standard | midgame`
+- `0532 | TIMBURR | Timburr | [FIGHTING] | 305 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0533 | GURDURR | Gurdurr | [FIGHTING] | 405 | midgame | normal | middle | Standard | midgame`
+- `0534 | CONKELDURR | Conkeldurr | [FIGHTING] | 505 | lategame | hard | final | Standard | midgame, lategame`
+- `0535 | TYMPOLE | Tympole | [WATER] | 294 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0536 | PALPITOAD | Palpitoad | [WATER/GROUND] | 384 | midgame | easy | middle | Standard | midgame`
+- `0537 | SEISMITOAD | Seismitoad | [WATER/GROUND] | 509 | lategame | hard | final | Standard | midgame, lategame`
+- `0538 | THROH | Throh | [FIGHTING] | 465 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0539 | SAWK | Sawk | [FIGHTING] | 465 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0540 | SEWADDLE | Sewaddle | [BUG/GRASS] | 310 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0541 | SWADLOON | Swadloon | [BUG/GRASS] | 380 | midgame | easy | middle | Standard | midgame`
+- `0542 | LEAVANNY | Leavanny | [BUG/GRASS] | 500 | lategame | hard | final | Standard | midgame, lategame`
+- `0543 | VENIPEDE | Venipede | [BUG/POISON] | 260 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0544 | WHIRLIPEDE | Whirlipede | [BUG/POISON] | 360 | midgame | easy | middle | Standard | midgame`
+- `0545 | SCOLIPEDE | Scolipede | [BUG/POISON] | 485 | lategame | hard | final | Standard | midgame, lategame`
+- `0546 | COTTONEE | Cottonee | [GRASS/FAIRY] | 280 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0547 | WHIMSICOTT | Whimsicott | [GRASS/FAIRY] | 480 | lategame | normal | final | Standard | midgame, lategame`
+- `0548 | PETILIL | Petilil | [GRASS] | 280 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0549 | LILLIGANT | Lilligant | [GRASS] | 480 | lategame | normal | final | RegionalCapable | midgame, lategame`
+- `0550 | BASCULIN | Basculin | [WATER] | 460 | lategame | hard | base | SpecialFormCapable | midgame, lategame`
+- `0551 | SANDILE | Sandile | [GROUND/DARK] | 292 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0552 | KROKOROK | Krokorok | [GROUND/DARK] | 351 | earlygame | normal | middle | Standard | earlygame`
+- `0553 | KROOKODILE | Krookodile | [GROUND/DARK] | 519 | lategame | hard | final | Standard | midgame, lategame`
+- `0554 | DARUMAKA | Darumaka | [FIRE] | 315 | earlygame | easy | baby_or_base | RegionalCapable | earlygame`
+- `0555 | DARMANITAN | Darmanitan | [FIRE] | 480 | lategame | normal | final | RegionalCapable | midgame, lategame`
+- `0556 | MARACTUS | Maractus | [GRASS] | 461 | lategame | very_easy | standalone | Standard | midgame, lategame`
+- `0557 | DWEBBLE | Dwebble | [BUG/ROCK] | 325 | earlygame | easy | base | Standard | earlygame`
+- `0558 | CRUSTLE | Crustle | [BUG/ROCK] | 485 | lategame | normal | final | Standard | midgame, lategame`
+- `0559 | SCRAGGY | Scraggy | [DARK/FIGHTING] | 348 | earlygame | easy | base | Standard | earlygame`
+- `0560 | SCRAFTY | Scrafty | [DARK/FIGHTING] | 488 | lategame | normal | final | Standard | midgame, lategame`
+- `0561 | SIGILYPH | Sigilyph | [PSYCHIC/FLYING] | 490 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0562 | YAMASK | Yamask | [GHOST] | 303 | earlygame | easy | baby_or_base | RegionalCapable | earlygame`
+- `0563 | COFAGRIGUS | Cofagrigus | [GHOST] | 483 | lategame | normal | final | Standard | midgame, lategame`
+- `0564 | TIRTOUGA | Tirtouga | [WATER/ROCK] | 355 | earlygame | hard | base | Fossil | earlygame`
+- `0565 | CARRACOSTA | Carracosta | [WATER/ROCK] | 495 | lategame | hard | final | Fossil | midgame, lategame`
+- `0566 | ARCHEN | Archen | [ROCK/FLYING] | 401 | midgame | hard | base | Fossil | midgame`
+- `0567 | ARCHEOPS | Archeops | [ROCK/FLYING] | 567 | ace | hard | final | Fossil | lategame, gym_ace, elite_four`
+- `0568 | TRUBBISH | Trubbish | [POISON] | 329 | earlygame | easy | base | Standard | earlygame`
+- `0569 | GARBODOR | Garbodor | [POISON] | 474 | lategame | normal | final | Standard | midgame, lategame`
+- `0570 | ZORUA | Zorua | [DARK] | 330 | earlygame | normal | base | RegionalCapable | earlygame`
+- `0571 | ZOROARK | Zoroark | [DARK] | 510 | lategame | hard | final | RegionalCapable | midgame, lategame`
+- `0572 | MINCCINO | Minccino | [NORMAL] | 300 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0573 | CINCCINO | Cinccino | [NORMAL] | 470 | lategame | normal | final | Standard | midgame, lategame`
+- `0574 | GOTHITA | Gothita | [PSYCHIC] | 290 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0575 | GOTHORITA | Gothorita | [PSYCHIC] | 390 | midgame | normal | middle | Standard | midgame`
+- `0576 | GOTHITELLE | Gothitelle | [PSYCHIC] | 490 | lategame | hard | final | Standard | midgame, lategame`
+- `0577 | SOLOSIS | Solosis | [PSYCHIC] | 290 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0578 | DUOSION | Duosion | [PSYCHIC] | 370 | midgame | normal | middle | Standard | midgame`
+- `0579 | REUNICLUS | Reuniclus | [PSYCHIC] | 490 | lategame | hard | final | Standard | midgame, lategame`
+- `0580 | DUCKLETT | Ducklett | [WATER/FLYING] | 305 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0581 | SWANNA | Swanna | [WATER/FLYING] | 473 | lategame | hard | final | Standard | midgame, lategame`
+- `0582 | VANILLITE | Vanillite | [ICE] | 305 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0583 | VANILLISH | Vanillish | [ICE] | 395 | midgame | easy | middle | Standard | midgame`
+- `0584 | VANILLUXE | Vanilluxe | [ICE] | 535 | lategame | hard | final | Standard | midgame, lategame`
+- `0585 | DEERLING | Deerling | [NORMAL/GRASS] | 335 | earlygame | easy | base | SpecialFormCapable | earlygame`
+- `0586 | SAWSBUCK | Sawsbuck | [NORMAL/GRASS] | 475 | lategame | normal | final | SpecialFormCapable | midgame, lategame`
+- `0587 | EMOLGA | Emolga | [ELECTRIC/FLYING] | 428 | midgame | very_easy | standalone | Standard | midgame`
+- `0588 | KARRABLAST | Karrablast | [BUG] | 315 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0589 | ESCAVALIER | Escavalier | [BUG/STEEL] | 495 | lategame | normal | final | Standard | midgame, lategame`
+- `0590 | FOONGUS | Foongus | [GRASS/POISON] | 294 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0591 | AMOONGUSS | Amoonguss | [GRASS/POISON] | 464 | lategame | normal | final | Standard | midgame, lategame`
+- `0592 | FRILLISH | Frillish | [WATER/GHOST] | 335 | earlygame | easy | base | Standard | earlygame`
+- `0593 | JELLICENT | Jellicent | [WATER/GHOST] | 480 | lategame | normal | final | Standard | midgame, lategame`
+- `0594 | ALOMOMOLA | Alomomola | [WATER] | 470 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0595 | JOLTIK | Joltik | [BUG/ELECTRIC] | 319 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0596 | GALVANTULA | Galvantula | [BUG/ELECTRIC] | 472 | lategame | normal | final | Standard | midgame, lategame`
+- `0597 | FERROSEED | Ferroseed | [GRASS/STEEL] | 305 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0598 | FERROTHORN | Ferrothorn | [GRASS/STEEL] | 489 | lategame | normal | final | Standard | midgame, lategame`
+- `0599 | KLINK | Klink | [STEEL] | 300 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0600 | KLANG | Klang | [STEEL] | 440 | midgame | normal | middle | Standard | midgame`
+- `0601 | KLINKLANG | Klinklang | [STEEL] | 520 | lategame | hard | final | Standard | midgame, lategame`
+- `0602 | TYNAMO | Tynamo | [ELECTRIC] | 275 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0603 | EELEKTRIK | Eelektrik | [ELECTRIC] | 405 | midgame | normal | middle | Standard | midgame`
+- `0604 | EELEKTROSS | Eelektross | [ELECTRIC] | 515 | lategame | hard | final | Standard | midgame, lategame`
+- `0605 | ELGYEM | Elgyem | [PSYCHIC] | 335 | earlygame | very_easy | base | Standard | earlygame`
+- `0606 | BEHEEYEM | Beheeyem | [PSYCHIC] | 485 | lategame | normal | final | Standard | midgame, lategame`
+- `0607 | LITWICK | Litwick | [GHOST/FIRE] | 275 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0608 | LAMPENT | Lampent | [GHOST/FIRE] | 370 | midgame | normal | middle | Standard | midgame`
+- `0609 | CHANDELURE | Chandelure | [GHOST/FIRE] | 520 | lategame | hard | final | Standard | midgame, lategame`
+- `0610 | AXEW | Axew | [DRAGON] | 320 | earlygame | normal | baby_or_base | Standard | earlygame`
+- `0611 | FRAXURE | Fraxure | [DRAGON] | 410 | midgame | normal | middle | Standard | midgame`
+- `0612 | HAXORUS | Haxorus | [DRAGON] | 540 | ace | hard | final | Standard | lategame, gym_ace, elite_four`
+- `0613 | CUBCHOO | Cubchoo | [ICE] | 305 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0614 | BEARTIC | Beartic | [ICE] | 505 | lategame | normal | final | Standard | midgame, lategame`
+- `0615 | CRYOGONAL | Cryogonal | [ICE] | 515 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0616 | SHELMET | Shelmet | [BUG] | 305 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0617 | ACCELGOR | Accelgor | [BUG] | 495 | lategame | normal | final | Standard | midgame, lategame`
+- `0618 | STUNFISK | Stunfisk | [GROUND/ELECTRIC] | 471 | lategame | normal | standalone | RegionalCapable | midgame, lategame`
+- `0619 | MIENFOO | Mienfoo | [FIGHTING] | 350 | earlygame | easy | base | Standard | earlygame`
+- `0620 | MIENSHAO | Mienshao | [FIGHTING] | 510 | lategame | hard | final | Standard | midgame, lategame`
+- `0621 | DRUDDIGON | Druddigon | [DRAGON] | 485 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0622 | GOLETT | Golett | [GROUND/GHOST] | 303 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0623 | GOLURK | Golurk | [GROUND/GHOST] | 483 | lategame | normal | final | Standard | midgame, lategame`
+- `0624 | PAWNIARD | Pawniard | [DARK/STEEL] | 340 | earlygame | easy | base | Standard | earlygame`
+- `0625 | BISHARP | Bisharp | [DARK/STEEL] | 490 | lategame | hard | middle | Standard | midgame, lategame`
+- `0626 | BOUFFALANT | Bouffalant | [NORMAL] | 490 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0627 | RUFFLET | Rufflet | [NORMAL/FLYING] | 350 | earlygame | easy | base | Standard | earlygame`
+- `0628 | BRAVIARY | Braviary | [NORMAL/FLYING] | 510 | lategame | normal | final | RegionalCapable | midgame, lategame`
+- `0629 | VULLABY | Vullaby | [DARK/FLYING] | 370 | midgame | easy | base | Standard | midgame`
+- `0630 | MANDIBUZZ | Mandibuzz | [DARK/FLYING] | 510 | lategame | normal | final | Standard | midgame, lategame`
+- `0631 | HEATMOR | Heatmor | [FIRE] | 484 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0632 | DURANT | Durant | [BUG/STEEL] | 484 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0633 | DEINO | Deino | [DARK/DRAGON] | 300 | earlygame | hard | baby_or_base | Pseudo | earlygame, elite_four, champion, boss`
+- `0634 | ZWEILOUS | Zweilous | [DARK/DRAGON] | 420 | midgame | hard | middle | Pseudo | midgame, elite_four, champion, boss`
+- `0635 | HYDREIGON | Hydreigon | [DARK/DRAGON] | 600 | boss | hard | final | Pseudo | gym_ace, elite_four, champion, boss`
+- `0636 | LARVESTA | Larvesta | [BUG/FIRE] | 360 | midgame | hard | base | Standard | midgame`
+- `0637 | VOLCARONA | Volcarona | [BUG/FIRE] | 550 | ace | rare | final | Standard | lategame, gym_ace, elite_four`
+- `0638 | COBALION | Cobalion | [STEEL/FIGHTING] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0639 | TERRAKION | Terrakion | [ROCK/FIGHTING] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0640 | VIRIZION | Virizion | [GRASS/FIGHTING] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0641 | TORNADUS | Tornadus | [FLYING] | 580 | boss | legendary | standalone | Legendary, SpecialFormCapable | boss, champion`
+- `0642 | THUNDURUS | Thundurus | [ELECTRIC/FLYING] | 580 | boss | legendary | standalone | Legendary, SpecialFormCapable | boss, champion`
+- `0643 | RESHIRAM | Reshiram | [DRAGON/FIRE] | 680 | boss | legendary | standalone | Legendary | boss, champion`
+- `0644 | ZEKROM | Zekrom | [DRAGON/ELECTRIC] | 680 | boss | legendary | standalone | Legendary | boss, champion`
+- `0645 | LANDORUS | Landorus | [GROUND/FLYING] | 600 | boss | legendary | standalone | Legendary, SpecialFormCapable | boss, champion`
+- `0646 | KYUREM | Kyurem | [DRAGON/ICE] | 660 | boss | legendary | standalone | Legendary | boss, champion`
+- `0647 | KELDEO | Keldeo | [WATER/FIGHTING] | 580 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0648 | MELOETTA | Meloetta | [NORMAL/PSYCHIC] | 600 | boss | legendary | standalone | Legendary, Mythical, SpecialFormCapable | boss, champion`
+- `0649 | GENESECT | Genesect | [BUG/STEEL] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0650 | CHESPIN | Chespin | [GRASS] | 313 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0651 | QUILLADIN | Quilladin | [GRASS] | 405 | midgame | hard | middle | Standard | midgame`
+- `0652 | CHESNAUGHT | Chesnaught | [GRASS/FIGHTING] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0653 | FENNEKIN | Fennekin | [FIRE] | 307 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0654 | BRAIXEN | Braixen | [FIRE] | 409 | midgame | hard | middle | Standard | midgame`
+- `0655 | DELPHOX | Delphox | [FIRE/PSYCHIC] | 534 | lategame | hard | final | Standard | midgame, lategame`
+- `0656 | FROAKIE | Froakie | [WATER] | 314 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0657 | FROGADIER | Frogadier | [WATER] | 405 | midgame | hard | middle | Standard | midgame`
+- `0658 | GRENINJA | Greninja | [WATER/DARK] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0659 | BUNNELBY | Bunnelby | [NORMAL] | 237 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0660 | DIGGERSBY | Diggersby | [NORMAL/GROUND] | 423 | midgame | easy | final | Standard | midgame`
+- `0661 | FLETCHLING | Fletchling | [NORMAL/FLYING] | 278 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0662 | FLETCHINDER | Fletchinder | [FIRE/FLYING] | 382 | midgame | easy | middle | Standard | midgame`
+- `0663 | TALONFLAME | Talonflame | [FIRE/FLYING] | 499 | lategame | hard | final | Standard | midgame, lategame`
+- `0664 | SCATTERBUG | Scatterbug | [BUG] | 200 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0665 | SPEWPA | Spewpa | [BUG] | 213 | weak | easy | middle | Standard | earlygame`
+- `0666 | VIVILLON | Vivillon | [BUG/FLYING] | 411 | midgame | hard | final | Standard | midgame`
+- `0667 | LITLEO | Litleo | [FIRE/NORMAL] | 369 | midgame | very_easy | base | Standard | midgame`
+- `0668 | PYROAR | Pyroar | [FIRE/NORMAL] | 507 | lategame | normal | final | Standard | midgame, lategame`
+- `0669 | FLABEBE | Flabébé | [FAIRY] | 303 | earlygame | very_easy | baby_or_base | SpecialFormCapable | earlygame`
+- `0670 | FLOETTE | Floette | [FAIRY] | 371 | midgame | easy | middle | SpecialFormCapable | midgame`
+- `0671 | FLORGES | Florges | [FAIRY] | 552 | ace | hard | final | SpecialFormCapable | lategame, gym_ace, elite_four`
+- `0672 | SKIDDO | Skiddo | [GRASS] | 350 | earlygame | very_easy | base | Standard | earlygame`
+- `0673 | GOGOAT | Gogoat | [GRASS] | 531 | lategame | hard | final | Standard | midgame, lategame`
+- `0674 | PANCHAM | Pancham | [FIGHTING] | 348 | earlygame | very_easy | base | Standard | earlygame`
+- `0675 | PANGORO | Pangoro | [FIGHTING/DARK] | 495 | lategame | normal | final | Standard | midgame, lategame`
+- `0676 | FURFROU | Furfrou | [NORMAL] | 472 | lategame | easy | standalone | Standard | midgame, lategame`
+- `0677 | ESPURR | Espurr | [PSYCHIC] | 355 | earlygame | easy | base | Standard | earlygame`
+- `0678 | MEOWSTIC | Meowstic | [PSYCHIC] | 466 | lategame | normal | final | Standard | midgame, lategame`
+- `0679 | HONEDGE | Honedge | [STEEL/GHOST] | 325 | earlygame | easy | base | Standard | earlygame`
+- `0680 | DOUBLADE | Doublade | [STEEL/GHOST] | 448 | midgame | normal | middle | Standard | midgame`
+- `0681 | AEGISLASH | Aegislash | [STEEL/GHOST] | 500 | lategame | hard | final | SpecialFormCapable | midgame, lategame`
+- `0682 | SPRITZEE | Spritzee | [FAIRY] | 341 | earlygame | very_easy | base | Standard | earlygame`
+- `0683 | AROMATISSE | Aromatisse | [FAIRY] | 462 | lategame | easy | final | Standard | midgame, lategame`
+- `0684 | SWIRLIX | Swirlix | [FAIRY] | 341 | earlygame | very_easy | base | Standard | earlygame`
+- `0685 | SLURPUFF | Slurpuff | [FAIRY] | 480 | lategame | easy | final | Standard | midgame, lategame`
+- `0686 | INKAY | Inkay | [DARK/PSYCHIC] | 288 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0687 | MALAMAR | Malamar | [DARK/PSYCHIC] | 482 | lategame | normal | final | Standard | midgame, lategame`
+- `0688 | BINACLE | Binacle | [ROCK/WATER] | 306 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0689 | BARBARACLE | Barbaracle | [ROCK/WATER] | 500 | lategame | hard | final | Standard | midgame, lategame`
+- `0690 | SKRELP | Skrelp | [POISON/WATER] | 320 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0691 | DRAGALGE | Dragalge | [POISON/DRAGON] | 494 | lategame | hard | final | Standard | midgame, lategame`
+- `0692 | CLAUNCHER | Clauncher | [WATER] | 330 | earlygame | very_easy | base | Standard | earlygame`
+- `0693 | CLAWITZER | Clawitzer | [WATER] | 500 | lategame | hard | final | Standard | midgame, lategame`
+- `0694 | HELIOPTILE | Helioptile | [ELECTRIC/NORMAL] | 289 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0695 | HELIOLISK | Heliolisk | [ELECTRIC/NORMAL] | 481 | lategame | normal | final | Standard | midgame, lategame`
+- `0696 | TYRUNT | Tyrunt | [ROCK/DRAGON] | 362 | midgame | hard | base | Fossil | midgame`
+- `0697 | TYRANTRUM | Tyrantrum | [ROCK/DRAGON] | 521 | lategame | hard | final | Fossil | midgame, lategame`
+- `0698 | AMAURA | Amaura | [ROCK/ICE] | 362 | midgame | hard | base | Fossil | midgame`
+- `0699 | AURORUS | Aurorus | [ROCK/ICE] | 521 | lategame | hard | final | Fossil | midgame, lategame`
+- `0700 | SYLVEON | Sylveon | [FAIRY] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0701 | HAWLUCHA | Hawlucha | [FIGHTING/FLYING] | 500 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0702 | DEDENNE | Dedenne | [ELECTRIC/FAIRY] | 431 | midgame | easy | standalone | Standard | midgame`
+- `0703 | CARBINK | Carbink | [ROCK/FAIRY] | 500 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0704 | GOOMY | Goomy | [DRAGON] | 300 | earlygame | hard | baby_or_base | Pseudo | earlygame, elite_four, champion, boss`
+- `0705 | SLIGGOO | Sliggoo | [DRAGON] | 452 | midgame | hard | middle | Pseudo, RegionalCapable | midgame, elite_four, champion, boss`
+- `0706 | GOODRA | Goodra | [DRAGON] | 600 | boss | hard | final | Pseudo, RegionalCapable | gym_ace, elite_four, champion, boss`
+- `0707 | KLEFKI | Klefki | [STEEL/FAIRY] | 470 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0708 | PHANTUMP | Phantump | [GHOST/GRASS] | 309 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0709 | TREVENANT | Trevenant | [GHOST/GRASS] | 474 | lategame | normal | final | Standard | midgame, lategame`
+- `0710 | PUMPKABOO | Pumpkaboo | [GHOST/GRASS] | 335 | earlygame | easy | base | SpecialFormCapable | earlygame`
+- `0711 | GOURGEIST | Gourgeist | [GHOST/GRASS] | 494 | lategame | normal | final | SpecialFormCapable | midgame, lategame`
+- `0712 | BERGMITE | Bergmite | [ICE] | 304 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0713 | AVALUGG | Avalugg | [ICE] | 514 | lategame | hard | final | RegionalCapable | midgame, lategame`
+- `0714 | NOIBAT | Noibat | [FLYING/DRAGON] | 245 | weak | easy | baby_or_base | Standard | earlygame`
+- `0715 | NOIVERN | Noivern | [FLYING/DRAGON] | 535 | lategame | hard | final | Standard | midgame, lategame`
+- `0716 | XERNEAS | Xerneas | [FAIRY] | 680 | boss | legendary | standalone | Legendary, SpecialFormCapable | boss, champion`
+- `0717 | YVELTAL | Yveltal | [DARK/FLYING] | 680 | boss | legendary | standalone | Legendary | boss, champion`
+- `0718 | ZYGARDE | Zygarde | [DRAGON/GROUND] | 600 | boss | legendary | standalone | Legendary, SpecialFormCapable | boss, champion`
+- `0719 | DIANCIE | Diancie | [ROCK/FAIRY] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0720 | HOOPA | Hoopa | [PSYCHIC/GHOST] | 600 | boss | legendary | standalone | Legendary, Mythical, SpecialFormCapable | boss, champion`
+- `0721 | VOLCANION | Volcanion | [FIRE/WATER] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0722 | ROWLET | Rowlet | [GRASS/FLYING] | 320 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0723 | DARTRIX | Dartrix | [GRASS/FLYING] | 420 | midgame | hard | middle | Standard | midgame`
+- `0724 | DECIDUEYE | Decidueye | [GRASS/GHOST] | 530 | lategame | hard | final | RegionalCapable | midgame, lategame`
+- `0725 | LITTEN | Litten | [FIRE] | 320 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0726 | TORRACAT | Torracat | [FIRE] | 420 | midgame | hard | middle | Standard | midgame`
+- `0727 | INCINEROAR | Incineroar | [FIRE/DARK] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0728 | POPPLIO | Popplio | [WATER] | 320 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0729 | BRIONNE | Brionne | [WATER] | 420 | midgame | hard | middle | Standard | midgame`
+- `0730 | PRIMARINA | Primarina | [WATER/FAIRY] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0731 | PIKIPEK | Pikipek | [NORMAL/FLYING] | 265 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0732 | TRUMBEAK | Trumbeak | [NORMAL/FLYING] | 355 | earlygame | easy | middle | Standard | earlygame`
+- `0733 | TOUCANNON | Toucannon | [NORMAL/FLYING] | 485 | lategame | hard | final | Standard | midgame, lategame`
+- `0734 | YUNGOOS | Yungoos | [NORMAL] | 253 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0735 | GUMSHOOS | Gumshoos | [NORMAL] | 418 | midgame | easy | final | Standard | midgame`
+- `0736 | GRUBBIN | Grubbin | [BUG] | 300 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0737 | CHARJABUG | Charjabug | [BUG/ELECTRIC] | 400 | midgame | easy | middle | Standard | midgame`
+- `0738 | VIKAVOLT | Vikavolt | [BUG/ELECTRIC] | 500 | lategame | hard | final | Standard | midgame, lategame`
+- `0739 | CRABRAWLER | Crabrawler | [FIGHTING] | 338 | earlygame | very_easy | base | Standard | earlygame`
+- `0740 | CRABOMINABLE | Crabominable | [FIGHTING/ICE] | 478 | lategame | normal | final | Standard | midgame, lategame`
+- `0741 | ORICORIO | Oricorio | [FIRE/FLYING] | 476 | lategame | hard | standalone | SpecialFormCapable | midgame, lategame`
+- `0742 | CUTIEFLY | Cutiefly | [BUG/FAIRY] | 304 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0743 | RIBOMBEE | Ribombee | [BUG/FAIRY] | 464 | lategame | normal | final | Standard | midgame, lategame`
+- `0744 | ROCKRUFF | Rockruff | [ROCK] | 280 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0745 | LYCANROC | Lycanroc | [ROCK] | 487 | lategame | normal | final | SpecialFormCapable | midgame, lategame`
+- `0746 | WISHIWASHI | Wishiwashi | [WATER] | 175 | weak | normal | standalone | SpecialFormCapable | earlygame`
+- `0747 | MAREANIE | Mareanie | [POISON/WATER] | 305 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0748 | TOXAPEX | Toxapex | [POISON/WATER] | 495 | lategame | normal | final | Standard | midgame, lategame`
+- `0749 | MUDBRAY | Mudbray | [GROUND] | 385 | midgame | easy | base | Standard | midgame`
+- `0750 | MUDSDALE | Mudsdale | [GROUND] | 500 | lategame | normal | final | Standard | midgame, lategame`
+- `0751 | DEWPIDER | Dewpider | [WATER/BUG] | 269 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0752 | ARAQUANID | Araquanid | [WATER/BUG] | 454 | midgame | normal | final | Standard | midgame`
+- `0753 | FOMANTIS | Fomantis | [GRASS] | 250 | weak | easy | baby_or_base | Standard | earlygame`
+- `0754 | LURANTIS | Lurantis | [GRASS] | 480 | lategame | normal | final | Standard | midgame, lategame`
+- `0755 | MORELULL | Morelull | [GRASS/FAIRY] | 285 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0756 | SHIINOTIC | Shiinotic | [GRASS/FAIRY] | 405 | midgame | normal | final | Standard | midgame`
+- `0757 | SALANDIT | Salandit | [POISON/FIRE] | 320 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0758 | SALAZZLE | Salazzle | [POISON/FIRE] | 480 | lategame | hard | final | Standard | midgame, lategame`
+- `0759 | STUFFUL | Stufful | [NORMAL/FIGHTING] | 340 | earlygame | easy | base | Standard | earlygame`
+- `0760 | BEWEAR | Bewear | [NORMAL/FIGHTING] | 500 | lategame | normal | final | Standard | midgame, lategame`
+- `0761 | BOUNSWEET | Bounsweet | [GRASS] | 210 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0762 | STEENEE | Steenee | [GRASS] | 290 | earlygame | easy | middle | Standard | earlygame`
+- `0763 | TSAREENA | Tsareena | [GRASS] | 510 | lategame | hard | final | Standard | midgame, lategame`
+- `0764 | COMFEY | Comfey | [FAIRY] | 485 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0765 | ORANGURU | Oranguru | [NORMAL/PSYCHIC] | 490 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0766 | PASSIMIAN | Passimian | [FIGHTING] | 490 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0767 | WIMPOD | Wimpod | [BUG/WATER] | 230 | weak | normal | baby_or_base | Standard | earlygame`
+- `0768 | GOLISOPOD | Golisopod | [BUG/WATER] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0769 | SANDYGAST | Sandygast | [GHOST/GROUND] | 320 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0770 | PALOSSAND | Palossand | [GHOST/GROUND] | 480 | lategame | normal | final | Standard | midgame, lategame`
+- `0771 | PYUKUMUKU | Pyukumuku | [WATER] | 410 | midgame | normal | standalone | Standard | midgame`
+- `0772 | TYPENULL | Type: Null | [NORMAL] | 534 | boss | legendary | base | Legendary | boss, champion`
+- `0773 | SILVALLY | Silvally | [NORMAL] | 570 | boss | legendary | final | Legendary | boss, champion`
+- `0774 | MINIOR | Minior | [ROCK/FLYING] | 440 | midgame | hard | standalone | SpecialFormCapable | midgame`
+- `0775 | KOMALA | Komala | [NORMAL] | 480 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0776 | TURTONATOR | Turtonator | [FIRE/DRAGON] | 485 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0777 | TOGEDEMARU | Togedemaru | [ELECTRIC/STEEL] | 435 | midgame | easy | standalone | Standard | midgame`
+- `0778 | MIMIKYU | Mimikyu | [GHOST/FAIRY] | 476 | lategame | hard | standalone | SpecialFormCapable | midgame, lategame`
+- `0779 | BRUXISH | Bruxish | [WATER/PSYCHIC] | 475 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0780 | DRAMPA | Drampa | [NORMAL/DRAGON] | 485 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0781 | DHELMISE | Dhelmise | [GHOST/GRASS] | 517 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0782 | JANGMOO | Jangmo-o | [DRAGON] | 300 | earlygame | hard | baby_or_base | Pseudo | earlygame, elite_four, champion, boss`
+- `0783 | HAKAMOO | Hakamo-o | [DRAGON/FIGHTING] | 420 | midgame | hard | middle | Pseudo | midgame, elite_four, champion, boss`
+- `0784 | KOMMOO | Kommo-o | [DRAGON/FIGHTING] | 600 | boss | hard | final | Pseudo | gym_ace, elite_four, champion, boss`
+- `0785 | TAPUKOKO | Tapu Koko | [ELECTRIC/FAIRY] | 570 | boss | legendary | standalone | Legendary | boss, champion`
+- `0786 | TAPULELE | Tapu Lele | [PSYCHIC/FAIRY] | 570 | boss | legendary | standalone | Legendary | boss, champion`
+- `0787 | TAPUBULU | Tapu Bulu | [GRASS/FAIRY] | 570 | boss | legendary | standalone | Legendary | boss, champion`
+- `0788 | TAPUFINI | Tapu Fini | [WATER/FAIRY] | 570 | boss | legendary | standalone | Legendary | boss, champion`
+- `0789 | COSMOG | Cosmog | [PSYCHIC] | 200 | boss | legendary | baby_or_base | Legendary | boss, champion`
+- `0790 | COSMOEM | Cosmoem | [PSYCHIC] | 400 | boss | legendary | middle | Legendary | boss, champion`
+- `0791 | SOLGALEO | Solgaleo | [PSYCHIC/STEEL] | 680 | boss | legendary | final | Legendary | boss, champion`
+- `0792 | LUNALA | Lunala | [PSYCHIC/GHOST] | 680 | boss | legendary | final | Legendary | boss, champion`
+- `0793 | NIHILEGO | Nihilego | [ROCK/POISON] | 570 | boss | legendary | standalone | Legendary, UltraBeast | boss, champion`
+- `0794 | BUZZWOLE | Buzzwole | [BUG/FIGHTING] | 570 | boss | legendary | standalone | Legendary, UltraBeast | boss, champion`
+- `0795 | PHEROMOSA | Pheromosa | [BUG/FIGHTING] | 570 | boss | legendary | standalone | Legendary, UltraBeast | boss, champion`
+- `0796 | XURKITREE | Xurkitree | [ELECTRIC] | 570 | boss | legendary | standalone | Legendary, UltraBeast | boss, champion`
+- `0797 | CELESTEELA | Celesteela | [STEEL/FLYING] | 570 | boss | legendary | standalone | Legendary, UltraBeast | boss, champion`
+- `0798 | KARTANA | Kartana | [GRASS/STEEL] | 570 | boss | legendary | standalone | Legendary, UltraBeast | boss, champion`
+- `0799 | GUZZLORD | Guzzlord | [DARK/DRAGON] | 570 | boss | legendary | standalone | Legendary, UltraBeast | boss, champion`
+- `0800 | NECROZMA | Necrozma | [PSYCHIC] | 600 | boss | legendary | standalone | Legendary | boss, champion`
+- `0801 | MAGEARNA | Magearna | [STEEL/FAIRY] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0802 | MARSHADOW | Marshadow | [FIGHTING/GHOST] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0803 | POIPOLE | Poipole | [POISON] | 420 | boss | legendary | base | Legendary, UltraBeast | boss, champion`
+- `0804 | NAGANADEL | Naganadel | [POISON/DRAGON] | 540 | boss | legendary | final | Legendary, UltraBeast | boss, champion`
+- `0805 | STAKATAKA | Stakataka | [ROCK/STEEL] | 570 | boss | legendary | standalone | Legendary, UltraBeast | boss, champion`
+- `0806 | BLACEPHALON | Blacephalon | [FIRE/GHOST] | 570 | boss | legendary | standalone | Legendary, UltraBeast | boss, champion`
+- `0807 | ZERAORA | Zeraora | [ELECTRIC] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0808 | MELTAN | Meltan | [STEEL] | 300 | boss | legendary | baby_or_base | Legendary, Mythical | boss, champion`
+- `0809 | MELMETAL | Melmetal | [STEEL] | 600 | boss | legendary | final | Legendary, Mythical | boss, champion`
+- `0810 | GROOKEY | Grookey | [GRASS] | 310 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0811 | THWACKEY | Thwackey | [GRASS] | 420 | midgame | hard | middle | Standard | midgame`
+- `0812 | RILLABOOM | Rillaboom | [GRASS] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0813 | SCORBUNNY | Scorbunny | [FIRE] | 310 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0814 | RABOOT | Raboot | [FIRE] | 420 | midgame | hard | middle | Standard | midgame`
+- `0815 | CINDERACE | Cinderace | [FIRE] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0816 | SOBBLE | Sobble | [WATER] | 310 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0817 | DRIZZILE | Drizzile | [WATER] | 420 | midgame | hard | middle | Standard | midgame`
+- `0818 | INTELEON | Inteleon | [WATER] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0819 | SKWOVET | Skwovet | [NORMAL] | 275 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0820 | GREEDENT | Greedent | [NORMAL] | 460 | lategame | normal | final | Standard | midgame, lategame`
+- `0821 | ROOKIDEE | Rookidee | [FLYING] | 245 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0822 | CORVISQUIRE | Corvisquire | [FLYING] | 365 | midgame | easy | middle | Standard | midgame`
+- `0823 | CORVIKNIGHT | Corviknight | [FLYING/STEEL] | 495 | lategame | hard | final | Standard | midgame, lategame`
+- `0824 | BLIPBUG | Blipbug | [BUG] | 180 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0825 | DOTTLER | Dottler | [BUG/PSYCHIC] | 335 | earlygame | easy | middle | Standard | earlygame`
+- `0826 | ORBEETLE | Orbeetle | [BUG/PSYCHIC] | 505 | lategame | hard | final | Standard | midgame, lategame`
+- `0827 | NICKIT | Nickit | [DARK] | 245 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0828 | THIEVUL | Thievul | [DARK] | 455 | midgame | easy | final | Standard | midgame`
+- `0829 | GOSSIFLEUR | Gossifleur | [GRASS] | 250 | weak | easy | baby_or_base | Standard | earlygame`
+- `0830 | ELDEGOSS | Eldegoss | [GRASS] | 460 | lategame | normal | final | Standard | midgame, lategame`
+- `0831 | WOOLOO | Wooloo | [NORMAL] | 270 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0832 | DUBWOOL | Dubwool | [NORMAL] | 490 | lategame | easy | final | Standard | midgame, lategame`
+- `0833 | CHEWTLE | Chewtle | [WATER] | 284 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0834 | DREDNAW | Drednaw | [WATER/ROCK] | 485 | lategame | normal | final | Standard | midgame, lategame`
+- `0835 | YAMPER | Yamper | [ELECTRIC] | 270 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0836 | BOLTUND | Boltund | [ELECTRIC] | 490 | lategame | hard | final | Standard | midgame, lategame`
+- `0837 | ROLYCOLY | Rolycoly | [ROCK] | 240 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0838 | CARKOL | Carkol | [ROCK/FIRE] | 410 | midgame | easy | middle | Standard | midgame`
+- `0839 | COALOSSAL | Coalossal | [ROCK/FIRE] | 510 | lategame | hard | final | Standard | midgame, lategame`
+- `0840 | APPLIN | Applin | [GRASS/DRAGON] | 260 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0841 | FLAPPLE | Flapple | [GRASS/DRAGON] | 485 | lategame | hard | final | Standard | midgame, lategame`
+- `0842 | APPLETUN | Appletun | [GRASS/DRAGON] | 485 | lategame | hard | final | Standard | midgame, lategame`
+- `0843 | SILICOBRA | Silicobra | [GROUND] | 315 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0844 | SANDACONDA | Sandaconda | [GROUND] | 510 | lategame | easy | final | Standard | midgame, lategame`
+- `0845 | CRAMORANT | Cramorant | [FLYING/WATER] | 475 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0846 | ARROKUDA | Arrokuda | [WATER] | 280 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0847 | BARRASKEWDA | Barraskewda | [WATER] | 490 | lategame | normal | final | Standard | midgame, lategame`
+- `0848 | TOXEL | Toxel | [ELECTRIC/POISON] | 242 | weak | normal | baby_or_base | Standard | earlygame`
+- `0849 | TOXTRICITY | Toxtricity | [ELECTRIC/POISON] | 502 | lategame | hard | final | Standard | midgame, lategame`
+- `0850 | SIZZLIPEDE | Sizzlipede | [FIRE/BUG] | 305 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0851 | CENTISKORCH | Centiskorch | [FIRE/BUG] | 525 | lategame | normal | final | Standard | midgame, lategame`
+- `0852 | CLOBBOPUS | Clobbopus | [FIGHTING] | 310 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0853 | GRAPPLOCT | Grapploct | [FIGHTING] | 480 | lategame | hard | final | Standard | midgame, lategame`
+- `0854 | SINISTEA | Sinistea | [GHOST] | 308 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0855 | POLTEAGEIST | Polteageist | [GHOST] | 508 | lategame | normal | final | Standard | midgame, lategame`
+- `0856 | HATENNA | Hatenna | [PSYCHIC] | 265 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0857 | HATTREM | Hattrem | [PSYCHIC] | 370 | midgame | easy | middle | Standard | midgame`
+- `0858 | HATTERENE | Hatterene | [PSYCHIC/FAIRY] | 510 | lategame | hard | final | Standard | midgame, lategame`
+- `0859 | IMPIDIMP | Impidimp | [DARK/FAIRY] | 265 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0860 | MORGREM | Morgrem | [DARK/FAIRY] | 370 | midgame | easy | middle | Standard | midgame`
+- `0861 | GRIMMSNARL | Grimmsnarl | [DARK/FAIRY] | 510 | lategame | hard | final | Standard | midgame, lategame`
+- `0862 | OBSTAGOON | Obstagoon | [DARK/NORMAL] | 520 | lategame | hard | final | Standard | midgame, lategame`
+- `0863 | PERRSERKER | Perrserker | [STEEL] | 440 | midgame | normal | final | Standard | midgame`
+- `0864 | CURSOLA | Cursola | [GHOST] | 510 | lategame | hard | final | Standard | midgame, lategame`
+- `0865 | SIRFETCHD | Sirfetch'd | [FIGHTING] | 507 | lategame | hard | final | Standard | midgame, lategame`
+- `0866 | MRRIME | Mr. Rime | [ICE/PSYCHIC] | 520 | lategame | hard | final | Standard | midgame, lategame`
+- `0867 | RUNERIGUS | Runerigus | [GROUND/GHOST] | 483 | lategame | normal | final | Standard | midgame, lategame`
+- `0868 | MILCERY | Milcery | [FAIRY] | 270 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0869 | ALCREMIE | Alcremie | [FAIRY] | 495 | lategame | normal | final | Standard | midgame, lategame`
+- `0870 | FALINKS | Falinks | [FIGHTING] | 470 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0871 | PINCURCHIN | Pincurchin | [ELECTRIC] | 435 | midgame | normal | standalone | Standard | midgame`
+- `0872 | SNOM | Snom | [ICE/BUG] | 185 | weak | easy | baby_or_base | Standard | earlygame`
+- `0873 | FROSMOTH | Frosmoth | [ICE/BUG] | 475 | lategame | normal | final | Standard | midgame, lategame`
+- `0874 | STONJOURNER | Stonjourner | [ROCK] | 470 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0875 | EISCUE | Eiscue | [ICE] | 470 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0876 | INDEEDEE | Indeedee | [PSYCHIC/NORMAL] | 475 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0877 | MORPEKO | Morpeko | [ELECTRIC/DARK] | 436 | midgame | easy | standalone | SpecialFormCapable | midgame`
+- `0878 | CUFANT | Cufant | [STEEL] | 330 | earlygame | easy | base | Standard | earlygame`
+- `0879 | COPPERAJAH | Copperajah | [STEEL] | 500 | lategame | normal | final | Standard | midgame, lategame`
+- `0880 | DRACOZOLT | Dracozolt | [ELECTRIC/DRAGON] | 505 | lategame | hard | standalone | Fossil | midgame, lategame`
+- `0881 | ARCTOZOLT | Arctozolt | [ELECTRIC/ICE] | 505 | lategame | hard | standalone | Fossil | midgame, lategame`
+- `0882 | DRACOVISH | Dracovish | [WATER/DRAGON] | 505 | lategame | hard | standalone | Fossil | midgame, lategame`
+- `0883 | ARCTOVISH | Arctovish | [WATER/ICE] | 505 | lategame | hard | standalone | Fossil | midgame, lategame`
+- `0884 | DURALUDON | Duraludon | [STEEL/DRAGON] | 535 | lategame | hard | base | Standard | midgame, lategame`
+- `0885 | DREEPY | Dreepy | [DRAGON/GHOST] | 270 | earlygame | hard | baby_or_base | Pseudo | earlygame, elite_four, champion, boss`
+- `0886 | DRAKLOAK | Drakloak | [DRAGON/GHOST] | 410 | midgame | hard | middle | Pseudo | midgame, elite_four, champion, boss`
+- `0887 | DRAGAPULT | Dragapult | [DRAGON/GHOST] | 600 | boss | hard | final | Pseudo | gym_ace, elite_four, champion, boss`
+- `0888 | ZACIAN | Zacian | [FAIRY] | 660 | boss | legendary | standalone | Legendary | boss, champion`
+- `0889 | ZAMAZENTA | Zamazenta | [FIGHTING] | 660 | boss | legendary | standalone | Legendary | boss, champion`
+- `0890 | ETERNATUS | Eternatus | [POISON/DRAGON] | 690 | boss | legendary | standalone | Legendary | boss, champion`
+- `0891 | KUBFU | Kubfu | [FIGHTING] | 385 | boss | legendary | base | Legendary | boss, champion`
+- `0892 | URSHIFU | Urshifu | [FIGHTING/DARK] | 550 | boss | legendary | final | Legendary | boss, champion`
+- `0893 | ZARUDE | Zarude | [DARK/GRASS] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+- `0894 | REGIELEKI | Regieleki | [ELECTRIC] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0895 | REGIDRAGO | Regidrago | [DRAGON] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0896 | GLASTRIER | Glastrier | [ICE] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0897 | SPECTRIER | Spectrier | [GHOST] | 580 | boss | legendary | standalone | Legendary | boss, champion`
+- `0898 | CALYREX | Calyrex | [PSYCHIC/GRASS] | 500 | boss | legendary | standalone | Legendary | boss, champion`
+- `0899 | WYRDEER | Wyrdeer | [NORMAL/PSYCHIC] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0900 | KLEAVOR | Kleavor | [BUG/ROCK] | 500 | lategame | hard | final | Standard | midgame, lategame`
+- `0901 | URSALUNA | Ursaluna | [GROUND/NORMAL] | 550 | ace | rare | final | Standard | lategame, gym_ace, elite_four`
+- `0902 | BASCULEGION | Basculegion | [WATER/GHOST] | 530 | lategame | hard | final | SpecialFormCapable | midgame, lategame`
+- `0903 | SNEASLER | Sneasler | [FIGHTING/POISON] | 510 | lategame | rare | final | Standard | midgame, lategame`
+- `0904 | OVERQWIL | Overqwil | [DARK/POISON] | 510 | lategame | hard | final | Standard | midgame, lategame`
+- `0905 | ENAMORUS | Enamorus | [FAIRY/FLYING] | 580 | boss | legendary | standalone | Legendary, SpecialFormCapable | boss, champion`
+- `0906 | SPRIGATITO | Sprigatito | [GRASS] | 310 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0907 | FLORAGATO | Floragato | [GRASS] | 410 | midgame | hard | middle | Standard | midgame`
+- `0908 | MEOWSCARADA | Meowscarada | [GRASS/DARK] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0909 | FUECOCO | Fuecoco | [FIRE] | 310 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0910 | CROCALOR | Crocalor | [FIRE] | 411 | midgame | hard | middle | Standard | midgame`
+- `0911 | SKELEDIRGE | Skeledirge | [FIRE/GHOST] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0912 | QUAXLY | Quaxly | [WATER] | 310 | earlygame | hard | baby_or_base | Starter | earlygame, gym_ace, lategame`
+- `0913 | QUAXWELL | Quaxwell | [WATER] | 410 | midgame | hard | middle | Standard | midgame`
+- `0914 | QUAQUAVAL | Quaquaval | [WATER/FIGHTING] | 530 | lategame | hard | final | Standard | midgame, lategame`
+- `0915 | LECHONK | Lechonk | [NORMAL] | 254 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0916 | OINKOLOGNE | Oinkologne | [NORMAL] | 489 | lategame | normal | final | Standard | midgame, lategame`
+- `0917 | TAROUNTULA | Tarountula | [BUG] | 210 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0918 | SPIDOPS | Spidops | [BUG] | 404 | midgame | easy | final | Standard | midgame`
+- `0919 | NYMBLE | Nymble | [BUG] | 210 | weak | easy | baby_or_base | Standard | earlygame`
+- `0920 | LOKIX | Lokix | [BUG/DARK] | 450 | midgame | hard | final | Standard | midgame`
+- `0921 | PAWMI | Pawmi | [ELECTRIC] | 240 | weak | easy | baby_or_base | Standard | earlygame`
+- `0922 | PAWMO | Pawmo | [ELECTRIC/FIGHTING] | 350 | earlygame | normal | middle | Standard | earlygame`
+- `0923 | PAWMOT | Pawmot | [ELECTRIC/FIGHTING] | 490 | lategame | hard | final | Standard | midgame, lategame`
+- `0924 | TANDEMAUS | Tandemaus | [NORMAL] | 305 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0925 | MAUSHOLD | Maushold | [NORMAL] | 470 | lategame | normal | final | Standard | midgame, lategame`
+- `0926 | FIDOUGH | Fidough | [FAIRY] | 312 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0927 | DACHSBUN | Dachsbun | [FAIRY] | 477 | lategame | normal | final | Standard | midgame, lategame`
+- `0928 | SMOLIV | Smoliv | [GRASS/NORMAL] | 260 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0929 | DOLLIV | Dolliv | [GRASS/NORMAL] | 354 | earlygame | easy | middle | Standard | earlygame`
+- `0930 | ARBOLIVA | Arboliva | [GRASS/NORMAL] | 510 | lategame | hard | final | Standard | midgame, lategame`
+- `0931 | SQUAWKABILLY | Squawkabilly | [NORMAL/FLYING] | 417 | midgame | easy | standalone | SpecialFormCapable | midgame`
+- `0932 | NACLI | Nacli | [ROCK] | 280 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0933 | NACLSTACK | Naclstack | [ROCK] | 355 | earlygame | easy | middle | Standard | earlygame`
+- `0934 | GARGANACL | Garganacl | [ROCK] | 500 | lategame | hard | final | Standard | midgame, lategame`
+- `0935 | CHARCADET | Charcadet | [FIRE] | 255 | weak | normal | baby_or_base | Standard | earlygame`
+- `0936 | ARMAROUGE | Armarouge | [FIRE/PSYCHIC] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0937 | CERULEDGE | Ceruledge | [FIRE/GHOST] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0938 | TADBULB | Tadbulb | [ELECTRIC] | 272 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0939 | BELLIBOLT | Bellibolt | [ELECTRIC] | 495 | lategame | hard | final | Standard | midgame, lategame`
+- `0940 | WATTREL | Wattrel | [ELECTRIC/FLYING] | 280 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0941 | KILOWATTREL | Kilowattrel | [ELECTRIC/FLYING] | 490 | lategame | normal | final | Standard | midgame, lategame`
+- `0942 | MASCHIFF | Maschiff | [DARK] | 340 | earlygame | easy | base | Standard | earlygame`
+- `0943 | MABOSSTIFF | Mabosstiff | [DARK] | 505 | lategame | normal | final | Standard | midgame, lategame`
+- `0944 | SHROODLE | Shroodle | [POISON/NORMAL] | 290 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0945 | GRAFAIAI | Grafaiai | [POISON/NORMAL] | 485 | lategame | normal | final | Standard | midgame, lategame`
+- `0946 | BRAMBLIN | Bramblin | [GRASS/GHOST] | 275 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0947 | BRAMBLEGHAST | Brambleghast | [GRASS/GHOST] | 480 | lategame | hard | final | Standard | midgame, lategame`
+- `0948 | TOEDSCOOL | Toedscool | [GROUND/GRASS] | 335 | earlygame | easy | base | Standard | earlygame`
+- `0949 | TOEDSCRUEL | Toedscruel | [GROUND/GRASS] | 515 | lategame | normal | final | Standard | midgame, lategame`
+- `0950 | KLAWF | Klawf | [ROCK] | 450 | midgame | easy | standalone | Standard | midgame`
+- `0951 | CAPSAKID | Capsakid | [GRASS] | 304 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0952 | SCOVILLAIN | Scovillain | [GRASS/FIRE] | 486 | lategame | normal | final | Standard | midgame, lategame`
+- `0953 | RELLOR | Rellor | [BUG] | 270 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0954 | RABSCA | Rabsca | [BUG/PSYCHIC] | 470 | lategame | hard | final | Standard | midgame, lategame`
+- `0955 | FLITTLE | Flittle | [PSYCHIC] | 255 | weak | easy | baby_or_base | Standard | earlygame`
+- `0956 | ESPATHRA | Espathra | [PSYCHIC] | 481 | lategame | normal | final | Standard | midgame, lategame`
+- `0957 | TINKATINK | Tinkatink | [FAIRY/STEEL] | 297 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0958 | TINKATUFF | Tinkatuff | [FAIRY/STEEL] | 380 | midgame | normal | middle | Standard | midgame`
+- `0959 | TINKATON | Tinkaton | [FAIRY/STEEL] | 506 | lategame | hard | final | Standard | midgame, lategame`
+- `0960 | WIGLETT | Wiglett | [WATER] | 245 | weak | very_easy | baby_or_base | Standard | earlygame`
+- `0961 | WUGTRIO | Wugtrio | [WATER] | 425 | midgame | hard | final | Standard | midgame`
+- `0962 | BOMBIRDIER | Bombirdier | [FLYING/DARK] | 485 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0963 | FINIZEN | Finizen | [WATER] | 315 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0964 | PALAFIN | Palafin | [WATER] | 457 | midgame | hard | final | Standard | midgame`
+- `0965 | VAROOM | Varoom | [STEEL/POISON] | 300 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0966 | REVAVROOM | Revavroom | [STEEL/POISON] | 500 | lategame | normal | final | Standard | midgame, lategame`
+- `0967 | CYCLIZAR | Cyclizar | [DRAGON/NORMAL] | 501 | lategame | easy | standalone | Standard | midgame, lategame`
+- `0968 | ORTHWORM | Orthworm | [STEEL] | 480 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0969 | GLIMMET | Glimmet | [ROCK/POISON] | 350 | earlygame | normal | base | Standard | earlygame`
+- `0970 | GLIMMORA | Glimmora | [ROCK/POISON] | 525 | lategame | hard | final | Standard | midgame, lategame`
+- `0971 | GREAVARD | Greavard | [GHOST] | 290 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `0972 | HOUNDSTONE | Houndstone | [GHOST] | 488 | lategame | normal | final | Standard | midgame, lategame`
+- `0973 | FLAMIGO | Flamigo | [FLYING/FIGHTING] | 500 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0974 | CETODDLE | Cetoddle | [ICE] | 334 | earlygame | easy | base | Standard | earlygame`
+- `0975 | CETITAN | Cetitan | [ICE] | 521 | lategame | hard | final | Standard | midgame, lategame`
+- `0976 | VELUZA | Veluza | [WATER/PSYCHIC] | 478 | lategame | normal | standalone | Standard | midgame, lategame`
+- `0977 | DONDOZO | Dondozo | [WATER] | 530 | lategame | hard | standalone | Standard | midgame, lategame`
+- `0978 | TATSUGIRI | Tatsugiri | [DRAGON/WATER] | 475 | lategame | normal | standalone | SpecialFormCapable | midgame, lategame`
+- `0979 | ANNIHILAPE | Annihilape | [FIGHTING/GHOST] | 535 | lategame | hard | final | Standard | midgame, lategame`
+- `0980 | CLODSIRE | Clodsire | [POISON/GROUND] | 430 | midgame | normal | final | Standard | midgame`
+- `0981 | FARIGIRAF | Farigiraf | [NORMAL/PSYCHIC] | 520 | lategame | hard | final | Standard | midgame, lategame`
+- `0982 | DUDUNSPARCE | Dudunsparce | [NORMAL] | 520 | lategame | hard | final | Standard | midgame, lategame`
+- `0983 | KINGAMBIT | Kingambit | [DARK/STEEL] | 550 | ace | hard | final | Standard | lategame, gym_ace, elite_four`
+- `0984 | GREATTUSK | Great Tusk | [GROUND/FIGHTING] | 570 | boss | hard | standalone | Paradox | boss, champion`
+- `0985 | SCREAMTAIL | Scream Tail | [FAIRY/PSYCHIC] | 570 | boss | hard | standalone | Paradox | boss, champion`
+- `0986 | BRUTEBONNET | Brute Bonnet | [GRASS/DARK] | 570 | boss | hard | standalone | Paradox | boss, champion`
+- `0987 | FLUTTERMANE | Flutter Mane | [GHOST/FAIRY] | 570 | boss | hard | standalone | Paradox | boss, champion`
+- `0988 | SLITHERWING | Slither Wing | [BUG/FIGHTING] | 570 | boss | hard | standalone | Paradox | boss, champion`
+- `0989 | SANDYSHOCKS | Sandy Shocks | [ELECTRIC/GROUND] | 570 | boss | hard | standalone | Paradox | boss, champion`
+- `0990 | IRONTREADS | Iron Treads | [GROUND/STEEL] | 570 | boss | hard | standalone | Paradox | boss, champion`
+- `0991 | IRONBUNDLE | Iron Bundle | [ICE/WATER] | 570 | boss | hard | standalone | Paradox | boss, champion`
+- `0992 | IRONHANDS | Iron Hands | [FIGHTING/ELECTRIC] | 570 | boss | hard | standalone | Paradox | boss, champion`
+- `0993 | IRONJUGULIS | Iron Jugulis | [DARK/FLYING] | 570 | boss | hard | standalone | Paradox | boss, champion`
+- `0994 | IRONMOTH | Iron Moth | [FIRE/POISON] | 570 | boss | hard | standalone | Paradox | boss, champion`
+- `0995 | IRONTHORNS | Iron Thorns | [ROCK/ELECTRIC] | 570 | boss | hard | standalone | Paradox | boss, champion`
+- `0996 | FRIGIBAX | Frigibax | [DRAGON/ICE] | 320 | earlygame | hard | baby_or_base | Pseudo | earlygame, elite_four, champion, boss`
+- `0997 | ARCTIBAX | Arctibax | [DRAGON/ICE] | 423 | midgame | hard | middle | Pseudo | midgame, elite_four, champion, boss`
+- `0998 | BAXCALIBUR | Baxcalibur | [DRAGON/ICE] | 600 | boss | rare | final | Pseudo | gym_ace, elite_four, champion, boss`
+- `0999 | GIMMIGHOUL | Gimmighoul | [GHOST] | 300 | earlygame | hard | baby_or_base | Standard | earlygame`
+- `1000 | GHOLDENGO | Gholdengo | [STEEL/GHOST] | 550 | ace | hard | final | Standard | lategame, gym_ace, elite_four`
+- `1001 | WOCHIEN | Wo-Chien | [DARK/GRASS] | 570 | boss | legendary | standalone | Legendary | boss, champion`
+- `1002 | CHIENPAO | Chien-Pao | [DARK/ICE] | 570 | boss | legendary | standalone | Legendary | boss, champion`
+- `1003 | TINGLU | Ting-Lu | [DARK/GROUND] | 570 | boss | legendary | standalone | Legendary | boss, champion`
+- `1004 | CHIYU | Chi-Yu | [DARK/FIRE] | 570 | boss | legendary | standalone | Legendary | boss, champion`
+- `1005 | ROARINGMOON | Roaring Moon | [DRAGON/DARK] | 590 | boss | rare | standalone | Paradox | boss, champion`
+- `1006 | IRONVALIANT | Iron Valiant | [FAIRY/FIGHTING] | 590 | boss | rare | standalone | Paradox | boss, champion`
+- `1007 | KORAIDON | Koraidon | [FIGHTING/DRAGON] | 670 | boss | legendary | standalone | Legendary, Paradox | boss, champion`
+- `1008 | MIRAIDON | Miraidon | [ELECTRIC/DRAGON] | 670 | boss | legendary | standalone | Legendary, Paradox | boss, champion`
+- `1009 | WALKINGWAKE | Walking Wake | [WATER/DRAGON] | 590 | boss | rare | standalone | Paradox | boss, champion`
+- `1010 | IRONLEAVES | Iron Leaves | [GRASS/PSYCHIC] | 590 | boss | rare | standalone | Paradox | boss, champion`
+- `1011 | DIPPLIN | Dipplin | [GRASS/DRAGON] | 495 | lategame | hard | middle | Standard | midgame, lategame`
+- `1012 | POLTCHAGEIST | Poltchageist | [GRASS/GHOST] | 308 | earlygame | easy | baby_or_base | Standard | earlygame`
+- `1013 | SINISTCHA | Sinistcha | [GRASS/GHOST] | 508 | lategame | normal | final | Standard | midgame, lategame`
+- `1014 | OKIDOGI | Okidogi | [POISON/FIGHTING] | 555 | boss | legendary | standalone | Legendary | boss, champion`
+- `1015 | MUNKIDORI | Munkidori | [POISON/PSYCHIC] | 555 | boss | legendary | standalone | Legendary | boss, champion`
+- `1016 | FEZANDIPITI | Fezandipiti | [POISON/FAIRY] | 555 | boss | legendary | standalone | Legendary | boss, champion`
+- `1017 | OGERPON | Ogerpon | [GRASS] | 550 | boss | legendary | standalone | Legendary | boss, champion`
+- `1018 | ARCHALUDON | Archaludon | [STEEL/DRAGON] | 600 | boss | rare | final | Standard | gym_ace, elite_four, champion, boss`
+- `1019 | HYDRAPPLE | Hydrapple | [GRASS/DRAGON] | 540 | ace | rare | final | Standard | lategame, gym_ace, elite_four`
+- `1020 | GOUGINGFIRE | Gouging Fire | [FIRE/DRAGON] | 590 | boss | rare | standalone | Paradox | boss, champion`
+- `1021 | RAGINGBOLT | Raging Bolt | [ELECTRIC/DRAGON] | 590 | boss | rare | standalone | Paradox | boss, champion`
+- `1022 | IRONBOULDER | Iron Boulder | [ROCK/PSYCHIC] | 590 | boss | rare | standalone | Paradox | boss, champion`
+- `1023 | IRONCROWN | Iron Crown | [STEEL/PSYCHIC] | 590 | boss | rare | standalone | Paradox | boss, champion`
+- `1024 | TERAPAGOS | Terapagos | [NORMAL] | 450 | boss | legendary | standalone | Legendary | boss, champion`
+- `1025 | PECHARUNT | Pecharunt | [POISON/GHOST] | 600 | boss | legendary | standalone | Legendary, Mythical | boss, champion`
+
+## Type Buckets
+
+### Normal Type
+
+- `0016 | PIDGEY | Pidgey | BST 251 | weak`
+- `0017 | PIDGEOTTO | Pidgeotto | BST 349 | earlygame`
+- `0018 | PIDGEOT | Pidgeot | BST 479 | lategame`
+- `0019 | RATTATA | Rattata | BST 253 | weak`
+- `0020 | RATICATE | Raticate | BST 413 | midgame`
+- `0021 | SPEAROW | Spearow | BST 262 | earlygame`
+- `0022 | FEAROW | Fearow | BST 442 | midgame`
+- `0039 | JIGGLYPUFF | Jigglypuff | BST 270 | earlygame`
+- `0040 | WIGGLYTUFF | Wigglytuff | BST 435 | midgame`
+- `0052 | MEOWTH | Meowth | BST 290 | earlygame`
+- `0053 | PERSIAN | Persian | BST 440 | midgame`
+- `0083 | FARFETCHD | Farfetch'd | BST 377 | midgame`
+- `0084 | DODUO | Doduo | BST 310 | earlygame`
+- `0085 | DODRIO | Dodrio | BST 470 | lategame`
+- `0108 | LICKITUNG | Lickitung | BST 385 | midgame`
+- `0113 | CHANSEY | Chansey | BST 450 | midgame`
+- `0115 | KANGASKHAN | Kangaskhan | BST 490 | lategame`
+- `0128 | TAUROS | Tauros | BST 490 | lategame`
+- `0132 | DITTO | Ditto | BST 288 | earlygame`
+- `0133 | EEVEE | Eevee | BST 325 | earlygame`
+- `0137 | PORYGON | Porygon | BST 395 | midgame`
+- `0143 | SNORLAX | Snorlax | BST 540 | ace`
+- `0161 | SENTRET | Sentret | BST 215 | weak`
+- `0162 | FURRET | Furret | BST 415 | midgame`
+- `0163 | HOOTHOOT | Hoothoot | BST 262 | earlygame`
+- `0164 | NOCTOWL | Noctowl | BST 452 | midgame`
+- `0174 | IGGLYBUFF | Igglybuff | BST 210 | weak`
+- `0190 | AIPOM | Aipom | BST 360 | midgame`
+- `0203 | GIRAFARIG | Girafarig | BST 455 | midgame`
+- `0206 | DUNSPARCE | Dunsparce | BST 415 | midgame`
+- `0216 | TEDDIURSA | Teddiursa | BST 330 | earlygame`
+- `0217 | URSARING | Ursaring | BST 500 | lategame`
+- `0233 | PORYGON2 | Porygon2 | BST 515 | lategame`
+- `0234 | STANTLER | Stantler | BST 465 | lategame`
+- `0235 | SMEARGLE | Smeargle | BST 250 | weak`
+- `0241 | MILTANK | Miltank | BST 490 | lategame`
+- `0242 | BLISSEY | Blissey | BST 540 | ace`
+- `0263 | ZIGZAGOON | Zigzagoon | BST 240 | weak`
+- `0264 | LINOONE | Linoone | BST 420 | midgame`
+- `0276 | TAILLOW | Taillow | BST 270 | earlygame`
+- `0277 | SWELLOW | Swellow | BST 455 | midgame`
+- `0287 | SLAKOTH | Slakoth | BST 280 | earlygame`
+- `0288 | VIGOROTH | Vigoroth | BST 440 | midgame`
+- `0289 | SLAKING | Slaking | BST 670 | boss`
+- `0293 | WHISMUR | Whismur | BST 240 | weak`
+- `0294 | LOUDRED | Loudred | BST 360 | midgame`
+- `0295 | EXPLOUD | Exploud | BST 490 | lategame`
+- `0298 | AZURILL | Azurill | BST 190 | weak`
+- `0300 | SKITTY | Skitty | BST 260 | earlygame`
+- `0301 | DELCATTY | Delcatty | BST 400 | midgame`
+- `0327 | SPINDA | Spinda | BST 360 | midgame`
+- `0333 | SWABLU | Swablu | BST 310 | earlygame`
+- `0335 | ZANGOOSE | Zangoose | BST 458 | midgame`
+- `0351 | CASTFORM | Castform | BST 420 | midgame`
+- `0352 | KECLEON | Kecleon | BST 440 | midgame`
+- `0396 | STARLY | Starly | BST 245 | weak`
+- `0397 | STARAVIA | Staravia | BST 340 | earlygame`
+- `0398 | STARAPTOR | Staraptor | BST 485 | lategame`
+- `0399 | BIDOOF | Bidoof | BST 250 | weak`
+- `0400 | BIBAREL | Bibarel | BST 410 | midgame`
+- `0424 | AMBIPOM | Ambipom | BST 482 | lategame`
+- `0427 | BUNEARY | Buneary | BST 350 | earlygame`
+- `0428 | LOPUNNY | Lopunny | BST 480 | lategame`
+- `0431 | GLAMEOW | Glameow | BST 310 | earlygame`
+- `0432 | PURUGLY | Purugly | BST 452 | midgame`
+- `0440 | HAPPINY | Happiny | BST 220 | weak`
+- `0441 | CHATOT | Chatot | BST 411 | midgame`
+- `0446 | MUNCHLAX | Munchlax | BST 390 | midgame`
+- `0463 | LICKILICKY | Lickilicky | BST 515 | lategame`
+- `0474 | PORYGONZ | Porygon-Z | BST 535 | lategame`
+- `0486 | REGIGIGAS | Regigigas | BST 670 | boss`
+- `0493 | ARCEUS | Arceus | BST 720 | boss`
+- `0504 | PATRAT | Patrat | BST 255 | weak`
+- `0505 | WATCHOG | Watchog | BST 420 | midgame`
+- `0506 | LILLIPUP | Lillipup | BST 275 | earlygame`
+- `0507 | HERDIER | Herdier | BST 370 | midgame`
+- `0508 | STOUTLAND | Stoutland | BST 500 | lategame`
+- `0519 | PIDOVE | Pidove | BST 264 | earlygame`
+- `0520 | TRANQUILL | Tranquill | BST 358 | earlygame`
+- `0521 | UNFEZANT | Unfezant | BST 488 | lategame`
+- `0531 | AUDINO | Audino | BST 445 | midgame`
+- `0572 | MINCCINO | Minccino | BST 300 | earlygame`
+- `0573 | CINCCINO | Cinccino | BST 470 | lategame`
+- `0585 | DEERLING | Deerling | BST 335 | earlygame`
+- `0586 | SAWSBUCK | Sawsbuck | BST 475 | lategame`
+- `0626 | BOUFFALANT | Bouffalant | BST 490 | lategame`
+- `0627 | RUFFLET | Rufflet | BST 350 | earlygame`
+- `0628 | BRAVIARY | Braviary | BST 510 | lategame`
+- `0648 | MELOETTA | Meloetta | BST 600 | boss`
+- `0659 | BUNNELBY | Bunnelby | BST 237 | weak`
+- `0660 | DIGGERSBY | Diggersby | BST 423 | midgame`
+- `0661 | FLETCHLING | Fletchling | BST 278 | earlygame`
+- `0667 | LITLEO | Litleo | BST 369 | midgame`
+- `0668 | PYROAR | Pyroar | BST 507 | lategame`
+- `0676 | FURFROU | Furfrou | BST 472 | lategame`
+- `0694 | HELIOPTILE | Helioptile | BST 289 | earlygame`
+- `0695 | HELIOLISK | Heliolisk | BST 481 | lategame`
+- `0731 | PIKIPEK | Pikipek | BST 265 | earlygame`
+- `0732 | TRUMBEAK | Trumbeak | BST 355 | earlygame`
+- `0733 | TOUCANNON | Toucannon | BST 485 | lategame`
+- `0734 | YUNGOOS | Yungoos | BST 253 | weak`
+- `0735 | GUMSHOOS | Gumshoos | BST 418 | midgame`
+- `0759 | STUFFUL | Stufful | BST 340 | earlygame`
+- `0760 | BEWEAR | Bewear | BST 500 | lategame`
+- `0765 | ORANGURU | Oranguru | BST 490 | lategame`
+- `0772 | TYPENULL | Type: Null | BST 534 | boss`
+- `0773 | SILVALLY | Silvally | BST 570 | boss`
+- `0775 | KOMALA | Komala | BST 480 | lategame`
+- `0780 | DRAMPA | Drampa | BST 485 | lategame`
+- `0819 | SKWOVET | Skwovet | BST 275 | earlygame`
+- `0820 | GREEDENT | Greedent | BST 460 | lategame`
+- `0831 | WOOLOO | Wooloo | BST 270 | earlygame`
+- `0832 | DUBWOOL | Dubwool | BST 490 | lategame`
+- `0862 | OBSTAGOON | Obstagoon | BST 520 | lategame`
+- `0876 | INDEEDEE | Indeedee | BST 475 | lategame`
+- `0899 | WYRDEER | Wyrdeer | BST 525 | lategame`
+- `0901 | URSALUNA | Ursaluna | BST 550 | ace`
+- `0915 | LECHONK | Lechonk | BST 254 | weak`
+- `0916 | OINKOLOGNE | Oinkologne | BST 489 | lategame`
+- `0924 | TANDEMAUS | Tandemaus | BST 305 | earlygame`
+- `0925 | MAUSHOLD | Maushold | BST 470 | lategame`
+- `0928 | SMOLIV | Smoliv | BST 260 | earlygame`
+- `0929 | DOLLIV | Dolliv | BST 354 | earlygame`
+- `0930 | ARBOLIVA | Arboliva | BST 510 | lategame`
+- `0931 | SQUAWKABILLY | Squawkabilly | BST 417 | midgame`
+- `0944 | SHROODLE | Shroodle | BST 290 | earlygame`
+- `0945 | GRAFAIAI | Grafaiai | BST 485 | lategame`
+- `0967 | CYCLIZAR | Cyclizar | BST 501 | lategame`
+- `0981 | FARIGIRAF | Farigiraf | BST 520 | lategame`
+- `0982 | DUDUNSPARCE | Dudunsparce | BST 520 | lategame`
+- `1024 | TERAPAGOS | Terapagos | BST 450 | boss`
+
+### Fire Type
+
+- `0004 | CHARMANDER | Charmander | BST 309 | earlygame`
+- `0005 | CHARMELEON | Charmeleon | BST 405 | midgame`
+- `0006 | CHARIZARD | Charizard | BST 534 | lategame`
+- `0037 | VULPIX | Vulpix | BST 299 | earlygame`
+- `0038 | NINETALES | Ninetales | BST 505 | lategame`
+- `0058 | GROWLITHE | Growlithe | BST 350 | earlygame`
+- `0059 | ARCANINE | Arcanine | BST 555 | ace`
+- `0077 | PONYTA | Ponyta | BST 410 | midgame`
+- `0078 | RAPIDASH | Rapidash | BST 500 | lategame`
+- `0126 | MAGMAR | Magmar | BST 495 | lategame`
+- `0136 | FLAREON | Flareon | BST 525 | lategame`
+- `0146 | MOLTRES | Moltres | BST 580 | boss`
+- `0155 | CYNDAQUIL | Cyndaquil | BST 309 | earlygame`
+- `0156 | QUILAVA | Quilava | BST 405 | midgame`
+- `0157 | TYPHLOSION | Typhlosion | BST 534 | lategame`
+- `0218 | SLUGMA | Slugma | BST 250 | weak`
+- `0219 | MAGCARGO | Magcargo | BST 430 | midgame`
+- `0228 | HOUNDOUR | Houndour | BST 330 | earlygame`
+- `0229 | HOUNDOOM | Houndoom | BST 500 | lategame`
+- `0240 | MAGBY | Magby | BST 365 | midgame`
+- `0244 | ENTEI | Entei | BST 580 | boss`
+- `0250 | HOOH | Ho-Oh | BST 680 | boss`
+- `0255 | TORCHIC | Torchic | BST 310 | earlygame`
+- `0256 | COMBUSKEN | Combusken | BST 405 | midgame`
+- `0257 | BLAZIKEN | Blaziken | BST 530 | lategame`
+- `0322 | NUMEL | Numel | BST 305 | earlygame`
+- `0323 | CAMERUPT | Camerupt | BST 460 | lategame`
+- `0324 | TORKOAL | Torkoal | BST 470 | lategame`
+- `0390 | CHIMCHAR | Chimchar | BST 309 | earlygame`
+- `0391 | MONFERNO | Monferno | BST 405 | midgame`
+- `0392 | INFERNAPE | Infernape | BST 534 | lategame`
+- `0467 | MAGMORTAR | Magmortar | BST 540 | ace`
+- `0485 | HEATRAN | Heatran | BST 600 | boss`
+- `0494 | VICTINI | Victini | BST 600 | boss`
+- `0498 | TEPIG | Tepig | BST 308 | earlygame`
+- `0499 | PIGNITE | Pignite | BST 418 | midgame`
+- `0500 | EMBOAR | Emboar | BST 528 | lategame`
+- `0513 | PANSEAR | Pansear | BST 316 | earlygame`
+- `0514 | SIMISEAR | Simisear | BST 498 | lategame`
+- `0554 | DARUMAKA | Darumaka | BST 315 | earlygame`
+- `0555 | DARMANITAN | Darmanitan | BST 480 | lategame`
+- `0607 | LITWICK | Litwick | BST 275 | earlygame`
+- `0608 | LAMPENT | Lampent | BST 370 | midgame`
+- `0609 | CHANDELURE | Chandelure | BST 520 | lategame`
+- `0631 | HEATMOR | Heatmor | BST 484 | lategame`
+- `0636 | LARVESTA | Larvesta | BST 360 | midgame`
+- `0637 | VOLCARONA | Volcarona | BST 550 | ace`
+- `0643 | RESHIRAM | Reshiram | BST 680 | boss`
+- `0653 | FENNEKIN | Fennekin | BST 307 | earlygame`
+- `0654 | BRAIXEN | Braixen | BST 409 | midgame`
+- `0655 | DELPHOX | Delphox | BST 534 | lategame`
+- `0662 | FLETCHINDER | Fletchinder | BST 382 | midgame`
+- `0663 | TALONFLAME | Talonflame | BST 499 | lategame`
+- `0667 | LITLEO | Litleo | BST 369 | midgame`
+- `0668 | PYROAR | Pyroar | BST 507 | lategame`
+- `0721 | VOLCANION | Volcanion | BST 600 | boss`
+- `0725 | LITTEN | Litten | BST 320 | earlygame`
+- `0726 | TORRACAT | Torracat | BST 420 | midgame`
+- `0727 | INCINEROAR | Incineroar | BST 530 | lategame`
+- `0741 | ORICORIO | Oricorio | BST 476 | lategame`
+- `0757 | SALANDIT | Salandit | BST 320 | earlygame`
+- `0758 | SALAZZLE | Salazzle | BST 480 | lategame`
+- `0776 | TURTONATOR | Turtonator | BST 485 | lategame`
+- `0806 | BLACEPHALON | Blacephalon | BST 570 | boss`
+- `0813 | SCORBUNNY | Scorbunny | BST 310 | earlygame`
+- `0814 | RABOOT | Raboot | BST 420 | midgame`
+- `0815 | CINDERACE | Cinderace | BST 530 | lategame`
+- `0838 | CARKOL | Carkol | BST 410 | midgame`
+- `0839 | COALOSSAL | Coalossal | BST 510 | lategame`
+- `0850 | SIZZLIPEDE | Sizzlipede | BST 305 | earlygame`
+- `0851 | CENTISKORCH | Centiskorch | BST 525 | lategame`
+- `0909 | FUECOCO | Fuecoco | BST 310 | earlygame`
+- `0910 | CROCALOR | Crocalor | BST 411 | midgame`
+- `0911 | SKELEDIRGE | Skeledirge | BST 530 | lategame`
+- `0935 | CHARCADET | Charcadet | BST 255 | weak`
+- `0936 | ARMAROUGE | Armarouge | BST 525 | lategame`
+- `0937 | CERULEDGE | Ceruledge | BST 525 | lategame`
+- `0952 | SCOVILLAIN | Scovillain | BST 486 | lategame`
+- `0994 | IRONMOTH | Iron Moth | BST 570 | boss`
+- `1004 | CHIYU | Chi-Yu | BST 570 | boss`
+- `1020 | GOUGINGFIRE | Gouging Fire | BST 590 | boss`
+
+### Water Type
+
+- `0007 | SQUIRTLE | Squirtle | BST 314 | earlygame`
+- `0008 | WARTORTLE | Wartortle | BST 405 | midgame`
+- `0009 | BLASTOISE | Blastoise | BST 530 | lategame`
+- `0054 | PSYDUCK | Psyduck | BST 320 | earlygame`
+- `0055 | GOLDUCK | Golduck | BST 500 | lategame`
+- `0060 | POLIWAG | Poliwag | BST 300 | earlygame`
+- `0061 | POLIWHIRL | Poliwhirl | BST 385 | midgame`
+- `0062 | POLIWRATH | Poliwrath | BST 510 | lategame`
+- `0072 | TENTACOOL | Tentacool | BST 335 | earlygame`
+- `0073 | TENTACRUEL | Tentacruel | BST 515 | lategame`
+- `0079 | SLOWPOKE | Slowpoke | BST 315 | earlygame`
+- `0080 | SLOWBRO | Slowbro | BST 490 | lategame`
+- `0086 | SEEL | Seel | BST 325 | earlygame`
+- `0087 | DEWGONG | Dewgong | BST 475 | lategame`
+- `0090 | SHELLDER | Shellder | BST 305 | earlygame`
+- `0091 | CLOYSTER | Cloyster | BST 525 | lategame`
+- `0098 | KRABBY | Krabby | BST 325 | earlygame`
+- `0099 | KINGLER | Kingler | BST 475 | lategame`
+- `0116 | HORSEA | Horsea | BST 295 | earlygame`
+- `0117 | SEADRA | Seadra | BST 440 | midgame`
+- `0118 | GOLDEEN | Goldeen | BST 320 | earlygame`
+- `0119 | SEAKING | Seaking | BST 450 | midgame`
+- `0120 | STARYU | Staryu | BST 340 | earlygame`
+- `0121 | STARMIE | Starmie | BST 520 | lategame`
+- `0129 | MAGIKARP | Magikarp | BST 200 | weak`
+- `0130 | GYARADOS | Gyarados | BST 540 | ace`
+- `0131 | LAPRAS | Lapras | BST 535 | lategame`
+- `0134 | VAPOREON | Vaporeon | BST 525 | lategame`
+- `0138 | OMANYTE | Omanyte | BST 355 | earlygame`
+- `0139 | OMASTAR | Omastar | BST 495 | lategame`
+- `0140 | KABUTO | Kabuto | BST 355 | earlygame`
+- `0141 | KABUTOPS | Kabutops | BST 495 | lategame`
+- `0158 | TOTODILE | Totodile | BST 314 | earlygame`
+- `0159 | CROCONAW | Croconaw | BST 405 | midgame`
+- `0160 | FERALIGATR | Feraligatr | BST 530 | lategame`
+- `0170 | CHINCHOU | Chinchou | BST 330 | earlygame`
+- `0171 | LANTURN | Lanturn | BST 460 | lategame`
+- `0183 | MARILL | Marill | BST 250 | weak`
+- `0184 | AZUMARILL | Azumarill | BST 420 | midgame`
+- `0186 | POLITOED | Politoed | BST 500 | lategame`
+- `0194 | WOOPER | Wooper | BST 210 | weak`
+- `0195 | QUAGSIRE | Quagsire | BST 430 | midgame`
+- `0199 | SLOWKING | Slowking | BST 490 | lategame`
+- `0211 | QWILFISH | Qwilfish | BST 440 | midgame`
+- `0222 | CORSOLA | Corsola | BST 410 | midgame`
+- `0223 | REMORAID | Remoraid | BST 300 | earlygame`
+- `0224 | OCTILLERY | Octillery | BST 480 | lategame`
+- `0226 | MANTINE | Mantine | BST 485 | lategame`
+- `0230 | KINGDRA | Kingdra | BST 540 | ace`
+- `0245 | SUICUNE | Suicune | BST 580 | boss`
+- `0258 | MUDKIP | Mudkip | BST 310 | earlygame`
+- `0259 | MARSHTOMP | Marshtomp | BST 405 | midgame`
+- `0260 | SWAMPERT | Swampert | BST 535 | lategame`
+- `0270 | LOTAD | Lotad | BST 220 | weak`
+- `0271 | LOMBRE | Lombre | BST 340 | earlygame`
+- `0272 | LUDICOLO | Ludicolo | BST 480 | lategame`
+- `0278 | WINGULL | Wingull | BST 270 | earlygame`
+- `0279 | PELIPPER | Pelipper | BST 440 | midgame`
+- `0283 | SURSKIT | Surskit | BST 269 | earlygame`
+- `0318 | CARVANHA | Carvanha | BST 305 | earlygame`
+- `0319 | SHARPEDO | Sharpedo | BST 460 | lategame`
+- `0320 | WAILMER | Wailmer | BST 400 | midgame`
+- `0321 | WAILORD | Wailord | BST 500 | lategame`
+- `0339 | BARBOACH | Barboach | BST 288 | earlygame`
+- `0340 | WHISCASH | Whiscash | BST 468 | lategame`
+- `0341 | CORPHISH | Corphish | BST 308 | earlygame`
+- `0342 | CRAWDAUNT | Crawdaunt | BST 468 | lategame`
+- `0349 | FEEBAS | Feebas | BST 200 | weak`
+- `0350 | MILOTIC | Milotic | BST 540 | ace`
+- `0363 | SPHEAL | Spheal | BST 290 | earlygame`
+- `0364 | SEALEO | Sealeo | BST 410 | midgame`
+- `0365 | WALREIN | Walrein | BST 530 | lategame`
+- `0366 | CLAMPERL | Clamperl | BST 345 | earlygame`
+- `0367 | HUNTAIL | Huntail | BST 485 | lategame`
+- `0368 | GOREBYSS | Gorebyss | BST 485 | lategame`
+- `0369 | RELICANTH | Relicanth | BST 485 | lategame`
+- `0370 | LUVDISC | Luvdisc | BST 330 | earlygame`
+- `0382 | KYOGRE | Kyogre | BST 670 | boss`
+- `0393 | PIPLUP | Piplup | BST 314 | earlygame`
+- `0394 | PRINPLUP | Prinplup | BST 405 | midgame`
+- `0395 | EMPOLEON | Empoleon | BST 530 | lategame`
+- `0400 | BIBAREL | Bibarel | BST 410 | midgame`
+- `0418 | BUIZEL | Buizel | BST 330 | earlygame`
+- `0419 | FLOATZEL | Floatzel | BST 495 | lategame`
+- `0422 | SHELLOS | Shellos | BST 325 | earlygame`
+- `0423 | GASTRODON | Gastrodon | BST 475 | lategame`
+- `0456 | FINNEON | Finneon | BST 330 | earlygame`
+- `0457 | LUMINEON | Lumineon | BST 460 | lategame`
+- `0458 | MANTYKE | Mantyke | BST 345 | earlygame`
+- `0484 | PALKIA | Palkia | BST 680 | boss`
+- `0489 | PHIONE | Phione | BST 480 | boss`
+- `0490 | MANAPHY | Manaphy | BST 600 | boss`
+- `0501 | OSHAWOTT | Oshawott | BST 308 | earlygame`
+- `0502 | DEWOTT | Dewott | BST 413 | midgame`
+- `0503 | SAMUROTT | Samurott | BST 528 | lategame`
+- `0515 | PANPOUR | Panpour | BST 316 | earlygame`
+- `0516 | SIMIPOUR | Simipour | BST 498 | lategame`
+- `0535 | TYMPOLE | Tympole | BST 294 | earlygame`
+- `0536 | PALPITOAD | Palpitoad | BST 384 | midgame`
+- `0537 | SEISMITOAD | Seismitoad | BST 509 | lategame`
+- `0550 | BASCULIN | Basculin | BST 460 | lategame`
+- `0564 | TIRTOUGA | Tirtouga | BST 355 | earlygame`
+- `0565 | CARRACOSTA | Carracosta | BST 495 | lategame`
+- `0580 | DUCKLETT | Ducklett | BST 305 | earlygame`
+- `0581 | SWANNA | Swanna | BST 473 | lategame`
+- `0592 | FRILLISH | Frillish | BST 335 | earlygame`
+- `0593 | JELLICENT | Jellicent | BST 480 | lategame`
+- `0594 | ALOMOMOLA | Alomomola | BST 470 | lategame`
+- `0647 | KELDEO | Keldeo | BST 580 | boss`
+- `0656 | FROAKIE | Froakie | BST 314 | earlygame`
+- `0657 | FROGADIER | Frogadier | BST 405 | midgame`
+- `0658 | GRENINJA | Greninja | BST 530 | lategame`
+- `0688 | BINACLE | Binacle | BST 306 | earlygame`
+- `0689 | BARBARACLE | Barbaracle | BST 500 | lategame`
+- `0690 | SKRELP | Skrelp | BST 320 | earlygame`
+- `0692 | CLAUNCHER | Clauncher | BST 330 | earlygame`
+- `0693 | CLAWITZER | Clawitzer | BST 500 | lategame`
+- `0721 | VOLCANION | Volcanion | BST 600 | boss`
+- `0728 | POPPLIO | Popplio | BST 320 | earlygame`
+- `0729 | BRIONNE | Brionne | BST 420 | midgame`
+- `0730 | PRIMARINA | Primarina | BST 530 | lategame`
+- `0746 | WISHIWASHI | Wishiwashi | BST 175 | weak`
+- `0747 | MAREANIE | Mareanie | BST 305 | earlygame`
+- `0748 | TOXAPEX | Toxapex | BST 495 | lategame`
+- `0751 | DEWPIDER | Dewpider | BST 269 | earlygame`
+- `0752 | ARAQUANID | Araquanid | BST 454 | midgame`
+- `0767 | WIMPOD | Wimpod | BST 230 | weak`
+- `0768 | GOLISOPOD | Golisopod | BST 530 | lategame`
+- `0771 | PYUKUMUKU | Pyukumuku | BST 410 | midgame`
+- `0779 | BRUXISH | Bruxish | BST 475 | lategame`
+- `0788 | TAPUFINI | Tapu Fini | BST 570 | boss`
+- `0816 | SOBBLE | Sobble | BST 310 | earlygame`
+- `0817 | DRIZZILE | Drizzile | BST 420 | midgame`
+- `0818 | INTELEON | Inteleon | BST 530 | lategame`
+- `0833 | CHEWTLE | Chewtle | BST 284 | earlygame`
+- `0834 | DREDNAW | Drednaw | BST 485 | lategame`
+- `0845 | CRAMORANT | Cramorant | BST 475 | lategame`
+- `0846 | ARROKUDA | Arrokuda | BST 280 | earlygame`
+- `0847 | BARRASKEWDA | Barraskewda | BST 490 | lategame`
+- `0882 | DRACOVISH | Dracovish | BST 505 | lategame`
+- `0883 | ARCTOVISH | Arctovish | BST 505 | lategame`
+- `0902 | BASCULEGION | Basculegion | BST 530 | lategame`
+- `0912 | QUAXLY | Quaxly | BST 310 | earlygame`
+- `0913 | QUAXWELL | Quaxwell | BST 410 | midgame`
+- `0914 | QUAQUAVAL | Quaquaval | BST 530 | lategame`
+- `0960 | WIGLETT | Wiglett | BST 245 | weak`
+- `0961 | WUGTRIO | Wugtrio | BST 425 | midgame`
+- `0963 | FINIZEN | Finizen | BST 315 | earlygame`
+- `0964 | PALAFIN | Palafin | BST 457 | midgame`
+- `0976 | VELUZA | Veluza | BST 478 | lategame`
+- `0977 | DONDOZO | Dondozo | BST 530 | lategame`
+- `0978 | TATSUGIRI | Tatsugiri | BST 475 | lategame`
+- `0991 | IRONBUNDLE | Iron Bundle | BST 570 | boss`
+- `1009 | WALKINGWAKE | Walking Wake | BST 590 | boss`
+
+### Electric Type
+
+- `0025 | PIKACHU | Pikachu | BST 320 | earlygame`
+- `0026 | RAICHU | Raichu | BST 485 | lategame`
+- `0081 | MAGNEMITE | Magnemite | BST 325 | earlygame`
+- `0082 | MAGNETON | Magneton | BST 465 | lategame`
+- `0100 | VOLTORB | Voltorb | BST 330 | earlygame`
+- `0101 | ELECTRODE | Electrode | BST 490 | lategame`
+- `0125 | ELECTABUZZ | Electabuzz | BST 490 | lategame`
+- `0135 | JOLTEON | Jolteon | BST 525 | lategame`
+- `0145 | ZAPDOS | Zapdos | BST 580 | boss`
+- `0170 | CHINCHOU | Chinchou | BST 330 | earlygame`
+- `0171 | LANTURN | Lanturn | BST 460 | lategame`
+- `0172 | PICHU | Pichu | BST 205 | weak`
+- `0179 | MAREEP | Mareep | BST 280 | earlygame`
+- `0180 | FLAAFFY | Flaaffy | BST 365 | midgame`
+- `0181 | AMPHAROS | Ampharos | BST 510 | lategame`
+- `0239 | ELEKID | Elekid | BST 360 | midgame`
+- `0243 | RAIKOU | Raikou | BST 580 | boss`
+- `0309 | ELECTRIKE | Electrike | BST 295 | earlygame`
+- `0310 | MANECTRIC | Manectric | BST 475 | lategame`
+- `0311 | PLUSLE | Plusle | BST 405 | midgame`
+- `0312 | MINUN | Minun | BST 405 | midgame`
+- `0403 | SHINX | Shinx | BST 263 | earlygame`
+- `0404 | LUXIO | Luxio | BST 363 | midgame`
+- `0405 | LUXRAY | Luxray | BST 523 | lategame`
+- `0417 | PACHIRISU | Pachirisu | BST 405 | midgame`
+- `0462 | MAGNEZONE | Magnezone | BST 535 | lategame`
+- `0466 | ELECTIVIRE | Electivire | BST 540 | ace`
+- `0479 | ROTOM | Rotom | BST 440 | midgame`
+- `0522 | BLITZLE | Blitzle | BST 295 | earlygame`
+- `0523 | ZEBSTRIKA | Zebstrika | BST 497 | lategame`
+- `0587 | EMOLGA | Emolga | BST 428 | midgame`
+- `0595 | JOLTIK | Joltik | BST 319 | earlygame`
+- `0596 | GALVANTULA | Galvantula | BST 472 | lategame`
+- `0602 | TYNAMO | Tynamo | BST 275 | earlygame`
+- `0603 | EELEKTRIK | Eelektrik | BST 405 | midgame`
+- `0604 | EELEKTROSS | Eelektross | BST 515 | lategame`
+- `0618 | STUNFISK | Stunfisk | BST 471 | lategame`
+- `0642 | THUNDURUS | Thundurus | BST 580 | boss`
+- `0644 | ZEKROM | Zekrom | BST 680 | boss`
+- `0694 | HELIOPTILE | Helioptile | BST 289 | earlygame`
+- `0695 | HELIOLISK | Heliolisk | BST 481 | lategame`
+- `0702 | DEDENNE | Dedenne | BST 431 | midgame`
+- `0737 | CHARJABUG | Charjabug | BST 400 | midgame`
+- `0738 | VIKAVOLT | Vikavolt | BST 500 | lategame`
+- `0777 | TOGEDEMARU | Togedemaru | BST 435 | midgame`
+- `0785 | TAPUKOKO | Tapu Koko | BST 570 | boss`
+- `0796 | XURKITREE | Xurkitree | BST 570 | boss`
+- `0807 | ZERAORA | Zeraora | BST 600 | boss`
+- `0835 | YAMPER | Yamper | BST 270 | earlygame`
+- `0836 | BOLTUND | Boltund | BST 490 | lategame`
+- `0848 | TOXEL | Toxel | BST 242 | weak`
+- `0849 | TOXTRICITY | Toxtricity | BST 502 | lategame`
+- `0871 | PINCURCHIN | Pincurchin | BST 435 | midgame`
+- `0877 | MORPEKO | Morpeko | BST 436 | midgame`
+- `0880 | DRACOZOLT | Dracozolt | BST 505 | lategame`
+- `0881 | ARCTOZOLT | Arctozolt | BST 505 | lategame`
+- `0894 | REGIELEKI | Regieleki | BST 580 | boss`
+- `0921 | PAWMI | Pawmi | BST 240 | weak`
+- `0922 | PAWMO | Pawmo | BST 350 | earlygame`
+- `0923 | PAWMOT | Pawmot | BST 490 | lategame`
+- `0938 | TADBULB | Tadbulb | BST 272 | earlygame`
+- `0939 | BELLIBOLT | Bellibolt | BST 495 | lategame`
+- `0940 | WATTREL | Wattrel | BST 280 | earlygame`
+- `0941 | KILOWATTREL | Kilowattrel | BST 490 | lategame`
+- `0989 | SANDYSHOCKS | Sandy Shocks | BST 570 | boss`
+- `0992 | IRONHANDS | Iron Hands | BST 570 | boss`
+- `0995 | IRONTHORNS | Iron Thorns | BST 570 | boss`
+- `1008 | MIRAIDON | Miraidon | BST 670 | boss`
+- `1021 | RAGINGBOLT | Raging Bolt | BST 590 | boss`
+
+### Grass Type
+
+- `0001 | BULBASAUR | Bulbasaur | BST 318 | earlygame`
+- `0002 | IVYSAUR | Ivysaur | BST 405 | midgame`
+- `0003 | VENUSAUR | Venusaur | BST 525 | lategame`
+- `0043 | ODDISH | Oddish | BST 320 | earlygame`
+- `0044 | GLOOM | Gloom | BST 395 | midgame`
+- `0045 | VILEPLUME | Vileplume | BST 490 | lategame`
+- `0046 | PARAS | Paras | BST 285 | earlygame`
+- `0047 | PARASECT | Parasect | BST 405 | midgame`
+- `0069 | BELLSPROUT | Bellsprout | BST 300 | earlygame`
+- `0070 | WEEPINBELL | Weepinbell | BST 390 | midgame`
+- `0071 | VICTREEBEL | Victreebel | BST 490 | lategame`
+- `0102 | EXEGGCUTE | Exeggcute | BST 325 | earlygame`
+- `0103 | EXEGGUTOR | Exeggutor | BST 530 | lategame`
+- `0114 | TANGELA | Tangela | BST 435 | midgame`
+- `0152 | CHIKORITA | Chikorita | BST 318 | earlygame`
+- `0153 | BAYLEEF | Bayleef | BST 405 | midgame`
+- `0154 | MEGANIUM | Meganium | BST 525 | lategame`
+- `0182 | BELLOSSOM | Bellossom | BST 490 | lategame`
+- `0187 | HOPPIP | Hoppip | BST 250 | weak`
+- `0188 | SKIPLOOM | Skiploom | BST 340 | earlygame`
+- `0189 | JUMPLUFF | Jumpluff | BST 460 | lategame`
+- `0191 | SUNKERN | Sunkern | BST 180 | weak`
+- `0192 | SUNFLORA | Sunflora | BST 425 | midgame`
+- `0251 | CELEBI | Celebi | BST 600 | boss`
+- `0252 | TREECKO | Treecko | BST 310 | earlygame`
+- `0253 | GROVYLE | Grovyle | BST 405 | midgame`
+- `0254 | SCEPTILE | Sceptile | BST 530 | lategame`
+- `0270 | LOTAD | Lotad | BST 220 | weak`
+- `0271 | LOMBRE | Lombre | BST 340 | earlygame`
+- `0272 | LUDICOLO | Ludicolo | BST 480 | lategame`
+- `0273 | SEEDOT | Seedot | BST 220 | weak`
+- `0274 | NUZLEAF | Nuzleaf | BST 340 | earlygame`
+- `0275 | SHIFTRY | Shiftry | BST 480 | lategame`
+- `0285 | SHROOMISH | Shroomish | BST 295 | earlygame`
+- `0286 | BRELOOM | Breloom | BST 460 | lategame`
+- `0315 | ROSELIA | Roselia | BST 400 | midgame`
+- `0331 | CACNEA | Cacnea | BST 335 | earlygame`
+- `0332 | CACTURNE | Cacturne | BST 475 | lategame`
+- `0345 | LILEEP | Lileep | BST 355 | earlygame`
+- `0346 | CRADILY | Cradily | BST 495 | lategame`
+- `0357 | TROPIUS | Tropius | BST 460 | lategame`
+- `0387 | TURTWIG | Turtwig | BST 318 | earlygame`
+- `0388 | GROTLE | Grotle | BST 405 | midgame`
+- `0389 | TORTERRA | Torterra | BST 525 | lategame`
+- `0406 | BUDEW | Budew | BST 280 | earlygame`
+- `0407 | ROSERADE | Roserade | BST 515 | lategame`
+- `0413 | WORMADAM | Wormadam | BST 424 | midgame`
+- `0420 | CHERUBI | Cherubi | BST 275 | earlygame`
+- `0421 | CHERRIM | Cherrim | BST 450 | midgame`
+- `0455 | CARNIVINE | Carnivine | BST 454 | midgame`
+- `0459 | SNOVER | Snover | BST 334 | earlygame`
+- `0460 | ABOMASNOW | Abomasnow | BST 494 | lategame`
+- `0465 | TANGROWTH | Tangrowth | BST 535 | lategame`
+- `0470 | LEAFEON | Leafeon | BST 525 | lategame`
+- `0492 | SHAYMIN | Shaymin | BST 600 | boss`
+- `0495 | SNIVY | Snivy | BST 308 | earlygame`
+- `0496 | SERVINE | Servine | BST 413 | midgame`
+- `0497 | SERPERIOR | Serperior | BST 528 | lategame`
+- `0511 | PANSAGE | Pansage | BST 316 | earlygame`
+- `0512 | SIMISAGE | Simisage | BST 498 | lategame`
+- `0540 | SEWADDLE | Sewaddle | BST 310 | earlygame`
+- `0541 | SWADLOON | Swadloon | BST 380 | midgame`
+- `0542 | LEAVANNY | Leavanny | BST 500 | lategame`
+- `0546 | COTTONEE | Cottonee | BST 280 | earlygame`
+- `0547 | WHIMSICOTT | Whimsicott | BST 480 | lategame`
+- `0548 | PETILIL | Petilil | BST 280 | earlygame`
+- `0549 | LILLIGANT | Lilligant | BST 480 | lategame`
+- `0556 | MARACTUS | Maractus | BST 461 | lategame`
+- `0585 | DEERLING | Deerling | BST 335 | earlygame`
+- `0586 | SAWSBUCK | Sawsbuck | BST 475 | lategame`
+- `0590 | FOONGUS | Foongus | BST 294 | earlygame`
+- `0591 | AMOONGUSS | Amoonguss | BST 464 | lategame`
+- `0597 | FERROSEED | Ferroseed | BST 305 | earlygame`
+- `0598 | FERROTHORN | Ferrothorn | BST 489 | lategame`
+- `0640 | VIRIZION | Virizion | BST 580 | boss`
+- `0650 | CHESPIN | Chespin | BST 313 | earlygame`
+- `0651 | QUILLADIN | Quilladin | BST 405 | midgame`
+- `0652 | CHESNAUGHT | Chesnaught | BST 530 | lategame`
+- `0672 | SKIDDO | Skiddo | BST 350 | earlygame`
+- `0673 | GOGOAT | Gogoat | BST 531 | lategame`
+- `0708 | PHANTUMP | Phantump | BST 309 | earlygame`
+- `0709 | TREVENANT | Trevenant | BST 474 | lategame`
+- `0710 | PUMPKABOO | Pumpkaboo | BST 335 | earlygame`
+- `0711 | GOURGEIST | Gourgeist | BST 494 | lategame`
+- `0722 | ROWLET | Rowlet | BST 320 | earlygame`
+- `0723 | DARTRIX | Dartrix | BST 420 | midgame`
+- `0724 | DECIDUEYE | Decidueye | BST 530 | lategame`
+- `0753 | FOMANTIS | Fomantis | BST 250 | weak`
+- `0754 | LURANTIS | Lurantis | BST 480 | lategame`
+- `0755 | MORELULL | Morelull | BST 285 | earlygame`
+- `0756 | SHIINOTIC | Shiinotic | BST 405 | midgame`
+- `0761 | BOUNSWEET | Bounsweet | BST 210 | weak`
+- `0762 | STEENEE | Steenee | BST 290 | earlygame`
+- `0763 | TSAREENA | Tsareena | BST 510 | lategame`
+- `0781 | DHELMISE | Dhelmise | BST 517 | lategame`
+- `0787 | TAPUBULU | Tapu Bulu | BST 570 | boss`
+- `0798 | KARTANA | Kartana | BST 570 | boss`
+- `0810 | GROOKEY | Grookey | BST 310 | earlygame`
+- `0811 | THWACKEY | Thwackey | BST 420 | midgame`
+- `0812 | RILLABOOM | Rillaboom | BST 530 | lategame`
+- `0829 | GOSSIFLEUR | Gossifleur | BST 250 | weak`
+- `0830 | ELDEGOSS | Eldegoss | BST 460 | lategame`
+- `0840 | APPLIN | Applin | BST 260 | earlygame`
+- `0841 | FLAPPLE | Flapple | BST 485 | lategame`
+- `0842 | APPLETUN | Appletun | BST 485 | lategame`
+- `0893 | ZARUDE | Zarude | BST 600 | boss`
+- `0898 | CALYREX | Calyrex | BST 500 | boss`
+- `0906 | SPRIGATITO | Sprigatito | BST 310 | earlygame`
+- `0907 | FLORAGATO | Floragato | BST 410 | midgame`
+- `0908 | MEOWSCARADA | Meowscarada | BST 530 | lategame`
+- `0928 | SMOLIV | Smoliv | BST 260 | earlygame`
+- `0929 | DOLLIV | Dolliv | BST 354 | earlygame`
+- `0930 | ARBOLIVA | Arboliva | BST 510 | lategame`
+- `0946 | BRAMBLIN | Bramblin | BST 275 | earlygame`
+- `0947 | BRAMBLEGHAST | Brambleghast | BST 480 | lategame`
+- `0948 | TOEDSCOOL | Toedscool | BST 335 | earlygame`
+- `0949 | TOEDSCRUEL | Toedscruel | BST 515 | lategame`
+- `0951 | CAPSAKID | Capsakid | BST 304 | earlygame`
+- `0952 | SCOVILLAIN | Scovillain | BST 486 | lategame`
+- `0986 | BRUTEBONNET | Brute Bonnet | BST 570 | boss`
+- `1001 | WOCHIEN | Wo-Chien | BST 570 | boss`
+- `1010 | IRONLEAVES | Iron Leaves | BST 590 | boss`
+- `1011 | DIPPLIN | Dipplin | BST 495 | lategame`
+- `1012 | POLTCHAGEIST | Poltchageist | BST 308 | earlygame`
+- `1013 | SINISTCHA | Sinistcha | BST 508 | lategame`
+- `1017 | OGERPON | Ogerpon | BST 550 | boss`
+- `1019 | HYDRAPPLE | Hydrapple | BST 540 | ace`
+
+### Ice Type
+
+- `0087 | DEWGONG | Dewgong | BST 475 | lategame`
+- `0091 | CLOYSTER | Cloyster | BST 525 | lategame`
+- `0124 | JYNX | Jynx | BST 455 | midgame`
+- `0131 | LAPRAS | Lapras | BST 535 | lategame`
+- `0144 | ARTICUNO | Articuno | BST 580 | boss`
+- `0215 | SNEASEL | Sneasel | BST 430 | midgame`
+- `0220 | SWINUB | Swinub | BST 250 | weak`
+- `0221 | PILOSWINE | Piloswine | BST 450 | midgame`
+- `0225 | DELIBIRD | Delibird | BST 330 | earlygame`
+- `0238 | SMOOCHUM | Smoochum | BST 305 | earlygame`
+- `0361 | SNORUNT | Snorunt | BST 300 | earlygame`
+- `0362 | GLALIE | Glalie | BST 480 | lategame`
+- `0363 | SPHEAL | Spheal | BST 290 | earlygame`
+- `0364 | SEALEO | Sealeo | BST 410 | midgame`
+- `0365 | WALREIN | Walrein | BST 530 | lategame`
+- `0378 | REGICE | Regice | BST 580 | boss`
+- `0459 | SNOVER | Snover | BST 334 | earlygame`
+- `0460 | ABOMASNOW | Abomasnow | BST 494 | lategame`
+- `0461 | WEAVILE | Weavile | BST 510 | lategame`
+- `0471 | GLACEON | Glaceon | BST 525 | lategame`
+- `0473 | MAMOSWINE | Mamoswine | BST 530 | lategame`
+- `0478 | FROSLASS | Froslass | BST 480 | lategame`
+- `0582 | VANILLITE | Vanillite | BST 305 | earlygame`
+- `0583 | VANILLISH | Vanillish | BST 395 | midgame`
+- `0584 | VANILLUXE | Vanilluxe | BST 535 | lategame`
+- `0613 | CUBCHOO | Cubchoo | BST 305 | earlygame`
+- `0614 | BEARTIC | Beartic | BST 505 | lategame`
+- `0615 | CRYOGONAL | Cryogonal | BST 515 | lategame`
+- `0646 | KYUREM | Kyurem | BST 660 | boss`
+- `0698 | AMAURA | Amaura | BST 362 | midgame`
+- `0699 | AURORUS | Aurorus | BST 521 | lategame`
+- `0712 | BERGMITE | Bergmite | BST 304 | earlygame`
+- `0713 | AVALUGG | Avalugg | BST 514 | lategame`
+- `0740 | CRABOMINABLE | Crabominable | BST 478 | lategame`
+- `0866 | MRRIME | Mr. Rime | BST 520 | lategame`
+- `0872 | SNOM | Snom | BST 185 | weak`
+- `0873 | FROSMOTH | Frosmoth | BST 475 | lategame`
+- `0875 | EISCUE | Eiscue | BST 470 | lategame`
+- `0881 | ARCTOZOLT | Arctozolt | BST 505 | lategame`
+- `0883 | ARCTOVISH | Arctovish | BST 505 | lategame`
+- `0896 | GLASTRIER | Glastrier | BST 580 | boss`
+- `0974 | CETODDLE | Cetoddle | BST 334 | earlygame`
+- `0975 | CETITAN | Cetitan | BST 521 | lategame`
+- `0991 | IRONBUNDLE | Iron Bundle | BST 570 | boss`
+- `0996 | FRIGIBAX | Frigibax | BST 320 | earlygame`
+- `0997 | ARCTIBAX | Arctibax | BST 423 | midgame`
+- `0998 | BAXCALIBUR | Baxcalibur | BST 600 | boss`
+- `1002 | CHIENPAO | Chien-Pao | BST 570 | boss`
+
+### Fighting Type
+
+- `0056 | MANKEY | Mankey | BST 305 | earlygame`
+- `0057 | PRIMEAPE | Primeape | BST 455 | midgame`
+- `0062 | POLIWRATH | Poliwrath | BST 510 | lategame`
+- `0066 | MACHOP | Machop | BST 305 | earlygame`
+- `0067 | MACHOKE | Machoke | BST 405 | midgame`
+- `0068 | MACHAMP | Machamp | BST 505 | lategame`
+- `0106 | HITMONLEE | Hitmonlee | BST 455 | midgame`
+- `0107 | HITMONCHAN | Hitmonchan | BST 455 | midgame`
+- `0214 | HERACROSS | Heracross | BST 500 | lategame`
+- `0236 | TYROGUE | Tyrogue | BST 210 | weak`
+- `0237 | HITMONTOP | Hitmontop | BST 455 | midgame`
+- `0256 | COMBUSKEN | Combusken | BST 405 | midgame`
+- `0257 | BLAZIKEN | Blaziken | BST 530 | lategame`
+- `0286 | BRELOOM | Breloom | BST 460 | lategame`
+- `0296 | MAKUHITA | Makuhita | BST 237 | weak`
+- `0297 | HARIYAMA | Hariyama | BST 474 | lategame`
+- `0307 | MEDITITE | Meditite | BST 280 | earlygame`
+- `0308 | MEDICHAM | Medicham | BST 410 | midgame`
+- `0391 | MONFERNO | Monferno | BST 405 | midgame`
+- `0392 | INFERNAPE | Infernape | BST 534 | lategame`
+- `0447 | RIOLU | Riolu | BST 285 | earlygame`
+- `0448 | LUCARIO | Lucario | BST 525 | lategame`
+- `0453 | CROAGUNK | Croagunk | BST 300 | earlygame`
+- `0454 | TOXICROAK | Toxicroak | BST 490 | lategame`
+- `0475 | GALLADE | Gallade | BST 518 | lategame`
+- `0499 | PIGNITE | Pignite | BST 418 | midgame`
+- `0500 | EMBOAR | Emboar | BST 528 | lategame`
+- `0532 | TIMBURR | Timburr | BST 305 | earlygame`
+- `0533 | GURDURR | Gurdurr | BST 405 | midgame`
+- `0534 | CONKELDURR | Conkeldurr | BST 505 | lategame`
+- `0538 | THROH | Throh | BST 465 | lategame`
+- `0539 | SAWK | Sawk | BST 465 | lategame`
+- `0559 | SCRAGGY | Scraggy | BST 348 | earlygame`
+- `0560 | SCRAFTY | Scrafty | BST 488 | lategame`
+- `0619 | MIENFOO | Mienfoo | BST 350 | earlygame`
+- `0620 | MIENSHAO | Mienshao | BST 510 | lategame`
+- `0638 | COBALION | Cobalion | BST 580 | boss`
+- `0639 | TERRAKION | Terrakion | BST 580 | boss`
+- `0640 | VIRIZION | Virizion | BST 580 | boss`
+- `0647 | KELDEO | Keldeo | BST 580 | boss`
+- `0652 | CHESNAUGHT | Chesnaught | BST 530 | lategame`
+- `0674 | PANCHAM | Pancham | BST 348 | earlygame`
+- `0675 | PANGORO | Pangoro | BST 495 | lategame`
+- `0701 | HAWLUCHA | Hawlucha | BST 500 | lategame`
+- `0739 | CRABRAWLER | Crabrawler | BST 338 | earlygame`
+- `0740 | CRABOMINABLE | Crabominable | BST 478 | lategame`
+- `0759 | STUFFUL | Stufful | BST 340 | earlygame`
+- `0760 | BEWEAR | Bewear | BST 500 | lategame`
+- `0766 | PASSIMIAN | Passimian | BST 490 | lategame`
+- `0783 | HAKAMOO | Hakamo-o | BST 420 | midgame`
+- `0784 | KOMMOO | Kommo-o | BST 600 | boss`
+- `0794 | BUZZWOLE | Buzzwole | BST 570 | boss`
+- `0795 | PHEROMOSA | Pheromosa | BST 570 | boss`
+- `0802 | MARSHADOW | Marshadow | BST 600 | boss`
+- `0852 | CLOBBOPUS | Clobbopus | BST 310 | earlygame`
+- `0853 | GRAPPLOCT | Grapploct | BST 480 | lategame`
+- `0865 | SIRFETCHD | Sirfetch'd | BST 507 | lategame`
+- `0870 | FALINKS | Falinks | BST 470 | lategame`
+- `0889 | ZAMAZENTA | Zamazenta | BST 660 | boss`
+- `0891 | KUBFU | Kubfu | BST 385 | boss`
+- `0892 | URSHIFU | Urshifu | BST 550 | boss`
+- `0903 | SNEASLER | Sneasler | BST 510 | lategame`
+- `0914 | QUAQUAVAL | Quaquaval | BST 530 | lategame`
+- `0922 | PAWMO | Pawmo | BST 350 | earlygame`
+- `0923 | PAWMOT | Pawmot | BST 490 | lategame`
+- `0973 | FLAMIGO | Flamigo | BST 500 | lategame`
+- `0979 | ANNIHILAPE | Annihilape | BST 535 | lategame`
+- `0984 | GREATTUSK | Great Tusk | BST 570 | boss`
+- `0988 | SLITHERWING | Slither Wing | BST 570 | boss`
+- `0992 | IRONHANDS | Iron Hands | BST 570 | boss`
+- `1006 | IRONVALIANT | Iron Valiant | BST 590 | boss`
+- `1007 | KORAIDON | Koraidon | BST 670 | boss`
+- `1014 | OKIDOGI | Okidogi | BST 555 | boss`
+
+### Poison Type
+
+- `0001 | BULBASAUR | Bulbasaur | BST 318 | earlygame`
+- `0002 | IVYSAUR | Ivysaur | BST 405 | midgame`
+- `0003 | VENUSAUR | Venusaur | BST 525 | lategame`
+- `0013 | WEEDLE | Weedle | BST 195 | weak`
+- `0014 | KAKUNA | Kakuna | BST 205 | weak`
+- `0015 | BEEDRILL | Beedrill | BST 395 | midgame`
+- `0023 | EKANS | Ekans | BST 288 | earlygame`
+- `0024 | ARBOK | Arbok | BST 448 | midgame`
+- `0029 | NIDORANFE | Nidoran♀ | BST 275 | earlygame`
+- `0030 | NIDORINA | Nidorina | BST 365 | midgame`
+- `0031 | NIDOQUEEN | Nidoqueen | BST 505 | lategame`
+- `0032 | NIDORANMA | Nidoran♂ | BST 273 | earlygame`
+- `0033 | NIDORINO | Nidorino | BST 365 | midgame`
+- `0034 | NIDOKING | Nidoking | BST 505 | lategame`
+- `0041 | ZUBAT | Zubat | BST 245 | weak`
+- `0042 | GOLBAT | Golbat | BST 455 | midgame`
+- `0043 | ODDISH | Oddish | BST 320 | earlygame`
+- `0044 | GLOOM | Gloom | BST 395 | midgame`
+- `0045 | VILEPLUME | Vileplume | BST 490 | lategame`
+- `0048 | VENONAT | Venonat | BST 305 | earlygame`
+- `0049 | VENOMOTH | Venomoth | BST 450 | midgame`
+- `0069 | BELLSPROUT | Bellsprout | BST 300 | earlygame`
+- `0070 | WEEPINBELL | Weepinbell | BST 390 | midgame`
+- `0071 | VICTREEBEL | Victreebel | BST 490 | lategame`
+- `0072 | TENTACOOL | Tentacool | BST 335 | earlygame`
+- `0073 | TENTACRUEL | Tentacruel | BST 515 | lategame`
+- `0088 | GRIMER | Grimer | BST 325 | earlygame`
+- `0089 | MUK | Muk | BST 500 | lategame`
+- `0092 | GASTLY | Gastly | BST 310 | earlygame`
+- `0093 | HAUNTER | Haunter | BST 405 | midgame`
+- `0094 | GENGAR | Gengar | BST 500 | lategame`
+- `0109 | KOFFING | Koffing | BST 340 | earlygame`
+- `0110 | WEEZING | Weezing | BST 490 | lategame`
+- `0167 | SPINARAK | Spinarak | BST 250 | weak`
+- `0168 | ARIADOS | Ariados | BST 400 | midgame`
+- `0169 | CROBAT | Crobat | BST 535 | lategame`
+- `0211 | QWILFISH | Qwilfish | BST 440 | midgame`
+- `0269 | DUSTOX | Dustox | BST 385 | midgame`
+- `0315 | ROSELIA | Roselia | BST 400 | midgame`
+- `0316 | GULPIN | Gulpin | BST 302 | earlygame`
+- `0317 | SWALOT | Swalot | BST 467 | lategame`
+- `0336 | SEVIPER | Seviper | BST 458 | midgame`
+- `0406 | BUDEW | Budew | BST 280 | earlygame`
+- `0407 | ROSERADE | Roserade | BST 515 | lategame`
+- `0434 | STUNKY | Stunky | BST 329 | earlygame`
+- `0435 | SKUNTANK | Skuntank | BST 479 | lategame`
+- `0451 | SKORUPI | Skorupi | BST 330 | earlygame`
+- `0452 | DRAPION | Drapion | BST 500 | lategame`
+- `0453 | CROAGUNK | Croagunk | BST 300 | earlygame`
+- `0454 | TOXICROAK | Toxicroak | BST 490 | lategame`
+- `0543 | VENIPEDE | Venipede | BST 260 | earlygame`
+- `0544 | WHIRLIPEDE | Whirlipede | BST 360 | midgame`
+- `0545 | SCOLIPEDE | Scolipede | BST 485 | lategame`
+- `0568 | TRUBBISH | Trubbish | BST 329 | earlygame`
+- `0569 | GARBODOR | Garbodor | BST 474 | lategame`
+- `0590 | FOONGUS | Foongus | BST 294 | earlygame`
+- `0591 | AMOONGUSS | Amoonguss | BST 464 | lategame`
+- `0690 | SKRELP | Skrelp | BST 320 | earlygame`
+- `0691 | DRAGALGE | Dragalge | BST 494 | lategame`
+- `0747 | MAREANIE | Mareanie | BST 305 | earlygame`
+- `0748 | TOXAPEX | Toxapex | BST 495 | lategame`
+- `0757 | SALANDIT | Salandit | BST 320 | earlygame`
+- `0758 | SALAZZLE | Salazzle | BST 480 | lategame`
+- `0793 | NIHILEGO | Nihilego | BST 570 | boss`
+- `0803 | POIPOLE | Poipole | BST 420 | boss`
+- `0804 | NAGANADEL | Naganadel | BST 540 | boss`
+- `0848 | TOXEL | Toxel | BST 242 | weak`
+- `0849 | TOXTRICITY | Toxtricity | BST 502 | lategame`
+- `0890 | ETERNATUS | Eternatus | BST 690 | boss`
+- `0903 | SNEASLER | Sneasler | BST 510 | lategame`
+- `0904 | OVERQWIL | Overqwil | BST 510 | lategame`
+- `0944 | SHROODLE | Shroodle | BST 290 | earlygame`
+- `0945 | GRAFAIAI | Grafaiai | BST 485 | lategame`
+- `0965 | VAROOM | Varoom | BST 300 | earlygame`
+- `0966 | REVAVROOM | Revavroom | BST 500 | lategame`
+- `0969 | GLIMMET | Glimmet | BST 350 | earlygame`
+- `0970 | GLIMMORA | Glimmora | BST 525 | lategame`
+- `0980 | CLODSIRE | Clodsire | BST 430 | midgame`
+- `0994 | IRONMOTH | Iron Moth | BST 570 | boss`
+- `1014 | OKIDOGI | Okidogi | BST 555 | boss`
+- `1015 | MUNKIDORI | Munkidori | BST 555 | boss`
+- `1016 | FEZANDIPITI | Fezandipiti | BST 555 | boss`
+- `1025 | PECHARUNT | Pecharunt | BST 600 | boss`
+
+### Ground Type
+
+- `0027 | SANDSHREW | Sandshrew | BST 300 | earlygame`
+- `0028 | SANDSLASH | Sandslash | BST 450 | midgame`
+- `0031 | NIDOQUEEN | Nidoqueen | BST 505 | lategame`
+- `0034 | NIDOKING | Nidoking | BST 505 | lategame`
+- `0050 | DIGLETT | Diglett | BST 265 | earlygame`
+- `0051 | DUGTRIO | Dugtrio | BST 425 | midgame`
+- `0074 | GEODUDE | Geodude | BST 300 | earlygame`
+- `0075 | GRAVELER | Graveler | BST 390 | midgame`
+- `0076 | GOLEM | Golem | BST 495 | lategame`
+- `0095 | ONIX | Onix | BST 385 | midgame`
+- `0104 | CUBONE | Cubone | BST 320 | earlygame`
+- `0105 | MAROWAK | Marowak | BST 425 | midgame`
+- `0111 | RHYHORN | Rhyhorn | BST 345 | earlygame`
+- `0112 | RHYDON | Rhydon | BST 485 | lategame`
+- `0194 | WOOPER | Wooper | BST 210 | weak`
+- `0195 | QUAGSIRE | Quagsire | BST 430 | midgame`
+- `0207 | GLIGAR | Gligar | BST 430 | midgame`
+- `0208 | STEELIX | Steelix | BST 510 | lategame`
+- `0220 | SWINUB | Swinub | BST 250 | weak`
+- `0221 | PILOSWINE | Piloswine | BST 450 | midgame`
+- `0231 | PHANPY | Phanpy | BST 330 | earlygame`
+- `0232 | DONPHAN | Donphan | BST 500 | lategame`
+- `0246 | LARVITAR | Larvitar | BST 300 | earlygame`
+- `0247 | PUPITAR | Pupitar | BST 410 | midgame`
+- `0259 | MARSHTOMP | Marshtomp | BST 405 | midgame`
+- `0260 | SWAMPERT | Swampert | BST 535 | lategame`
+- `0290 | NINCADA | Nincada | BST 266 | earlygame`
+- `0322 | NUMEL | Numel | BST 305 | earlygame`
+- `0323 | CAMERUPT | Camerupt | BST 460 | lategame`
+- `0328 | TRAPINCH | Trapinch | BST 290 | earlygame`
+- `0329 | VIBRAVA | Vibrava | BST 340 | earlygame`
+- `0330 | FLYGON | Flygon | BST 520 | lategame`
+- `0339 | BARBOACH | Barboach | BST 288 | earlygame`
+- `0340 | WHISCASH | Whiscash | BST 468 | lategame`
+- `0343 | BALTOY | Baltoy | BST 300 | earlygame`
+- `0344 | CLAYDOL | Claydol | BST 500 | lategame`
+- `0383 | GROUDON | Groudon | BST 670 | boss`
+- `0389 | TORTERRA | Torterra | BST 525 | lategame`
+- `0423 | GASTRODON | Gastrodon | BST 475 | lategame`
+- `0443 | GIBLE | Gible | BST 300 | earlygame`
+- `0444 | GABITE | Gabite | BST 410 | midgame`
+- `0445 | GARCHOMP | Garchomp | BST 600 | boss`
+- `0449 | HIPPOPOTAS | Hippopotas | BST 330 | earlygame`
+- `0450 | HIPPOWDON | Hippowdon | BST 525 | lategame`
+- `0464 | RHYPERIOR | Rhyperior | BST 535 | lategame`
+- `0472 | GLISCOR | Gliscor | BST 510 | lategame`
+- `0473 | MAMOSWINE | Mamoswine | BST 530 | lategame`
+- `0529 | DRILBUR | Drilbur | BST 328 | earlygame`
+- `0530 | EXCADRILL | Excadrill | BST 508 | lategame`
+- `0536 | PALPITOAD | Palpitoad | BST 384 | midgame`
+- `0537 | SEISMITOAD | Seismitoad | BST 509 | lategame`
+- `0551 | SANDILE | Sandile | BST 292 | earlygame`
+- `0552 | KROKOROK | Krokorok | BST 351 | earlygame`
+- `0553 | KROOKODILE | Krookodile | BST 519 | lategame`
+- `0618 | STUNFISK | Stunfisk | BST 471 | lategame`
+- `0622 | GOLETT | Golett | BST 303 | earlygame`
+- `0623 | GOLURK | Golurk | BST 483 | lategame`
+- `0645 | LANDORUS | Landorus | BST 600 | boss`
+- `0660 | DIGGERSBY | Diggersby | BST 423 | midgame`
+- `0718 | ZYGARDE | Zygarde | BST 600 | boss`
+- `0749 | MUDBRAY | Mudbray | BST 385 | midgame`
+- `0750 | MUDSDALE | Mudsdale | BST 500 | lategame`
+- `0769 | SANDYGAST | Sandygast | BST 320 | earlygame`
+- `0770 | PALOSSAND | Palossand | BST 480 | lategame`
+- `0843 | SILICOBRA | Silicobra | BST 315 | earlygame`
+- `0844 | SANDACONDA | Sandaconda | BST 510 | lategame`
+- `0867 | RUNERIGUS | Runerigus | BST 483 | lategame`
+- `0901 | URSALUNA | Ursaluna | BST 550 | ace`
+- `0948 | TOEDSCOOL | Toedscool | BST 335 | earlygame`
+- `0949 | TOEDSCRUEL | Toedscruel | BST 515 | lategame`
+- `0980 | CLODSIRE | Clodsire | BST 430 | midgame`
+- `0984 | GREATTUSK | Great Tusk | BST 570 | boss`
+- `0989 | SANDYSHOCKS | Sandy Shocks | BST 570 | boss`
+- `0990 | IRONTREADS | Iron Treads | BST 570 | boss`
+- `1003 | TINGLU | Ting-Lu | BST 570 | boss`
+
+### Flying Type
+
+- `0006 | CHARIZARD | Charizard | BST 534 | lategame`
+- `0012 | BUTTERFREE | Butterfree | BST 395 | midgame`
+- `0016 | PIDGEY | Pidgey | BST 251 | weak`
+- `0017 | PIDGEOTTO | Pidgeotto | BST 349 | earlygame`
+- `0018 | PIDGEOT | Pidgeot | BST 479 | lategame`
+- `0021 | SPEAROW | Spearow | BST 262 | earlygame`
+- `0022 | FEAROW | Fearow | BST 442 | midgame`
+- `0041 | ZUBAT | Zubat | BST 245 | weak`
+- `0042 | GOLBAT | Golbat | BST 455 | midgame`
+- `0083 | FARFETCHD | Farfetch'd | BST 377 | midgame`
+- `0084 | DODUO | Doduo | BST 310 | earlygame`
+- `0085 | DODRIO | Dodrio | BST 470 | lategame`
+- `0123 | SCYTHER | Scyther | BST 500 | lategame`
+- `0130 | GYARADOS | Gyarados | BST 540 | ace`
+- `0142 | AERODACTYL | Aerodactyl | BST 515 | lategame`
+- `0144 | ARTICUNO | Articuno | BST 580 | boss`
+- `0145 | ZAPDOS | Zapdos | BST 580 | boss`
+- `0146 | MOLTRES | Moltres | BST 580 | boss`
+- `0149 | DRAGONITE | Dragonite | BST 600 | boss`
+- `0163 | HOOTHOOT | Hoothoot | BST 262 | earlygame`
+- `0164 | NOCTOWL | Noctowl | BST 452 | midgame`
+- `0165 | LEDYBA | Ledyba | BST 265 | earlygame`
+- `0166 | LEDIAN | Ledian | BST 390 | midgame`
+- `0169 | CROBAT | Crobat | BST 535 | lategame`
+- `0176 | TOGETIC | Togetic | BST 405 | midgame`
+- `0177 | NATU | Natu | BST 320 | earlygame`
+- `0178 | XATU | Xatu | BST 470 | lategame`
+- `0187 | HOPPIP | Hoppip | BST 250 | weak`
+- `0188 | SKIPLOOM | Skiploom | BST 340 | earlygame`
+- `0189 | JUMPLUFF | Jumpluff | BST 460 | lategame`
+- `0193 | YANMA | Yanma | BST 390 | midgame`
+- `0198 | MURKROW | Murkrow | BST 405 | midgame`
+- `0207 | GLIGAR | Gligar | BST 430 | midgame`
+- `0225 | DELIBIRD | Delibird | BST 330 | earlygame`
+- `0226 | MANTINE | Mantine | BST 485 | lategame`
+- `0227 | SKARMORY | Skarmory | BST 465 | lategame`
+- `0249 | LUGIA | Lugia | BST 680 | boss`
+- `0250 | HOOH | Ho-Oh | BST 680 | boss`
+- `0267 | BEAUTIFLY | Beautifly | BST 395 | midgame`
+- `0276 | TAILLOW | Taillow | BST 270 | earlygame`
+- `0277 | SWELLOW | Swellow | BST 455 | midgame`
+- `0278 | WINGULL | Wingull | BST 270 | earlygame`
+- `0279 | PELIPPER | Pelipper | BST 440 | midgame`
+- `0284 | MASQUERAIN | Masquerain | BST 454 | midgame`
+- `0291 | NINJASK | Ninjask | BST 456 | midgame`
+- `0333 | SWABLU | Swablu | BST 310 | earlygame`
+- `0334 | ALTARIA | Altaria | BST 490 | lategame`
+- `0357 | TROPIUS | Tropius | BST 460 | lategame`
+- `0373 | SALAMENCE | Salamence | BST 600 | boss`
+- `0384 | RAYQUAZA | Rayquaza | BST 680 | boss`
+- `0396 | STARLY | Starly | BST 245 | weak`
+- `0397 | STARAVIA | Staravia | BST 340 | earlygame`
+- `0398 | STARAPTOR | Staraptor | BST 485 | lategame`
+- `0414 | MOTHIM | Mothim | BST 424 | midgame`
+- `0415 | COMBEE | Combee | BST 244 | weak`
+- `0416 | VESPIQUEN | Vespiquen | BST 474 | lategame`
+- `0425 | DRIFLOON | Drifloon | BST 348 | earlygame`
+- `0426 | DRIFBLIM | Drifblim | BST 498 | lategame`
+- `0430 | HONCHKROW | Honchkrow | BST 505 | lategame`
+- `0441 | CHATOT | Chatot | BST 411 | midgame`
+- `0458 | MANTYKE | Mantyke | BST 345 | earlygame`
+- `0468 | TOGEKISS | Togekiss | BST 545 | ace`
+- `0469 | YANMEGA | Yanmega | BST 515 | lategame`
+- `0472 | GLISCOR | Gliscor | BST 510 | lategame`
+- `0519 | PIDOVE | Pidove | BST 264 | earlygame`
+- `0520 | TRANQUILL | Tranquill | BST 358 | earlygame`
+- `0521 | UNFEZANT | Unfezant | BST 488 | lategame`
+- `0527 | WOOBAT | Woobat | BST 323 | earlygame`
+- `0528 | SWOOBAT | Swoobat | BST 425 | midgame`
+- `0561 | SIGILYPH | Sigilyph | BST 490 | lategame`
+- `0566 | ARCHEN | Archen | BST 401 | midgame`
+- `0567 | ARCHEOPS | Archeops | BST 567 | ace`
+- `0580 | DUCKLETT | Ducklett | BST 305 | earlygame`
+- `0581 | SWANNA | Swanna | BST 473 | lategame`
+- `0587 | EMOLGA | Emolga | BST 428 | midgame`
+- `0627 | RUFFLET | Rufflet | BST 350 | earlygame`
+- `0628 | BRAVIARY | Braviary | BST 510 | lategame`
+- `0629 | VULLABY | Vullaby | BST 370 | midgame`
+- `0630 | MANDIBUZZ | Mandibuzz | BST 510 | lategame`
+- `0641 | TORNADUS | Tornadus | BST 580 | boss`
+- `0642 | THUNDURUS | Thundurus | BST 580 | boss`
+- `0645 | LANDORUS | Landorus | BST 600 | boss`
+- `0661 | FLETCHLING | Fletchling | BST 278 | earlygame`
+- `0662 | FLETCHINDER | Fletchinder | BST 382 | midgame`
+- `0663 | TALONFLAME | Talonflame | BST 499 | lategame`
+- `0666 | VIVILLON | Vivillon | BST 411 | midgame`
+- `0701 | HAWLUCHA | Hawlucha | BST 500 | lategame`
+- `0714 | NOIBAT | Noibat | BST 245 | weak`
+- `0715 | NOIVERN | Noivern | BST 535 | lategame`
+- `0717 | YVELTAL | Yveltal | BST 680 | boss`
+- `0722 | ROWLET | Rowlet | BST 320 | earlygame`
+- `0723 | DARTRIX | Dartrix | BST 420 | midgame`
+- `0731 | PIKIPEK | Pikipek | BST 265 | earlygame`
+- `0732 | TRUMBEAK | Trumbeak | BST 355 | earlygame`
+- `0733 | TOUCANNON | Toucannon | BST 485 | lategame`
+- `0741 | ORICORIO | Oricorio | BST 476 | lategame`
+- `0774 | MINIOR | Minior | BST 440 | midgame`
+- `0797 | CELESTEELA | Celesteela | BST 570 | boss`
+- `0821 | ROOKIDEE | Rookidee | BST 245 | weak`
+- `0822 | CORVISQUIRE | Corvisquire | BST 365 | midgame`
+- `0823 | CORVIKNIGHT | Corviknight | BST 495 | lategame`
+- `0845 | CRAMORANT | Cramorant | BST 475 | lategame`
+- `0905 | ENAMORUS | Enamorus | BST 580 | boss`
+- `0931 | SQUAWKABILLY | Squawkabilly | BST 417 | midgame`
+- `0940 | WATTREL | Wattrel | BST 280 | earlygame`
+- `0941 | KILOWATTREL | Kilowattrel | BST 490 | lategame`
+- `0962 | BOMBIRDIER | Bombirdier | BST 485 | lategame`
+- `0973 | FLAMIGO | Flamigo | BST 500 | lategame`
+- `0993 | IRONJUGULIS | Iron Jugulis | BST 570 | boss`
+
+### Psychic Type
+
+- `0063 | ABRA | Abra | BST 310 | earlygame`
+- `0064 | KADABRA | Kadabra | BST 400 | midgame`
+- `0065 | ALAKAZAM | Alakazam | BST 500 | lategame`
+- `0079 | SLOWPOKE | Slowpoke | BST 315 | earlygame`
+- `0080 | SLOWBRO | Slowbro | BST 490 | lategame`
+- `0096 | DROWZEE | Drowzee | BST 328 | earlygame`
+- `0097 | HYPNO | Hypno | BST 483 | lategame`
+- `0102 | EXEGGCUTE | Exeggcute | BST 325 | earlygame`
+- `0103 | EXEGGUTOR | Exeggutor | BST 530 | lategame`
+- `0121 | STARMIE | Starmie | BST 520 | lategame`
+- `0122 | MRMIME | Mr. Mime | BST 460 | lategame`
+- `0124 | JYNX | Jynx | BST 455 | midgame`
+- `0150 | MEWTWO | Mewtwo | BST 680 | boss`
+- `0151 | MEW | Mew | BST 600 | boss`
+- `0177 | NATU | Natu | BST 320 | earlygame`
+- `0178 | XATU | Xatu | BST 470 | lategame`
+- `0196 | ESPEON | Espeon | BST 525 | lategame`
+- `0199 | SLOWKING | Slowking | BST 490 | lategame`
+- `0201 | UNOWN | Unown | BST 336 | earlygame`
+- `0202 | WOBBUFFET | Wobbuffet | BST 405 | midgame`
+- `0203 | GIRAFARIG | Girafarig | BST 455 | midgame`
+- `0238 | SMOOCHUM | Smoochum | BST 305 | earlygame`
+- `0249 | LUGIA | Lugia | BST 680 | boss`
+- `0251 | CELEBI | Celebi | BST 600 | boss`
+- `0280 | RALTS | Ralts | BST 198 | weak`
+- `0281 | KIRLIA | Kirlia | BST 278 | earlygame`
+- `0282 | GARDEVOIR | Gardevoir | BST 518 | lategame`
+- `0307 | MEDITITE | Meditite | BST 280 | earlygame`
+- `0308 | MEDICHAM | Medicham | BST 410 | midgame`
+- `0325 | SPOINK | Spoink | BST 330 | earlygame`
+- `0326 | GRUMPIG | Grumpig | BST 470 | lategame`
+- `0337 | LUNATONE | Lunatone | BST 460 | lategame`
+- `0338 | SOLROCK | Solrock | BST 460 | lategame`
+- `0343 | BALTOY | Baltoy | BST 300 | earlygame`
+- `0344 | CLAYDOL | Claydol | BST 500 | lategame`
+- `0358 | CHIMECHO | Chimecho | BST 455 | midgame`
+- `0360 | WYNAUT | Wynaut | BST 260 | earlygame`
+- `0374 | BELDUM | Beldum | BST 300 | earlygame`
+- `0375 | METANG | Metang | BST 420 | midgame`
+- `0376 | METAGROSS | Metagross | BST 600 | boss`
+- `0380 | LATIAS | Latias | BST 600 | boss`
+- `0381 | LATIOS | Latios | BST 600 | boss`
+- `0385 | JIRACHI | Jirachi | BST 600 | boss`
+- `0386 | DEOXYS | Deoxys | BST 600 | boss`
+- `0433 | CHINGLING | Chingling | BST 285 | earlygame`
+- `0436 | BRONZOR | Bronzor | BST 300 | earlygame`
+- `0437 | BRONZONG | Bronzong | BST 500 | lategame`
+- `0439 | MIMEJR | Mime Jr. | BST 310 | earlygame`
+- `0475 | GALLADE | Gallade | BST 518 | lategame`
+- `0480 | UXIE | Uxie | BST 580 | boss`
+- `0481 | MESPRIT | Mesprit | BST 580 | boss`
+- `0482 | AZELF | Azelf | BST 580 | boss`
+- `0488 | CRESSELIA | Cresselia | BST 580 | boss`
+- `0494 | VICTINI | Victini | BST 600 | boss`
+- `0517 | MUNNA | Munna | BST 292 | earlygame`
+- `0518 | MUSHARNA | Musharna | BST 487 | lategame`
+- `0527 | WOOBAT | Woobat | BST 323 | earlygame`
+- `0528 | SWOOBAT | Swoobat | BST 425 | midgame`
+- `0561 | SIGILYPH | Sigilyph | BST 490 | lategame`
+- `0574 | GOTHITA | Gothita | BST 290 | earlygame`
+- `0575 | GOTHORITA | Gothorita | BST 390 | midgame`
+- `0576 | GOTHITELLE | Gothitelle | BST 490 | lategame`
+- `0577 | SOLOSIS | Solosis | BST 290 | earlygame`
+- `0578 | DUOSION | Duosion | BST 370 | midgame`
+- `0579 | REUNICLUS | Reuniclus | BST 490 | lategame`
+- `0605 | ELGYEM | Elgyem | BST 335 | earlygame`
+- `0606 | BEHEEYEM | Beheeyem | BST 485 | lategame`
+- `0648 | MELOETTA | Meloetta | BST 600 | boss`
+- `0655 | DELPHOX | Delphox | BST 534 | lategame`
+- `0677 | ESPURR | Espurr | BST 355 | earlygame`
+- `0678 | MEOWSTIC | Meowstic | BST 466 | lategame`
+- `0686 | INKAY | Inkay | BST 288 | earlygame`
+- `0687 | MALAMAR | Malamar | BST 482 | lategame`
+- `0720 | HOOPA | Hoopa | BST 600 | boss`
+- `0765 | ORANGURU | Oranguru | BST 490 | lategame`
+- `0779 | BRUXISH | Bruxish | BST 475 | lategame`
+- `0786 | TAPULELE | Tapu Lele | BST 570 | boss`
+- `0789 | COSMOG | Cosmog | BST 200 | boss`
+- `0790 | COSMOEM | Cosmoem | BST 400 | boss`
+- `0791 | SOLGALEO | Solgaleo | BST 680 | boss`
+- `0792 | LUNALA | Lunala | BST 680 | boss`
+- `0800 | NECROZMA | Necrozma | BST 600 | boss`
+- `0825 | DOTTLER | Dottler | BST 335 | earlygame`
+- `0826 | ORBEETLE | Orbeetle | BST 505 | lategame`
+- `0856 | HATENNA | Hatenna | BST 265 | earlygame`
+- `0857 | HATTREM | Hattrem | BST 370 | midgame`
+- `0858 | HATTERENE | Hatterene | BST 510 | lategame`
+- `0866 | MRRIME | Mr. Rime | BST 520 | lategame`
+- `0876 | INDEEDEE | Indeedee | BST 475 | lategame`
+- `0898 | CALYREX | Calyrex | BST 500 | boss`
+- `0899 | WYRDEER | Wyrdeer | BST 525 | lategame`
+- `0936 | ARMAROUGE | Armarouge | BST 525 | lategame`
+- `0954 | RABSCA | Rabsca | BST 470 | lategame`
+- `0955 | FLITTLE | Flittle | BST 255 | weak`
+- `0956 | ESPATHRA | Espathra | BST 481 | lategame`
+- `0976 | VELUZA | Veluza | BST 478 | lategame`
+- `0981 | FARIGIRAF | Farigiraf | BST 520 | lategame`
+- `0985 | SCREAMTAIL | Scream Tail | BST 570 | boss`
+- `1010 | IRONLEAVES | Iron Leaves | BST 590 | boss`
+- `1015 | MUNKIDORI | Munkidori | BST 555 | boss`
+- `1022 | IRONBOULDER | Iron Boulder | BST 590 | boss`
+- `1023 | IRONCROWN | Iron Crown | BST 590 | boss`
+
+### Bug Type
+
+- `0010 | CATERPIE | Caterpie | BST 195 | weak`
+- `0011 | METAPOD | Metapod | BST 205 | weak`
+- `0012 | BUTTERFREE | Butterfree | BST 395 | midgame`
+- `0013 | WEEDLE | Weedle | BST 195 | weak`
+- `0014 | KAKUNA | Kakuna | BST 205 | weak`
+- `0015 | BEEDRILL | Beedrill | BST 395 | midgame`
+- `0046 | PARAS | Paras | BST 285 | earlygame`
+- `0047 | PARASECT | Parasect | BST 405 | midgame`
+- `0048 | VENONAT | Venonat | BST 305 | earlygame`
+- `0049 | VENOMOTH | Venomoth | BST 450 | midgame`
+- `0123 | SCYTHER | Scyther | BST 500 | lategame`
+- `0127 | PINSIR | Pinsir | BST 500 | lategame`
+- `0165 | LEDYBA | Ledyba | BST 265 | earlygame`
+- `0166 | LEDIAN | Ledian | BST 390 | midgame`
+- `0167 | SPINARAK | Spinarak | BST 250 | weak`
+- `0168 | ARIADOS | Ariados | BST 400 | midgame`
+- `0193 | YANMA | Yanma | BST 390 | midgame`
+- `0204 | PINECO | Pineco | BST 290 | earlygame`
+- `0205 | FORRETRESS | Forretress | BST 465 | lategame`
+- `0212 | SCIZOR | Scizor | BST 500 | lategame`
+- `0213 | SHUCKLE | Shuckle | BST 505 | lategame`
+- `0214 | HERACROSS | Heracross | BST 500 | lategame`
+- `0265 | WURMPLE | Wurmple | BST 195 | weak`
+- `0266 | SILCOON | Silcoon | BST 205 | weak`
+- `0267 | BEAUTIFLY | Beautifly | BST 395 | midgame`
+- `0268 | CASCOON | Cascoon | BST 205 | weak`
+- `0269 | DUSTOX | Dustox | BST 385 | midgame`
+- `0283 | SURSKIT | Surskit | BST 269 | earlygame`
+- `0284 | MASQUERAIN | Masquerain | BST 454 | midgame`
+- `0290 | NINCADA | Nincada | BST 266 | earlygame`
+- `0291 | NINJASK | Ninjask | BST 456 | midgame`
+- `0292 | SHEDINJA | Shedinja | BST 236 | weak`
+- `0313 | VOLBEAT | Volbeat | BST 430 | midgame`
+- `0314 | ILLUMISE | Illumise | BST 430 | midgame`
+- `0347 | ANORITH | Anorith | BST 355 | earlygame`
+- `0348 | ARMALDO | Armaldo | BST 495 | lategame`
+- `0401 | KRICKETOT | Kricketot | BST 194 | weak`
+- `0402 | KRICKETUNE | Kricketune | BST 384 | midgame`
+- `0412 | BURMY | Burmy | BST 224 | weak`
+- `0413 | WORMADAM | Wormadam | BST 424 | midgame`
+- `0414 | MOTHIM | Mothim | BST 424 | midgame`
+- `0415 | COMBEE | Combee | BST 244 | weak`
+- `0416 | VESPIQUEN | Vespiquen | BST 474 | lategame`
+- `0451 | SKORUPI | Skorupi | BST 330 | earlygame`
+- `0469 | YANMEGA | Yanmega | BST 515 | lategame`
+- `0540 | SEWADDLE | Sewaddle | BST 310 | earlygame`
+- `0541 | SWADLOON | Swadloon | BST 380 | midgame`
+- `0542 | LEAVANNY | Leavanny | BST 500 | lategame`
+- `0543 | VENIPEDE | Venipede | BST 260 | earlygame`
+- `0544 | WHIRLIPEDE | Whirlipede | BST 360 | midgame`
+- `0545 | SCOLIPEDE | Scolipede | BST 485 | lategame`
+- `0557 | DWEBBLE | Dwebble | BST 325 | earlygame`
+- `0558 | CRUSTLE | Crustle | BST 485 | lategame`
+- `0588 | KARRABLAST | Karrablast | BST 315 | earlygame`
+- `0589 | ESCAVALIER | Escavalier | BST 495 | lategame`
+- `0595 | JOLTIK | Joltik | BST 319 | earlygame`
+- `0596 | GALVANTULA | Galvantula | BST 472 | lategame`
+- `0616 | SHELMET | Shelmet | BST 305 | earlygame`
+- `0617 | ACCELGOR | Accelgor | BST 495 | lategame`
+- `0632 | DURANT | Durant | BST 484 | lategame`
+- `0636 | LARVESTA | Larvesta | BST 360 | midgame`
+- `0637 | VOLCARONA | Volcarona | BST 550 | ace`
+- `0649 | GENESECT | Genesect | BST 600 | boss`
+- `0664 | SCATTERBUG | Scatterbug | BST 200 | weak`
+- `0665 | SPEWPA | Spewpa | BST 213 | weak`
+- `0666 | VIVILLON | Vivillon | BST 411 | midgame`
+- `0736 | GRUBBIN | Grubbin | BST 300 | earlygame`
+- `0737 | CHARJABUG | Charjabug | BST 400 | midgame`
+- `0738 | VIKAVOLT | Vikavolt | BST 500 | lategame`
+- `0742 | CUTIEFLY | Cutiefly | BST 304 | earlygame`
+- `0743 | RIBOMBEE | Ribombee | BST 464 | lategame`
+- `0751 | DEWPIDER | Dewpider | BST 269 | earlygame`
+- `0752 | ARAQUANID | Araquanid | BST 454 | midgame`
+- `0767 | WIMPOD | Wimpod | BST 230 | weak`
+- `0768 | GOLISOPOD | Golisopod | BST 530 | lategame`
+- `0794 | BUZZWOLE | Buzzwole | BST 570 | boss`
+- `0795 | PHEROMOSA | Pheromosa | BST 570 | boss`
+- `0824 | BLIPBUG | Blipbug | BST 180 | weak`
+- `0825 | DOTTLER | Dottler | BST 335 | earlygame`
+- `0826 | ORBEETLE | Orbeetle | BST 505 | lategame`
+- `0850 | SIZZLIPEDE | Sizzlipede | BST 305 | earlygame`
+- `0851 | CENTISKORCH | Centiskorch | BST 525 | lategame`
+- `0872 | SNOM | Snom | BST 185 | weak`
+- `0873 | FROSMOTH | Frosmoth | BST 475 | lategame`
+- `0900 | KLEAVOR | Kleavor | BST 500 | lategame`
+- `0917 | TAROUNTULA | Tarountula | BST 210 | weak`
+- `0918 | SPIDOPS | Spidops | BST 404 | midgame`
+- `0919 | NYMBLE | Nymble | BST 210 | weak`
+- `0920 | LOKIX | Lokix | BST 450 | midgame`
+- `0953 | RELLOR | Rellor | BST 270 | earlygame`
+- `0954 | RABSCA | Rabsca | BST 470 | lategame`
+- `0988 | SLITHERWING | Slither Wing | BST 570 | boss`
+
+### Rock Type
+
+- `0074 | GEODUDE | Geodude | BST 300 | earlygame`
+- `0075 | GRAVELER | Graveler | BST 390 | midgame`
+- `0076 | GOLEM | Golem | BST 495 | lategame`
+- `0095 | ONIX | Onix | BST 385 | midgame`
+- `0111 | RHYHORN | Rhyhorn | BST 345 | earlygame`
+- `0112 | RHYDON | Rhydon | BST 485 | lategame`
+- `0138 | OMANYTE | Omanyte | BST 355 | earlygame`
+- `0139 | OMASTAR | Omastar | BST 495 | lategame`
+- `0140 | KABUTO | Kabuto | BST 355 | earlygame`
+- `0141 | KABUTOPS | Kabutops | BST 495 | lategame`
+- `0142 | AERODACTYL | Aerodactyl | BST 515 | lategame`
+- `0185 | SUDOWOODO | Sudowoodo | BST 410 | midgame`
+- `0213 | SHUCKLE | Shuckle | BST 505 | lategame`
+- `0219 | MAGCARGO | Magcargo | BST 430 | midgame`
+- `0222 | CORSOLA | Corsola | BST 410 | midgame`
+- `0246 | LARVITAR | Larvitar | BST 300 | earlygame`
+- `0247 | PUPITAR | Pupitar | BST 410 | midgame`
+- `0248 | TYRANITAR | Tyranitar | BST 600 | boss`
+- `0299 | NOSEPASS | Nosepass | BST 375 | midgame`
+- `0304 | ARON | Aron | BST 330 | earlygame`
+- `0305 | LAIRON | Lairon | BST 430 | midgame`
+- `0306 | AGGRON | Aggron | BST 530 | lategame`
+- `0337 | LUNATONE | Lunatone | BST 460 | lategame`
+- `0338 | SOLROCK | Solrock | BST 460 | lategame`
+- `0345 | LILEEP | Lileep | BST 355 | earlygame`
+- `0346 | CRADILY | Cradily | BST 495 | lategame`
+- `0347 | ANORITH | Anorith | BST 355 | earlygame`
+- `0348 | ARMALDO | Armaldo | BST 495 | lategame`
+- `0369 | RELICANTH | Relicanth | BST 485 | lategame`
+- `0377 | REGIROCK | Regirock | BST 580 | boss`
+- `0408 | CRANIDOS | Cranidos | BST 350 | earlygame`
+- `0409 | RAMPARDOS | Rampardos | BST 495 | lategame`
+- `0410 | SHIELDON | Shieldon | BST 350 | earlygame`
+- `0411 | BASTIODON | Bastiodon | BST 495 | lategame`
+- `0438 | BONSLY | Bonsly | BST 290 | earlygame`
+- `0464 | RHYPERIOR | Rhyperior | BST 535 | lategame`
+- `0476 | PROBOPASS | Probopass | BST 525 | lategame`
+- `0524 | ROGGENROLA | Roggenrola | BST 280 | earlygame`
+- `0525 | BOLDORE | Boldore | BST 390 | midgame`
+- `0526 | GIGALITH | Gigalith | BST 515 | lategame`
+- `0557 | DWEBBLE | Dwebble | BST 325 | earlygame`
+- `0558 | CRUSTLE | Crustle | BST 485 | lategame`
+- `0564 | TIRTOUGA | Tirtouga | BST 355 | earlygame`
+- `0565 | CARRACOSTA | Carracosta | BST 495 | lategame`
+- `0566 | ARCHEN | Archen | BST 401 | midgame`
+- `0567 | ARCHEOPS | Archeops | BST 567 | ace`
+- `0639 | TERRAKION | Terrakion | BST 580 | boss`
+- `0688 | BINACLE | Binacle | BST 306 | earlygame`
+- `0689 | BARBARACLE | Barbaracle | BST 500 | lategame`
+- `0696 | TYRUNT | Tyrunt | BST 362 | midgame`
+- `0697 | TYRANTRUM | Tyrantrum | BST 521 | lategame`
+- `0698 | AMAURA | Amaura | BST 362 | midgame`
+- `0699 | AURORUS | Aurorus | BST 521 | lategame`
+- `0703 | CARBINK | Carbink | BST 500 | lategame`
+- `0719 | DIANCIE | Diancie | BST 600 | boss`
+- `0744 | ROCKRUFF | Rockruff | BST 280 | earlygame`
+- `0745 | LYCANROC | Lycanroc | BST 487 | lategame`
+- `0774 | MINIOR | Minior | BST 440 | midgame`
+- `0793 | NIHILEGO | Nihilego | BST 570 | boss`
+- `0805 | STAKATAKA | Stakataka | BST 570 | boss`
+- `0834 | DREDNAW | Drednaw | BST 485 | lategame`
+- `0837 | ROLYCOLY | Rolycoly | BST 240 | weak`
+- `0838 | CARKOL | Carkol | BST 410 | midgame`
+- `0839 | COALOSSAL | Coalossal | BST 510 | lategame`
+- `0874 | STONJOURNER | Stonjourner | BST 470 | lategame`
+- `0900 | KLEAVOR | Kleavor | BST 500 | lategame`
+- `0932 | NACLI | Nacli | BST 280 | earlygame`
+- `0933 | NACLSTACK | Naclstack | BST 355 | earlygame`
+- `0934 | GARGANACL | Garganacl | BST 500 | lategame`
+- `0950 | KLAWF | Klawf | BST 450 | midgame`
+- `0969 | GLIMMET | Glimmet | BST 350 | earlygame`
+- `0970 | GLIMMORA | Glimmora | BST 525 | lategame`
+- `0995 | IRONTHORNS | Iron Thorns | BST 570 | boss`
+- `1022 | IRONBOULDER | Iron Boulder | BST 590 | boss`
+
+### Ghost Type
+
+- `0092 | GASTLY | Gastly | BST 310 | earlygame`
+- `0093 | HAUNTER | Haunter | BST 405 | midgame`
+- `0094 | GENGAR | Gengar | BST 500 | lategame`
+- `0200 | MISDREAVUS | Misdreavus | BST 435 | midgame`
+- `0292 | SHEDINJA | Shedinja | BST 236 | weak`
+- `0302 | SABLEYE | Sableye | BST 380 | midgame`
+- `0353 | SHUPPET | Shuppet | BST 295 | earlygame`
+- `0354 | BANETTE | Banette | BST 455 | midgame`
+- `0355 | DUSKULL | Duskull | BST 295 | earlygame`
+- `0356 | DUSCLOPS | Dusclops | BST 455 | midgame`
+- `0425 | DRIFLOON | Drifloon | BST 348 | earlygame`
+- `0426 | DRIFBLIM | Drifblim | BST 498 | lategame`
+- `0429 | MISMAGIUS | Mismagius | BST 495 | lategame`
+- `0442 | SPIRITOMB | Spiritomb | BST 485 | lategame`
+- `0477 | DUSKNOIR | Dusknoir | BST 525 | lategame`
+- `0478 | FROSLASS | Froslass | BST 480 | lategame`
+- `0479 | ROTOM | Rotom | BST 440 | midgame`
+- `0487 | GIRATINA | Giratina | BST 680 | boss`
+- `0562 | YAMASK | Yamask | BST 303 | earlygame`
+- `0563 | COFAGRIGUS | Cofagrigus | BST 483 | lategame`
+- `0592 | FRILLISH | Frillish | BST 335 | earlygame`
+- `0593 | JELLICENT | Jellicent | BST 480 | lategame`
+- `0607 | LITWICK | Litwick | BST 275 | earlygame`
+- `0608 | LAMPENT | Lampent | BST 370 | midgame`
+- `0609 | CHANDELURE | Chandelure | BST 520 | lategame`
+- `0622 | GOLETT | Golett | BST 303 | earlygame`
+- `0623 | GOLURK | Golurk | BST 483 | lategame`
+- `0679 | HONEDGE | Honedge | BST 325 | earlygame`
+- `0680 | DOUBLADE | Doublade | BST 448 | midgame`
+- `0681 | AEGISLASH | Aegislash | BST 500 | lategame`
+- `0708 | PHANTUMP | Phantump | BST 309 | earlygame`
+- `0709 | TREVENANT | Trevenant | BST 474 | lategame`
+- `0710 | PUMPKABOO | Pumpkaboo | BST 335 | earlygame`
+- `0711 | GOURGEIST | Gourgeist | BST 494 | lategame`
+- `0720 | HOOPA | Hoopa | BST 600 | boss`
+- `0724 | DECIDUEYE | Decidueye | BST 530 | lategame`
+- `0769 | SANDYGAST | Sandygast | BST 320 | earlygame`
+- `0770 | PALOSSAND | Palossand | BST 480 | lategame`
+- `0778 | MIMIKYU | Mimikyu | BST 476 | lategame`
+- `0781 | DHELMISE | Dhelmise | BST 517 | lategame`
+- `0792 | LUNALA | Lunala | BST 680 | boss`
+- `0802 | MARSHADOW | Marshadow | BST 600 | boss`
+- `0806 | BLACEPHALON | Blacephalon | BST 570 | boss`
+- `0854 | SINISTEA | Sinistea | BST 308 | earlygame`
+- `0855 | POLTEAGEIST | Polteageist | BST 508 | lategame`
+- `0864 | CURSOLA | Cursola | BST 510 | lategame`
+- `0867 | RUNERIGUS | Runerigus | BST 483 | lategame`
+- `0885 | DREEPY | Dreepy | BST 270 | earlygame`
+- `0886 | DRAKLOAK | Drakloak | BST 410 | midgame`
+- `0887 | DRAGAPULT | Dragapult | BST 600 | boss`
+- `0897 | SPECTRIER | Spectrier | BST 580 | boss`
+- `0902 | BASCULEGION | Basculegion | BST 530 | lategame`
+- `0911 | SKELEDIRGE | Skeledirge | BST 530 | lategame`
+- `0937 | CERULEDGE | Ceruledge | BST 525 | lategame`
+- `0946 | BRAMBLIN | Bramblin | BST 275 | earlygame`
+- `0947 | BRAMBLEGHAST | Brambleghast | BST 480 | lategame`
+- `0971 | GREAVARD | Greavard | BST 290 | earlygame`
+- `0972 | HOUNDSTONE | Houndstone | BST 488 | lategame`
+- `0979 | ANNIHILAPE | Annihilape | BST 535 | lategame`
+- `0987 | FLUTTERMANE | Flutter Mane | BST 570 | boss`
+- `0999 | GIMMIGHOUL | Gimmighoul | BST 300 | earlygame`
+- `1000 | GHOLDENGO | Gholdengo | BST 550 | ace`
+- `1012 | POLTCHAGEIST | Poltchageist | BST 308 | earlygame`
+- `1013 | SINISTCHA | Sinistcha | BST 508 | lategame`
+- `1025 | PECHARUNT | Pecharunt | BST 600 | boss`
+
+### Dragon Type
+
+- `0147 | DRATINI | Dratini | BST 300 | earlygame`
+- `0148 | DRAGONAIR | Dragonair | BST 420 | midgame`
+- `0149 | DRAGONITE | Dragonite | BST 600 | boss`
+- `0230 | KINGDRA | Kingdra | BST 540 | ace`
+- `0329 | VIBRAVA | Vibrava | BST 340 | earlygame`
+- `0330 | FLYGON | Flygon | BST 520 | lategame`
+- `0334 | ALTARIA | Altaria | BST 490 | lategame`
+- `0371 | BAGON | Bagon | BST 300 | earlygame`
+- `0372 | SHELGON | Shelgon | BST 420 | midgame`
+- `0373 | SALAMENCE | Salamence | BST 600 | boss`
+- `0380 | LATIAS | Latias | BST 600 | boss`
+- `0381 | LATIOS | Latios | BST 600 | boss`
+- `0384 | RAYQUAZA | Rayquaza | BST 680 | boss`
+- `0443 | GIBLE | Gible | BST 300 | earlygame`
+- `0444 | GABITE | Gabite | BST 410 | midgame`
+- `0445 | GARCHOMP | Garchomp | BST 600 | boss`
+- `0483 | DIALGA | Dialga | BST 680 | boss`
+- `0484 | PALKIA | Palkia | BST 680 | boss`
+- `0487 | GIRATINA | Giratina | BST 680 | boss`
+- `0610 | AXEW | Axew | BST 320 | earlygame`
+- `0611 | FRAXURE | Fraxure | BST 410 | midgame`
+- `0612 | HAXORUS | Haxorus | BST 540 | ace`
+- `0621 | DRUDDIGON | Druddigon | BST 485 | lategame`
+- `0633 | DEINO | Deino | BST 300 | earlygame`
+- `0634 | ZWEILOUS | Zweilous | BST 420 | midgame`
+- `0635 | HYDREIGON | Hydreigon | BST 600 | boss`
+- `0643 | RESHIRAM | Reshiram | BST 680 | boss`
+- `0644 | ZEKROM | Zekrom | BST 680 | boss`
+- `0646 | KYUREM | Kyurem | BST 660 | boss`
+- `0691 | DRAGALGE | Dragalge | BST 494 | lategame`
+- `0696 | TYRUNT | Tyrunt | BST 362 | midgame`
+- `0697 | TYRANTRUM | Tyrantrum | BST 521 | lategame`
+- `0704 | GOOMY | Goomy | BST 300 | earlygame`
+- `0705 | SLIGGOO | Sliggoo | BST 452 | midgame`
+- `0706 | GOODRA | Goodra | BST 600 | boss`
+- `0714 | NOIBAT | Noibat | BST 245 | weak`
+- `0715 | NOIVERN | Noivern | BST 535 | lategame`
+- `0718 | ZYGARDE | Zygarde | BST 600 | boss`
+- `0776 | TURTONATOR | Turtonator | BST 485 | lategame`
+- `0780 | DRAMPA | Drampa | BST 485 | lategame`
+- `0782 | JANGMOO | Jangmo-o | BST 300 | earlygame`
+- `0783 | HAKAMOO | Hakamo-o | BST 420 | midgame`
+- `0784 | KOMMOO | Kommo-o | BST 600 | boss`
+- `0799 | GUZZLORD | Guzzlord | BST 570 | boss`
+- `0804 | NAGANADEL | Naganadel | BST 540 | boss`
+- `0840 | APPLIN | Applin | BST 260 | earlygame`
+- `0841 | FLAPPLE | Flapple | BST 485 | lategame`
+- `0842 | APPLETUN | Appletun | BST 485 | lategame`
+- `0880 | DRACOZOLT | Dracozolt | BST 505 | lategame`
+- `0882 | DRACOVISH | Dracovish | BST 505 | lategame`
+- `0884 | DURALUDON | Duraludon | BST 535 | lategame`
+- `0885 | DREEPY | Dreepy | BST 270 | earlygame`
+- `0886 | DRAKLOAK | Drakloak | BST 410 | midgame`
+- `0887 | DRAGAPULT | Dragapult | BST 600 | boss`
+- `0890 | ETERNATUS | Eternatus | BST 690 | boss`
+- `0895 | REGIDRAGO | Regidrago | BST 580 | boss`
+- `0967 | CYCLIZAR | Cyclizar | BST 501 | lategame`
+- `0978 | TATSUGIRI | Tatsugiri | BST 475 | lategame`
+- `0996 | FRIGIBAX | Frigibax | BST 320 | earlygame`
+- `0997 | ARCTIBAX | Arctibax | BST 423 | midgame`
+- `0998 | BAXCALIBUR | Baxcalibur | BST 600 | boss`
+- `1005 | ROARINGMOON | Roaring Moon | BST 590 | boss`
+- `1007 | KORAIDON | Koraidon | BST 670 | boss`
+- `1008 | MIRAIDON | Miraidon | BST 670 | boss`
+- `1009 | WALKINGWAKE | Walking Wake | BST 590 | boss`
+- `1011 | DIPPLIN | Dipplin | BST 495 | lategame`
+- `1018 | ARCHALUDON | Archaludon | BST 600 | boss`
+- `1019 | HYDRAPPLE | Hydrapple | BST 540 | ace`
+- `1020 | GOUGINGFIRE | Gouging Fire | BST 590 | boss`
+- `1021 | RAGINGBOLT | Raging Bolt | BST 590 | boss`
+
+### Dark Type
+
+- `0197 | UMBREON | Umbreon | BST 525 | lategame`
+- `0198 | MURKROW | Murkrow | BST 405 | midgame`
+- `0215 | SNEASEL | Sneasel | BST 430 | midgame`
+- `0228 | HOUNDOUR | Houndour | BST 330 | earlygame`
+- `0229 | HOUNDOOM | Houndoom | BST 500 | lategame`
+- `0248 | TYRANITAR | Tyranitar | BST 600 | boss`
+- `0261 | POOCHYENA | Poochyena | BST 220 | weak`
+- `0262 | MIGHTYENA | Mightyena | BST 420 | midgame`
+- `0274 | NUZLEAF | Nuzleaf | BST 340 | earlygame`
+- `0275 | SHIFTRY | Shiftry | BST 480 | lategame`
+- `0302 | SABLEYE | Sableye | BST 380 | midgame`
+- `0318 | CARVANHA | Carvanha | BST 305 | earlygame`
+- `0319 | SHARPEDO | Sharpedo | BST 460 | lategame`
+- `0332 | CACTURNE | Cacturne | BST 475 | lategame`
+- `0342 | CRAWDAUNT | Crawdaunt | BST 468 | lategame`
+- `0359 | ABSOL | Absol | BST 465 | lategame`
+- `0430 | HONCHKROW | Honchkrow | BST 505 | lategame`
+- `0434 | STUNKY | Stunky | BST 329 | earlygame`
+- `0435 | SKUNTANK | Skuntank | BST 479 | lategame`
+- `0442 | SPIRITOMB | Spiritomb | BST 485 | lategame`
+- `0452 | DRAPION | Drapion | BST 500 | lategame`
+- `0461 | WEAVILE | Weavile | BST 510 | lategame`
+- `0491 | DARKRAI | Darkrai | BST 600 | boss`
+- `0509 | PURRLOIN | Purrloin | BST 281 | earlygame`
+- `0510 | LIEPARD | Liepard | BST 446 | midgame`
+- `0551 | SANDILE | Sandile | BST 292 | earlygame`
+- `0552 | KROKOROK | Krokorok | BST 351 | earlygame`
+- `0553 | KROOKODILE | Krookodile | BST 519 | lategame`
+- `0559 | SCRAGGY | Scraggy | BST 348 | earlygame`
+- `0560 | SCRAFTY | Scrafty | BST 488 | lategame`
+- `0570 | ZORUA | Zorua | BST 330 | earlygame`
+- `0571 | ZOROARK | Zoroark | BST 510 | lategame`
+- `0624 | PAWNIARD | Pawniard | BST 340 | earlygame`
+- `0625 | BISHARP | Bisharp | BST 490 | lategame`
+- `0629 | VULLABY | Vullaby | BST 370 | midgame`
+- `0630 | MANDIBUZZ | Mandibuzz | BST 510 | lategame`
+- `0633 | DEINO | Deino | BST 300 | earlygame`
+- `0634 | ZWEILOUS | Zweilous | BST 420 | midgame`
+- `0635 | HYDREIGON | Hydreigon | BST 600 | boss`
+- `0658 | GRENINJA | Greninja | BST 530 | lategame`
+- `0675 | PANGORO | Pangoro | BST 495 | lategame`
+- `0686 | INKAY | Inkay | BST 288 | earlygame`
+- `0687 | MALAMAR | Malamar | BST 482 | lategame`
+- `0717 | YVELTAL | Yveltal | BST 680 | boss`
+- `0727 | INCINEROAR | Incineroar | BST 530 | lategame`
+- `0799 | GUZZLORD | Guzzlord | BST 570 | boss`
+- `0827 | NICKIT | Nickit | BST 245 | weak`
+- `0828 | THIEVUL | Thievul | BST 455 | midgame`
+- `0859 | IMPIDIMP | Impidimp | BST 265 | earlygame`
+- `0860 | MORGREM | Morgrem | BST 370 | midgame`
+- `0861 | GRIMMSNARL | Grimmsnarl | BST 510 | lategame`
+- `0862 | OBSTAGOON | Obstagoon | BST 520 | lategame`
+- `0877 | MORPEKO | Morpeko | BST 436 | midgame`
+- `0892 | URSHIFU | Urshifu | BST 550 | boss`
+- `0893 | ZARUDE | Zarude | BST 600 | boss`
+- `0904 | OVERQWIL | Overqwil | BST 510 | lategame`
+- `0908 | MEOWSCARADA | Meowscarada | BST 530 | lategame`
+- `0920 | LOKIX | Lokix | BST 450 | midgame`
+- `0942 | MASCHIFF | Maschiff | BST 340 | earlygame`
+- `0943 | MABOSSTIFF | Mabosstiff | BST 505 | lategame`
+- `0962 | BOMBIRDIER | Bombirdier | BST 485 | lategame`
+- `0983 | KINGAMBIT | Kingambit | BST 550 | ace`
+- `0986 | BRUTEBONNET | Brute Bonnet | BST 570 | boss`
+- `0993 | IRONJUGULIS | Iron Jugulis | BST 570 | boss`
+- `1001 | WOCHIEN | Wo-Chien | BST 570 | boss`
+- `1002 | CHIENPAO | Chien-Pao | BST 570 | boss`
+- `1003 | TINGLU | Ting-Lu | BST 570 | boss`
+- `1004 | CHIYU | Chi-Yu | BST 570 | boss`
+- `1005 | ROARINGMOON | Roaring Moon | BST 590 | boss`
+
+### Steel Type
+
+- `0081 | MAGNEMITE | Magnemite | BST 325 | earlygame`
+- `0082 | MAGNETON | Magneton | BST 465 | lategame`
+- `0205 | FORRETRESS | Forretress | BST 465 | lategame`
+- `0208 | STEELIX | Steelix | BST 510 | lategame`
+- `0212 | SCIZOR | Scizor | BST 500 | lategame`
+- `0227 | SKARMORY | Skarmory | BST 465 | lategame`
+- `0303 | MAWILE | Mawile | BST 380 | midgame`
+- `0304 | ARON | Aron | BST 330 | earlygame`
+- `0305 | LAIRON | Lairon | BST 430 | midgame`
+- `0306 | AGGRON | Aggron | BST 530 | lategame`
+- `0374 | BELDUM | Beldum | BST 300 | earlygame`
+- `0375 | METANG | Metang | BST 420 | midgame`
+- `0376 | METAGROSS | Metagross | BST 600 | boss`
+- `0379 | REGISTEEL | Registeel | BST 580 | boss`
+- `0385 | JIRACHI | Jirachi | BST 600 | boss`
+- `0395 | EMPOLEON | Empoleon | BST 530 | lategame`
+- `0410 | SHIELDON | Shieldon | BST 350 | earlygame`
+- `0411 | BASTIODON | Bastiodon | BST 495 | lategame`
+- `0436 | BRONZOR | Bronzor | BST 300 | earlygame`
+- `0437 | BRONZONG | Bronzong | BST 500 | lategame`
+- `0448 | LUCARIO | Lucario | BST 525 | lategame`
+- `0462 | MAGNEZONE | Magnezone | BST 535 | lategame`
+- `0476 | PROBOPASS | Probopass | BST 525 | lategame`
+- `0483 | DIALGA | Dialga | BST 680 | boss`
+- `0485 | HEATRAN | Heatran | BST 600 | boss`
+- `0530 | EXCADRILL | Excadrill | BST 508 | lategame`
+- `0589 | ESCAVALIER | Escavalier | BST 495 | lategame`
+- `0597 | FERROSEED | Ferroseed | BST 305 | earlygame`
+- `0598 | FERROTHORN | Ferrothorn | BST 489 | lategame`
+- `0599 | KLINK | Klink | BST 300 | earlygame`
+- `0600 | KLANG | Klang | BST 440 | midgame`
+- `0601 | KLINKLANG | Klinklang | BST 520 | lategame`
+- `0624 | PAWNIARD | Pawniard | BST 340 | earlygame`
+- `0625 | BISHARP | Bisharp | BST 490 | lategame`
+- `0632 | DURANT | Durant | BST 484 | lategame`
+- `0638 | COBALION | Cobalion | BST 580 | boss`
+- `0649 | GENESECT | Genesect | BST 600 | boss`
+- `0679 | HONEDGE | Honedge | BST 325 | earlygame`
+- `0680 | DOUBLADE | Doublade | BST 448 | midgame`
+- `0681 | AEGISLASH | Aegislash | BST 500 | lategame`
+- `0707 | KLEFKI | Klefki | BST 470 | lategame`
+- `0777 | TOGEDEMARU | Togedemaru | BST 435 | midgame`
+- `0791 | SOLGALEO | Solgaleo | BST 680 | boss`
+- `0797 | CELESTEELA | Celesteela | BST 570 | boss`
+- `0798 | KARTANA | Kartana | BST 570 | boss`
+- `0801 | MAGEARNA | Magearna | BST 600 | boss`
+- `0805 | STAKATAKA | Stakataka | BST 570 | boss`
+- `0808 | MELTAN | Meltan | BST 300 | boss`
+- `0809 | MELMETAL | Melmetal | BST 600 | boss`
+- `0823 | CORVIKNIGHT | Corviknight | BST 495 | lategame`
+- `0863 | PERRSERKER | Perrserker | BST 440 | midgame`
+- `0878 | CUFANT | Cufant | BST 330 | earlygame`
+- `0879 | COPPERAJAH | Copperajah | BST 500 | lategame`
+- `0884 | DURALUDON | Duraludon | BST 535 | lategame`
+- `0957 | TINKATINK | Tinkatink | BST 297 | earlygame`
+- `0958 | TINKATUFF | Tinkatuff | BST 380 | midgame`
+- `0959 | TINKATON | Tinkaton | BST 506 | lategame`
+- `0965 | VAROOM | Varoom | BST 300 | earlygame`
+- `0966 | REVAVROOM | Revavroom | BST 500 | lategame`
+- `0968 | ORTHWORM | Orthworm | BST 480 | lategame`
+- `0983 | KINGAMBIT | Kingambit | BST 550 | ace`
+- `0990 | IRONTREADS | Iron Treads | BST 570 | boss`
+- `1000 | GHOLDENGO | Gholdengo | BST 550 | ace`
+- `1018 | ARCHALUDON | Archaludon | BST 600 | boss`
+- `1023 | IRONCROWN | Iron Crown | BST 590 | boss`
+
+### Fairy Type
+
+- `0035 | CLEFAIRY | Clefairy | BST 323 | earlygame`
+- `0036 | CLEFABLE | Clefable | BST 483 | lategame`
+- `0039 | JIGGLYPUFF | Jigglypuff | BST 270 | earlygame`
+- `0040 | WIGGLYTUFF | Wigglytuff | BST 435 | midgame`
+- `0122 | MRMIME | Mr. Mime | BST 460 | lategame`
+- `0173 | CLEFFA | Cleffa | BST 218 | weak`
+- `0174 | IGGLYBUFF | Igglybuff | BST 210 | weak`
+- `0175 | TOGEPI | Togepi | BST 245 | weak`
+- `0176 | TOGETIC | Togetic | BST 405 | midgame`
+- `0183 | MARILL | Marill | BST 250 | weak`
+- `0184 | AZUMARILL | Azumarill | BST 420 | midgame`
+- `0209 | SNUBBULL | Snubbull | BST 300 | earlygame`
+- `0210 | GRANBULL | Granbull | BST 450 | midgame`
+- `0280 | RALTS | Ralts | BST 198 | weak`
+- `0281 | KIRLIA | Kirlia | BST 278 | earlygame`
+- `0282 | GARDEVOIR | Gardevoir | BST 518 | lategame`
+- `0298 | AZURILL | Azurill | BST 190 | weak`
+- `0303 | MAWILE | Mawile | BST 380 | midgame`
+- `0439 | MIMEJR | Mime Jr. | BST 310 | earlygame`
+- `0468 | TOGEKISS | Togekiss | BST 545 | ace`
+- `0546 | COTTONEE | Cottonee | BST 280 | earlygame`
+- `0547 | WHIMSICOTT | Whimsicott | BST 480 | lategame`
+- `0669 | FLABEBE | Flabébé | BST 303 | earlygame`
+- `0670 | FLOETTE | Floette | BST 371 | midgame`
+- `0671 | FLORGES | Florges | BST 552 | ace`
+- `0682 | SPRITZEE | Spritzee | BST 341 | earlygame`
+- `0683 | AROMATISSE | Aromatisse | BST 462 | lategame`
+- `0684 | SWIRLIX | Swirlix | BST 341 | earlygame`
+- `0685 | SLURPUFF | Slurpuff | BST 480 | lategame`
+- `0700 | SYLVEON | Sylveon | BST 525 | lategame`
+- `0702 | DEDENNE | Dedenne | BST 431 | midgame`
+- `0703 | CARBINK | Carbink | BST 500 | lategame`
+- `0707 | KLEFKI | Klefki | BST 470 | lategame`
+- `0716 | XERNEAS | Xerneas | BST 680 | boss`
+- `0719 | DIANCIE | Diancie | BST 600 | boss`
+- `0730 | PRIMARINA | Primarina | BST 530 | lategame`
+- `0742 | CUTIEFLY | Cutiefly | BST 304 | earlygame`
+- `0743 | RIBOMBEE | Ribombee | BST 464 | lategame`
+- `0755 | MORELULL | Morelull | BST 285 | earlygame`
+- `0756 | SHIINOTIC | Shiinotic | BST 405 | midgame`
+- `0764 | COMFEY | Comfey | BST 485 | lategame`
+- `0778 | MIMIKYU | Mimikyu | BST 476 | lategame`
+- `0785 | TAPUKOKO | Tapu Koko | BST 570 | boss`
+- `0786 | TAPULELE | Tapu Lele | BST 570 | boss`
+- `0787 | TAPUBULU | Tapu Bulu | BST 570 | boss`
+- `0788 | TAPUFINI | Tapu Fini | BST 570 | boss`
+- `0801 | MAGEARNA | Magearna | BST 600 | boss`
+- `0858 | HATTERENE | Hatterene | BST 510 | lategame`
+- `0859 | IMPIDIMP | Impidimp | BST 265 | earlygame`
+- `0860 | MORGREM | Morgrem | BST 370 | midgame`
+- `0861 | GRIMMSNARL | Grimmsnarl | BST 510 | lategame`
+- `0868 | MILCERY | Milcery | BST 270 | earlygame`
+- `0869 | ALCREMIE | Alcremie | BST 495 | lategame`
+- `0888 | ZACIAN | Zacian | BST 660 | boss`
+- `0905 | ENAMORUS | Enamorus | BST 580 | boss`
+- `0926 | FIDOUGH | Fidough | BST 312 | earlygame`
+- `0927 | DACHSBUN | Dachsbun | BST 477 | lategame`
+- `0957 | TINKATINK | Tinkatink | BST 297 | earlygame`
+- `0958 | TINKATUFF | Tinkatuff | BST 380 | midgame`
+- `0959 | TINKATON | Tinkaton | BST 506 | lategame`
+- `0985 | SCREAMTAIL | Scream Tail | BST 570 | boss`
+- `0987 | FLUTTERMANE | Flutter Mane | BST 570 | boss`
+- `1006 | IRONVALIANT | Iron Valiant | BST 590 | boss`
+- `1016 | FEZANDIPITI | Fezandipiti | BST 555 | boss`
+
+## Progression Buckets
+
+### weak
+
+- `0010 | CATERPIE | Caterpie | BST 195`
+- `0011 | METAPOD | Metapod | BST 205`
+- `0013 | WEEDLE | Weedle | BST 195`
+- `0014 | KAKUNA | Kakuna | BST 205`
+- `0016 | PIDGEY | Pidgey | BST 251`
+- `0019 | RATTATA | Rattata | BST 253`
+- `0041 | ZUBAT | Zubat | BST 245`
+- `0129 | MAGIKARP | Magikarp | BST 200`
+- `0161 | SENTRET | Sentret | BST 215`
+- `0167 | SPINARAK | Spinarak | BST 250`
+- `0172 | PICHU | Pichu | BST 205`
+- `0173 | CLEFFA | Cleffa | BST 218`
+- `0174 | IGGLYBUFF | Igglybuff | BST 210`
+- `0175 | TOGEPI | Togepi | BST 245`
+- `0183 | MARILL | Marill | BST 250`
+- `0187 | HOPPIP | Hoppip | BST 250`
+- `0191 | SUNKERN | Sunkern | BST 180`
+- `0194 | WOOPER | Wooper | BST 210`
+- `0218 | SLUGMA | Slugma | BST 250`
+- `0220 | SWINUB | Swinub | BST 250`
+- `0235 | SMEARGLE | Smeargle | BST 250`
+- `0236 | TYROGUE | Tyrogue | BST 210`
+- `0261 | POOCHYENA | Poochyena | BST 220`
+- `0263 | ZIGZAGOON | Zigzagoon | BST 240`
+- `0265 | WURMPLE | Wurmple | BST 195`
+- `0266 | SILCOON | Silcoon | BST 205`
+- `0268 | CASCOON | Cascoon | BST 205`
+- `0270 | LOTAD | Lotad | BST 220`
+- `0273 | SEEDOT | Seedot | BST 220`
+- `0280 | RALTS | Ralts | BST 198`
+- `0292 | SHEDINJA | Shedinja | BST 236`
+- `0293 | WHISMUR | Whismur | BST 240`
+- `0296 | MAKUHITA | Makuhita | BST 237`
+- `0298 | AZURILL | Azurill | BST 190`
+- `0349 | FEEBAS | Feebas | BST 200`
+- `0396 | STARLY | Starly | BST 245`
+- `0399 | BIDOOF | Bidoof | BST 250`
+- `0401 | KRICKETOT | Kricketot | BST 194`
+- `0412 | BURMY | Burmy | BST 224`
+- `0415 | COMBEE | Combee | BST 244`
+- `0440 | HAPPINY | Happiny | BST 220`
+- `0504 | PATRAT | Patrat | BST 255`
+- `0659 | BUNNELBY | Bunnelby | BST 237`
+- `0664 | SCATTERBUG | Scatterbug | BST 200`
+- `0665 | SPEWPA | Spewpa | BST 213`
+- `0714 | NOIBAT | Noibat | BST 245`
+- `0734 | YUNGOOS | Yungoos | BST 253`
+- `0746 | WISHIWASHI | Wishiwashi | BST 175`
+- `0753 | FOMANTIS | Fomantis | BST 250`
+- `0761 | BOUNSWEET | Bounsweet | BST 210`
+- `0767 | WIMPOD | Wimpod | BST 230`
+- `0821 | ROOKIDEE | Rookidee | BST 245`
+- `0824 | BLIPBUG | Blipbug | BST 180`
+- `0827 | NICKIT | Nickit | BST 245`
+- `0829 | GOSSIFLEUR | Gossifleur | BST 250`
+- `0837 | ROLYCOLY | Rolycoly | BST 240`
+- `0848 | TOXEL | Toxel | BST 242`
+- `0872 | SNOM | Snom | BST 185`
+- `0915 | LECHONK | Lechonk | BST 254`
+- `0917 | TAROUNTULA | Tarountula | BST 210`
+- `0919 | NYMBLE | Nymble | BST 210`
+- `0921 | PAWMI | Pawmi | BST 240`
+- `0935 | CHARCADET | Charcadet | BST 255`
+- `0955 | FLITTLE | Flittle | BST 255`
+- `0960 | WIGLETT | Wiglett | BST 245`
+
+### earlygame
+
+- `0001 | BULBASAUR | Bulbasaur | BST 318`
+- `0004 | CHARMANDER | Charmander | BST 309`
+- `0007 | SQUIRTLE | Squirtle | BST 314`
+- `0017 | PIDGEOTTO | Pidgeotto | BST 349`
+- `0021 | SPEAROW | Spearow | BST 262`
+- `0023 | EKANS | Ekans | BST 288`
+- `0025 | PIKACHU | Pikachu | BST 320`
+- `0027 | SANDSHREW | Sandshrew | BST 300`
+- `0029 | NIDORANFE | Nidoran♀ | BST 275`
+- `0032 | NIDORANMA | Nidoran♂ | BST 273`
+- `0035 | CLEFAIRY | Clefairy | BST 323`
+- `0037 | VULPIX | Vulpix | BST 299`
+- `0039 | JIGGLYPUFF | Jigglypuff | BST 270`
+- `0043 | ODDISH | Oddish | BST 320`
+- `0046 | PARAS | Paras | BST 285`
+- `0048 | VENONAT | Venonat | BST 305`
+- `0050 | DIGLETT | Diglett | BST 265`
+- `0052 | MEOWTH | Meowth | BST 290`
+- `0054 | PSYDUCK | Psyduck | BST 320`
+- `0056 | MANKEY | Mankey | BST 305`
+- `0058 | GROWLITHE | Growlithe | BST 350`
+- `0060 | POLIWAG | Poliwag | BST 300`
+- `0063 | ABRA | Abra | BST 310`
+- `0066 | MACHOP | Machop | BST 305`
+- `0069 | BELLSPROUT | Bellsprout | BST 300`
+- `0072 | TENTACOOL | Tentacool | BST 335`
+- `0074 | GEODUDE | Geodude | BST 300`
+- `0079 | SLOWPOKE | Slowpoke | BST 315`
+- `0081 | MAGNEMITE | Magnemite | BST 325`
+- `0084 | DODUO | Doduo | BST 310`
+- `0086 | SEEL | Seel | BST 325`
+- `0088 | GRIMER | Grimer | BST 325`
+- `0090 | SHELLDER | Shellder | BST 305`
+- `0092 | GASTLY | Gastly | BST 310`
+- `0096 | DROWZEE | Drowzee | BST 328`
+- `0098 | KRABBY | Krabby | BST 325`
+- `0100 | VOLTORB | Voltorb | BST 330`
+- `0102 | EXEGGCUTE | Exeggcute | BST 325`
+- `0104 | CUBONE | Cubone | BST 320`
+- `0109 | KOFFING | Koffing | BST 340`
+- `0111 | RHYHORN | Rhyhorn | BST 345`
+- `0116 | HORSEA | Horsea | BST 295`
+- `0118 | GOLDEEN | Goldeen | BST 320`
+- `0120 | STARYU | Staryu | BST 340`
+- `0132 | DITTO | Ditto | BST 288`
+- `0133 | EEVEE | Eevee | BST 325`
+- `0138 | OMANYTE | Omanyte | BST 355`
+- `0140 | KABUTO | Kabuto | BST 355`
+- `0147 | DRATINI | Dratini | BST 300`
+- `0152 | CHIKORITA | Chikorita | BST 318`
+- `0155 | CYNDAQUIL | Cyndaquil | BST 309`
+- `0158 | TOTODILE | Totodile | BST 314`
+- `0163 | HOOTHOOT | Hoothoot | BST 262`
+- `0165 | LEDYBA | Ledyba | BST 265`
+- `0170 | CHINCHOU | Chinchou | BST 330`
+- `0177 | NATU | Natu | BST 320`
+- `0179 | MAREEP | Mareep | BST 280`
+- `0188 | SKIPLOOM | Skiploom | BST 340`
+- `0201 | UNOWN | Unown | BST 336`
+- `0204 | PINECO | Pineco | BST 290`
+- `0209 | SNUBBULL | Snubbull | BST 300`
+- `0216 | TEDDIURSA | Teddiursa | BST 330`
+- `0223 | REMORAID | Remoraid | BST 300`
+- `0225 | DELIBIRD | Delibird | BST 330`
+- `0228 | HOUNDOUR | Houndour | BST 330`
+- `0231 | PHANPY | Phanpy | BST 330`
+- `0238 | SMOOCHUM | Smoochum | BST 305`
+- `0246 | LARVITAR | Larvitar | BST 300`
+- `0252 | TREECKO | Treecko | BST 310`
+- `0255 | TORCHIC | Torchic | BST 310`
+- `0258 | MUDKIP | Mudkip | BST 310`
+- `0271 | LOMBRE | Lombre | BST 340`
+- `0274 | NUZLEAF | Nuzleaf | BST 340`
+- `0276 | TAILLOW | Taillow | BST 270`
+- `0278 | WINGULL | Wingull | BST 270`
+- `0281 | KIRLIA | Kirlia | BST 278`
+- `0283 | SURSKIT | Surskit | BST 269`
+- `0285 | SHROOMISH | Shroomish | BST 295`
+- `0287 | SLAKOTH | Slakoth | BST 280`
+- `0290 | NINCADA | Nincada | BST 266`
+- `0300 | SKITTY | Skitty | BST 260`
+- `0304 | ARON | Aron | BST 330`
+- `0307 | MEDITITE | Meditite | BST 280`
+- `0309 | ELECTRIKE | Electrike | BST 295`
+- `0316 | GULPIN | Gulpin | BST 302`
+- `0318 | CARVANHA | Carvanha | BST 305`
+- `0322 | NUMEL | Numel | BST 305`
+- `0325 | SPOINK | Spoink | BST 330`
+- `0328 | TRAPINCH | Trapinch | BST 290`
+- `0329 | VIBRAVA | Vibrava | BST 340`
+- `0331 | CACNEA | Cacnea | BST 335`
+- `0333 | SWABLU | Swablu | BST 310`
+- `0339 | BARBOACH | Barboach | BST 288`
+- `0341 | CORPHISH | Corphish | BST 308`
+- `0343 | BALTOY | Baltoy | BST 300`
+- `0345 | LILEEP | Lileep | BST 355`
+- `0347 | ANORITH | Anorith | BST 355`
+- `0353 | SHUPPET | Shuppet | BST 295`
+- `0355 | DUSKULL | Duskull | BST 295`
+- `0360 | WYNAUT | Wynaut | BST 260`
+- `0361 | SNORUNT | Snorunt | BST 300`
+- `0363 | SPHEAL | Spheal | BST 290`
+- `0366 | CLAMPERL | Clamperl | BST 345`
+- `0370 | LUVDISC | Luvdisc | BST 330`
+- `0371 | BAGON | Bagon | BST 300`
+- `0374 | BELDUM | Beldum | BST 300`
+- `0387 | TURTWIG | Turtwig | BST 318`
+- `0390 | CHIMCHAR | Chimchar | BST 309`
+- `0393 | PIPLUP | Piplup | BST 314`
+- `0397 | STARAVIA | Staravia | BST 340`
+- `0403 | SHINX | Shinx | BST 263`
+- `0406 | BUDEW | Budew | BST 280`
+- `0408 | CRANIDOS | Cranidos | BST 350`
+- `0410 | SHIELDON | Shieldon | BST 350`
+- `0418 | BUIZEL | Buizel | BST 330`
+- `0420 | CHERUBI | Cherubi | BST 275`
+- `0422 | SHELLOS | Shellos | BST 325`
+- `0425 | DRIFLOON | Drifloon | BST 348`
+- `0427 | BUNEARY | Buneary | BST 350`
+- `0431 | GLAMEOW | Glameow | BST 310`
+- `0433 | CHINGLING | Chingling | BST 285`
+- `0434 | STUNKY | Stunky | BST 329`
+- `0436 | BRONZOR | Bronzor | BST 300`
+- `0438 | BONSLY | Bonsly | BST 290`
+- `0439 | MIMEJR | Mime Jr. | BST 310`
+- `0443 | GIBLE | Gible | BST 300`
+- `0447 | RIOLU | Riolu | BST 285`
+- `0449 | HIPPOPOTAS | Hippopotas | BST 330`
+- `0451 | SKORUPI | Skorupi | BST 330`
+- `0453 | CROAGUNK | Croagunk | BST 300`
+- `0456 | FINNEON | Finneon | BST 330`
+- `0458 | MANTYKE | Mantyke | BST 345`
+- `0459 | SNOVER | Snover | BST 334`
+- `0495 | SNIVY | Snivy | BST 308`
+- `0498 | TEPIG | Tepig | BST 308`
+- `0501 | OSHAWOTT | Oshawott | BST 308`
+- `0506 | LILLIPUP | Lillipup | BST 275`
+- `0509 | PURRLOIN | Purrloin | BST 281`
+- `0511 | PANSAGE | Pansage | BST 316`
+- `0513 | PANSEAR | Pansear | BST 316`
+- `0515 | PANPOUR | Panpour | BST 316`
+- `0517 | MUNNA | Munna | BST 292`
+- `0519 | PIDOVE | Pidove | BST 264`
+- `0520 | TRANQUILL | Tranquill | BST 358`
+- `0522 | BLITZLE | Blitzle | BST 295`
+- `0524 | ROGGENROLA | Roggenrola | BST 280`
+- `0527 | WOOBAT | Woobat | BST 323`
+- `0529 | DRILBUR | Drilbur | BST 328`
+- `0532 | TIMBURR | Timburr | BST 305`
+- `0535 | TYMPOLE | Tympole | BST 294`
+- `0540 | SEWADDLE | Sewaddle | BST 310`
+- `0543 | VENIPEDE | Venipede | BST 260`
+- `0546 | COTTONEE | Cottonee | BST 280`
+- `0548 | PETILIL | Petilil | BST 280`
+- `0551 | SANDILE | Sandile | BST 292`
+- `0552 | KROKOROK | Krokorok | BST 351`
+- `0554 | DARUMAKA | Darumaka | BST 315`
+- `0557 | DWEBBLE | Dwebble | BST 325`
+- `0559 | SCRAGGY | Scraggy | BST 348`
+- `0562 | YAMASK | Yamask | BST 303`
+- `0564 | TIRTOUGA | Tirtouga | BST 355`
+- `0568 | TRUBBISH | Trubbish | BST 329`
+- `0570 | ZORUA | Zorua | BST 330`
+- `0572 | MINCCINO | Minccino | BST 300`
+- `0574 | GOTHITA | Gothita | BST 290`
+- `0577 | SOLOSIS | Solosis | BST 290`
+- `0580 | DUCKLETT | Ducklett | BST 305`
+- `0582 | VANILLITE | Vanillite | BST 305`
+- `0585 | DEERLING | Deerling | BST 335`
+- `0588 | KARRABLAST | Karrablast | BST 315`
+- `0590 | FOONGUS | Foongus | BST 294`
+- `0592 | FRILLISH | Frillish | BST 335`
+- `0595 | JOLTIK | Joltik | BST 319`
+- `0597 | FERROSEED | Ferroseed | BST 305`
+- `0599 | KLINK | Klink | BST 300`
+- `0602 | TYNAMO | Tynamo | BST 275`
+- `0605 | ELGYEM | Elgyem | BST 335`
+- `0607 | LITWICK | Litwick | BST 275`
+- `0610 | AXEW | Axew | BST 320`
+- `0613 | CUBCHOO | Cubchoo | BST 305`
+- `0616 | SHELMET | Shelmet | BST 305`
+- `0619 | MIENFOO | Mienfoo | BST 350`
+- `0622 | GOLETT | Golett | BST 303`
+- `0624 | PAWNIARD | Pawniard | BST 340`
+- `0627 | RUFFLET | Rufflet | BST 350`
+- `0633 | DEINO | Deino | BST 300`
+- `0650 | CHESPIN | Chespin | BST 313`
+- `0653 | FENNEKIN | Fennekin | BST 307`
+- `0656 | FROAKIE | Froakie | BST 314`
+- `0661 | FLETCHLING | Fletchling | BST 278`
+- `0669 | FLABEBE | Flabébé | BST 303`
+- `0672 | SKIDDO | Skiddo | BST 350`
+- `0674 | PANCHAM | Pancham | BST 348`
+- `0677 | ESPURR | Espurr | BST 355`
+- `0679 | HONEDGE | Honedge | BST 325`
+- `0682 | SPRITZEE | Spritzee | BST 341`
+- `0684 | SWIRLIX | Swirlix | BST 341`
+- `0686 | INKAY | Inkay | BST 288`
+- `0688 | BINACLE | Binacle | BST 306`
+- `0690 | SKRELP | Skrelp | BST 320`
+- `0692 | CLAUNCHER | Clauncher | BST 330`
+- `0694 | HELIOPTILE | Helioptile | BST 289`
+- `0704 | GOOMY | Goomy | BST 300`
+- `0708 | PHANTUMP | Phantump | BST 309`
+- `0710 | PUMPKABOO | Pumpkaboo | BST 335`
+- `0712 | BERGMITE | Bergmite | BST 304`
+- `0722 | ROWLET | Rowlet | BST 320`
+- `0725 | LITTEN | Litten | BST 320`
+- `0728 | POPPLIO | Popplio | BST 320`
+- `0731 | PIKIPEK | Pikipek | BST 265`
+- `0732 | TRUMBEAK | Trumbeak | BST 355`
+- `0736 | GRUBBIN | Grubbin | BST 300`
+- `0739 | CRABRAWLER | Crabrawler | BST 338`
+- `0742 | CUTIEFLY | Cutiefly | BST 304`
+- `0744 | ROCKRUFF | Rockruff | BST 280`
+- `0747 | MAREANIE | Mareanie | BST 305`
+- `0751 | DEWPIDER | Dewpider | BST 269`
+- `0755 | MORELULL | Morelull | BST 285`
+- `0757 | SALANDIT | Salandit | BST 320`
+- `0759 | STUFFUL | Stufful | BST 340`
+- `0762 | STEENEE | Steenee | BST 290`
+- `0769 | SANDYGAST | Sandygast | BST 320`
+- `0782 | JANGMOO | Jangmo-o | BST 300`
+- `0810 | GROOKEY | Grookey | BST 310`
+- `0813 | SCORBUNNY | Scorbunny | BST 310`
+- `0816 | SOBBLE | Sobble | BST 310`
+- `0819 | SKWOVET | Skwovet | BST 275`
+- `0825 | DOTTLER | Dottler | BST 335`
+- `0831 | WOOLOO | Wooloo | BST 270`
+- `0833 | CHEWTLE | Chewtle | BST 284`
+- `0835 | YAMPER | Yamper | BST 270`
+- `0840 | APPLIN | Applin | BST 260`
+- `0843 | SILICOBRA | Silicobra | BST 315`
+- `0846 | ARROKUDA | Arrokuda | BST 280`
+- `0850 | SIZZLIPEDE | Sizzlipede | BST 305`
+- `0852 | CLOBBOPUS | Clobbopus | BST 310`
+- `0854 | SINISTEA | Sinistea | BST 308`
+- `0856 | HATENNA | Hatenna | BST 265`
+- `0859 | IMPIDIMP | Impidimp | BST 265`
+- `0868 | MILCERY | Milcery | BST 270`
+- `0878 | CUFANT | Cufant | BST 330`
+- `0885 | DREEPY | Dreepy | BST 270`
+- `0906 | SPRIGATITO | Sprigatito | BST 310`
+- `0909 | FUECOCO | Fuecoco | BST 310`
+- `0912 | QUAXLY | Quaxly | BST 310`
+- `0922 | PAWMO | Pawmo | BST 350`
+- `0924 | TANDEMAUS | Tandemaus | BST 305`
+- `0926 | FIDOUGH | Fidough | BST 312`
+- `0928 | SMOLIV | Smoliv | BST 260`
+- `0929 | DOLLIV | Dolliv | BST 354`
+- `0932 | NACLI | Nacli | BST 280`
+- `0933 | NACLSTACK | Naclstack | BST 355`
+- `0938 | TADBULB | Tadbulb | BST 272`
+- `0940 | WATTREL | Wattrel | BST 280`
+- `0942 | MASCHIFF | Maschiff | BST 340`
+- `0944 | SHROODLE | Shroodle | BST 290`
+- `0946 | BRAMBLIN | Bramblin | BST 275`
+- `0948 | TOEDSCOOL | Toedscool | BST 335`
+- `0951 | CAPSAKID | Capsakid | BST 304`
+- `0953 | RELLOR | Rellor | BST 270`
+- `0957 | TINKATINK | Tinkatink | BST 297`
+- `0963 | FINIZEN | Finizen | BST 315`
+- `0965 | VAROOM | Varoom | BST 300`
+- `0969 | GLIMMET | Glimmet | BST 350`
+- `0971 | GREAVARD | Greavard | BST 290`
+- `0974 | CETODDLE | Cetoddle | BST 334`
+- `0996 | FRIGIBAX | Frigibax | BST 320`
+- `0999 | GIMMIGHOUL | Gimmighoul | BST 300`
+- `1012 | POLTCHAGEIST | Poltchageist | BST 308`
+
+### midgame
+
+- `0002 | IVYSAUR | Ivysaur | BST 405`
+- `0005 | CHARMELEON | Charmeleon | BST 405`
+- `0008 | WARTORTLE | Wartortle | BST 405`
+- `0012 | BUTTERFREE | Butterfree | BST 395`
+- `0015 | BEEDRILL | Beedrill | BST 395`
+- `0020 | RATICATE | Raticate | BST 413`
+- `0022 | FEAROW | Fearow | BST 442`
+- `0024 | ARBOK | Arbok | BST 448`
+- `0028 | SANDSLASH | Sandslash | BST 450`
+- `0030 | NIDORINA | Nidorina | BST 365`
+- `0033 | NIDORINO | Nidorino | BST 365`
+- `0040 | WIGGLYTUFF | Wigglytuff | BST 435`
+- `0042 | GOLBAT | Golbat | BST 455`
+- `0044 | GLOOM | Gloom | BST 395`
+- `0047 | PARASECT | Parasect | BST 405`
+- `0049 | VENOMOTH | Venomoth | BST 450`
+- `0051 | DUGTRIO | Dugtrio | BST 425`
+- `0053 | PERSIAN | Persian | BST 440`
+- `0057 | PRIMEAPE | Primeape | BST 455`
+- `0061 | POLIWHIRL | Poliwhirl | BST 385`
+- `0064 | KADABRA | Kadabra | BST 400`
+- `0067 | MACHOKE | Machoke | BST 405`
+- `0070 | WEEPINBELL | Weepinbell | BST 390`
+- `0075 | GRAVELER | Graveler | BST 390`
+- `0077 | PONYTA | Ponyta | BST 410`
+- `0083 | FARFETCHD | Farfetch'd | BST 377`
+- `0093 | HAUNTER | Haunter | BST 405`
+- `0095 | ONIX | Onix | BST 385`
+- `0105 | MAROWAK | Marowak | BST 425`
+- `0106 | HITMONLEE | Hitmonlee | BST 455`
+- `0107 | HITMONCHAN | Hitmonchan | BST 455`
+- `0108 | LICKITUNG | Lickitung | BST 385`
+- `0113 | CHANSEY | Chansey | BST 450`
+- `0114 | TANGELA | Tangela | BST 435`
+- `0117 | SEADRA | Seadra | BST 440`
+- `0119 | SEAKING | Seaking | BST 450`
+- `0124 | JYNX | Jynx | BST 455`
+- `0137 | PORYGON | Porygon | BST 395`
+- `0148 | DRAGONAIR | Dragonair | BST 420`
+- `0153 | BAYLEEF | Bayleef | BST 405`
+- `0156 | QUILAVA | Quilava | BST 405`
+- `0159 | CROCONAW | Croconaw | BST 405`
+- `0162 | FURRET | Furret | BST 415`
+- `0164 | NOCTOWL | Noctowl | BST 452`
+- `0166 | LEDIAN | Ledian | BST 390`
+- `0168 | ARIADOS | Ariados | BST 400`
+- `0176 | TOGETIC | Togetic | BST 405`
+- `0180 | FLAAFFY | Flaaffy | BST 365`
+- `0184 | AZUMARILL | Azumarill | BST 420`
+- `0185 | SUDOWOODO | Sudowoodo | BST 410`
+- `0190 | AIPOM | Aipom | BST 360`
+- `0192 | SUNFLORA | Sunflora | BST 425`
+- `0193 | YANMA | Yanma | BST 390`
+- `0195 | QUAGSIRE | Quagsire | BST 430`
+- `0198 | MURKROW | Murkrow | BST 405`
+- `0200 | MISDREAVUS | Misdreavus | BST 435`
+- `0202 | WOBBUFFET | Wobbuffet | BST 405`
+- `0203 | GIRAFARIG | Girafarig | BST 455`
+- `0206 | DUNSPARCE | Dunsparce | BST 415`
+- `0207 | GLIGAR | Gligar | BST 430`
+- `0210 | GRANBULL | Granbull | BST 450`
+- `0211 | QWILFISH | Qwilfish | BST 440`
+- `0215 | SNEASEL | Sneasel | BST 430`
+- `0219 | MAGCARGO | Magcargo | BST 430`
+- `0221 | PILOSWINE | Piloswine | BST 450`
+- `0222 | CORSOLA | Corsola | BST 410`
+- `0237 | HITMONTOP | Hitmontop | BST 455`
+- `0239 | ELEKID | Elekid | BST 360`
+- `0240 | MAGBY | Magby | BST 365`
+- `0247 | PUPITAR | Pupitar | BST 410`
+- `0253 | GROVYLE | Grovyle | BST 405`
+- `0256 | COMBUSKEN | Combusken | BST 405`
+- `0259 | MARSHTOMP | Marshtomp | BST 405`
+- `0262 | MIGHTYENA | Mightyena | BST 420`
+- `0264 | LINOONE | Linoone | BST 420`
+- `0267 | BEAUTIFLY | Beautifly | BST 395`
+- `0269 | DUSTOX | Dustox | BST 385`
+- `0277 | SWELLOW | Swellow | BST 455`
+- `0279 | PELIPPER | Pelipper | BST 440`
+- `0284 | MASQUERAIN | Masquerain | BST 454`
+- `0288 | VIGOROTH | Vigoroth | BST 440`
+- `0291 | NINJASK | Ninjask | BST 456`
+- `0294 | LOUDRED | Loudred | BST 360`
+- `0299 | NOSEPASS | Nosepass | BST 375`
+- `0301 | DELCATTY | Delcatty | BST 400`
+- `0302 | SABLEYE | Sableye | BST 380`
+- `0303 | MAWILE | Mawile | BST 380`
+- `0305 | LAIRON | Lairon | BST 430`
+- `0308 | MEDICHAM | Medicham | BST 410`
+- `0311 | PLUSLE | Plusle | BST 405`
+- `0312 | MINUN | Minun | BST 405`
+- `0313 | VOLBEAT | Volbeat | BST 430`
+- `0314 | ILLUMISE | Illumise | BST 430`
+- `0315 | ROSELIA | Roselia | BST 400`
+- `0320 | WAILMER | Wailmer | BST 400`
+- `0327 | SPINDA | Spinda | BST 360`
+- `0335 | ZANGOOSE | Zangoose | BST 458`
+- `0336 | SEVIPER | Seviper | BST 458`
+- `0351 | CASTFORM | Castform | BST 420`
+- `0352 | KECLEON | Kecleon | BST 440`
+- `0354 | BANETTE | Banette | BST 455`
+- `0356 | DUSCLOPS | Dusclops | BST 455`
+- `0358 | CHIMECHO | Chimecho | BST 455`
+- `0364 | SEALEO | Sealeo | BST 410`
+- `0372 | SHELGON | Shelgon | BST 420`
+- `0375 | METANG | Metang | BST 420`
+- `0388 | GROTLE | Grotle | BST 405`
+- `0391 | MONFERNO | Monferno | BST 405`
+- `0394 | PRINPLUP | Prinplup | BST 405`
+- `0400 | BIBAREL | Bibarel | BST 410`
+- `0402 | KRICKETUNE | Kricketune | BST 384`
+- `0404 | LUXIO | Luxio | BST 363`
+- `0413 | WORMADAM | Wormadam | BST 424`
+- `0414 | MOTHIM | Mothim | BST 424`
+- `0417 | PACHIRISU | Pachirisu | BST 405`
+- `0421 | CHERRIM | Cherrim | BST 450`
+- `0432 | PURUGLY | Purugly | BST 452`
+- `0441 | CHATOT | Chatot | BST 411`
+- `0444 | GABITE | Gabite | BST 410`
+- `0446 | MUNCHLAX | Munchlax | BST 390`
+- `0455 | CARNIVINE | Carnivine | BST 454`
+- `0479 | ROTOM | Rotom | BST 440`
+- `0496 | SERVINE | Servine | BST 413`
+- `0499 | PIGNITE | Pignite | BST 418`
+- `0502 | DEWOTT | Dewott | BST 413`
+- `0505 | WATCHOG | Watchog | BST 420`
+- `0507 | HERDIER | Herdier | BST 370`
+- `0510 | LIEPARD | Liepard | BST 446`
+- `0525 | BOLDORE | Boldore | BST 390`
+- `0528 | SWOOBAT | Swoobat | BST 425`
+- `0531 | AUDINO | Audino | BST 445`
+- `0533 | GURDURR | Gurdurr | BST 405`
+- `0536 | PALPITOAD | Palpitoad | BST 384`
+- `0541 | SWADLOON | Swadloon | BST 380`
+- `0544 | WHIRLIPEDE | Whirlipede | BST 360`
+- `0566 | ARCHEN | Archen | BST 401`
+- `0575 | GOTHORITA | Gothorita | BST 390`
+- `0578 | DUOSION | Duosion | BST 370`
+- `0583 | VANILLISH | Vanillish | BST 395`
+- `0587 | EMOLGA | Emolga | BST 428`
+- `0600 | KLANG | Klang | BST 440`
+- `0603 | EELEKTRIK | Eelektrik | BST 405`
+- `0608 | LAMPENT | Lampent | BST 370`
+- `0611 | FRAXURE | Fraxure | BST 410`
+- `0629 | VULLABY | Vullaby | BST 370`
+- `0634 | ZWEILOUS | Zweilous | BST 420`
+- `0636 | LARVESTA | Larvesta | BST 360`
+- `0651 | QUILLADIN | Quilladin | BST 405`
+- `0654 | BRAIXEN | Braixen | BST 409`
+- `0657 | FROGADIER | Frogadier | BST 405`
+- `0660 | DIGGERSBY | Diggersby | BST 423`
+- `0662 | FLETCHINDER | Fletchinder | BST 382`
+- `0666 | VIVILLON | Vivillon | BST 411`
+- `0667 | LITLEO | Litleo | BST 369`
+- `0670 | FLOETTE | Floette | BST 371`
+- `0680 | DOUBLADE | Doublade | BST 448`
+- `0696 | TYRUNT | Tyrunt | BST 362`
+- `0698 | AMAURA | Amaura | BST 362`
+- `0702 | DEDENNE | Dedenne | BST 431`
+- `0705 | SLIGGOO | Sliggoo | BST 452`
+- `0723 | DARTRIX | Dartrix | BST 420`
+- `0726 | TORRACAT | Torracat | BST 420`
+- `0729 | BRIONNE | Brionne | BST 420`
+- `0735 | GUMSHOOS | Gumshoos | BST 418`
+- `0737 | CHARJABUG | Charjabug | BST 400`
+- `0749 | MUDBRAY | Mudbray | BST 385`
+- `0752 | ARAQUANID | Araquanid | BST 454`
+- `0756 | SHIINOTIC | Shiinotic | BST 405`
+- `0771 | PYUKUMUKU | Pyukumuku | BST 410`
+- `0774 | MINIOR | Minior | BST 440`
+- `0777 | TOGEDEMARU | Togedemaru | BST 435`
+- `0783 | HAKAMOO | Hakamo-o | BST 420`
+- `0811 | THWACKEY | Thwackey | BST 420`
+- `0814 | RABOOT | Raboot | BST 420`
+- `0817 | DRIZZILE | Drizzile | BST 420`
+- `0822 | CORVISQUIRE | Corvisquire | BST 365`
+- `0828 | THIEVUL | Thievul | BST 455`
+- `0838 | CARKOL | Carkol | BST 410`
+- `0857 | HATTREM | Hattrem | BST 370`
+- `0860 | MORGREM | Morgrem | BST 370`
+- `0863 | PERRSERKER | Perrserker | BST 440`
+- `0871 | PINCURCHIN | Pincurchin | BST 435`
+- `0877 | MORPEKO | Morpeko | BST 436`
+- `0886 | DRAKLOAK | Drakloak | BST 410`
+- `0907 | FLORAGATO | Floragato | BST 410`
+- `0910 | CROCALOR | Crocalor | BST 411`
+- `0913 | QUAXWELL | Quaxwell | BST 410`
+- `0918 | SPIDOPS | Spidops | BST 404`
+- `0920 | LOKIX | Lokix | BST 450`
+- `0931 | SQUAWKABILLY | Squawkabilly | BST 417`
+- `0950 | KLAWF | Klawf | BST 450`
+- `0958 | TINKATUFF | Tinkatuff | BST 380`
+- `0961 | WUGTRIO | Wugtrio | BST 425`
+- `0964 | PALAFIN | Palafin | BST 457`
+- `0980 | CLODSIRE | Clodsire | BST 430`
+- `0997 | ARCTIBAX | Arctibax | BST 423`
+
+### lategame
+
+- `0003 | VENUSAUR | Venusaur | BST 525`
+- `0006 | CHARIZARD | Charizard | BST 534`
+- `0009 | BLASTOISE | Blastoise | BST 530`
+- `0018 | PIDGEOT | Pidgeot | BST 479`
+- `0026 | RAICHU | Raichu | BST 485`
+- `0031 | NIDOQUEEN | Nidoqueen | BST 505`
+- `0034 | NIDOKING | Nidoking | BST 505`
+- `0036 | CLEFABLE | Clefable | BST 483`
+- `0038 | NINETALES | Ninetales | BST 505`
+- `0045 | VILEPLUME | Vileplume | BST 490`
+- `0055 | GOLDUCK | Golduck | BST 500`
+- `0062 | POLIWRATH | Poliwrath | BST 510`
+- `0065 | ALAKAZAM | Alakazam | BST 500`
+- `0068 | MACHAMP | Machamp | BST 505`
+- `0071 | VICTREEBEL | Victreebel | BST 490`
+- `0073 | TENTACRUEL | Tentacruel | BST 515`
+- `0076 | GOLEM | Golem | BST 495`
+- `0078 | RAPIDASH | Rapidash | BST 500`
+- `0080 | SLOWBRO | Slowbro | BST 490`
+- `0082 | MAGNETON | Magneton | BST 465`
+- `0085 | DODRIO | Dodrio | BST 470`
+- `0087 | DEWGONG | Dewgong | BST 475`
+- `0089 | MUK | Muk | BST 500`
+- `0091 | CLOYSTER | Cloyster | BST 525`
+- `0094 | GENGAR | Gengar | BST 500`
+- `0097 | HYPNO | Hypno | BST 483`
+- `0099 | KINGLER | Kingler | BST 475`
+- `0101 | ELECTRODE | Electrode | BST 490`
+- `0103 | EXEGGUTOR | Exeggutor | BST 530`
+- `0110 | WEEZING | Weezing | BST 490`
+- `0112 | RHYDON | Rhydon | BST 485`
+- `0115 | KANGASKHAN | Kangaskhan | BST 490`
+- `0121 | STARMIE | Starmie | BST 520`
+- `0122 | MRMIME | Mr. Mime | BST 460`
+- `0123 | SCYTHER | Scyther | BST 500`
+- `0125 | ELECTABUZZ | Electabuzz | BST 490`
+- `0126 | MAGMAR | Magmar | BST 495`
+- `0127 | PINSIR | Pinsir | BST 500`
+- `0128 | TAUROS | Tauros | BST 490`
+- `0131 | LAPRAS | Lapras | BST 535`
+- `0134 | VAPOREON | Vaporeon | BST 525`
+- `0135 | JOLTEON | Jolteon | BST 525`
+- `0136 | FLAREON | Flareon | BST 525`
+- `0139 | OMASTAR | Omastar | BST 495`
+- `0141 | KABUTOPS | Kabutops | BST 495`
+- `0142 | AERODACTYL | Aerodactyl | BST 515`
+- `0154 | MEGANIUM | Meganium | BST 525`
+- `0157 | TYPHLOSION | Typhlosion | BST 534`
+- `0160 | FERALIGATR | Feraligatr | BST 530`
+- `0169 | CROBAT | Crobat | BST 535`
+- `0171 | LANTURN | Lanturn | BST 460`
+- `0178 | XATU | Xatu | BST 470`
+- `0181 | AMPHAROS | Ampharos | BST 510`
+- `0182 | BELLOSSOM | Bellossom | BST 490`
+- `0186 | POLITOED | Politoed | BST 500`
+- `0189 | JUMPLUFF | Jumpluff | BST 460`
+- `0196 | ESPEON | Espeon | BST 525`
+- `0197 | UMBREON | Umbreon | BST 525`
+- `0199 | SLOWKING | Slowking | BST 490`
+- `0205 | FORRETRESS | Forretress | BST 465`
+- `0208 | STEELIX | Steelix | BST 510`
+- `0212 | SCIZOR | Scizor | BST 500`
+- `0213 | SHUCKLE | Shuckle | BST 505`
+- `0214 | HERACROSS | Heracross | BST 500`
+- `0217 | URSARING | Ursaring | BST 500`
+- `0224 | OCTILLERY | Octillery | BST 480`
+- `0226 | MANTINE | Mantine | BST 485`
+- `0227 | SKARMORY | Skarmory | BST 465`
+- `0229 | HOUNDOOM | Houndoom | BST 500`
+- `0232 | DONPHAN | Donphan | BST 500`
+- `0233 | PORYGON2 | Porygon2 | BST 515`
+- `0234 | STANTLER | Stantler | BST 465`
+- `0241 | MILTANK | Miltank | BST 490`
+- `0254 | SCEPTILE | Sceptile | BST 530`
+- `0257 | BLAZIKEN | Blaziken | BST 530`
+- `0260 | SWAMPERT | Swampert | BST 535`
+- `0272 | LUDICOLO | Ludicolo | BST 480`
+- `0275 | SHIFTRY | Shiftry | BST 480`
+- `0282 | GARDEVOIR | Gardevoir | BST 518`
+- `0286 | BRELOOM | Breloom | BST 460`
+- `0295 | EXPLOUD | Exploud | BST 490`
+- `0297 | HARIYAMA | Hariyama | BST 474`
+- `0306 | AGGRON | Aggron | BST 530`
+- `0310 | MANECTRIC | Manectric | BST 475`
+- `0317 | SWALOT | Swalot | BST 467`
+- `0319 | SHARPEDO | Sharpedo | BST 460`
+- `0321 | WAILORD | Wailord | BST 500`
+- `0323 | CAMERUPT | Camerupt | BST 460`
+- `0324 | TORKOAL | Torkoal | BST 470`
+- `0326 | GRUMPIG | Grumpig | BST 470`
+- `0330 | FLYGON | Flygon | BST 520`
+- `0332 | CACTURNE | Cacturne | BST 475`
+- `0334 | ALTARIA | Altaria | BST 490`
+- `0337 | LUNATONE | Lunatone | BST 460`
+- `0338 | SOLROCK | Solrock | BST 460`
+- `0340 | WHISCASH | Whiscash | BST 468`
+- `0342 | CRAWDAUNT | Crawdaunt | BST 468`
+- `0344 | CLAYDOL | Claydol | BST 500`
+- `0346 | CRADILY | Cradily | BST 495`
+- `0348 | ARMALDO | Armaldo | BST 495`
+- `0357 | TROPIUS | Tropius | BST 460`
+- `0359 | ABSOL | Absol | BST 465`
+- `0362 | GLALIE | Glalie | BST 480`
+- `0365 | WALREIN | Walrein | BST 530`
+- `0367 | HUNTAIL | Huntail | BST 485`
+- `0368 | GOREBYSS | Gorebyss | BST 485`
+- `0369 | RELICANTH | Relicanth | BST 485`
+- `0389 | TORTERRA | Torterra | BST 525`
+- `0392 | INFERNAPE | Infernape | BST 534`
+- `0395 | EMPOLEON | Empoleon | BST 530`
+- `0398 | STARAPTOR | Staraptor | BST 485`
+- `0405 | LUXRAY | Luxray | BST 523`
+- `0407 | ROSERADE | Roserade | BST 515`
+- `0409 | RAMPARDOS | Rampardos | BST 495`
+- `0411 | BASTIODON | Bastiodon | BST 495`
+- `0416 | VESPIQUEN | Vespiquen | BST 474`
+- `0419 | FLOATZEL | Floatzel | BST 495`
+- `0423 | GASTRODON | Gastrodon | BST 475`
+- `0424 | AMBIPOM | Ambipom | BST 482`
+- `0426 | DRIFBLIM | Drifblim | BST 498`
+- `0428 | LOPUNNY | Lopunny | BST 480`
+- `0429 | MISMAGIUS | Mismagius | BST 495`
+- `0430 | HONCHKROW | Honchkrow | BST 505`
+- `0435 | SKUNTANK | Skuntank | BST 479`
+- `0437 | BRONZONG | Bronzong | BST 500`
+- `0442 | SPIRITOMB | Spiritomb | BST 485`
+- `0448 | LUCARIO | Lucario | BST 525`
+- `0450 | HIPPOWDON | Hippowdon | BST 525`
+- `0452 | DRAPION | Drapion | BST 500`
+- `0454 | TOXICROAK | Toxicroak | BST 490`
+- `0457 | LUMINEON | Lumineon | BST 460`
+- `0460 | ABOMASNOW | Abomasnow | BST 494`
+- `0461 | WEAVILE | Weavile | BST 510`
+- `0462 | MAGNEZONE | Magnezone | BST 535`
+- `0463 | LICKILICKY | Lickilicky | BST 515`
+- `0464 | RHYPERIOR | Rhyperior | BST 535`
+- `0465 | TANGROWTH | Tangrowth | BST 535`
+- `0469 | YANMEGA | Yanmega | BST 515`
+- `0470 | LEAFEON | Leafeon | BST 525`
+- `0471 | GLACEON | Glaceon | BST 525`
+- `0472 | GLISCOR | Gliscor | BST 510`
+- `0473 | MAMOSWINE | Mamoswine | BST 530`
+- `0474 | PORYGONZ | Porygon-Z | BST 535`
+- `0475 | GALLADE | Gallade | BST 518`
+- `0476 | PROBOPASS | Probopass | BST 525`
+- `0477 | DUSKNOIR | Dusknoir | BST 525`
+- `0478 | FROSLASS | Froslass | BST 480`
+- `0497 | SERPERIOR | Serperior | BST 528`
+- `0500 | EMBOAR | Emboar | BST 528`
+- `0503 | SAMUROTT | Samurott | BST 528`
+- `0508 | STOUTLAND | Stoutland | BST 500`
+- `0512 | SIMISAGE | Simisage | BST 498`
+- `0514 | SIMISEAR | Simisear | BST 498`
+- `0516 | SIMIPOUR | Simipour | BST 498`
+- `0518 | MUSHARNA | Musharna | BST 487`
+- `0521 | UNFEZANT | Unfezant | BST 488`
+- `0523 | ZEBSTRIKA | Zebstrika | BST 497`
+- `0526 | GIGALITH | Gigalith | BST 515`
+- `0530 | EXCADRILL | Excadrill | BST 508`
+- `0534 | CONKELDURR | Conkeldurr | BST 505`
+- `0537 | SEISMITOAD | Seismitoad | BST 509`
+- `0538 | THROH | Throh | BST 465`
+- `0539 | SAWK | Sawk | BST 465`
+- `0542 | LEAVANNY | Leavanny | BST 500`
+- `0545 | SCOLIPEDE | Scolipede | BST 485`
+- `0547 | WHIMSICOTT | Whimsicott | BST 480`
+- `0549 | LILLIGANT | Lilligant | BST 480`
+- `0550 | BASCULIN | Basculin | BST 460`
+- `0553 | KROOKODILE | Krookodile | BST 519`
+- `0555 | DARMANITAN | Darmanitan | BST 480`
+- `0556 | MARACTUS | Maractus | BST 461`
+- `0558 | CRUSTLE | Crustle | BST 485`
+- `0560 | SCRAFTY | Scrafty | BST 488`
+- `0561 | SIGILYPH | Sigilyph | BST 490`
+- `0563 | COFAGRIGUS | Cofagrigus | BST 483`
+- `0565 | CARRACOSTA | Carracosta | BST 495`
+- `0569 | GARBODOR | Garbodor | BST 474`
+- `0571 | ZOROARK | Zoroark | BST 510`
+- `0573 | CINCCINO | Cinccino | BST 470`
+- `0576 | GOTHITELLE | Gothitelle | BST 490`
+- `0579 | REUNICLUS | Reuniclus | BST 490`
+- `0581 | SWANNA | Swanna | BST 473`
+- `0584 | VANILLUXE | Vanilluxe | BST 535`
+- `0586 | SAWSBUCK | Sawsbuck | BST 475`
+- `0589 | ESCAVALIER | Escavalier | BST 495`
+- `0591 | AMOONGUSS | Amoonguss | BST 464`
+- `0593 | JELLICENT | Jellicent | BST 480`
+- `0594 | ALOMOMOLA | Alomomola | BST 470`
+- `0596 | GALVANTULA | Galvantula | BST 472`
+- `0598 | FERROTHORN | Ferrothorn | BST 489`
+- `0601 | KLINKLANG | Klinklang | BST 520`
+- `0604 | EELEKTROSS | Eelektross | BST 515`
+- `0606 | BEHEEYEM | Beheeyem | BST 485`
+- `0609 | CHANDELURE | Chandelure | BST 520`
+- `0614 | BEARTIC | Beartic | BST 505`
+- `0615 | CRYOGONAL | Cryogonal | BST 515`
+- `0617 | ACCELGOR | Accelgor | BST 495`
+- `0618 | STUNFISK | Stunfisk | BST 471`
+- `0620 | MIENSHAO | Mienshao | BST 510`
+- `0621 | DRUDDIGON | Druddigon | BST 485`
+- `0623 | GOLURK | Golurk | BST 483`
+- `0625 | BISHARP | Bisharp | BST 490`
+- `0626 | BOUFFALANT | Bouffalant | BST 490`
+- `0628 | BRAVIARY | Braviary | BST 510`
+- `0630 | MANDIBUZZ | Mandibuzz | BST 510`
+- `0631 | HEATMOR | Heatmor | BST 484`
+- `0632 | DURANT | Durant | BST 484`
+- `0652 | CHESNAUGHT | Chesnaught | BST 530`
+- `0655 | DELPHOX | Delphox | BST 534`
+- `0658 | GRENINJA | Greninja | BST 530`
+- `0663 | TALONFLAME | Talonflame | BST 499`
+- `0668 | PYROAR | Pyroar | BST 507`
+- `0673 | GOGOAT | Gogoat | BST 531`
+- `0675 | PANGORO | Pangoro | BST 495`
+- `0676 | FURFROU | Furfrou | BST 472`
+- `0678 | MEOWSTIC | Meowstic | BST 466`
+- `0681 | AEGISLASH | Aegislash | BST 500`
+- `0683 | AROMATISSE | Aromatisse | BST 462`
+- `0685 | SLURPUFF | Slurpuff | BST 480`
+- `0687 | MALAMAR | Malamar | BST 482`
+- `0689 | BARBARACLE | Barbaracle | BST 500`
+- `0691 | DRAGALGE | Dragalge | BST 494`
+- `0693 | CLAWITZER | Clawitzer | BST 500`
+- `0695 | HELIOLISK | Heliolisk | BST 481`
+- `0697 | TYRANTRUM | Tyrantrum | BST 521`
+- `0699 | AURORUS | Aurorus | BST 521`
+- `0700 | SYLVEON | Sylveon | BST 525`
+- `0701 | HAWLUCHA | Hawlucha | BST 500`
+- `0703 | CARBINK | Carbink | BST 500`
+- `0707 | KLEFKI | Klefki | BST 470`
+- `0709 | TREVENANT | Trevenant | BST 474`
+- `0711 | GOURGEIST | Gourgeist | BST 494`
+- `0713 | AVALUGG | Avalugg | BST 514`
+- `0715 | NOIVERN | Noivern | BST 535`
+- `0724 | DECIDUEYE | Decidueye | BST 530`
+- `0727 | INCINEROAR | Incineroar | BST 530`
+- `0730 | PRIMARINA | Primarina | BST 530`
+- `0733 | TOUCANNON | Toucannon | BST 485`
+- `0738 | VIKAVOLT | Vikavolt | BST 500`
+- `0740 | CRABOMINABLE | Crabominable | BST 478`
+- `0741 | ORICORIO | Oricorio | BST 476`
+- `0743 | RIBOMBEE | Ribombee | BST 464`
+- `0745 | LYCANROC | Lycanroc | BST 487`
+- `0748 | TOXAPEX | Toxapex | BST 495`
+- `0750 | MUDSDALE | Mudsdale | BST 500`
+- `0754 | LURANTIS | Lurantis | BST 480`
+- `0758 | SALAZZLE | Salazzle | BST 480`
+- `0760 | BEWEAR | Bewear | BST 500`
+- `0763 | TSAREENA | Tsareena | BST 510`
+- `0764 | COMFEY | Comfey | BST 485`
+- `0765 | ORANGURU | Oranguru | BST 490`
+- `0766 | PASSIMIAN | Passimian | BST 490`
+- `0768 | GOLISOPOD | Golisopod | BST 530`
+- `0770 | PALOSSAND | Palossand | BST 480`
+- `0775 | KOMALA | Komala | BST 480`
+- `0776 | TURTONATOR | Turtonator | BST 485`
+- `0778 | MIMIKYU | Mimikyu | BST 476`
+- `0779 | BRUXISH | Bruxish | BST 475`
+- `0780 | DRAMPA | Drampa | BST 485`
+- `0781 | DHELMISE | Dhelmise | BST 517`
+- `0812 | RILLABOOM | Rillaboom | BST 530`
+- `0815 | CINDERACE | Cinderace | BST 530`
+- `0818 | INTELEON | Inteleon | BST 530`
+- `0820 | GREEDENT | Greedent | BST 460`
+- `0823 | CORVIKNIGHT | Corviknight | BST 495`
+- `0826 | ORBEETLE | Orbeetle | BST 505`
+- `0830 | ELDEGOSS | Eldegoss | BST 460`
+- `0832 | DUBWOOL | Dubwool | BST 490`
+- `0834 | DREDNAW | Drednaw | BST 485`
+- `0836 | BOLTUND | Boltund | BST 490`
+- `0839 | COALOSSAL | Coalossal | BST 510`
+- `0841 | FLAPPLE | Flapple | BST 485`
+- `0842 | APPLETUN | Appletun | BST 485`
+- `0844 | SANDACONDA | Sandaconda | BST 510`
+- `0845 | CRAMORANT | Cramorant | BST 475`
+- `0847 | BARRASKEWDA | Barraskewda | BST 490`
+- `0849 | TOXTRICITY | Toxtricity | BST 502`
+- `0851 | CENTISKORCH | Centiskorch | BST 525`
+- `0853 | GRAPPLOCT | Grapploct | BST 480`
+- `0855 | POLTEAGEIST | Polteageist | BST 508`
+- `0858 | HATTERENE | Hatterene | BST 510`
+- `0861 | GRIMMSNARL | Grimmsnarl | BST 510`
+- `0862 | OBSTAGOON | Obstagoon | BST 520`
+- `0864 | CURSOLA | Cursola | BST 510`
+- `0865 | SIRFETCHD | Sirfetch'd | BST 507`
+- `0866 | MRRIME | Mr. Rime | BST 520`
+- `0867 | RUNERIGUS | Runerigus | BST 483`
+- `0869 | ALCREMIE | Alcremie | BST 495`
+- `0870 | FALINKS | Falinks | BST 470`
+- `0873 | FROSMOTH | Frosmoth | BST 475`
+- `0874 | STONJOURNER | Stonjourner | BST 470`
+- `0875 | EISCUE | Eiscue | BST 470`
+- `0876 | INDEEDEE | Indeedee | BST 475`
+- `0879 | COPPERAJAH | Copperajah | BST 500`
+- `0880 | DRACOZOLT | Dracozolt | BST 505`
+- `0881 | ARCTOZOLT | Arctozolt | BST 505`
+- `0882 | DRACOVISH | Dracovish | BST 505`
+- `0883 | ARCTOVISH | Arctovish | BST 505`
+- `0884 | DURALUDON | Duraludon | BST 535`
+- `0899 | WYRDEER | Wyrdeer | BST 525`
+- `0900 | KLEAVOR | Kleavor | BST 500`
+- `0902 | BASCULEGION | Basculegion | BST 530`
+- `0903 | SNEASLER | Sneasler | BST 510`
+- `0904 | OVERQWIL | Overqwil | BST 510`
+- `0908 | MEOWSCARADA | Meowscarada | BST 530`
+- `0911 | SKELEDIRGE | Skeledirge | BST 530`
+- `0914 | QUAQUAVAL | Quaquaval | BST 530`
+- `0916 | OINKOLOGNE | Oinkologne | BST 489`
+- `0923 | PAWMOT | Pawmot | BST 490`
+- `0925 | MAUSHOLD | Maushold | BST 470`
+- `0927 | DACHSBUN | Dachsbun | BST 477`
+- `0930 | ARBOLIVA | Arboliva | BST 510`
+- `0934 | GARGANACL | Garganacl | BST 500`
+- `0936 | ARMAROUGE | Armarouge | BST 525`
+- `0937 | CERULEDGE | Ceruledge | BST 525`
+- `0939 | BELLIBOLT | Bellibolt | BST 495`
+- `0941 | KILOWATTREL | Kilowattrel | BST 490`
+- `0943 | MABOSSTIFF | Mabosstiff | BST 505`
+- `0945 | GRAFAIAI | Grafaiai | BST 485`
+- `0947 | BRAMBLEGHAST | Brambleghast | BST 480`
+- `0949 | TOEDSCRUEL | Toedscruel | BST 515`
+- `0952 | SCOVILLAIN | Scovillain | BST 486`
+- `0954 | RABSCA | Rabsca | BST 470`
+- `0956 | ESPATHRA | Espathra | BST 481`
+- `0959 | TINKATON | Tinkaton | BST 506`
+- `0962 | BOMBIRDIER | Bombirdier | BST 485`
+- `0966 | REVAVROOM | Revavroom | BST 500`
+- `0967 | CYCLIZAR | Cyclizar | BST 501`
+- `0968 | ORTHWORM | Orthworm | BST 480`
+- `0970 | GLIMMORA | Glimmora | BST 525`
+- `0972 | HOUNDSTONE | Houndstone | BST 488`
+- `0973 | FLAMIGO | Flamigo | BST 500`
+- `0975 | CETITAN | Cetitan | BST 521`
+- `0976 | VELUZA | Veluza | BST 478`
+- `0977 | DONDOZO | Dondozo | BST 530`
+- `0978 | TATSUGIRI | Tatsugiri | BST 475`
+- `0979 | ANNIHILAPE | Annihilape | BST 535`
+- `0981 | FARIGIRAF | Farigiraf | BST 520`
+- `0982 | DUDUNSPARCE | Dudunsparce | BST 520`
+- `1011 | DIPPLIN | Dipplin | BST 495`
+- `1013 | SINISTCHA | Sinistcha | BST 508`
+
+### ace
+
+- `0059 | ARCANINE | Arcanine | BST 555`
+- `0130 | GYARADOS | Gyarados | BST 540`
+- `0143 | SNORLAX | Snorlax | BST 540`
+- `0230 | KINGDRA | Kingdra | BST 540`
+- `0242 | BLISSEY | Blissey | BST 540`
+- `0350 | MILOTIC | Milotic | BST 540`
+- `0466 | ELECTIVIRE | Electivire | BST 540`
+- `0467 | MAGMORTAR | Magmortar | BST 540`
+- `0468 | TOGEKISS | Togekiss | BST 545`
+- `0567 | ARCHEOPS | Archeops | BST 567`
+- `0612 | HAXORUS | Haxorus | BST 540`
+- `0637 | VOLCARONA | Volcarona | BST 550`
+- `0671 | FLORGES | Florges | BST 552`
+- `0901 | URSALUNA | Ursaluna | BST 550`
+- `0983 | KINGAMBIT | Kingambit | BST 550`
+- `1000 | GHOLDENGO | Gholdengo | BST 550`
+- `1019 | HYDRAPPLE | Hydrapple | BST 540`
+
+### boss
+
+- `0144 | ARTICUNO | Articuno | BST 580`
+- `0145 | ZAPDOS | Zapdos | BST 580`
+- `0146 | MOLTRES | Moltres | BST 580`
+- `0149 | DRAGONITE | Dragonite | BST 600`
+- `0150 | MEWTWO | Mewtwo | BST 680`
+- `0151 | MEW | Mew | BST 600`
+- `0243 | RAIKOU | Raikou | BST 580`
+- `0244 | ENTEI | Entei | BST 580`
+- `0245 | SUICUNE | Suicune | BST 580`
+- `0248 | TYRANITAR | Tyranitar | BST 600`
+- `0249 | LUGIA | Lugia | BST 680`
+- `0250 | HOOH | Ho-Oh | BST 680`
+- `0251 | CELEBI | Celebi | BST 600`
+- `0289 | SLAKING | Slaking | BST 670`
+- `0373 | SALAMENCE | Salamence | BST 600`
+- `0376 | METAGROSS | Metagross | BST 600`
+- `0377 | REGIROCK | Regirock | BST 580`
+- `0378 | REGICE | Regice | BST 580`
+- `0379 | REGISTEEL | Registeel | BST 580`
+- `0380 | LATIAS | Latias | BST 600`
+- `0381 | LATIOS | Latios | BST 600`
+- `0382 | KYOGRE | Kyogre | BST 670`
+- `0383 | GROUDON | Groudon | BST 670`
+- `0384 | RAYQUAZA | Rayquaza | BST 680`
+- `0385 | JIRACHI | Jirachi | BST 600`
+- `0386 | DEOXYS | Deoxys | BST 600`
+- `0445 | GARCHOMP | Garchomp | BST 600`
+- `0480 | UXIE | Uxie | BST 580`
+- `0481 | MESPRIT | Mesprit | BST 580`
+- `0482 | AZELF | Azelf | BST 580`
+- `0483 | DIALGA | Dialga | BST 680`
+- `0484 | PALKIA | Palkia | BST 680`
+- `0485 | HEATRAN | Heatran | BST 600`
+- `0486 | REGIGIGAS | Regigigas | BST 670`
+- `0487 | GIRATINA | Giratina | BST 680`
+- `0488 | CRESSELIA | Cresselia | BST 580`
+- `0489 | PHIONE | Phione | BST 480`
+- `0490 | MANAPHY | Manaphy | BST 600`
+- `0491 | DARKRAI | Darkrai | BST 600`
+- `0492 | SHAYMIN | Shaymin | BST 600`
+- `0493 | ARCEUS | Arceus | BST 720`
+- `0494 | VICTINI | Victini | BST 600`
+- `0635 | HYDREIGON | Hydreigon | BST 600`
+- `0638 | COBALION | Cobalion | BST 580`
+- `0639 | TERRAKION | Terrakion | BST 580`
+- `0640 | VIRIZION | Virizion | BST 580`
+- `0641 | TORNADUS | Tornadus | BST 580`
+- `0642 | THUNDURUS | Thundurus | BST 580`
+- `0643 | RESHIRAM | Reshiram | BST 680`
+- `0644 | ZEKROM | Zekrom | BST 680`
+- `0645 | LANDORUS | Landorus | BST 600`
+- `0646 | KYUREM | Kyurem | BST 660`
+- `0647 | KELDEO | Keldeo | BST 580`
+- `0648 | MELOETTA | Meloetta | BST 600`
+- `0649 | GENESECT | Genesect | BST 600`
+- `0706 | GOODRA | Goodra | BST 600`
+- `0716 | XERNEAS | Xerneas | BST 680`
+- `0717 | YVELTAL | Yveltal | BST 680`
+- `0718 | ZYGARDE | Zygarde | BST 600`
+- `0719 | DIANCIE | Diancie | BST 600`
+- `0720 | HOOPA | Hoopa | BST 600`
+- `0721 | VOLCANION | Volcanion | BST 600`
+- `0772 | TYPENULL | Type: Null | BST 534`
+- `0773 | SILVALLY | Silvally | BST 570`
+- `0784 | KOMMOO | Kommo-o | BST 600`
+- `0785 | TAPUKOKO | Tapu Koko | BST 570`
+- `0786 | TAPULELE | Tapu Lele | BST 570`
+- `0787 | TAPUBULU | Tapu Bulu | BST 570`
+- `0788 | TAPUFINI | Tapu Fini | BST 570`
+- `0789 | COSMOG | Cosmog | BST 200`
+- `0790 | COSMOEM | Cosmoem | BST 400`
+- `0791 | SOLGALEO | Solgaleo | BST 680`
+- `0792 | LUNALA | Lunala | BST 680`
+- `0793 | NIHILEGO | Nihilego | BST 570`
+- `0794 | BUZZWOLE | Buzzwole | BST 570`
+- `0795 | PHEROMOSA | Pheromosa | BST 570`
+- `0796 | XURKITREE | Xurkitree | BST 570`
+- `0797 | CELESTEELA | Celesteela | BST 570`
+- `0798 | KARTANA | Kartana | BST 570`
+- `0799 | GUZZLORD | Guzzlord | BST 570`
+- `0800 | NECROZMA | Necrozma | BST 600`
+- `0801 | MAGEARNA | Magearna | BST 600`
+- `0802 | MARSHADOW | Marshadow | BST 600`
+- `0803 | POIPOLE | Poipole | BST 420`
+- `0804 | NAGANADEL | Naganadel | BST 540`
+- `0805 | STAKATAKA | Stakataka | BST 570`
+- `0806 | BLACEPHALON | Blacephalon | BST 570`
+- `0807 | ZERAORA | Zeraora | BST 600`
+- `0808 | MELTAN | Meltan | BST 300`
+- `0809 | MELMETAL | Melmetal | BST 600`
+- `0887 | DRAGAPULT | Dragapult | BST 600`
+- `0888 | ZACIAN | Zacian | BST 660`
+- `0889 | ZAMAZENTA | Zamazenta | BST 660`
+- `0890 | ETERNATUS | Eternatus | BST 690`
+- `0891 | KUBFU | Kubfu | BST 385`
+- `0892 | URSHIFU | Urshifu | BST 550`
+- `0893 | ZARUDE | Zarude | BST 600`
+- `0894 | REGIELEKI | Regieleki | BST 580`
+- `0895 | REGIDRAGO | Regidrago | BST 580`
+- `0896 | GLASTRIER | Glastrier | BST 580`
+- `0897 | SPECTRIER | Spectrier | BST 580`
+- `0898 | CALYREX | Calyrex | BST 500`
+- `0905 | ENAMORUS | Enamorus | BST 580`
+- `0984 | GREATTUSK | Great Tusk | BST 570`
+- `0985 | SCREAMTAIL | Scream Tail | BST 570`
+- `0986 | BRUTEBONNET | Brute Bonnet | BST 570`
+- `0987 | FLUTTERMANE | Flutter Mane | BST 570`
+- `0988 | SLITHERWING | Slither Wing | BST 570`
+- `0989 | SANDYSHOCKS | Sandy Shocks | BST 570`
+- `0990 | IRONTREADS | Iron Treads | BST 570`
+- `0991 | IRONBUNDLE | Iron Bundle | BST 570`
+- `0992 | IRONHANDS | Iron Hands | BST 570`
+- `0993 | IRONJUGULIS | Iron Jugulis | BST 570`
+- `0994 | IRONMOTH | Iron Moth | BST 570`
+- `0995 | IRONTHORNS | Iron Thorns | BST 570`
+- `0998 | BAXCALIBUR | Baxcalibur | BST 600`
+- `1001 | WOCHIEN | Wo-Chien | BST 570`
+- `1002 | CHIENPAO | Chien-Pao | BST 570`
+- `1003 | TINGLU | Ting-Lu | BST 570`
+- `1004 | CHIYU | Chi-Yu | BST 570`
+- `1005 | ROARINGMOON | Roaring Moon | BST 590`
+- `1006 | IRONVALIANT | Iron Valiant | BST 590`
+- `1007 | KORAIDON | Koraidon | BST 670`
+- `1008 | MIRAIDON | Miraidon | BST 670`
+- `1009 | WALKINGWAKE | Walking Wake | BST 590`
+- `1010 | IRONLEAVES | Iron Leaves | BST 590`
+- `1014 | OKIDOGI | Okidogi | BST 555`
+- `1015 | MUNKIDORI | Munkidori | BST 555`
+- `1016 | FEZANDIPITI | Fezandipiti | BST 555`
+- `1017 | OGERPON | Ogerpon | BST 550`
+- `1018 | ARCHALUDON | Archaludon | BST 600`
+- `1020 | GOUGINGFIRE | Gouging Fire | BST 590`
+- `1021 | RAGINGBOLT | Raging Bolt | BST 590`
+- `1022 | IRONBOULDER | Iron Boulder | BST 590`
+- `1023 | IRONCROWN | Iron Crown | BST 590`
+- `1024 | TERAPAGOS | Terapagos | BST 450`
+- `1025 | PECHARUNT | Pecharunt | BST 600`
+
+## Special Pools
+
+### Starters
+
+- `0001 | BULBASAUR | Bulbasaur`
+- `0004 | CHARMANDER | Charmander`
+- `0007 | SQUIRTLE | Squirtle`
+- `0152 | CHIKORITA | Chikorita`
+- `0155 | CYNDAQUIL | Cyndaquil`
+- `0158 | TOTODILE | Totodile`
+- `0252 | TREECKO | Treecko`
+- `0255 | TORCHIC | Torchic`
+- `0258 | MUDKIP | Mudkip`
+- `0387 | TURTWIG | Turtwig`
+- `0390 | CHIMCHAR | Chimchar`
+- `0393 | PIPLUP | Piplup`
+- `0495 | SNIVY | Snivy`
+- `0498 | TEPIG | Tepig`
+- `0501 | OSHAWOTT | Oshawott`
+- `0650 | CHESPIN | Chespin`
+- `0653 | FENNEKIN | Fennekin`
+- `0656 | FROAKIE | Froakie`
+- `0722 | ROWLET | Rowlet`
+- `0725 | LITTEN | Litten`
+- `0728 | POPPLIO | Popplio`
+- `0810 | GROOKEY | Grookey`
+- `0813 | SCORBUNNY | Scorbunny`
+- `0816 | SOBBLE | Sobble`
+- `0906 | SPRIGATITO | Sprigatito`
+- `0909 | FUECOCO | Fuecoco`
+- `0912 | QUAXLY | Quaxly`
+
+### Fossils
+
+- `0138 | OMANYTE | Omanyte`
+- `0139 | OMASTAR | Omastar`
+- `0140 | KABUTO | Kabuto`
+- `0141 | KABUTOPS | Kabutops`
+- `0142 | AERODACTYL | Aerodactyl`
+- `0345 | LILEEP | Lileep`
+- `0346 | CRADILY | Cradily`
+- `0347 | ANORITH | Anorith`
+- `0348 | ARMALDO | Armaldo`
+- `0408 | CRANIDOS | Cranidos`
+- `0409 | RAMPARDOS | Rampardos`
+- `0410 | SHIELDON | Shieldon`
+- `0411 | BASTIODON | Bastiodon`
+- `0564 | TIRTOUGA | Tirtouga`
+- `0565 | CARRACOSTA | Carracosta`
+- `0566 | ARCHEN | Archen`
+- `0567 | ARCHEOPS | Archeops`
+- `0696 | TYRUNT | Tyrunt`
+- `0697 | TYRANTRUM | Tyrantrum`
+- `0698 | AMAURA | Amaura`
+- `0699 | AURORUS | Aurorus`
+- `0880 | DRACOZOLT | Dracozolt`
+- `0881 | ARCTOZOLT | Arctozolt`
+- `0882 | DRACOVISH | Dracovish`
+- `0883 | ARCTOVISH | Arctovish`
+
+### Pseudo-Legendaries
+
+- `0147 | DRATINI | Dratini`
+- `0148 | DRAGONAIR | Dragonair`
+- `0149 | DRAGONITE | Dragonite`
+- `0246 | LARVITAR | Larvitar`
+- `0247 | PUPITAR | Pupitar`
+- `0248 | TYRANITAR | Tyranitar`
+- `0371 | BAGON | Bagon`
+- `0372 | SHELGON | Shelgon`
+- `0373 | SALAMENCE | Salamence`
+- `0374 | BELDUM | Beldum`
+- `0375 | METANG | Metang`
+- `0376 | METAGROSS | Metagross`
+- `0443 | GIBLE | Gible`
+- `0444 | GABITE | Gabite`
+- `0445 | GARCHOMP | Garchomp`
+- `0633 | DEINO | Deino`
+- `0634 | ZWEILOUS | Zweilous`
+- `0635 | HYDREIGON | Hydreigon`
+- `0704 | GOOMY | Goomy`
+- `0705 | SLIGGOO | Sliggoo`
+- `0706 | GOODRA | Goodra`
+- `0782 | JANGMOO | Jangmo-o`
+- `0783 | HAKAMOO | Hakamo-o`
+- `0784 | KOMMOO | Kommo-o`
+- `0885 | DREEPY | Dreepy`
+- `0886 | DRAKLOAK | Drakloak`
+- `0887 | DRAGAPULT | Dragapult`
+- `0996 | FRIGIBAX | Frigibax`
+- `0997 | ARCTIBAX | Arctibax`
+- `0998 | BAXCALIBUR | Baxcalibur`
+
+### Legendaries
+
+- `0144 | ARTICUNO | Articuno`
+- `0145 | ZAPDOS | Zapdos`
+- `0146 | MOLTRES | Moltres`
+- `0150 | MEWTWO | Mewtwo`
+- `0243 | RAIKOU | Raikou`
+- `0244 | ENTEI | Entei`
+- `0245 | SUICUNE | Suicune`
+- `0249 | LUGIA | Lugia`
+- `0250 | HOOH | Ho-Oh`
+- `0377 | REGIROCK | Regirock`
+- `0378 | REGICE | Regice`
+- `0379 | REGISTEEL | Registeel`
+- `0380 | LATIAS | Latias`
+- `0381 | LATIOS | Latios`
+- `0382 | KYOGRE | Kyogre`
+- `0383 | GROUDON | Groudon`
+- `0384 | RAYQUAZA | Rayquaza`
+- `0480 | UXIE | Uxie`
+- `0481 | MESPRIT | Mesprit`
+- `0482 | AZELF | Azelf`
+- `0483 | DIALGA | Dialga`
+- `0484 | PALKIA | Palkia`
+- `0485 | HEATRAN | Heatran`
+- `0486 | REGIGIGAS | Regigigas`
+- `0487 | GIRATINA | Giratina`
+- `0488 | CRESSELIA | Cresselia`
+- `0638 | COBALION | Cobalion`
+- `0639 | TERRAKION | Terrakion`
+- `0640 | VIRIZION | Virizion`
+- `0641 | TORNADUS | Tornadus`
+- `0642 | THUNDURUS | Thundurus`
+- `0643 | RESHIRAM | Reshiram`
+- `0644 | ZEKROM | Zekrom`
+- `0645 | LANDORUS | Landorus`
+- `0646 | KYUREM | Kyurem`
+- `0716 | XERNEAS | Xerneas`
+- `0717 | YVELTAL | Yveltal`
+- `0718 | ZYGARDE | Zygarde`
+- `0772 | TYPENULL | Type: Null`
+- `0773 | SILVALLY | Silvally`
+- `0785 | TAPUKOKO | Tapu Koko`
+- `0786 | TAPULELE | Tapu Lele`
+- `0787 | TAPUBULU | Tapu Bulu`
+- `0788 | TAPUFINI | Tapu Fini`
+- `0789 | COSMOG | Cosmog`
+- `0790 | COSMOEM | Cosmoem`
+- `0791 | SOLGALEO | Solgaleo`
+- `0792 | LUNALA | Lunala`
+- `0793 | NIHILEGO | Nihilego`
+- `0794 | BUZZWOLE | Buzzwole`
+- `0795 | PHEROMOSA | Pheromosa`
+- `0796 | XURKITREE | Xurkitree`
+- `0797 | CELESTEELA | Celesteela`
+- `0798 | KARTANA | Kartana`
+- `0799 | GUZZLORD | Guzzlord`
+- `0800 | NECROZMA | Necrozma`
+- `0803 | POIPOLE | Poipole`
+- `0804 | NAGANADEL | Naganadel`
+- `0805 | STAKATAKA | Stakataka`
+- `0806 | BLACEPHALON | Blacephalon`
+- `0888 | ZACIAN | Zacian`
+- `0889 | ZAMAZENTA | Zamazenta`
+- `0890 | ETERNATUS | Eternatus`
+- `0891 | KUBFU | Kubfu`
+- `0892 | URSHIFU | Urshifu`
+- `0894 | REGIELEKI | Regieleki`
+- `0895 | REGIDRAGO | Regidrago`
+- `0896 | GLASTRIER | Glastrier`
+- `0897 | SPECTRIER | Spectrier`
+- `0898 | CALYREX | Calyrex`
+- `0905 | ENAMORUS | Enamorus`
+- `1001 | WOCHIEN | Wo-Chien`
+- `1002 | CHIENPAO | Chien-Pao`
+- `1003 | TINGLU | Ting-Lu`
+- `1004 | CHIYU | Chi-Yu`
+- `1007 | KORAIDON | Koraidon`
+- `1008 | MIRAIDON | Miraidon`
+- `1014 | OKIDOGI | Okidogi`
+- `1015 | MUNKIDORI | Munkidori`
+- `1016 | FEZANDIPITI | Fezandipiti`
+- `1017 | OGERPON | Ogerpon`
+- `1024 | TERAPAGOS | Terapagos`
+
+### Mythicals
+
+- `0151 | MEW | Mew`
+- `0251 | CELEBI | Celebi`
+- `0385 | JIRACHI | Jirachi`
+- `0386 | DEOXYS | Deoxys`
+- `0489 | PHIONE | Phione`
+- `0490 | MANAPHY | Manaphy`
+- `0491 | DARKRAI | Darkrai`
+- `0492 | SHAYMIN | Shaymin`
+- `0493 | ARCEUS | Arceus`
+- `0494 | VICTINI | Victini`
+- `0647 | KELDEO | Keldeo`
+- `0648 | MELOETTA | Meloetta`
+- `0649 | GENESECT | Genesect`
+- `0719 | DIANCIE | Diancie`
+- `0720 | HOOPA | Hoopa`
+- `0721 | VOLCANION | Volcanion`
+- `0801 | MAGEARNA | Magearna`
+- `0802 | MARSHADOW | Marshadow`
+- `0807 | ZERAORA | Zeraora`
+- `0808 | MELTAN | Meltan`
+- `0809 | MELMETAL | Melmetal`
+- `0893 | ZARUDE | Zarude`
+- `1025 | PECHARUNT | Pecharunt`
+
+### Ultra Beasts
+
+- `0793 | NIHILEGO | Nihilego`
+- `0794 | BUZZWOLE | Buzzwole`
+- `0795 | PHEROMOSA | Pheromosa`
+- `0796 | XURKITREE | Xurkitree`
+- `0797 | CELESTEELA | Celesteela`
+- `0798 | KARTANA | Kartana`
+- `0799 | GUZZLORD | Guzzlord`
+- `0803 | POIPOLE | Poipole`
+- `0804 | NAGANADEL | Naganadel`
+- `0805 | STAKATAKA | Stakataka`
+- `0806 | BLACEPHALON | Blacephalon`
+
+### Paradox Pokémon
+
+- `0984 | GREATTUSK | Great Tusk`
+- `0985 | SCREAMTAIL | Scream Tail`
+- `0986 | BRUTEBONNET | Brute Bonnet`
+- `0987 | FLUTTERMANE | Flutter Mane`
+- `0988 | SLITHERWING | Slither Wing`
+- `0989 | SANDYSHOCKS | Sandy Shocks`
+- `0990 | IRONTREADS | Iron Treads`
+- `0991 | IRONBUNDLE | Iron Bundle`
+- `0992 | IRONHANDS | Iron Hands`
+- `0993 | IRONJUGULIS | Iron Jugulis`
+- `0994 | IRONMOTH | Iron Moth`
+- `0995 | IRONTHORNS | Iron Thorns`
+- `1005 | ROARINGMOON | Roaring Moon`
+- `1006 | IRONVALIANT | Iron Valiant`
+- `1007 | KORAIDON | Koraidon`
+- `1008 | MIRAIDON | Miraidon`
+- `1009 | WALKINGWAKE | Walking Wake`
+- `1010 | IRONLEAVES | Iron Leaves`
+- `1020 | GOUGINGFIRE | Gouging Fire`
+- `1021 | RAGINGBOLT | Raging Bolt`
+- `1022 | IRONBOULDER | Iron Boulder`
+- `1023 | IRONCROWN | Iron Crown`
+
+### Regional Form Capable
+
+- `0019 | RATTATA | Rattata`
+- `0020 | RATICATE | Raticate`
+- `0026 | RAICHU | Raichu`
+- `0027 | SANDSHREW | Sandshrew`
+- `0028 | SANDSLASH | Sandslash`
+- `0037 | VULPIX | Vulpix`
+- `0038 | NINETALES | Ninetales`
+- `0050 | DIGLETT | Diglett`
+- `0051 | DUGTRIO | Dugtrio`
+- `0052 | MEOWTH | Meowth`
+- `0053 | PERSIAN | Persian`
+- `0058 | GROWLITHE | Growlithe`
+- `0059 | ARCANINE | Arcanine`
+- `0074 | GEODUDE | Geodude`
+- `0075 | GRAVELER | Graveler`
+- `0076 | GOLEM | Golem`
+- `0077 | PONYTA | Ponyta`
+- `0078 | RAPIDASH | Rapidash`
+- `0079 | SLOWPOKE | Slowpoke`
+- `0080 | SLOWBRO | Slowbro`
+- `0083 | FARFETCHD | Farfetch'd`
+- `0088 | GRIMER | Grimer`
+- `0089 | MUK | Muk`
+- `0100 | VOLTORB | Voltorb`
+- `0101 | ELECTRODE | Electrode`
+- `0103 | EXEGGUTOR | Exeggutor`
+- `0105 | MAROWAK | Marowak`
+- `0110 | WEEZING | Weezing`
+- `0122 | MRMIME | Mr. Mime`
+- `0128 | TAUROS | Tauros`
+- `0144 | ARTICUNO | Articuno`
+- `0145 | ZAPDOS | Zapdos`
+- `0146 | MOLTRES | Moltres`
+- `0157 | TYPHLOSION | Typhlosion`
+- `0194 | WOOPER | Wooper`
+- `0199 | SLOWKING | Slowking`
+- `0211 | QWILFISH | Qwilfish`
+- `0215 | SNEASEL | Sneasel`
+- `0222 | CORSOLA | Corsola`
+- `0263 | ZIGZAGOON | Zigzagoon`
+- `0264 | LINOONE | Linoone`
+- `0503 | SAMUROTT | Samurott`
+- `0549 | LILLIGANT | Lilligant`
+- `0554 | DARUMAKA | Darumaka`
+- `0555 | DARMANITAN | Darmanitan`
+- `0562 | YAMASK | Yamask`
+- `0570 | ZORUA | Zorua`
+- `0571 | ZOROARK | Zoroark`
+- `0618 | STUNFISK | Stunfisk`
+- `0628 | BRAVIARY | Braviary`
+- `0705 | SLIGGOO | Sliggoo`
+- `0706 | GOODRA | Goodra`
+- `0713 | AVALUGG | Avalugg`
+- `0724 | DECIDUEYE | Decidueye`
+
+### Special Form Capable
+
+- `0351 | CASTFORM | Castform`
+- `0412 | BURMY | Burmy`
+- `0413 | WORMADAM | Wormadam`
+- `0421 | CHERRIM | Cherrim`
+- `0422 | SHELLOS | Shellos`
+- `0423 | GASTRODON | Gastrodon`
+- `0479 | ROTOM | Rotom`
+- `0487 | GIRATINA | Giratina`
+- `0492 | SHAYMIN | Shaymin`
+- `0550 | BASCULIN | Basculin`
+- `0585 | DEERLING | Deerling`
+- `0586 | SAWSBUCK | Sawsbuck`
+- `0641 | TORNADUS | Tornadus`
+- `0642 | THUNDURUS | Thundurus`
+- `0645 | LANDORUS | Landorus`
+- `0648 | MELOETTA | Meloetta`
+- `0669 | FLABEBE | Flabébé`
+- `0670 | FLOETTE | Floette`
+- `0671 | FLORGES | Florges`
+- `0681 | AEGISLASH | Aegislash`
+- `0710 | PUMPKABOO | Pumpkaboo`
+- `0711 | GOURGEIST | Gourgeist`
+- `0716 | XERNEAS | Xerneas`
+- `0718 | ZYGARDE | Zygarde`
+- `0720 | HOOPA | Hoopa`
+- `0741 | ORICORIO | Oricorio`
+- `0745 | LYCANROC | Lycanroc`
+- `0746 | WISHIWASHI | Wishiwashi`
+- `0774 | MINIOR | Minior`
+- `0778 | MIMIKYU | Mimikyu`
+- `0877 | MORPEKO | Morpeko`
+- `0902 | BASCULEGION | Basculegion`
+- `0905 | ENAMORUS | Enamorus`
+- `0931 | SQUAWKABILLY | Squawkabilly`
+- `0978 | TATSUGIRI | Tatsugiri`

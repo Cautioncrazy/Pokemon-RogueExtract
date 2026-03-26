@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 from tools.pbs_generator.map_metadata_gen import append_map_metadata
 from tools.pbs_generator.encounter_gen import generate_encounters
 from tools.pbs_generator.trainer_gen import generate_trainers
+from tools.pbs_generator.theme_data import get_all_available_themes
 
 class GlassWidget(QFrame):
     def __init__(self, parent=None):
@@ -127,16 +128,16 @@ class PBSGeneratorApp(QMainWindow):
         self.log_console.append(message)
 
     def populate_themes(self):
-        themes = ["Random"]
+        md_themes = []
         md_filepath = os.path.abspath(os.path.join(os.path.dirname(__file__), 'encounters.md'))
         if os.path.exists(md_filepath):
             with open(md_filepath, 'r', encoding='utf-8') as f:
                 for line in f:
                     stripped = line.strip()
                     if stripped.startswith("## "):
-                        themes.append(stripped[3:].strip())
-        else:
-            themes.extend(["Grass", "Poison", "Healing", "Heavy"]) # Fallback
+                        md_themes.append(stripped[3:].strip())
+
+        themes = ["Random"] + get_all_available_themes(md_themes=md_themes)
 
         self.theme_combo.addItems(themes)
 

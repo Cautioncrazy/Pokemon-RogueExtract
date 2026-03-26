@@ -1,6 +1,7 @@
 import os
 import random
 from tools.pbs_generator.pbs_parser import PBSFile, PBSSection
+from tools.pbs_generator.theme_data import get_species_pool_for_theme
 
 
 def _default_pbs_dir():
@@ -39,18 +40,27 @@ def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_f
     if md_filepath is None:
         md_filepath = os.path.join(os.path.dirname(__file__), "encounters.md")
     rules = load_encounters_rules(md_filepath)
-    if not rules:
-        raise ValueError(f"encounters.md not found or empty: {md_filepath}")
 
-    # Validations
-    if not theme or theme not in rules:
-        print(f"Warning: Theme '{theme}' invalid or not specified.")
-        theme = random.choice(list(rules.keys()))
-        print(f"Defaulting to random: '{theme}'.")
+    # Build theme pool from generated JSON indexes first, then merge md fallback.
+    available_pokemon = get_species_pool_for_theme(theme, include_special_boss=False)
+    md_pool = rules.get(theme, [])
+    if md_pool:
+        md_upper = [p.upper() for p in md_pool]
+        available_pokemon = md_upper + [p for p in available_pokemon if p not in md_upper]
 
-    available_pokemon = rules[theme]
+    # Validations/fallbacks
     if not available_pokemon:
-        raise ValueError(f"No Pokémon defined for theme '{theme}' in {md_filepath}")
+        if rules:
+            print(f"Warning: Theme '{theme}' had no JSON/MD pool; defaulting to random md theme.")
+            theme = random.choice(list(rules.keys()))
+            available_pokemon = [p.upper() for p in rules.get(theme, [])]
+            print(f"Defaulting to random: '{theme}'.")
+
+    if not available_pokemon:
+        raise ValueError(
+            f"No Pokémon pool found for theme '{theme}'. "
+            f"Checked generated indexes and md rules file: {md_filepath}"
+        )
 
     filepath = os.path.join(pbs_dir, "encounters.txt")
     if not os.path.exists(filepath):
