@@ -410,6 +410,38 @@ Dungeon = true
 Dungeon = true
 
 #-------------------------------
-[082]   # Ancient Hollow
-Name = Ancient Hollow
+[082]   # Silent Sanctuary
+Name = Silent Sanctuary
+Dungeon = true
+#-------------------------------
+[083]   # Abyssal Labyrinth
+Name = Abyssal Labyrinth
+Dungeon = true
+#-------------------------------
+[084]   # Forgotten Labyrinth
+Name = Forgotten Labyrinth
+Dungeon = true
+#-------------------------------
+[085]   # Forgotten Sanctuary
+Name = Forgotten Sanctuary
+Dungeon = true
+#-------------------------------
+[086]   # Shadow Labyrinth
+Name = Shadow Labyrinth
+Dungeon = true
+#-------------------------------
+[087]   # Forgotten Labyrinth
+Name = Forgotten Labyrinth
+Dungeon = true
+#-------------------------------
+[088]   # Silent Labyrinth
+Name = Silent Labyrinth
+Dungeon = true
+#-------------------------------
+[089]   # Forgotten Hollow
+Name = Forgotten Hollow
+Dungeon = true
+#-------------------------------
+[090]   # Abyssal Depths
+Name = Abyssal Depths
 Dungeon = true
