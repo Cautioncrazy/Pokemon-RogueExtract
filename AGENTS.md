@@ -77,3 +77,18 @@ You should rely on the following existing custom randomizer script calls wheneve
 - **Single Source of Truth**: The `trainers.md` file in the root directory is the absolute rulebook and central source of truth for all procedural trainer party generation.
 - **Thematic Pools**: When generating, writing scripts for, or modifying the dynamic raid trainers in `PBS/trainers.txt`, you **must** strictly adhere to the thematic species pools assigned to each Trainer Class in `trainers.md`. Do not assign Pokémon outside of a class's designated theme (e.g., no Poochyenas for Hikers).
 - **Dynamic Re-generation**: If the user requests a new generation of the dynamic raid trainers, check `trainers.md` for any changes first, then programmatically pull base species from those pools and mathematically evolve them based on the Run/Floor level (which is mapped to the trainer version: 0, 1, or 2 in `PBS/trainers.txt`).
+
+### 7. Python PBS Automation
+We use a custom Python tool suite located in `tools/pbs_generator/` to automate PBS data creation for roguelike floors.
+- **Structure**:
+  - `pbs_parser.py`: Custom, line-by-line parser designed to handle Pokémon Essentials v21.1 formatting safely, preserving duplicates and brackets.
+  - `map_metadata_gen.py`: Appends new map blocks to `PBS/map_metadata.txt`.
+  - `encounter_gen.py`: Generates weighted encounter tables in `PBS/encounters.txt`.
+  - `trainer_gen.py`: Appends procedurally generated themed trainers to `PBS/trainers.txt`.
+  - `main.py`: A Glassmorphism GUI (requires `PyQt6`) to drive the entire generation process easily.
+  - `encounters.md` / `trainers.md`: Text definitions that act as rulesets mapping Themes (Grass, Poison, etc.) to valid Pokémon species and Trainer Classes.
+- **Usage**:
+  1. Ensure `PyQt6` is installed (`pip install PyQt6`).
+  2. Run `python tools/pbs_generator/main.py` from the root of the repository.
+  3. Use the GUI to specify Map ID, Floor Number, and Theme.
+- **Role**: As the agent, you are responsible for maintaining and expanding these Python tools alongside the standard Ruby scripts, ensuring the custom parser remains intact and never falls back to standard `configparser` or `json` libraries.
