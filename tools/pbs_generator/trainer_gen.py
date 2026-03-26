@@ -160,7 +160,7 @@ def _filter_pool_for_floor(species_pool, floor_number):
     return filtered if filtered else species_pool
 
 
-def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None, filter_category="None", filter_value="None", is_boss=False):
+def generate_trainers(map_id, floor_number, theme, pbs_dir=None, md_filepath=None, filter_category="None", filter_value="None", is_boss=False, overwrite=False):
     """Generates a dynamic trainer for the floor's theme. Optionally marks them as a Boss."""
     if pbs_dir is None:
         pbs_dir = _default_pbs_dir()
@@ -202,12 +202,17 @@ def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None, filte
 
     trainer_class = random.choice(valid_classes)
 
-    # Generic names for trainers
-    first_names = ["Bob", "Alice", "Charlie", "Diana", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy", "Mallory", "Victor"]
-    trainer_name = random.choice(first_names)
-
-    if is_boss:
-        trainer_name = f"Boss {trainer_name}"
+    # To support clean overwriting in PBS (where trainers are uniquely keyed by Class+Name+Version),
+    # we must use deterministic names instead of completely random string names.
+    # Otherwise, parsing to delete the old section becomes impossible without cross-referencing.
+    if overwrite:
+        base_name = f"M{map_id}_F{floor_number}"
+        trainer_name = f"Boss {base_name}" if is_boss else base_name
+    else:
+        # Generic names for append-only mode
+        first_names = ["Bob", "Alice", "Charlie", "Diana", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy", "Mallory", "Victor"]
+        random_name = random.choice(first_names)
+        trainer_name = f"Boss {random_name}" if is_boss else random_name
 
     version = floor_number - 1 # 0-indexed version matching the floor
     if version < 0: version = 0
@@ -222,14 +227,18 @@ def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None, filte
         header = f"[{trainer_class},{trainer_name}]"
 
     if pbs.has_section(header):
-        # We can append multiple with the same header in v21.1 if needed,
-        # but typically names are distinct. To be safe, skip or pick a new name.
-        print(f"Trainer section {header} already exists. Appending unique ID to name.")
-        trainer_name = f"{trainer_name}_{random.randint(100, 999)}"
-        if version == 0:
-            header = f"[{trainer_class},{trainer_name}]"
+        if overwrite:
+            pbs.remove_section(header)
+            print(f"Trainer section {header} already exists. Overwriting.")
         else:
-            header = f"[{trainer_class},{trainer_name},{version}]"
+            # We can append multiple with the same header in v21.1 if needed,
+            # but typically names are distinct. To be safe, skip or pick a new name.
+            print(f"Trainer section {header} already exists. Appending unique ID to name.")
+            trainer_name = f"{trainer_name}_{random.randint(100, 999)}"
+            if version == 0:
+                header = f"[{trainer_class},{trainer_name}]"
+            else:
+                header = f"[{trainer_class},{trainer_name},{version}]"
 
     # Add space between sections
     if pbs.sections:

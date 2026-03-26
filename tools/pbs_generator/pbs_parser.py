@@ -77,3 +77,19 @@ class PBSFile:
             if s.header.startswith(header_prefix):
                 return s
         return None
+
+    def remove_section(self, header_prefix):
+        """Safely deletes an existing section (and trailing empty space) from the parsed tree."""
+        # Find index of the section
+        index_to_remove = -1
+        for i, s in enumerate(self.sections):
+            if s.header.startswith(header_prefix):
+                index_to_remove = i
+                break
+
+        if index_to_remove >= 0:
+            del self.sections[index_to_remove]
+            # Clean up any trailing empty lines or separators in the previous section if needed
+            # Although standard procedure just appends at the bottom.
+            return True
+        return False

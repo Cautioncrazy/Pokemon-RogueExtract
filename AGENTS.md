@@ -87,6 +87,10 @@ We use a custom Python tool suite located in `tools/pbs_generator/` to automate 
   - `trainer_gen.py`: Appends procedurally generated themed trainers to `PBS/trainers.txt`.
   - `main.py`: A Glassmorphism GUI (requires `PyQt6`) to drive the entire generation process easily.
   - `encounters.md` / `trainers.md`: Text definitions that act as rulesets mapping Themes (Grass, Poison, etc.) to valid Pokémon species and Trainer Classes.
+- **Automated Map Pipeline**: We employ a dual-script pipeline for generating procedural maps:
+  1. **In-Engine (`.rxdata`)**: Open RPG Maker XP, run the game in Debug mode, and select `Other editors... -> Mass Generate RL Maps`. Input a Map ID range. This generates the physical `MapXXX.rxdata` files and links them to the editor registry (`MapInfos.rxdata`). **You must completely restart RPG Maker XP to see the new maps.**
+  2. **PBS Metadata (`map_metadata.txt`)**: Use the Python GUI tool to mass-generate the corresponding metadata. The tool automatically injects random names, the `Dungeon = true` flag, and randomly selects a BGM by scanning the `Audio/BGM/` directory.
+
 - **Usage**:
   1. Ensure `PyQt6` is installed (`pip install PyQt6`).
   2. Run `python tools/pbs_generator/main.py` from the root of the repository.
@@ -98,6 +102,7 @@ We use a custom Python tool suite located in `tools/pbs_generator/` to automate 
      - **Step Chance Config**: Defines the encounter step chance increment. You input a min chance (e.g., 5%), max chance (e.g., 20%), and a "Chunk" size. Floors are grouped into these chunks, and the step chance linearly scales from min to max across the total number of chunks.
      - **Index Filter**: An optional semantic filter powered by `pokemon_index.json`. You can select a category (e.g., `bst_tier`, `encounter_rarity`) and a value (e.g., `earlygame`, `legendary`) to restrict the pool of generated Pokémon. The filter applies natively to Wild Encounters and features an automated fallback system (e.g., trying `midgame` if `earlygame` yields 0 Pokémon) to guarantee generation. You can toggle whether this filter also applies to procedurally generated Trainer Parties.
      - **Boss Generation**: Controls if Boss trainers are generated (`Include Boss`, `Exclude Boss`, or `Only Boss`). When generated, Boss trainers receive the `"Boss "` name prefix, a +1 party size increase, +2 level boost, unique LoseText, and a guaranteed set of healing items that scale with the floor depth (e.g., `POTION` on F1, scaling up to `FULLRESTORE,SITRUSBERRY,LUMBERRY` on F13+). Standard trainers also have a 50% chance to receive slightly weaker, slower-scaling items.
+     - **Overwrite Existing Data**: If checked, the tool actively finds and deletes matching PBS sections before rewriting them. **Important**: When overwrite is active, dynamic trainers are generated with deterministic names (e.g., `Boss M1_F5`) instead of random names (e.g., `Boss Alice`) to ensure the PBS parser can accurately locate and delete the specific previous procedural entry.
 - **Role**: As the agent, you are responsible for maintaining and expanding these Python tools alongside the standard Ruby scripts, ensuring the custom parser remains intact and never falls back to standard `configparser` or `json` libraries.
 
 ### 8. Core Engine Scripts
