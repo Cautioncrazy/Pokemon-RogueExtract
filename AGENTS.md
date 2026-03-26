@@ -94,6 +94,7 @@ We use a custom Python tool suite located in `tools/pbs_generator/` to automate 
 - **Role**: As the agent, you are responsible for maintaining and expanding these Python tools alongside the standard Ruby scripts, ensuring the custom parser remains intact and never falls back to standard `configparser` or `json` libraries.
 
 ### 8. Core Engine Scripts
+- **Documentation**: See `scripts.md` in the repository root for the full documentation regarding the extracted engine scripts.
 - **Directory Path**: The core engine scripts are located at `Data/Scripts/`.
 - **Foundation First**: These extracted scripts are the foundation stones of the game. Whenever you are tasked with modifying core battle logic, map generation, UI elements, or item handling, you **must** prioritize referencing the native architecture found within this directory to ensure complete compatibility.
 - **Structural Integrity & RGSS Syntax**: It is your responsibility to reference these files to maintain structural integrity and adhere to the proper RGSS syntax and standard practices established in Pokémon Essentials v21.1.
