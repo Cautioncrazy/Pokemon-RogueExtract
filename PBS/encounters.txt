@@ -1,40 +1,39 @@
 #---------Python Generated------
-
-[078,0] # F1 (Steel)
+[078,0] # F1 (Heavy)
 Cave,5
-    20,BRONZOR,1,5
-    20,SHIELDON,1,5
-    10,CUFANT,1,5
-    10,MAGNEMITE,1,5
-    10,FERROSEED,1,5
+    20,RHYHORN,1,5
+    20,ARON,1,5
+    10,CROAGUNK,1,5
+    10,PHANPY,1,5
+    10,DRILBUR,1,5
+    10,SILICOBRA,1,5
+    10,HIPPOPOTAS,1,5
+    5,BINACLE,1,5
+    4,RIOLU,1,5
+    1,MANKEY,1,5
+
+[079,0] # F1 (Ground)
+Cave,5
+    20,NUMEL,1,5
+    20,DIGLETT,1,5
+    10,BALTOY,1,5
+    10,SANDSHREW,1,5
+    10,SANDYGAST,1,5
+    10,PHANPY,1,5
+    10,KROKOROK,1,5
+    5,SILICOBRA,1,5
+    4,LARVITAR,1,5
+    1,GIBLE,1,5
+
+[080,0] # F1 (Rock)
+Cave,5
+    20,OMANYTE,1,5
+    20,LARVITAR,1,5
+    10,SHIELDON,1,5
     10,ARON,1,5
-    10,KLINK,1,5
-    5,VAROOM,1,5
-    4,BELDUM,1,5
-    1,PAWNIARD,1,5
-
-[079,0] # F1 (Fighting)
-Cave,5
-    20,MACHOP,1,5
-    20,CROAGUNK,1,5
-    10,TIMBURR,1,5
-    10,RIOLU,1,5
-    10,SCRAGGY,1,5
-    10,MANKEY,1,5
-    10,PAWMO,1,5
-    5,MIENFOO,1,5
-    4,CLOBBOPUS,1,5
-    1,PANCHAM,1,5
-
-[080,0] # F1 (Fire)
-Cave,5
-    20,CYNDAQUIL,1,5
-    20,FENNEKIN,1,5
-    10,TEPIG,1,5
-    10,SALANDIT,1,5
-    10,PANSEAR,1,5
-    10,CHARMANDER,1,5
-    10,SIZZLIPEDE,1,5
-    5,DARUMAKA,1,5
-    4,LITWICK,1,5
-    1,HOUNDOUR,1,5
+    10,BINACLE,1,5
+    10,GLIMMET,1,5
+    10,KABUTO,1,5
+    5,ANORITH,1,5
+    4,GEODUDE,1,5
+    1,ROCKRUFF,1,5

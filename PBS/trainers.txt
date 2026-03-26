@@ -804,16 +804,38 @@ Pokemon = CHARIZARD,35
 #---------Python Generated------
 
 #-------------------------------
-[SUPERNERD,Heidi]
+[HIKER,Mallory]
 LoseText = You got me!
-Pokemon = KLINK,4
+Items = POTION
+Pokemon = RHYHORN,2
+Pokemon = ARON,3
 #-------------------------------
-[BLACKBELT,Mallory]
-LoseText = You got me!
-Pokemon = MEDITITE,1
-Pokemon = RIOLU,4
+[HIKER,Boss Mallory]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = RHYHORN,3
+Pokemon = NACLI,7
 #-------------------------------
-[PICNICKER,Diana]
+[HIKER,Eve]
 LoseText = You got me!
-Pokemon = CHARMANDER,4
+Pokemon = DRILBUR,1
 Pokemon = NUMEL,3
+#-------------------------------
+[HIKER,Boss Judy]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = DIGLETT,4
+Pokemon = DRILBUR,3
+Pokemon = NUMEL,5
+#-------------------------------
+[HIKER,Heidi]
+LoseText = You got me!
+Items = POTION
+Pokemon = NACLI,4
+Pokemon = ARON,5
+#-------------------------------
+[HIKER,Boss Bob]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = RHYHORN,4
+Pokemon = ROGGENROLA,4
