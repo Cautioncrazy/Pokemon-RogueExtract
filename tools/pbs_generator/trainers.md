@@ -58,7 +58,7 @@ When generating random parties for dynamic trainers, you **MUST** adhere to the 
 * **Description:** Strictly Fighting-types.
 * **Approved Pool:** MANKEY, MACHOP, TYROGUE, MAKUHITA, MEDITITE, RIOLU, TIMBURR, THROH, SAWK, PANCHAM, HAWLUCHA, CRABRAWLER, CLOBBOPUS, PAWMI, FLAMIGO.
 
-### `PSYCHIC`
+### `PSYCHIC_M` / `PSYCHIC_F`
 * **Map Themes:** Graveyard/Ghost
 * **Description:** Psychic and Ghost types.
 * **Approved Pool:** ABRA, DROWZEE, MRMIME, NATU, ESPON, RALTS, SPOINK, CHIMECHO, BRONZOR, GOTHITA, SOLOSIS, ELGYEM, HATENNA, FLITTLE.
