@@ -1,0 +1,113 @@
+# Trainers and Themes Definition
+
+This file acts as the primary rulebook for procedurally generating trainers in the Python PBS Generator. It cross-references Trainer Classes with Themes and defines their available Pokémon pools.
+
+## Trainer Classes
+- HIKER (Themes: Heavy)
+- AROMALADY (Themes: Grass, Healing)
+- BEAUTY (Themes: Healing, Grass)
+- BIKER (Themes: Poison, Heavy)
+- BURGLAR (Themes: Poison)
+- LASS (Themes: Grass, Healing)
+- YOUNGSTER (Themes: Grass, Heavy)
+
+## HIKER
+- SNORLAX
+- SLAKING
+- HARIYAMA
+- RHYDON
+- RHYPERIOR
+- GOLEM
+- STEELIX
+- AGGRON
+- METAGROSS
+- MELMETAL
+- COPPERAJAH
+- DURALUDON
+
+## AROMALADY
+- BULBASAUR
+- IVYSAUR
+- VENUSAUR
+- CHIKORITA
+- BAYLEEF
+- MEGANIUM
+- TREECKO
+- GROVYLE
+- SCEPTILE
+- SPRIGATITO
+- FLORAGATO
+- MEOWSCARADA
+- CHANSEY
+- BLISSEY
+- CLEFAIRY
+- CLEFABLE
+- COMFEY
+- SYLVEON
+
+## BEAUTY
+- JIGGLYPUFF
+- WIGGLYTUFF
+- TOGEPI
+- TOGETIC
+- TOGEKISS
+- AUDINO
+- ALOMOMOLA
+- MILTANK
+- AROMATISSE
+
+## BIKER
+- EKANS
+- ARBOK
+- KOFFING
+- WEEZING
+- GULPIN
+- SWALOT
+- SEVIPER
+- SKORUPI
+- DRAPION
+- CROAGUNK
+- TOXICROAK
+- TRUBBISH
+- GARBODOR
+- SALANDIT
+- SALAZZLE
+- TOXEL
+- TOXTRICITY
+
+## BURGLAR
+- ZUBAT
+- GOLBAT
+- CROBAT
+- GRIMER
+- MUK
+- NIDORANf
+- NIDORINA
+- NIDOQUEEN
+- NIDORANm
+- NIDORINO
+- NIDOKING
+
+## LASS
+- CHESPIN
+- QUILLADIN
+- CHESNAUGHT
+- ROWLET
+- DARTRIX
+- DECIDUEYE
+- GROOKEY
+- THWACKEY
+- RILLABOOM
+- CLEFAIRY
+- JIGGLYPUFF
+
+## YOUNGSTER
+- TURTWIG
+- GROTLE
+- TORTERRA
+- SNIVY
+- SERVINE
+- SERPERIOR
+- HARIYAMA
+- RHYDON
+- GOLEM
