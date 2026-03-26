@@ -22,7 +22,8 @@ class GeneratorThread(QThread):
 
     def __init__(self, start_map, end_map, num_floors, theme_selection, apply_theme_all, available_themes,
                  min_step_chance, max_step_chance, step_chance_chunk,
-                 filter_category, filter_value, apply_filter_trainers, pbs_dir):
+                 filter_category, filter_value, apply_filter_trainers,
+                 boss_generation_mode, pbs_dir):
         super().__init__()
         self.start_map = start_map
         self.end_map = end_map
@@ -36,6 +37,7 @@ class GeneratorThread(QThread):
         self.filter_category = filter_category
         self.filter_value = filter_value
         self.apply_filter_trainers = apply_filter_trainers
+        self.boss_generation_mode = boss_generation_mode
         self.pbs_dir = pbs_dir
 
     def run(self):
@@ -100,10 +102,22 @@ class GeneratorThread(QThread):
                     t_filter_cat = self.filter_category if self.apply_filter_trainers else "None"
                     t_filter_val = current_filter_val if self.apply_filter_trainers else "None"
 
-                    trainers_written = generate_trainers(floor_num, current_theme,
-                                                         pbs_dir=self.pbs_dir,
-                                                         filter_category=t_filter_cat,
-                                                         filter_value=t_filter_val)
+                    trainers_written = False
+                    if self.boss_generation_mode in ["Include Boss", "Exclude Boss"]:
+                        # Generate Standard Trainer
+                        trainers_written = generate_trainers(floor_num, current_theme,
+                                                             pbs_dir=self.pbs_dir,
+                                                             filter_category=t_filter_cat,
+                                                             filter_value=t_filter_val,
+                                                             is_boss=False) or trainers_written
+
+                    if self.boss_generation_mode in ["Include Boss", "Only Boss"]:
+                        # Generate Boss Trainer
+                        trainers_written = generate_trainers(floor_num, current_theme,
+                                                             pbs_dir=self.pbs_dir,
+                                                             filter_category=t_filter_cat,
+                                                             filter_value=t_filter_val,
+                                                             is_boss=True) or trainers_written
 
                     # Update Progress
                     current_iteration += 1
@@ -264,15 +278,21 @@ class PBSGeneratorApp(QMainWindow):
         self.apply_filter_trainers_cb.setChecked(True)
         control_layout.addWidget(self.apply_filter_trainers_cb, 9, 0, 1, 2)
 
+        # Boss Generation Options
+        control_layout.addWidget(QLabel("Boss Generation:"), 10, 0)
+        self.boss_gen_combo = QComboBox()
+        self.boss_gen_combo.addItems(["Include Boss", "Exclude Boss", "Only Boss"])
+        control_layout.addWidget(self.boss_gen_combo, 10, 1)
+
         # Apply Theme to All Checkbox
         self.apply_theme_all_cb = QCheckBox("Apply Selected Theme to All Maps")
         self.apply_theme_all_cb.setStyleSheet("color: white; font-size: 13px; background-color: transparent;")
-        control_layout.addWidget(self.apply_theme_all_cb, 10, 0, 1, 2)
+        control_layout.addWidget(self.apply_theme_all_cb, 11, 0, 1, 2)
 
         # Generate Button
         self.generate_btn = QPushButton("Generate Bulk Data")
         self.generate_btn.clicked.connect(self.on_generate_clicked)
-        control_layout.addWidget(self.generate_btn, 11, 0, 1, 2)
+        control_layout.addWidget(self.generate_btn, 12, 0, 1, 2)
 
         # Progress Bars
         self.map_progress_bar = QProgressBar()
@@ -291,7 +311,7 @@ class PBSGeneratorApp(QMainWindow):
                 border-radius: 4px;
             }
         """)
-        control_layout.addWidget(self.map_progress_bar, 12, 0, 1, 2)
+        control_layout.addWidget(self.map_progress_bar, 13, 0, 1, 2)
 
         self.total_progress_bar = QProgressBar()
         self.total_progress_bar.setFormat("Total Batch Progress: %p%")
@@ -309,7 +329,7 @@ class PBSGeneratorApp(QMainWindow):
                 border-radius: 4px;
             }
         """)
-        control_layout.addWidget(self.total_progress_bar, 13, 0, 1, 2)
+        control_layout.addWidget(self.total_progress_bar, 14, 0, 1, 2)
 
         main_layout.addWidget(control_panel)
 
@@ -358,6 +378,7 @@ class PBSGeneratorApp(QMainWindow):
         filter_category = self.filter_category_combo.currentText()
         filter_value = self.filter_value_combo.currentText()
         apply_filter_trainers = self.apply_filter_trainers_cb.isChecked()
+        boss_generation_mode = self.boss_gen_combo.currentText()
 
         # Get list of valid themes (excluding "Random")
         available_themes = [self.theme_combo.itemText(i) for i in range(self.theme_combo.count()) if self.theme_combo.itemText(i) != "Random"]
@@ -380,6 +401,7 @@ class PBSGeneratorApp(QMainWindow):
         self.filter_category_combo.setEnabled(False)
         self.filter_value_combo.setEnabled(False)
         self.apply_filter_trainers_cb.setEnabled(False)
+        self.boss_gen_combo.setEnabled(False)
 
         self.map_progress_bar.setValue(0)
         self.total_progress_bar.setValue(0)
@@ -398,6 +420,7 @@ class PBSGeneratorApp(QMainWindow):
             filter_category=filter_category,
             filter_value=filter_value,
             apply_filter_trainers=apply_filter_trainers,
+            boss_generation_mode=boss_generation_mode,
             pbs_dir=pbs_dir
         )
 
@@ -424,6 +447,7 @@ class PBSGeneratorApp(QMainWindow):
         if self.filter_category_combo.currentText() != "None":
             self.filter_value_combo.setEnabled(True)
         self.apply_filter_trainers_cb.setEnabled(True)
+        self.boss_gen_combo.setEnabled(True)
 
 
 def main():
