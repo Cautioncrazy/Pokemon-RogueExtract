@@ -238,9 +238,16 @@ def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None):
 
     available_pokemon = _filter_pool_for_floor(available_pokemon, floor_number)
 
-    min_lvl, max_lvl = calculate_levels(floor_number)
+    # Ensure unique Pokemon in the trainer's party
+    unique_pool = list(set(available_pokemon)) # Remove duplicates from the pool just in case
+    if len(unique_pool) >= party_size:
+        selected_pokemon = random.sample(unique_pool, party_size)
+    else:
+        # Fallback if the pool is smaller than the required party size
+        print(f"Warning: Pool size ({len(unique_pool)}) is smaller than party size ({party_size}) for {trainer_class}. Using all available unique Pokémon.")
+        selected_pokemon = unique_pool
 
-    selected_pokemon = random.choices(available_pokemon, k=party_size)
+    min_lvl, max_lvl = calculate_levels(floor_number)
 
     for pkmn in selected_pokemon:
         level = random.randint(min_lvl, max_lvl)
