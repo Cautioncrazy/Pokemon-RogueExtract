@@ -2,8 +2,8 @@ import sys
 import os
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                              QLabel, QLineEdit, QPushButton, QComboBox, QSpinBox,
-                             QTextEdit, QFrame, QGridLayout)
-from PyQt6.QtCore import Qt
+                             QTextEdit, QFrame, QGridLayout, QCheckBox, QProgressBar)
+from PyQt6.QtCore import Qt, QThread, pyqtSignal
 from PyQt6.QtGui import QFont, QColor, QPalette
 
 # Add the tools directory to the python path so it can be run standalone easily
@@ -13,6 +13,81 @@ from tools.pbs_generator.map_metadata_gen import append_map_metadata
 from tools.pbs_generator.encounter_gen import generate_encounters
 from tools.pbs_generator.trainer_gen import generate_trainers
 from tools.pbs_generator.theme_data import get_all_available_themes
+
+class GeneratorThread(QThread):
+    log_signal = pyqtSignal(str)
+    map_progress_signal = pyqtSignal(int)
+    total_progress_signal = pyqtSignal(int)
+    finished_signal = pyqtSignal()
+
+    def __init__(self, start_map, end_map, num_floors, theme_selection, apply_theme_all, available_themes, pbs_dir):
+        super().__init__()
+        self.start_map = start_map
+        self.end_map = end_map
+        self.num_floors = num_floors
+        self.theme_selection = theme_selection
+        self.apply_theme_all = apply_theme_all
+        self.available_themes = available_themes
+        self.pbs_dir = pbs_dir
+
+    def run(self):
+        import random
+        try:
+            total_maps = (self.end_map - self.start_map) + 1
+            if total_maps <= 0:
+                self.log_signal.emit("Error: End Map ID must be greater than or equal to Start Map ID.")
+                self.finished_signal.emit()
+                return
+
+            total_iterations = total_maps * self.num_floors
+            current_iteration = 0
+
+            self.log_signal.emit(f"--- Starting Bulk Generation (Maps {self.start_map}-{self.end_map}, {self.num_floors} Floors) ---")
+
+            for map_idx, map_id in enumerate(range(self.start_map, self.end_map + 1)):
+                self.log_signal.emit(f"\nProcessing Target Map ID: {map_id}")
+
+                for floor_num in range(1, self.num_floors + 1):
+                    # Determine theme for this specific floor
+                    if self.apply_theme_all:
+                        if self.theme_selection == "Random":
+                            current_theme = random.choice(self.available_themes) if self.available_themes else "Grass"
+                        else:
+                            current_theme = self.theme_selection
+                    else:
+                        # If "Apply Theme All" is unchecked, ALWAYS randomize the theme for every single floor,
+                        # ignoring whatever specific theme might be selected in the dropdown.
+                        current_theme = random.choice(self.available_themes) if self.available_themes else "Grass"
+
+                    self.log_signal.emit(f"-> Floor {floor_num} | Theme: {current_theme}")
+
+                    # 1. Generate Metadata
+                    append_map_metadata(map_id, theme=current_theme, pbs_dir=self.pbs_dir)
+
+                    # 2. Generate Encounters
+                    # Version corresponds to Floor - 1
+                    version = floor_num - 1 if floor_num > 1 else 0
+                    encounters_written = generate_encounters(map_id, version, floor_num, current_theme, pbs_dir=self.pbs_dir)
+
+                    # 3. Generate Trainers
+                    trainers_written = generate_trainers(floor_num, current_theme, pbs_dir=self.pbs_dir)
+
+                    # Update Progress
+                    current_iteration += 1
+                    map_progress = int((floor_num / self.num_floors) * 100)
+                    total_progress = int((current_iteration / total_iterations) * 100)
+
+                    self.map_progress_signal.emit(map_progress)
+                    self.total_progress_signal.emit(total_progress)
+
+            self.log_signal.emit("\n--- Bulk Generation Complete! ---")
+
+        except Exception as e:
+            self.log_signal.emit(f"Error during bulk generation: {e}")
+
+        finally:
+            self.finished_signal.emit()
+
 
 class GlassWidget(QFrame):
     def __init__(self, parent=None):
@@ -91,30 +166,79 @@ class PBSGeneratorApp(QMainWindow):
         control_layout.setContentsMargins(20, 20, 20, 20)
         control_layout.setSpacing(15)
 
-        # Map ID Input
-        control_layout.addWidget(QLabel("Target Map ID:"), 0, 0)
-        self.map_id_spin = QSpinBox()
-        self.map_id_spin.setRange(1, 999)
-        self.map_id_spin.setValue(100)
-        control_layout.addWidget(self.map_id_spin, 0, 1)
+        # Start Map ID Input
+        control_layout.addWidget(QLabel("Start Map ID:"), 0, 0)
+        self.start_map_spin = QSpinBox()
+        self.start_map_spin.setRange(1, 999)
+        self.start_map_spin.setValue(100)
+        control_layout.addWidget(self.start_map_spin, 0, 1)
 
-        # Floor Number
-        control_layout.addWidget(QLabel("Floor Number:"), 1, 0)
-        self.floor_spin = QSpinBox()
-        self.floor_spin.setRange(1, 999)
-        self.floor_spin.setValue(1)
-        control_layout.addWidget(self.floor_spin, 1, 1)
+        # End Map ID Input
+        control_layout.addWidget(QLabel("End Map ID:"), 1, 0)
+        self.end_map_spin = QSpinBox()
+        self.end_map_spin.setRange(1, 999)
+        self.end_map_spin.setValue(100)
+        control_layout.addWidget(self.end_map_spin, 1, 1)
+
+        # Floor Number (Versions)
+        control_layout.addWidget(QLabel("Number of Floors:"), 2, 0)
+        self.num_floors_spin = QSpinBox()
+        self.num_floors_spin.setRange(1, 999)
+        self.num_floors_spin.setValue(1)
+        control_layout.addWidget(self.num_floors_spin, 2, 1)
 
         # Theme Selection
-        control_layout.addWidget(QLabel("Floor Theme:"), 2, 0)
+        control_layout.addWidget(QLabel("Floor Theme:"), 3, 0)
         self.theme_combo = QComboBox()
         self.populate_themes()
-        control_layout.addWidget(self.theme_combo, 2, 1)
+        control_layout.addWidget(self.theme_combo, 3, 1)
+
+        # Apply Theme to All Checkbox
+        self.apply_theme_all_cb = QCheckBox("Apply Selected Theme to All Maps")
+        self.apply_theme_all_cb.setStyleSheet("color: white; font-size: 13px; background-color: transparent;")
+        control_layout.addWidget(self.apply_theme_all_cb, 4, 0, 1, 2)
 
         # Generate Button
-        self.generate_btn = QPushButton("Generate Floor Data")
+        self.generate_btn = QPushButton("Generate Bulk Data")
         self.generate_btn.clicked.connect(self.on_generate_clicked)
-        control_layout.addWidget(self.generate_btn, 3, 0, 1, 2)
+        control_layout.addWidget(self.generate_btn, 5, 0, 1, 2)
+
+        # Progress Bars
+        self.map_progress_bar = QProgressBar()
+        self.map_progress_bar.setFormat("Current Map Progress: %p%")
+        self.map_progress_bar.setValue(0)
+        self.map_progress_bar.setStyleSheet("""
+            QProgressBar {
+                background-color: rgba(0, 0, 0, 0.3);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 5px;
+                text-align: center;
+            }
+            QProgressBar::chunk {
+                background-color: #4da6ff;
+                border-radius: 4px;
+            }
+        """)
+        control_layout.addWidget(self.map_progress_bar, 6, 0, 1, 2)
+
+        self.total_progress_bar = QProgressBar()
+        self.total_progress_bar.setFormat("Total Batch Progress: %p%")
+        self.total_progress_bar.setValue(0)
+        self.total_progress_bar.setStyleSheet("""
+            QProgressBar {
+                background-color: rgba(0, 0, 0, 0.3);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 5px;
+                text-align: center;
+            }
+            QProgressBar::chunk {
+                background-color: #ff9933;
+                border-radius: 4px;
+            }
+        """)
+        control_layout.addWidget(self.total_progress_bar, 7, 0, 1, 2)
 
         main_layout.addWidget(control_panel)
 
@@ -142,49 +266,57 @@ class PBSGeneratorApp(QMainWindow):
         self.theme_combo.addItems(themes)
 
     def on_generate_clicked(self):
-        map_id = self.map_id_spin.value()
-        floor_num = self.floor_spin.value()
-        theme = self.theme_combo.currentText()
-        if theme == "Random":
-            import random
-            # Get all items except 'Random'
-            available_themes = [self.theme_combo.itemText(i) for i in range(self.theme_combo.count()) if self.theme_combo.itemText(i) != "Random"]
-            if available_themes:
-                theme = random.choice(available_themes)
-            else:
-                theme = "Grass" # Ultimate fallback
+        start_map = self.start_map_spin.value()
+        end_map = self.end_map_spin.value()
+        num_floors = self.num_floors_spin.value()
+        theme_selection = self.theme_combo.currentText()
+        apply_theme_all = self.apply_theme_all_cb.isChecked()
+
+        # Get list of valid themes (excluding "Random")
+        available_themes = [self.theme_combo.itemText(i) for i in range(self.theme_combo.count()) if self.theme_combo.itemText(i) != "Random"]
 
         pbs_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'PBS'))
         if not os.path.exists(pbs_dir):
             self.log("Error: 'PBS' directory not found. Are you running this from the repo root?")
             return
 
-        self.log(f"--- Starting generation for Map {map_id}, Floor {floor_num}, Theme {theme} ---")
+        # Disable UI during generation
+        self.generate_btn.setEnabled(False)
+        self.start_map_spin.setEnabled(False)
+        self.end_map_spin.setEnabled(False)
+        self.num_floors_spin.setEnabled(False)
+        self.theme_combo.setEnabled(False)
+        self.apply_theme_all_cb.setEnabled(False)
 
-        try:
-            # Generate Metadata
-            append_map_metadata(map_id, theme=theme, pbs_dir=pbs_dir)
-            self.log(f"✓ Map Metadata generated/appended.")
+        self.map_progress_bar.setValue(0)
+        self.total_progress_bar.setValue(0)
 
-            # Generate Encounters (Version corresponds to Floor - 1 for simplicity here, or just 0, 1, 2)
-            version = floor_num - 1 if floor_num > 1 else 0
-            encounters_written = generate_encounters(map_id, version, floor_num, theme, pbs_dir=pbs_dir)
-            if encounters_written:
-                self.log(f"✓ Encounters generated for Map {map_id}, Version {version}.")
-            else:
-                self.log(f"• Encounters skipped for Map {map_id}, Version {version} (section already exists).")
+        # Start background thread
+        self.thread = GeneratorThread(
+            start_map=start_map,
+            end_map=end_map,
+            num_floors=num_floors,
+            theme_selection=theme_selection,
+            apply_theme_all=apply_theme_all,
+            available_themes=available_themes,
+            pbs_dir=pbs_dir
+        )
 
-            # Generate Trainers (Usually you'd loop this based on map size, just doing 1 for proof of concept)
-            trainers_written = generate_trainers(floor_num, theme, pbs_dir=pbs_dir)
-            if trainers_written:
-                self.log(f"✓ Dynamic Trainer generated for Floor {floor_num}.")
-            else:
-                self.log(f"• Dynamic Trainer skipped for Floor {floor_num}.")
+        self.thread.log_signal.connect(self.log)
+        self.thread.map_progress_signal.connect(self.map_progress_bar.setValue)
+        self.thread.total_progress_signal.connect(self.total_progress_bar.setValue)
+        self.thread.finished_signal.connect(self.on_generation_finished)
 
-        except Exception as e:
-            self.log(f"Error during generation: {e}")
+        self.thread.start()
 
-        self.log("--- Generation Complete ---")
+    def on_generation_finished(self):
+        # Re-enable UI
+        self.generate_btn.setEnabled(True)
+        self.start_map_spin.setEnabled(True)
+        self.end_map_spin.setEnabled(True)
+        self.num_floors_spin.setEnabled(True)
+        self.theme_combo.setEnabled(True)
+        self.apply_theme_all_cb.setEnabled(True)
 
 
 def main():
