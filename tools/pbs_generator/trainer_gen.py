@@ -3,6 +3,10 @@ import random
 from tools.pbs_generator.pbs_parser import PBSFile, PBSSection
 from tools.pbs_generator.encounter_gen import calculate_levels
 
+
+def _default_pbs_dir():
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "PBS"))
+
 def load_trainers_rules(md_filepath):
     """
     Parses trainers.md to return:
@@ -59,8 +63,10 @@ def calculate_party_size(floor_number):
     else:
         return random.randint(4, 6)
 
-def generate_trainers(floor_number, theme, pbs_dir="PBS", md_filepath=None):
+def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None):
     """Generates a dynamic trainer for the floor's theme."""
+    if pbs_dir is None:
+        pbs_dir = _default_pbs_dir()
     if md_filepath is None:
         md_filepath = os.path.join(os.path.dirname(__file__), "trainers.md")
     class_themes, class_pools = load_trainers_rules(md_filepath)
@@ -89,6 +95,8 @@ def generate_trainers(floor_number, theme, pbs_dir="PBS", md_filepath=None):
     if version < 0: version = 0
 
     filepath = os.path.join(pbs_dir, "trainers.txt")
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"trainers.txt not found in PBS folder: {filepath}")
     pbs = PBSFile(filepath)
 
     header = f"[{trainer_class},{trainer_name},{version}]"

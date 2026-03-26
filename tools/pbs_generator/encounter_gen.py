@@ -2,6 +2,10 @@ import os
 import random
 from tools.pbs_generator.pbs_parser import PBSFile, PBSSection
 
+
+def _default_pbs_dir():
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "PBS"))
+
 def load_encounters_rules(md_filepath):
     """Parses encounters.md to return a dictionary of {Theme: [Pokemon list]}"""
     rules = {}
@@ -28,8 +32,10 @@ def calculate_levels(floor_number):
 
     return base_min, base_max
 
-def generate_encounters(map_id, version, floor_number, theme, pbs_dir="PBS", md_filepath=None):
+def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_filepath=None):
     """Generates encounter entries based on theme and floor number."""
+    if pbs_dir is None:
+        pbs_dir = _default_pbs_dir()
     if md_filepath is None:
         md_filepath = os.path.join(os.path.dirname(__file__), "encounters.md")
     rules = load_encounters_rules(md_filepath)
@@ -44,10 +50,11 @@ def generate_encounters(map_id, version, floor_number, theme, pbs_dir="PBS", md_
 
     available_pokemon = rules[theme]
     if not available_pokemon:
-        print(f"Error: No Pokémon defined for theme '{theme}'.")
-        return
+        raise ValueError(f"No Pokémon defined for theme '{theme}' in {md_filepath}")
 
     filepath = os.path.join(pbs_dir, "encounters.txt")
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"encounters.txt not found in PBS folder: {filepath}")
     pbs = PBSFile(filepath)
 
     header = f"[{map_id:03d},{version}]"

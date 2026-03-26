@@ -1,0 +1,1622 @@
+# Pokémon Type Master Reference (Enhanced)
+
+AI ASSISTANT DIRECTIVE (JULES):
+This document serves as the master reference for Pokémon type classifications. When building themed trainer parties, designing biome-specific encounter tables, or generating typed loot, use these lists to select appropriate Pokémon.
+
+Note for Dual Types: Pokémon with two types are listed under BOTH of their respective type categories. Always cross-reference with the master pokemon.txt PBS file if a newly added regional variant or custom Pokémon is not explicitly listed here.
+
+---
+
+## Metadata Key
+
+- **Format:** `DEX | SPECIES_ID | Display Name | [Type1/Type2] | RegionalCapable | Classification | Biomes`
+- **RegionalCapable:** `RegionalCapable` or `NoRegionalFlag`
+- **Classification:** `Mythical`, `Legendary`, or `Standard`
+- **Biomes:** AI-friendly environment tags inferred from `Habitat` + type heuristics + manual overrides
+
+- **Total Pokémon indexed:** 1025
+
+## Normal Type
+
+- `0016 | PIDGEY | Pidgey | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0017 | PIDGEOTTO | Pidgeotto | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0018 | PIDGEOT | Pidgeot | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0019 | RATTATA | Rattata | [NORMAL] | RegionalCapable | Standard | meadow, grassland, plains`
+- `0020 | RATICATE | Raticate | [NORMAL] | RegionalCapable | Standard | meadow, grassland, plains`
+- `0021 | SPEAROW | Spearow | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, desert, badlands`
+- `0022 | FEAROW | Fearow | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, desert, badlands`
+- `0039 | JIGGLYPUFF | Jigglypuff | [NORMAL/FAIRY] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mystic, fairygrove, flowerfield`
+- `0040 | WIGGLYTUFF | Wigglytuff | [NORMAL/FAIRY] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mystic, fairygrove, flowerfield`
+- `0052 | MEOWTH | Meowth | [NORMAL] | RegionalCapable | Standard | grassland, plains, urban, city, industrial`
+- `0053 | PERSIAN | Persian | [NORMAL] | RegionalCapable | Standard | grassland, plains, urban, city, industrial`
+- `0083 | FARFETCHD | Farfetch'd | [NORMAL/FLYING] | RegionalCapable | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0084 | DODUO | Doduo | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0085 | DODRIO | Dodrio | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0108 | LICKITUNG | Lickitung | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0113 | CHANSEY | Chansey | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0115 | KANGASKHAN | Kangaskhan | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0128 | TAUROS | Tauros | [NORMAL] | RegionalCapable | Standard | meadow, grassland, plains`
+- `0132 | DITTO | Ditto | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0133 | EEVEE | Eevee | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0137 | PORYGON | Porygon | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0143 | SNORLAX | Snorlax | [NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, highland`
+- `0161 | SENTRET | Sentret | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0162 | FURRET | Furret | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0163 | HOOTHOOT | Hoothoot | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0164 | NOCTOWL | Noctowl | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0174 | IGGLYBUFF | Igglybuff | [NORMAL/FAIRY] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mystic, fairygrove, flowerfield`
+- `0190 | AIPOM | Aipom | [NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains`
+- `0203 | GIRAFARIG | Girafarig | [NORMAL/PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0206 | DUNSPARCE | Dunsparce | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, cave, underground`
+- `0216 | TEDDIURSA | Teddiursa | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, mountain, cliff, highland`
+- `0217 | URSARING | Ursaring | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, mountain, cliff, highland`
+- `0233 | PORYGON2 | Porygon2 | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0234 | STANTLER | Stantler | [NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains`
+- `0235 | SMEARGLE | Smeargle | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0241 | MILTANK | Miltank | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0242 | BLISSEY | Blissey | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0263 | ZIGZAGOON | Zigzagoon | [NORMAL] | RegionalCapable | Standard | meadow, grassland, plains`
+- `0264 | LINOONE | Linoone | [NORMAL] | RegionalCapable | Standard | meadow, grassland, plains`
+- `0276 | TAILLOW | Taillow | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0277 | SWELLOW | Swellow | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0287 | SLAKOTH | Slakoth | [NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains`
+- `0288 | VIGOROTH | Vigoroth | [NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains`
+- `0289 | SLAKING | Slaking | [NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains`
+- `0293 | WHISMUR | Whismur | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, cave, underground`
+- `0294 | LOUDRED | Loudred | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, cave, underground`
+- `0295 | EXPLOUD | Exploud | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, cave, underground`
+- `0298 | AZURILL | Azurill | [NORMAL/FAIRY] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, shore, riverbank, wetland, mystic`
+- `0300 | SKITTY | Skitty | [NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains`
+- `0301 | DELCATTY | Delcatty | [NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains`
+- `0327 | SPINDA | Spinda | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, mountain, cliff, highland`
+- `0333 | SWABLU | Swablu | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0335 | ZANGOOSE | Zangoose | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0351 | CASTFORM | Castform | [NORMAL] | RegionalCapable | Standard | meadow, grassland, plains`
+- `0352 | KECLEON | Kecleon | [NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains`
+- `0396 | STARLY | Starly | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0397 | STARAVIA | Staravia | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0398 | STARAPTOR | Staraptor | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0399 | BIDOOF | Bidoof | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, shore, riverbank, wetland`
+- `0400 | BIBAREL | Bibarel | [NORMAL/WATER] | NoRegionalFlag | Standard | grassland, plains, ocean, shore, river, riverbank, lake, wetland`
+- `0424 | AMBIPOM | Ambipom | [NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains`
+- `0427 | BUNEARY | Buneary | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0428 | LOPUNNY | Lopunny | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0431 | GLAMEOW | Glameow | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0432 | PURUGLY | Purugly | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0440 | HAPPINY | Happiny | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0441 | CHATOT | Chatot | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0446 | MUNCHLAX | Munchlax | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, mountain, cliff, highland`
+- `0463 | LICKILICKY | Lickilicky | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0474 | PORYGONZ | Porygon-Z | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0486 | REGIGIGAS | Regigigas | [NORMAL] | NoRegionalFlag | Legendary | grassland, plains, cave, underground`
+- `0493 | ARCEUS | Arceus | [NORMAL] | NoRegionalFlag | Mythical | grassland, plains, rare, special`
+- `0504 | PATRAT | Patrat | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0505 | WATCHOG | Watchog | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0506 | LILLIPUP | Lillipup | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0507 | HERDIER | Herdier | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0508 | STOUTLAND | Stoutland | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0519 | PIDOVE | Pidove | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, urban, city`
+- `0520 | TRANQUILL | Tranquill | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, urban, city`
+- `0521 | UNFEZANT | Unfezant | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, urban, city`
+- `0531 | AUDINO | Audino | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0572 | MINCCINO | Minccino | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0573 | CINCCINO | Cinccino | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0585 | DEERLING | Deerling | [NORMAL/GRASS] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0586 | SAWSBUCK | Sawsbuck | [NORMAL/GRASS] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0626 | BOUFFALANT | Bouffalant | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0627 | RUFFLET | Rufflet | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, highland, sky`
+- `0628 | BRAVIARY | Braviary | [NORMAL/FLYING] | RegionalCapable | Standard | forest, woodland, grassland, plains, mountain, cliff, highland, sky`
+- `0648 | MELOETTA | Meloetta | [NORMAL/PSYCHIC] | RegionalCapable | Mythical | grassland, plains, ruins, mystic, urban, rare, special`
+- `0659 | BUNNELBY | Bunnelby | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0660 | DIGGERSBY | Diggersby | [NORMAL/GROUND] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, desert, badlands`
+- `0661 | FLETCHLING | Fletchling | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0667 | LITLEO | Litleo | [FIRE/NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0668 | PYROAR | Pyroar | [FIRE/NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0676 | FURFROU | Furfrou | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0694 | HELIOPTILE | Helioptile | [ELECTRIC/NORMAL] | NoRegionalFlag | Standard | grassland, plains, desert, badlands, rocky, urban, powerplant, stormfield`
+- `0695 | HELIOLISK | Heliolisk | [ELECTRIC/NORMAL] | NoRegionalFlag | Standard | grassland, plains, desert, badlands, rocky, urban, powerplant, stormfield`
+- `0731 | PIKIPEK | Pikipek | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0732 | TRUMBEAK | Trumbeak | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0733 | TOUCANNON | Toucannon | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0734 | YUNGOOS | Yungoos | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0735 | GUMSHOOS | Gumshoos | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0759 | STUFFUL | Stufful | [NORMAL/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, highland, dojo`
+- `0760 | BEWEAR | Bewear | [NORMAL/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, highland, dojo`
+- `0765 | ORANGURU | Oranguru | [NORMAL/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, ruins, mystic, urban`
+- `0772 | TYPENULL | Type: Null | [NORMAL] | NoRegionalFlag | Legendary | grassland, plains, rare, special`
+- `0773 | SILVALLY | Silvally | [NORMAL] | NoRegionalFlag | Legendary | grassland, plains, rare, special`
+- `0775 | KOMALA | Komala | [NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains`
+- `0780 | DRAMPA | Drampa | [NORMAL/DRAGON] | NoRegionalFlag | Standard | grassland, plains, cave, underground, mountain, cliff, highland, ruins`
+- `0819 | SKWOVET | Skwovet | [NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains`
+- `0820 | GREEDENT | Greedent | [NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains`
+- `0831 | WOOLOO | Wooloo | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0832 | DUBWOOL | Dubwool | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0862 | OBSTAGOON | Obstagoon | [DARK/NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, badlands, urban, nightforest`
+- `0876 | INDEEDEE | Indeedee | [PSYCHIC/NORMAL] | NoRegionalFlag | Standard | grassland, plains, ruins, mystic, urban, city, industrial`
+- `0899 | WYRDEER | Wyrdeer | [NORMAL/PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0901 | URSALUNA | Ursaluna | [GROUND/NORMAL] | NoRegionalFlag | Standard | grassland, plains, cave, mountain, cliff, highland, desert, badlands`
+- `0915 | LECHONK | Lechonk | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0916 | OINKOLOGNE | Oinkologne | [NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains`
+- `0924 | TANDEMAUS | Tandemaus | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0925 | MAUSHOLD | Maushold | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, urban, city, industrial`
+- `0928 | SMOLIV | Smoliv | [GRASS/NORMAL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0929 | DOLLIV | Dolliv | [GRASS/NORMAL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0930 | ARBOLIVA | Arboliva | [GRASS/NORMAL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0931 | SQUAWKABILLY | Squawkabilly | [NORMAL/FLYING] | RegionalCapable | Standard | forest, woodland, grassland, plains, mountain, cliff, urban, city`
+- `0944 | SHROODLE | Shroodle | [POISON/NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, swamp, bog, haunted, toxic`
+- `0945 | GRAFAIAI | Grafaiai | [POISON/NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, swamp, bog, haunted, toxic`
+- `0967 | CYCLIZAR | Cyclizar | [DRAGON/NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, highland, ruins, sanctuary`
+- `0981 | FARIGIRAF | Farigiraf | [NORMAL/PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0982 | DUDUNSPARCE | Dudunsparce | [NORMAL] | NoRegionalFlag | Standard | grassland, plains, cave, underground`
+- `1024 | TERAPAGOS | Terapagos | [NORMAL] | NoRegionalFlag | Legendary | grassland, plains, rare, special`
+
+## Fire Type
+
+- `0004 | CHARMANDER | Charmander | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic`
+- `0005 | CHARMELEON | Charmeleon | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic`
+- `0006 | CHARIZARD | Charizard | [FIRE/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, desert, badlands, volcanic`
+- `0037 | VULPIX | Vulpix | [FIRE] | RegionalCapable | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0038 | NINETALES | Ninetales | [FIRE] | RegionalCapable | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0058 | GROWLITHE | Growlithe | [FIRE] | RegionalCapable | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0059 | ARCANINE | Arcanine | [FIRE] | RegionalCapable | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0077 | PONYTA | Ponyta | [FIRE] | RegionalCapable | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0078 | RAPIDASH | Rapidash | [FIRE] | RegionalCapable | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0126 | MAGMAR | Magmar | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic`
+- `0136 | FLAREON | Flareon | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, volcanic, urban, city, industrial`
+- `0146 | MOLTRES | Moltres | [FIRE/FLYING] | RegionalCapable | Legendary | forest, woodland, mountain, cliff, desert, badlands, volcanic, rare`
+- `0155 | CYNDAQUIL | Cyndaquil | [FIRE] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0156 | QUILAVA | Quilava | [FIRE] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0157 | TYPHLOSION | Typhlosion | [FIRE] | RegionalCapable | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0218 | SLUGMA | Slugma | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic`
+- `0219 | MAGCARGO | Magcargo | [FIRE/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, desert, badlands, volcanic`
+- `0228 | HOUNDOUR | Houndour | [DARK/FIRE] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, volcanic, urban`
+- `0229 | HOUNDOOM | Houndoom | [DARK/FIRE] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, volcanic, urban`
+- `0240 | MAGBY | Magby | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic`
+- `0244 | ENTEI | Entei | [FIRE] | NoRegionalFlag | Legendary | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0250 | HOOH | Ho-Oh | [FIRE/FLYING] | NoRegionalFlag | Legendary | forest, woodland, mountain, cliff, desert, badlands, volcanic, rare`
+- `0255 | TORCHIC | Torchic | [FIRE] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0256 | COMBUSKEN | Combusken | [FIRE/FIGHTING] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, highland, desert, badlands`
+- `0257 | BLAZIKEN | Blaziken | [FIRE/FIGHTING] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, highland, desert, badlands`
+- `0322 | NUMEL | Numel | [FIRE/GROUND] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands, volcanic`
+- `0323 | CAMERUPT | Camerupt | [FIRE/GROUND] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands, volcanic`
+- `0324 | TORKOAL | Torkoal | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic`
+- `0390 | CHIMCHAR | Chimchar | [FIRE] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, desert, badlands, volcanic`
+- `0391 | MONFERNO | Monferno | [FIRE/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, desert, badlands, volcanic`
+- `0392 | INFERNAPE | Infernape | [FIRE/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, desert, badlands, volcanic`
+- `0467 | MAGMORTAR | Magmortar | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic`
+- `0485 | HEATRAN | Heatran | [FIRE/STEEL] | NoRegionalFlag | Legendary | cave, mountain, cliff, highland, desert, badlands, volcanic, urban`
+- `0494 | VICTINI | Victini | [PSYCHIC/FIRE] | NoRegionalFlag | Mythical | mountain, cliff, desert, badlands, volcanic, ruins, mystic, urban`
+- `0498 | TEPIG | Tepig | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic`
+- `0499 | PIGNITE | Pignite | [FIRE/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic, dojo`
+- `0500 | EMBOAR | Emboar | [FIRE/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic, dojo`
+- `0513 | PANSEAR | Pansear | [FIRE] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, desert, badlands, volcanic`
+- `0514 | SIMISEAR | Simisear | [FIRE] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, desert, badlands, volcanic`
+- `0554 | DARUMAKA | Darumaka | [FIRE] | RegionalCapable | Standard | mountain, cliff, desert, badlands, rocky, volcanic`
+- `0555 | DARMANITAN | Darmanitan | [FIRE] | RegionalCapable | Standard | mountain, cliff, desert, badlands, rocky, volcanic`
+- `0607 | LITWICK | Litwick | [GHOST/FIRE] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, volcanic, haunted, graveyard, ruins`
+- `0608 | LAMPENT | Lampent | [GHOST/FIRE] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, volcanic, haunted, graveyard, ruins`
+- `0609 | CHANDELURE | Chandelure | [GHOST/FIRE] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, volcanic, haunted, graveyard, ruins`
+- `0631 | HEATMOR | Heatmor | [FIRE] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, desert, badlands, volcanic`
+- `0636 | LARVESTA | Larvesta | [BUG/FIRE] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, desert, badlands`
+- `0637 | VOLCARONA | Volcarona | [BUG/FIRE] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, desert, badlands`
+- `0643 | RESHIRAM | Reshiram | [DRAGON/FIRE] | NoRegionalFlag | Legendary | mountain, cliff, highland, desert, badlands, volcanic, ruins, sanctuary`
+- `0653 | FENNEKIN | Fennekin | [FIRE] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, desert, badlands, volcanic`
+- `0654 | BRAIXEN | Braixen | [FIRE] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, desert, badlands, volcanic`
+- `0655 | DELPHOX | Delphox | [FIRE/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, desert, badlands, volcanic, ruins`
+- `0662 | FLETCHINDER | Fletchinder | [FIRE/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, desert`
+- `0663 | TALONFLAME | Talonflame | [FIRE/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, desert`
+- `0667 | LITLEO | Litleo | [FIRE/NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0668 | PYROAR | Pyroar | [FIRE/NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0721 | VOLCANION | Volcanion | [FIRE/WATER] | NoRegionalFlag | Mythical | mountain, cliff, ocean, shore, river, lake, wetland, desert`
+- `0725 | LITTEN | Litten | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, volcanic, urban, city, industrial`
+- `0726 | TORRACAT | Torracat | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, volcanic, urban, city, industrial`
+- `0727 | INCINEROAR | Incineroar | [FIRE/DARK] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, volcanic, urban, city`
+- `0741 | ORICORIO | Oricorio | [FIRE/FLYING] | RegionalCapable | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, desert`
+- `0757 | SALANDIT | Salandit | [POISON/FIRE] | NoRegionalFlag | Standard | mountain, cliff, highland, swamp, bog, desert, badlands, volcanic`
+- `0758 | SALAZZLE | Salazzle | [POISON/FIRE] | NoRegionalFlag | Standard | mountain, cliff, highland, swamp, bog, desert, badlands, volcanic`
+- `0776 | TURTONATOR | Turtonator | [FIRE/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic, ruins, sanctuary`
+- `0806 | BLACEPHALON | Blacephalon | [FIRE/GHOST] | NoRegionalFlag | Legendary | mountain, cliff, desert, badlands, volcanic, haunted, graveyard, ruins`
+- `0813 | SCORBUNNY | Scorbunny | [FIRE] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0814 | RABOOT | Raboot | [FIRE] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0815 | CINDERACE | Cinderace | [FIRE] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, desert, badlands, volcanic`
+- `0838 | CARKOL | Carkol | [ROCK/FIRE] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, desert, badlands, volcanic`
+- `0839 | COALOSSAL | Coalossal | [ROCK/FIRE] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, desert, badlands, volcanic`
+- `0850 | SIZZLIPEDE | Sizzlipede | [FIRE/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, desert, badlands`
+- `0851 | CENTISKORCH | Centiskorch | [FIRE/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, desert, badlands`
+- `0909 | FUECOCO | Fuecoco | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, rocky, volcanic`
+- `0910 | CROCALOR | Crocalor | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, rocky, volcanic`
+- `0911 | SKELEDIRGE | Skeledirge | [FIRE/GHOST] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, rocky, volcanic, haunted, graveyard`
+- `0935 | CHARCADET | Charcadet | [FIRE] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, rocky, volcanic`
+- `0936 | ARMAROUGE | Armarouge | [FIRE/PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, rocky, volcanic, ruins, mystic`
+- `0937 | CERULEDGE | Ceruledge | [FIRE/GHOST] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, rocky, volcanic, haunted, graveyard`
+- `0952 | SCOVILLAIN | Scovillain | [GRASS/FIRE] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0994 | IRONMOTH | Iron Moth | [FIRE/POISON] | NoRegionalFlag | Standard | mountain, cliff, swamp, bog, desert, badlands, volcanic, haunted`
+- `1004 | CHIYU | Chi-Yu | [DARK/FIRE] | NoRegionalFlag | Legendary | cave, mountain, cliff, desert, badlands, volcanic, urban, nightforest`
+- `1020 | GOUGINGFIRE | Gouging Fire | [FIRE/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic, ruins, sanctuary`
+
+## Water Type
+
+- `0007 | SQUIRTLE | Squirtle | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0008 | WARTORTLE | Wartortle | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0009 | BLASTOISE | Blastoise | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0054 | PSYDUCK | Psyduck | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0055 | GOLDUCK | Golduck | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0060 | POLIWAG | Poliwag | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0061 | POLIWHIRL | Poliwhirl | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0062 | POLIWRATH | Poliwrath | [WATER/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, river, riverbank, lake`
+- `0072 | TENTACOOL | Tentacool | [WATER/POISON] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, swamp, bog`
+- `0073 | TENTACRUEL | Tentacruel | [WATER/POISON] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, swamp, bog`
+- `0079 | SLOWPOKE | Slowpoke | [WATER/PSYCHIC] | RegionalCapable | Standard | ocean, shore, river, riverbank, lake, wetland, ruins, mystic`
+- `0080 | SLOWBRO | Slowbro | [WATER/PSYCHIC] | RegionalCapable | Standard | ocean, shore, river, riverbank, lake, wetland, ruins, mystic`
+- `0086 | SEEL | Seel | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0087 | DEWGONG | Dewgong | [WATER/ICE] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, reef, river, lake, wetland`
+- `0090 | SHELLDER | Shellder | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0091 | CLOYSTER | Cloyster | [WATER/ICE] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, reef, river, lake, wetland`
+- `0098 | KRABBY | Krabby | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0099 | KINGLER | Kingler | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0116 | HORSEA | Horsea | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0117 | SEADRA | Seadra | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0118 | GOLDEEN | Goldeen | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0119 | SEAKING | Seaking | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0120 | STARYU | Staryu | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0121 | STARMIE | Starmie | [WATER/PSYCHIC] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, ruins, mystic`
+- `0129 | MAGIKARP | Magikarp | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, pond, wetland`
+- `0130 | GYARADOS | Gyarados | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, river, riverbank`
+- `0131 | LAPRAS | Lapras | [WATER/ICE] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, reef, river, lake, wetland`
+- `0134 | VAPOREON | Vaporeon | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, lake, wetland, urban, city, industrial`
+- `0138 | OMANYTE | Omanyte | [ROCK/WATER] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0139 | OMASTAR | Omastar | [ROCK/WATER] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0140 | KABUTO | Kabuto | [ROCK/WATER] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0141 | KABUTOPS | Kabutops | [ROCK/WATER] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0158 | TOTODILE | Totodile | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0159 | CROCONAW | Croconaw | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0160 | FERALIGATR | Feraligatr | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0170 | CHINCHOU | Chinchou | [WATER/ELECTRIC] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, urban, powerplant`
+- `0171 | LANTURN | Lanturn | [WATER/ELECTRIC] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, urban, powerplant`
+- `0183 | MARILL | Marill | [WATER/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ocean, shore, river, riverbank, lake, wetland`
+- `0184 | AZUMARILL | Azumarill | [WATER/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ocean, shore, river, riverbank, lake, wetland`
+- `0186 | POLITOED | Politoed | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0194 | WOOPER | Wooper | [WATER/GROUND] | RegionalCapable | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0195 | QUAGSIRE | Quagsire | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0199 | SLOWKING | Slowking | [WATER/PSYCHIC] | RegionalCapable | Standard | ocean, shore, river, riverbank, lake, wetland, ruins, mystic`
+- `0211 | QWILFISH | Qwilfish | [WATER/POISON] | RegionalCapable | Standard | ocean, shore, reef, river, lake, wetland, swamp, bog`
+- `0222 | CORSOLA | Corsola | [WATER/ROCK] | RegionalCapable | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0223 | REMORAID | Remoraid | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0224 | OCTILLERY | Octillery | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0226 | MANTINE | Mantine | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, reef, river`
+- `0230 | KINGDRA | Kingdra | [WATER/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, reef, river, lake`
+- `0245 | SUICUNE | Suicune | [WATER] | NoRegionalFlag | Legendary | meadow, grassland, plains, ocean, shore, river, lake, wetland`
+- `0258 | MUDKIP | Mudkip | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0259 | MARSHTOMP | Marshtomp | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0260 | SWAMPERT | Swampert | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0270 | LOTAD | Lotad | [WATER/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, ocean, shore, river`
+- `0271 | LOMBRE | Lombre | [WATER/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, ocean, shore, river`
+- `0272 | LUDICOLO | Ludicolo | [WATER/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, ocean, shore, river`
+- `0278 | WINGULL | Wingull | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, reef, river`
+- `0279 | PELIPPER | Pelipper | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, reef, river`
+- `0283 | SURSKIT | Surskit | [BUG/WATER] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, ocean, shore, river, riverbank`
+- `0318 | CARVANHA | Carvanha | [WATER/DARK] | NoRegionalFlag | Standard | cave, ocean, shore, reef, river, lake, wetland, badlands`
+- `0319 | SHARPEDO | Sharpedo | [WATER/DARK] | NoRegionalFlag | Standard | cave, ocean, shore, reef, river, lake, wetland, badlands`
+- `0320 | WAILMER | Wailmer | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0321 | WAILORD | Wailord | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0339 | BARBOACH | Barboach | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0340 | WHISCASH | Whiscash | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0341 | CORPHISH | Corphish | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0342 | CRAWDAUNT | Crawdaunt | [WATER/DARK] | NoRegionalFlag | Standard | cave, ocean, shore, river, riverbank, lake, wetland, badlands`
+- `0349 | FEEBAS | Feebas | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0350 | MILOTIC | Milotic | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0363 | SPHEAL | Spheal | [ICE/WATER] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, reef, river, lake, wetland`
+- `0364 | SEALEO | Sealeo | [ICE/WATER] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, reef, river, lake, wetland`
+- `0365 | WALREIN | Walrein | [ICE/WATER] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, reef, river, lake, wetland`
+- `0366 | CLAMPERL | Clamperl | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0367 | HUNTAIL | Huntail | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0368 | GOREBYSS | Gorebyss | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0369 | RELICANTH | Relicanth | [WATER/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0370 | LUVDISC | Luvdisc | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0382 | KYOGRE | Kyogre | [WATER] | NoRegionalFlag | Legendary | ocean, shore, reef, river, lake, wetland`
+- `0393 | PIPLUP | Piplup | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0394 | PRINPLUP | Prinplup | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0395 | EMPOLEON | Empoleon | [WATER/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, river, riverbank, lake`
+- `0400 | BIBAREL | Bibarel | [NORMAL/WATER] | NoRegionalFlag | Standard | grassland, plains, ocean, shore, river, riverbank, lake, wetland`
+- `0418 | BUIZEL | Buizel | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0419 | FLOATZEL | Floatzel | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0422 | SHELLOS | Shellos | [WATER] | RegionalCapable | Standard | ocean, shore, reef, river, lake, wetland`
+- `0423 | GASTRODON | Gastrodon | [WATER/GROUND] | RegionalCapable | Standard | plains, cave, ocean, shore, reef, river, lake, wetland`
+- `0456 | FINNEON | Finneon | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0457 | LUMINEON | Lumineon | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0458 | MANTYKE | Mantyke | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, reef, river`
+- `0484 | PALKIA | Palkia | [WATER/DRAGON] | NoRegionalFlag | Legendary | mountain, cliff, highland, ocean, shore, river, lake, wetland`
+- `0489 | PHIONE | Phione | [WATER] | NoRegionalFlag | Mythical | ocean, shore, reef, river, lake, wetland`
+- `0490 | MANAPHY | Manaphy | [WATER] | NoRegionalFlag | Mythical | ocean, shore, reef, river, lake, wetland`
+- `0501 | OSHAWOTT | Oshawott | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0502 | DEWOTT | Dewott | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0503 | SAMUROTT | Samurott | [WATER] | RegionalCapable | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0515 | PANPOUR | Panpour | [WATER] | NoRegionalFlag | Standard | forest, woodland, ocean, shore, river, lake, wetland`
+- `0516 | SIMIPOUR | Simipour | [WATER] | NoRegionalFlag | Standard | forest, woodland, ocean, shore, river, lake, wetland`
+- `0535 | TYMPOLE | Tympole | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0536 | PALPITOAD | Palpitoad | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0537 | SEISMITOAD | Seismitoad | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0550 | BASCULIN | Basculin | [WATER] | RegionalCapable | Standard | ocean, shore, reef, river, lake, wetland`
+- `0564 | TIRTOUGA | Tirtouga | [WATER/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0565 | CARRACOSTA | Carracosta | [WATER/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0580 | DUCKLETT | Ducklett | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, river, riverbank`
+- `0581 | SWANNA | Swanna | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, river, riverbank`
+- `0592 | FRILLISH | Frillish | [WATER/GHOST] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, haunted, graveyard`
+- `0593 | JELLICENT | Jellicent | [WATER/GHOST] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, haunted, graveyard`
+- `0594 | ALOMOMOLA | Alomomola | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0647 | KELDEO | Keldeo | [WATER/FIGHTING] | NoRegionalFlag | Mythical | mountain, cliff, highland, ocean, shore, river, lake, wetland`
+- `0656 | FROAKIE | Froakie | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0657 | FROGADIER | Frogadier | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0658 | GRENINJA | Greninja | [WATER/DARK] | NoRegionalFlag | Standard | cave, ocean, shore, river, riverbank, lake, wetland, badlands`
+- `0688 | BINACLE | Binacle | [ROCK/WATER] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0689 | BARBARACLE | Barbaracle | [ROCK/WATER] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0690 | SKRELP | Skrelp | [POISON/WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, swamp, bog`
+- `0692 | CLAUNCHER | Clauncher | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0693 | CLAWITZER | Clawitzer | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0721 | VOLCANION | Volcanion | [FIRE/WATER] | NoRegionalFlag | Mythical | mountain, cliff, ocean, shore, river, lake, wetland, desert`
+- `0728 | POPPLIO | Popplio | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0729 | BRIONNE | Brionne | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0730 | PRIMARINA | Primarina | [WATER/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ocean, shore, river, riverbank, lake, wetland`
+- `0746 | WISHIWASHI | Wishiwashi | [WATER] | RegionalCapable | Standard | ocean, shore, reef, river, lake, wetland`
+- `0747 | MAREANIE | Mareanie | [POISON/WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, swamp, bog`
+- `0748 | TOXAPEX | Toxapex | [POISON/WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, swamp, bog`
+- `0751 | DEWPIDER | Dewpider | [WATER/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, ocean, shore, river, riverbank`
+- `0752 | ARAQUANID | Araquanid | [WATER/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, ocean, shore, river, riverbank`
+- `0767 | WIMPOD | Wimpod | [BUG/WATER] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, underground, ocean, shore`
+- `0768 | GOLISOPOD | Golisopod | [BUG/WATER] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, underground, ocean, shore`
+- `0771 | PYUKUMUKU | Pyukumuku | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0779 | BRUXISH | Bruxish | [WATER/PSYCHIC] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, ruins, mystic`
+- `0788 | TAPUFINI | Tapu Fini | [WATER/FAIRY] | NoRegionalFlag | Legendary | forest, woodland, ocean, shore, river, lake, wetland, mystic`
+- `0816 | SOBBLE | Sobble | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0817 | DRIZZILE | Drizzile | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0818 | INTELEON | Inteleon | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0833 | CHEWTLE | Chewtle | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0834 | DREDNAW | Drednaw | [WATER/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, river, riverbank, lake`
+- `0845 | CRAMORANT | Cramorant | [FLYING/WATER] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, river, riverbank`
+- `0846 | ARROKUDA | Arrokuda | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0847 | BARRASKEWDA | Barraskewda | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0882 | DRACOVISH | Dracovish | [WATER/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, river, lake, wetland`
+- `0883 | ARCTOVISH | Arctovish | [WATER/ICE] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, river, lake, wetland, snow`
+- `0902 | BASCULEGION | Basculegion | [WATER/GHOST] | RegionalCapable | Standard | ocean, shore, reef, river, lake, wetland, haunted, graveyard`
+- `0912 | QUAXLY | Quaxly | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0913 | QUAXWELL | Quaxwell | [WATER] | NoRegionalFlag | Standard | ocean, shore, river, riverbank, lake, wetland`
+- `0914 | QUAQUAVAL | Quaquaval | [WATER/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, river, riverbank, lake`
+- `0960 | WIGLETT | Wiglett | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0961 | WUGTRIO | Wugtrio | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0963 | FINIZEN | Finizen | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0964 | PALAFIN | Palafin | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0976 | VELUZA | Veluza | [WATER/PSYCHIC] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, ruins, mystic`
+- `0977 | DONDOZO | Dondozo | [WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland`
+- `0978 | TATSUGIRI | Tatsugiri | [DRAGON/WATER] | RegionalCapable | Standard | mountain, cliff, highland, ocean, shore, reef, river, lake`
+- `0991 | IRONBUNDLE | Iron Bundle | [ICE/WATER] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, river, lake, wetland, snow`
+- `1009 | WALKINGWAKE | Walking Wake | [WATER/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, river, lake, wetland`
+
+## Electric Type
+
+- `0025 | PIKACHU | Pikachu | [ELECTRIC] | NoRegionalFlag | Standard | forest, woodland, urban, powerplant, stormfield`
+- `0026 | RAICHU | Raichu | [ELECTRIC] | RegionalCapable | Standard | forest, woodland, urban, powerplant, stormfield`
+- `0081 | MAGNEMITE | Magnemite | [ELECTRIC/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0082 | MAGNETON | Magneton | [ELECTRIC/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0100 | VOLTORB | Voltorb | [ELECTRIC] | RegionalCapable | Standard | urban, city, industrial, powerplant, stormfield`
+- `0101 | ELECTRODE | Electrode | [ELECTRIC] | RegionalCapable | Standard | urban, city, industrial, powerplant, stormfield`
+- `0125 | ELECTABUZZ | Electabuzz | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0135 | JOLTEON | Jolteon | [ELECTRIC] | NoRegionalFlag | Standard | urban, city, industrial, powerplant, stormfield`
+- `0145 | ZAPDOS | Zapdos | [ELECTRIC/FLYING] | RegionalCapable | Legendary | forest, woodland, mountain, cliff, urban, powerplant, stormfield, rare`
+- `0170 | CHINCHOU | Chinchou | [WATER/ELECTRIC] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, urban, powerplant`
+- `0171 | LANTURN | Lanturn | [WATER/ELECTRIC] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, urban, powerplant`
+- `0172 | PICHU | Pichu | [ELECTRIC] | NoRegionalFlag | Standard | forest, woodland, urban, powerplant, stormfield`
+- `0179 | MAREEP | Mareep | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0180 | FLAAFFY | Flaaffy | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0181 | AMPHAROS | Ampharos | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0239 | ELEKID | Elekid | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0243 | RAIKOU | Raikou | [ELECTRIC] | NoRegionalFlag | Legendary | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0309 | ELECTRIKE | Electrike | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0310 | MANECTRIC | Manectric | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0311 | PLUSLE | Plusle | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0312 | MINUN | Minun | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0403 | SHINX | Shinx | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0404 | LUXIO | Luxio | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0405 | LUXRAY | Luxray | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0417 | PACHIRISU | Pachirisu | [ELECTRIC] | NoRegionalFlag | Standard | forest, woodland, urban, powerplant, stormfield`
+- `0462 | MAGNEZONE | Magnezone | [ELECTRIC/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0466 | ELECTIVIRE | Electivire | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0479 | ROTOM | Rotom | [ELECTRIC/GHOST] | RegionalCapable | Standard | haunted, graveyard, ruins, urban, city, industrial, powerplant, stormfield`
+- `0522 | BLITZLE | Blitzle | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0523 | ZEBSTRIKA | Zebstrika | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0587 | EMOLGA | Emolga | [ELECTRIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, urban, powerplant, stormfield, sky`
+- `0595 | JOLTIK | Joltik | [BUG/ELECTRIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, underground, urban, powerplant`
+- `0596 | GALVANTULA | Galvantula | [BUG/ELECTRIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, underground, urban, powerplant`
+- `0602 | TYNAMO | Tynamo | [ELECTRIC] | NoRegionalFlag | Standard | ocean, shore, reef, urban, powerplant, stormfield`
+- `0603 | EELEKTRIK | Eelektrik | [ELECTRIC] | NoRegionalFlag | Standard | ocean, shore, reef, urban, powerplant, stormfield`
+- `0604 | EELEKTROSS | Eelektross | [ELECTRIC] | NoRegionalFlag | Standard | ocean, shore, reef, urban, powerplant, stormfield`
+- `0618 | STUNFISK | Stunfisk | [GROUND/ELECTRIC] | RegionalCapable | Standard | plains, cave, ocean, shore, reef, desert, badlands, urban`
+- `0642 | THUNDURUS | Thundurus | [ELECTRIC/FLYING] | RegionalCapable | Legendary | forest, woodland, mountain, cliff, urban, powerplant, stormfield, rare`
+- `0644 | ZEKROM | Zekrom | [DRAGON/ELECTRIC] | NoRegionalFlag | Legendary | mountain, cliff, highland, ruins, sanctuary, urban, powerplant, stormfield`
+- `0694 | HELIOPTILE | Helioptile | [ELECTRIC/NORMAL] | NoRegionalFlag | Standard | grassland, plains, desert, badlands, rocky, urban, powerplant, stormfield`
+- `0695 | HELIOLISK | Heliolisk | [ELECTRIC/NORMAL] | NoRegionalFlag | Standard | grassland, plains, desert, badlands, rocky, urban, powerplant, stormfield`
+- `0702 | DEDENNE | Dedenne | [ELECTRIC/FAIRY] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mystic, urban, powerplant`
+- `0737 | CHARJABUG | Charjabug | [BUG/ELECTRIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, urban, powerplant, stormfield`
+- `0738 | VIKAVOLT | Vikavolt | [BUG/ELECTRIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, urban, powerplant, stormfield`
+- `0777 | TOGEDEMARU | Togedemaru | [ELECTRIC/STEEL] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, urban, factory, powerplant`
+- `0785 | TAPUKOKO | Tapu Koko | [ELECTRIC/FAIRY] | NoRegionalFlag | Legendary | forest, woodland, mystic, urban, powerplant, stormfield, fairygrove, flowerfield`
+- `0796 | XURKITREE | Xurkitree | [ELECTRIC] | NoRegionalFlag | Legendary | urban, powerplant, stormfield, rare, special`
+- `0807 | ZERAORA | Zeraora | [ELECTRIC] | NoRegionalFlag | Mythical | urban, powerplant, stormfield, rare, special`
+- `0835 | YAMPER | Yamper | [ELECTRIC] | NoRegionalFlag | Standard | urban, city, industrial, powerplant, stormfield`
+- `0836 | BOLTUND | Boltund | [ELECTRIC] | NoRegionalFlag | Standard | urban, city, industrial, powerplant, stormfield`
+- `0848 | TOXEL | Toxel | [ELECTRIC/POISON] | NoRegionalFlag | Standard | swamp, bog, haunted, urban, city, industrial, powerplant, stormfield`
+- `0849 | TOXTRICITY | Toxtricity | [ELECTRIC/POISON] | NoRegionalFlag | Standard | swamp, bog, haunted, urban, city, industrial, powerplant, stormfield`
+- `0871 | PINCURCHIN | Pincurchin | [ELECTRIC] | NoRegionalFlag | Standard | ocean, shore, reef, urban, powerplant, stormfield`
+- `0877 | MORPEKO | Morpeko | [ELECTRIC/DARK] | RegionalCapable | Standard | forest, woodland, cave, badlands, urban, powerplant, stormfield, nightforest`
+- `0880 | DRACOZOLT | Dracozolt | [ELECTRIC/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, sanctuary, urban, powerplant, stormfield`
+- `0881 | ARCTOZOLT | Arctozolt | [ELECTRIC/ICE] | NoRegionalFlag | Standard | mountain, cliff, snow, tundra, glacier, urban, powerplant, stormfield`
+- `0894 | REGIELEKI | Regieleki | [ELECTRIC] | NoRegionalFlag | Legendary | cave, underground, urban, powerplant, stormfield`
+- `0921 | PAWMI | Pawmi | [ELECTRIC] | NoRegionalFlag | Standard | meadow, grassland, plains, urban, powerplant, stormfield`
+- `0922 | PAWMO | Pawmo | [ELECTRIC/FIGHTING] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, highland, urban, powerplant`
+- `0923 | PAWMOT | Pawmot | [ELECTRIC/FIGHTING] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, highland, urban, powerplant`
+- `0938 | TADBULB | Tadbulb | [ELECTRIC] | NoRegionalFlag | Standard | shore, riverbank, wetland, urban, powerplant, stormfield`
+- `0939 | BELLIBOLT | Bellibolt | [ELECTRIC] | NoRegionalFlag | Standard | shore, riverbank, wetland, urban, powerplant, stormfield`
+- `0940 | WATTREL | Wattrel | [ELECTRIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, shore, riverbank, wetland, urban`
+- `0941 | KILOWATTREL | Kilowattrel | [ELECTRIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, shore, riverbank, wetland, urban`
+- `0989 | SANDYSHOCKS | Sandy Shocks | [ELECTRIC/GROUND] | NoRegionalFlag | Standard | plains, cave, desert, badlands, urban, powerplant, stormfield, rare`
+- `0992 | IRONHANDS | Iron Hands | [FIGHTING/ELECTRIC] | NoRegionalFlag | Standard | mountain, cliff, highland, urban, powerplant, stormfield, rare, special`
+- `0995 | IRONTHORNS | Iron Thorns | [ROCK/ELECTRIC] | NoRegionalFlag | Standard | cave, mountain, cliff, badlands, urban, powerplant, stormfield, rare`
+- `1008 | MIRAIDON | Miraidon | [ELECTRIC/DRAGON] | NoRegionalFlag | Legendary | mountain, cliff, highland, ruins, sanctuary, urban, powerplant, stormfield`
+- `1021 | RAGINGBOLT | Raging Bolt | [ELECTRIC/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, sanctuary, urban, powerplant, stormfield`
+
+## Grass Type
+
+- `0001 | BULBASAUR | Bulbasaur | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0002 | IVYSAUR | Ivysaur | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0003 | VENUSAUR | Venusaur | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0043 | ODDISH | Oddish | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0044 | GLOOM | Gloom | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0045 | VILEPLUME | Vileplume | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0046 | PARAS | Paras | [BUG/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0047 | PARASECT | Parasect | [BUG/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0069 | BELLSPROUT | Bellsprout | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, swamp, bog, haunted`
+- `0070 | WEEPINBELL | Weepinbell | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, swamp, bog, haunted`
+- `0071 | VICTREEBEL | Victreebel | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, swamp, bog, haunted`
+- `0102 | EXEGGCUTE | Exeggcute | [GRASS/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, ruins, mystic, urban`
+- `0103 | EXEGGUTOR | Exeggutor | [GRASS/PSYCHIC] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, ruins, mystic, urban`
+- `0114 | TANGELA | Tangela | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0152 | CHIKORITA | Chikorita | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0153 | BAYLEEF | Bayleef | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0154 | MEGANIUM | Meganium | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0182 | BELLOSSOM | Bellossom | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0187 | HOPPIP | Hoppip | [GRASS/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0188 | SKIPLOOM | Skiploom | [GRASS/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0189 | JUMPLUFF | Jumpluff | [GRASS/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0191 | SUNKERN | Sunkern | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0192 | SUNFLORA | Sunflora | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0251 | CELEBI | Celebi | [PSYCHIC/GRASS] | NoRegionalFlag | Mythical | forest, woodland, jungle, meadow, grassland, ruins, mystic, urban`
+- `0252 | TREECKO | Treecko | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0253 | GROVYLE | Grovyle | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0254 | SCEPTILE | Sceptile | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0270 | LOTAD | Lotad | [WATER/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, ocean, shore, river`
+- `0271 | LOMBRE | Lombre | [WATER/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, ocean, shore, river`
+- `0272 | LUDICOLO | Ludicolo | [WATER/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, ocean, shore, river`
+- `0273 | SEEDOT | Seedot | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0274 | NUZLEAF | Nuzleaf | [GRASS/DARK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, badlands, urban`
+- `0275 | SHIFTRY | Shiftry | [GRASS/DARK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, badlands, urban`
+- `0285 | SHROOMISH | Shroomish | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0286 | BRELOOM | Breloom | [GRASS/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `0315 | ROSELIA | Roselia | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0331 | CACNEA | Cacnea | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, desert, badlands, rocky`
+- `0332 | CACTURNE | Cacturne | [GRASS/DARK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, desert, badlands`
+- `0345 | LILEEP | Lileep | [ROCK/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, mountain, cliff`
+- `0346 | CRADILY | Cradily | [ROCK/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, mountain, cliff`
+- `0357 | TROPIUS | Tropius | [GRASS/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, sky`
+- `0387 | TURTWIG | Turtwig | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0388 | GROTLE | Grotle | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0389 | TORTERRA | Torterra | [GRASS/GROUND] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, desert`
+- `0406 | BUDEW | Budew | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0407 | ROSERADE | Roserade | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0413 | WORMADAM | Wormadam | [BUG/GRASS] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland`
+- `0420 | CHERUBI | Cherubi | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0421 | CHERRIM | Cherrim | [GRASS] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland`
+- `0455 | CARNIVINE | Carnivine | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0459 | SNOVER | Snover | [GRASS/ICE] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `0460 | ABOMASNOW | Abomasnow | [GRASS/ICE] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `0465 | TANGROWTH | Tangrowth | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0470 | LEAFEON | Leafeon | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, urban, city, industrial`
+- `0492 | SHAYMIN | Shaymin | [GRASS] | RegionalCapable | Mythical | forest, woodland, jungle, meadow, grassland, plains`
+- `0495 | SNIVY | Snivy | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0496 | SERVINE | Servine | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0497 | SERPERIOR | Serperior | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0511 | PANSAGE | Pansage | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0512 | SIMISAGE | Simisage | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0540 | SEWADDLE | Sewaddle | [BUG/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0541 | SWADLOON | Swadloon | [BUG/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0542 | LEAVANNY | Leavanny | [BUG/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0546 | COTTONEE | Cottonee | [GRASS/FAIRY] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mystic, fairygrove`
+- `0547 | WHIMSICOTT | Whimsicott | [GRASS/FAIRY] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mystic, fairygrove`
+- `0548 | PETILIL | Petilil | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0549 | LILLIGANT | Lilligant | [GRASS] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0556 | MARACTUS | Maractus | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, desert, badlands, rocky`
+- `0585 | DEERLING | Deerling | [NORMAL/GRASS] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0586 | SAWSBUCK | Sawsbuck | [NORMAL/GRASS] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0590 | FOONGUS | Foongus | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, swamp, bog, haunted`
+- `0591 | AMOONGUSS | Amoonguss | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, swamp, bog, haunted`
+- `0597 | FERROSEED | Ferroseed | [GRASS/STEEL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, underground, mountain`
+- `0598 | FERROTHORN | Ferrothorn | [GRASS/STEEL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, underground, mountain`
+- `0640 | VIRIZION | Virizion | [GRASS/FIGHTING] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0650 | CHESPIN | Chespin | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0651 | QUILLADIN | Quilladin | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0652 | CHESNAUGHT | Chesnaught | [GRASS/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0672 | SKIDDO | Skiddo | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0673 | GOGOAT | Gogoat | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0708 | PHANTUMP | Phantump | [GHOST/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `0709 | TREVENANT | Trevenant | [GHOST/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `0710 | PUMPKABOO | Pumpkaboo | [GHOST/GRASS] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `0711 | GOURGEIST | Gourgeist | [GHOST/GRASS] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `0722 | ROWLET | Rowlet | [GRASS/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, sky`
+- `0723 | DARTRIX | Dartrix | [GRASS/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, sky`
+- `0724 | DECIDUEYE | Decidueye | [GRASS/GHOST] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `0753 | FOMANTIS | Fomantis | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0754 | LURANTIS | Lurantis | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0755 | MORELULL | Morelull | [GRASS/FAIRY] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mystic, fairygrove, flowerfield`
+- `0756 | SHIINOTIC | Shiinotic | [GRASS/FAIRY] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mystic, fairygrove, flowerfield`
+- `0761 | BOUNSWEET | Bounsweet | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0762 | STEENEE | Steenee | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0763 | TSAREENA | Tsareena | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0781 | DHELMISE | Dhelmise | [GHOST/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, ocean, shore, reef`
+- `0787 | TAPUBULU | Tapu Bulu | [GRASS/FAIRY] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, grassland, mystic, fairygrove, flowerfield`
+- `0798 | KARTANA | Kartana | [GRASS/STEEL] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, grassland, cave, mountain, cliff`
+- `0810 | GROOKEY | Grookey | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0811 | THWACKEY | Thwackey | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0812 | RILLABOOM | Rillaboom | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0829 | GOSSIFLEUR | Gossifleur | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0830 | ELDEGOSS | Eldegoss | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0840 | APPLIN | Applin | [GRASS/DRAGON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `0841 | FLAPPLE | Flapple | [GRASS/DRAGON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `0842 | APPLETUN | Appletun | [GRASS/DRAGON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `0893 | ZARUDE | Zarude | [DARK/GRASS] | NoRegionalFlag | Mythical | forest, woodland, jungle, meadow, grassland, cave, badlands, urban`
+- `0898 | CALYREX | Calyrex | [PSYCHIC/GRASS] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, grassland, ruins, mystic, urban`
+- `0906 | SPRIGATITO | Sprigatito | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0907 | FLORAGATO | Floragato | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0908 | MEOWSCARADA | Meowscarada | [GRASS/DARK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, badlands`
+- `0928 | SMOLIV | Smoliv | [GRASS/NORMAL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0929 | DOLLIV | Dolliv | [GRASS/NORMAL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0930 | ARBOLIVA | Arboliva | [GRASS/NORMAL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0946 | BRAMBLIN | Bramblin | [GRASS/GHOST] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, desert, badlands, rocky`
+- `0947 | BRAMBLEGHAST | Brambleghast | [GRASS/GHOST] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, desert, badlands, rocky`
+- `0948 | TOEDSCOOL | Toedscool | [GROUND/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, desert`
+- `0949 | TOEDSCRUEL | Toedscruel | [GROUND/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, desert`
+- `0951 | CAPSAKID | Capsakid | [GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0952 | SCOVILLAIN | Scovillain | [GRASS/FIRE] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0986 | BRUTEBONNET | Brute Bonnet | [GRASS/DARK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, badlands, urban`
+- `1001 | WOCHIEN | Wo-Chien | [DARK/GRASS] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, grassland, cave, badlands, urban`
+- `1010 | IRONLEAVES | Iron Leaves | [GRASS/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, ruins, mystic, urban`
+- `1011 | DIPPLIN | Dipplin | [GRASS/DRAGON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `1012 | POLTCHAGEIST | Poltchageist | [GRASS/GHOST] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `1013 | SINISTCHA | Sinistcha | [GRASS/GHOST] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `1017 | OGERPON | Ogerpon | [GRASS] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, grassland, rare, special`
+- `1019 | HYDRAPPLE | Hydrapple | [GRASS/DRAGON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+
+## Ice Type
+
+- `0087 | DEWGONG | Dewgong | [WATER/ICE] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, reef, river, lake, wetland`
+- `0091 | CLOYSTER | Cloyster | [WATER/ICE] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, reef, river, lake, wetland`
+- `0124 | JYNX | Jynx | [ICE/PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, snow, tundra, glacier, ruins, mystic, urban`
+- `0131 | LAPRAS | Lapras | [WATER/ICE] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, reef, river, lake, wetland`
+- `0144 | ARTICUNO | Articuno | [ICE/FLYING] | RegionalCapable | Legendary | forest, woodland, mountain, cliff, snow, tundra, glacier, rare`
+- `0215 | SNEASEL | Sneasel | [DARK/ICE] | RegionalCapable | Standard | forest, woodland, cave, mountain, cliff, badlands, snow, tundra`
+- `0220 | SWINUB | Swinub | [ICE/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, desert, badlands, snow`
+- `0221 | PILOSWINE | Piloswine | [ICE/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, desert, badlands, snow`
+- `0225 | DELIBIRD | Delibird | [ICE/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, snow, tundra, glacier`
+- `0238 | SMOOCHUM | Smoochum | [ICE/PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, snow, tundra, glacier, ruins, mystic, urban`
+- `0361 | SNORUNT | Snorunt | [ICE] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, snow, tundra, glacier`
+- `0362 | GLALIE | Glalie | [ICE] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, snow, tundra, glacier`
+- `0363 | SPHEAL | Spheal | [ICE/WATER] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, reef, river, lake, wetland`
+- `0364 | SEALEO | Sealeo | [ICE/WATER] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, reef, river, lake, wetland`
+- `0365 | WALREIN | Walrein | [ICE/WATER] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, reef, river, lake, wetland`
+- `0378 | REGICE | Regice | [ICE] | NoRegionalFlag | Legendary | cave, underground, mountain, cliff, snow, tundra, glacier`
+- `0459 | SNOVER | Snover | [GRASS/ICE] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `0460 | ABOMASNOW | Abomasnow | [GRASS/ICE] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `0461 | WEAVILE | Weavile | [DARK/ICE] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, badlands, snow, tundra`
+- `0471 | GLACEON | Glaceon | [ICE] | NoRegionalFlag | Standard | mountain, cliff, snow, tundra, glacier, urban, city, industrial`
+- `0473 | MAMOSWINE | Mamoswine | [ICE/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, desert, badlands, snow`
+- `0478 | FROSLASS | Froslass | [ICE/GHOST] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, snow, tundra, glacier, haunted`
+- `0582 | VANILLITE | Vanillite | [ICE] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, snow, tundra, glacier`
+- `0583 | VANILLISH | Vanillish | [ICE] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, snow, tundra, glacier`
+- `0584 | VANILLUXE | Vanilluxe | [ICE] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, snow, tundra, glacier`
+- `0613 | CUBCHOO | Cubchoo | [ICE] | NoRegionalFlag | Standard | mountain, cliff, highland, snow, tundra, glacier`
+- `0614 | BEARTIC | Beartic | [ICE] | NoRegionalFlag | Standard | mountain, cliff, highland, snow, tundra, glacier`
+- `0615 | CRYOGONAL | Cryogonal | [ICE] | NoRegionalFlag | Standard | mountain, cliff, highland, snow, tundra, glacier`
+- `0646 | KYUREM | Kyurem | [DRAGON/ICE] | NoRegionalFlag | Legendary | mountain, cliff, highland, snow, tundra, glacier, ruins, sanctuary`
+- `0698 | AMAURA | Amaura | [ROCK/ICE] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, snow, tundra, glacier`
+- `0699 | AURORUS | Aurorus | [ROCK/ICE] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, snow, tundra, glacier`
+- `0712 | BERGMITE | Bergmite | [ICE] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, snow, tundra, glacier`
+- `0713 | AVALUGG | Avalugg | [ICE] | RegionalCapable | Standard | cave, underground, mountain, cliff, snow, tundra, glacier`
+- `0740 | CRABOMINABLE | Crabominable | [FIGHTING/ICE] | NoRegionalFlag | Standard | mountain, cliff, highland, snow, tundra, glacier, dojo`
+- `0866 | MRRIME | Mr. Rime | [ICE/PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, snow, tundra, glacier, ruins, mystic, urban`
+- `0872 | SNOM | Snom | [ICE/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, highland, snow`
+- `0873 | FROSMOTH | Frosmoth | [ICE/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, highland, snow`
+- `0875 | EISCUE | Eiscue | [ICE] | NoRegionalFlag | Standard | mountain, cliff, shore, riverbank, wetland, snow, tundra, glacier`
+- `0881 | ARCTOZOLT | Arctozolt | [ELECTRIC/ICE] | NoRegionalFlag | Standard | mountain, cliff, snow, tundra, glacier, urban, powerplant, stormfield`
+- `0883 | ARCTOVISH | Arctovish | [WATER/ICE] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, river, lake, wetland, snow`
+- `0896 | GLASTRIER | Glastrier | [ICE] | NoRegionalFlag | Legendary | meadow, grassland, plains, mountain, cliff, snow, tundra, glacier`
+- `0974 | CETODDLE | Cetoddle | [ICE] | NoRegionalFlag | Standard | mountain, cliff, highland, snow, tundra, glacier`
+- `0975 | CETITAN | Cetitan | [ICE] | NoRegionalFlag | Standard | mountain, cliff, highland, snow, tundra, glacier`
+- `0991 | IRONBUNDLE | Iron Bundle | [ICE/WATER] | NoRegionalFlag | Standard | mountain, cliff, ocean, shore, river, lake, wetland, snow`
+- `0996 | FRIGIBAX | Frigibax | [DRAGON/ICE] | NoRegionalFlag | Standard | mountain, cliff, highland, snow, tundra, glacier, ruins, sanctuary`
+- `0997 | ARCTIBAX | Arctibax | [DRAGON/ICE] | NoRegionalFlag | Standard | mountain, cliff, highland, snow, tundra, glacier, ruins, sanctuary`
+- `0998 | BAXCALIBUR | Baxcalibur | [DRAGON/ICE] | NoRegionalFlag | Standard | mountain, cliff, highland, snow, tundra, glacier, ruins, sanctuary`
+- `1002 | CHIENPAO | Chien-Pao | [DARK/ICE] | NoRegionalFlag | Legendary | cave, mountain, cliff, badlands, snow, tundra, glacier, urban`
+
+## Fighting Type
+
+- `0056 | MANKEY | Mankey | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, dojo`
+- `0057 | PRIMEAPE | Primeape | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, dojo`
+- `0062 | POLIWRATH | Poliwrath | [WATER/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, river, riverbank, lake`
+- `0066 | MACHOP | Machop | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, dojo`
+- `0067 | MACHOKE | Machoke | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, dojo`
+- `0068 | MACHAMP | Machamp | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, dojo`
+- `0106 | HITMONLEE | Hitmonlee | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, urban, city, industrial, dojo`
+- `0107 | HITMONCHAN | Hitmonchan | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, urban, city, industrial, dojo`
+- `0214 | HERACROSS | Heracross | [BUG/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, highland, dojo`
+- `0236 | TYROGUE | Tyrogue | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, urban, city, industrial, dojo`
+- `0237 | HITMONTOP | Hitmontop | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, urban, city, industrial, dojo`
+- `0256 | COMBUSKEN | Combusken | [FIRE/FIGHTING] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, highland, desert, badlands`
+- `0257 | BLAZIKEN | Blaziken | [FIRE/FIGHTING] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, highland, desert, badlands`
+- `0286 | BRELOOM | Breloom | [GRASS/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `0296 | MAKUHITA | Makuhita | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, dojo`
+- `0297 | HARIYAMA | Hariyama | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, dojo`
+- `0307 | MEDITITE | Meditite | [FIGHTING/PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, mystic, urban, dojo`
+- `0308 | MEDICHAM | Medicham | [FIGHTING/PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, mystic, urban, dojo`
+- `0391 | MONFERNO | Monferno | [FIRE/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, desert, badlands, volcanic`
+- `0392 | INFERNAPE | Infernape | [FIRE/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, desert, badlands, volcanic`
+- `0447 | RIOLU | Riolu | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, dojo`
+- `0448 | LUCARIO | Lucario | [FIGHTING/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, urban, factory, dojo`
+- `0453 | CROAGUNK | Croagunk | [POISON/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, swamp, bog, haunted`
+- `0454 | TOXICROAK | Toxicroak | [POISON/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, swamp, bog, haunted`
+- `0475 | GALLADE | Gallade | [PSYCHIC/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, mystic, urban, city, industrial`
+- `0499 | PIGNITE | Pignite | [FIRE/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic, dojo`
+- `0500 | EMBOAR | Emboar | [FIRE/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic, dojo`
+- `0532 | TIMBURR | Timburr | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, urban, city, industrial, dojo`
+- `0533 | GURDURR | Gurdurr | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, urban, city, industrial, dojo`
+- `0534 | CONKELDURR | Conkeldurr | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, urban, city, industrial, dojo`
+- `0538 | THROH | Throh | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, urban, city, industrial, dojo`
+- `0539 | SAWK | Sawk | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, urban, city, industrial, dojo`
+- `0559 | SCRAGGY | Scraggy | [DARK/FIGHTING] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, urban, city, industrial`
+- `0560 | SCRAFTY | Scrafty | [DARK/FIGHTING] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, urban, city, industrial`
+- `0619 | MIENFOO | Mienfoo | [FIGHTING] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, highland, dojo`
+- `0620 | MIENSHAO | Mienshao | [FIGHTING] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, highland, dojo`
+- `0638 | COBALION | Cobalion | [STEEL/FIGHTING] | NoRegionalFlag | Legendary | meadow, grassland, plains, cave, mountain, cliff, highland, urban`
+- `0639 | TERRAKION | Terrakion | [ROCK/FIGHTING] | NoRegionalFlag | Legendary | meadow, grassland, plains, cave, mountain, cliff, highland, badlands`
+- `0640 | VIRIZION | Virizion | [GRASS/FIGHTING] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0647 | KELDEO | Keldeo | [WATER/FIGHTING] | NoRegionalFlag | Mythical | mountain, cliff, highland, ocean, shore, river, lake, wetland`
+- `0652 | CHESNAUGHT | Chesnaught | [GRASS/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0674 | PANCHAM | Pancham | [FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, dojo`
+- `0675 | PANGORO | Pangoro | [FIGHTING/DARK] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, highland, badlands, urban`
+- `0701 | HAWLUCHA | Hawlucha | [FIGHTING/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, urban, city, industrial`
+- `0739 | CRABRAWLER | Crabrawler | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, shore, riverbank, wetland, dojo`
+- `0740 | CRABOMINABLE | Crabominable | [FIGHTING/ICE] | NoRegionalFlag | Standard | mountain, cliff, highland, snow, tundra, glacier, dojo`
+- `0759 | STUFFUL | Stufful | [NORMAL/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, highland, dojo`
+- `0760 | BEWEAR | Bewear | [NORMAL/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, highland, dojo`
+- `0766 | PASSIMIAN | Passimian | [FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, dojo`
+- `0783 | HAKAMOO | Hakamo-o | [DRAGON/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, sanctuary, dojo`
+- `0784 | KOMMOO | Kommo-o | [DRAGON/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, sanctuary, dojo`
+- `0794 | BUZZWOLE | Buzzwole | [BUG/FIGHTING] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, mountain, cliff, highland, rare`
+- `0795 | PHEROMOSA | Pheromosa | [BUG/FIGHTING] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, mountain, cliff, highland, rare`
+- `0802 | MARSHADOW | Marshadow | [FIGHTING/GHOST] | NoRegionalFlag | Mythical | mountain, cliff, highland, haunted, graveyard, ruins, rare, special`
+- `0852 | CLOBBOPUS | Clobbopus | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, reef, dojo`
+- `0853 | GRAPPLOCT | Grapploct | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, reef, dojo`
+- `0865 | SIRFETCHD | Sirfetch'd | [FIGHTING] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, highland, dojo`
+- `0870 | FALINKS | Falinks | [FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, rocky, dojo`
+- `0889 | ZAMAZENTA | Zamazenta | [FIGHTING] | NoRegionalFlag | Legendary | mountain, cliff, highland, rare, special, dojo`
+- `0891 | KUBFU | Kubfu | [FIGHTING] | NoRegionalFlag | Legendary | mountain, cliff, highland, rare, special, dojo`
+- `0892 | URSHIFU | Urshifu | [FIGHTING/DARK] | NoRegionalFlag | Legendary | cave, mountain, cliff, highland, badlands, urban, nightforest, rare`
+- `0903 | SNEASLER | Sneasler | [FIGHTING/POISON] | NoRegionalFlag | Standard | mountain, cliff, highland, swamp, bog, haunted, toxic, dojo`
+- `0914 | QUAQUAVAL | Quaquaval | [WATER/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, river, riverbank, lake`
+- `0922 | PAWMO | Pawmo | [ELECTRIC/FIGHTING] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, highland, urban, powerplant`
+- `0923 | PAWMOT | Pawmot | [ELECTRIC/FIGHTING] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, highland, urban, powerplant`
+- `0973 | FLAMIGO | Flamigo | [FLYING/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, shore, riverbank, wetland`
+- `0979 | ANNIHILAPE | Annihilape | [FIGHTING/GHOST] | NoRegionalFlag | Standard | mountain, cliff, highland, haunted, graveyard, ruins, dojo, foglands`
+- `0984 | GREATTUSK | Great Tusk | [GROUND/FIGHTING] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands, rare`
+- `0988 | SLITHERWING | Slither Wing | [BUG/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, highland, rare`
+- `0992 | IRONHANDS | Iron Hands | [FIGHTING/ELECTRIC] | NoRegionalFlag | Standard | mountain, cliff, highland, urban, powerplant, stormfield, rare, special`
+- `1006 | IRONVALIANT | Iron Valiant | [FAIRY/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, mystic, fairygrove, flowerfield`
+- `1007 | KORAIDON | Koraidon | [FIGHTING/DRAGON] | NoRegionalFlag | Legendary | mountain, cliff, highland, ruins, sanctuary, rare, special, dojo`
+- `1014 | OKIDOGI | Okidogi | [POISON/FIGHTING] | NoRegionalFlag | Legendary | mountain, cliff, highland, swamp, bog, haunted, toxic, rare`
+
+## Poison Type
+
+- `0001 | BULBASAUR | Bulbasaur | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0002 | IVYSAUR | Ivysaur | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0003 | VENUSAUR | Venusaur | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0013 | WEEDLE | Weedle | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0014 | KAKUNA | Kakuna | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0015 | BEEDRILL | Beedrill | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0023 | EKANS | Ekans | [POISON] | NoRegionalFlag | Standard | meadow, grassland, plains, swamp, bog, haunted, toxic`
+- `0024 | ARBOK | Arbok | [POISON] | NoRegionalFlag | Standard | meadow, grassland, plains, swamp, bog, haunted, toxic`
+- `0029 | NIDORANfE | Nidoran♀ | [POISON] | NoRegionalFlag | Standard | meadow, grassland, plains, swamp, bog, haunted, toxic`
+- `0030 | NIDORINA | Nidorina | [POISON] | NoRegionalFlag | Standard | meadow, grassland, plains, swamp, bog, haunted, toxic`
+- `0031 | NIDOQUEEN | Nidoqueen | [POISON/GROUND] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, swamp, bog, desert, badlands`
+- `0032 | NIDORANmA | Nidoran♂ | [POISON] | NoRegionalFlag | Standard | meadow, grassland, plains, swamp, bog, haunted, toxic`
+- `0033 | NIDORINO | Nidorino | [POISON] | NoRegionalFlag | Standard | meadow, grassland, plains, swamp, bog, haunted, toxic`
+- `0034 | NIDOKING | Nidoking | [POISON/GROUND] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, swamp, bog, desert, badlands`
+- `0041 | ZUBAT | Zubat | [POISON/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, swamp, bog`
+- `0042 | GOLBAT | Golbat | [POISON/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, swamp, bog`
+- `0043 | ODDISH | Oddish | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0044 | GLOOM | Gloom | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0045 | VILEPLUME | Vileplume | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0048 | VENONAT | Venonat | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0049 | VENOMOTH | Venomoth | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0069 | BELLSPROUT | Bellsprout | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, swamp, bog, haunted`
+- `0070 | WEEPINBELL | Weepinbell | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, swamp, bog, haunted`
+- `0071 | VICTREEBEL | Victreebel | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, swamp, bog, haunted`
+- `0072 | TENTACOOL | Tentacool | [WATER/POISON] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, swamp, bog`
+- `0073 | TENTACRUEL | Tentacruel | [WATER/POISON] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, swamp, bog`
+- `0088 | GRIMER | Grimer | [POISON] | RegionalCapable | Standard | swamp, bog, haunted, urban, city, industrial, toxic`
+- `0089 | MUK | Muk | [POISON] | RegionalCapable | Standard | swamp, bog, haunted, urban, city, industrial, toxic`
+- `0092 | GASTLY | Gastly | [GHOST/POISON] | NoRegionalFlag | Standard | cave, underground, swamp, bog, haunted, graveyard, ruins, toxic`
+- `0093 | HAUNTER | Haunter | [GHOST/POISON] | NoRegionalFlag | Standard | cave, underground, swamp, bog, haunted, graveyard, ruins, toxic`
+- `0094 | GENGAR | Gengar | [GHOST/POISON] | NoRegionalFlag | Standard | cave, underground, swamp, bog, haunted, graveyard, ruins, toxic`
+- `0109 | KOFFING | Koffing | [POISON] | NoRegionalFlag | Standard | swamp, bog, haunted, urban, city, industrial, toxic`
+- `0110 | WEEZING | Weezing | [POISON] | RegionalCapable | Standard | swamp, bog, haunted, urban, city, industrial, toxic`
+- `0167 | SPINARAK | Spinarak | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0168 | ARIADOS | Ariados | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0169 | CROBAT | Crobat | [POISON/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, swamp, bog`
+- `0211 | QWILFISH | Qwilfish | [WATER/POISON] | RegionalCapable | Standard | ocean, shore, reef, river, lake, wetland, swamp, bog`
+- `0269 | DUSTOX | Dustox | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0315 | ROSELIA | Roselia | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0316 | GULPIN | Gulpin | [POISON] | NoRegionalFlag | Standard | meadow, grassland, plains, swamp, bog, haunted, toxic`
+- `0317 | SWALOT | Swalot | [POISON] | NoRegionalFlag | Standard | meadow, grassland, plains, swamp, bog, haunted, toxic`
+- `0336 | SEVIPER | Seviper | [POISON] | NoRegionalFlag | Standard | meadow, grassland, plains, swamp, bog, haunted, toxic`
+- `0406 | BUDEW | Budew | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0407 | ROSERADE | Roserade | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, swamp, bog`
+- `0434 | STUNKY | Stunky | [POISON/DARK] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, swamp, bog, badlands, haunted`
+- `0435 | SKUNTANK | Skuntank | [POISON/DARK] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, swamp, bog, badlands, haunted`
+- `0451 | SKORUPI | Skorupi | [POISON/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, desert, badlands`
+- `0452 | DRAPION | Drapion | [POISON/DARK] | NoRegionalFlag | Standard | cave, swamp, bog, desert, badlands, rocky, haunted, urban`
+- `0453 | CROAGUNK | Croagunk | [POISON/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, swamp, bog, haunted`
+- `0454 | TOXICROAK | Toxicroak | [POISON/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, swamp, bog, haunted`
+- `0543 | VENIPEDE | Venipede | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0544 | WHIRLIPEDE | Whirlipede | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0545 | SCOLIPEDE | Scolipede | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0568 | TRUBBISH | Trubbish | [POISON] | NoRegionalFlag | Standard | swamp, bog, haunted, urban, city, industrial, toxic`
+- `0569 | GARBODOR | Garbodor | [POISON] | NoRegionalFlag | Standard | swamp, bog, haunted, urban, city, industrial, toxic`
+- `0590 | FOONGUS | Foongus | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, swamp, bog, haunted`
+- `0591 | AMOONGUSS | Amoonguss | [GRASS/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, swamp, bog, haunted`
+- `0690 | SKRELP | Skrelp | [POISON/WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, swamp, bog`
+- `0691 | DRAGALGE | Dragalge | [POISON/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, reef, swamp, bog`
+- `0747 | MAREANIE | Mareanie | [POISON/WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, swamp, bog`
+- `0748 | TOXAPEX | Toxapex | [POISON/WATER] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, swamp, bog`
+- `0757 | SALANDIT | Salandit | [POISON/FIRE] | NoRegionalFlag | Standard | mountain, cliff, highland, swamp, bog, desert, badlands, volcanic`
+- `0758 | SALAZZLE | Salazzle | [POISON/FIRE] | NoRegionalFlag | Standard | mountain, cliff, highland, swamp, bog, desert, badlands, volcanic`
+- `0793 | NIHILEGO | Nihilego | [ROCK/POISON] | NoRegionalFlag | Legendary | cave, mountain, cliff, swamp, bog, badlands, haunted, toxic`
+- `0803 | POIPOLE | Poipole | [POISON] | NoRegionalFlag | Legendary | swamp, bog, haunted, toxic, rare, special`
+- `0804 | NAGANADEL | Naganadel | [POISON/DRAGON] | NoRegionalFlag | Legendary | mountain, cliff, highland, swamp, bog, haunted, ruins, sanctuary`
+- `0848 | TOXEL | Toxel | [ELECTRIC/POISON] | NoRegionalFlag | Standard | swamp, bog, haunted, urban, city, industrial, powerplant, stormfield`
+- `0849 | TOXTRICITY | Toxtricity | [ELECTRIC/POISON] | NoRegionalFlag | Standard | swamp, bog, haunted, urban, city, industrial, powerplant, stormfield`
+- `0890 | ETERNATUS | Eternatus | [POISON/DRAGON] | NoRegionalFlag | Legendary | mountain, cliff, highland, swamp, bog, haunted, ruins, sanctuary`
+- `0903 | SNEASLER | Sneasler | [FIGHTING/POISON] | NoRegionalFlag | Standard | mountain, cliff, highland, swamp, bog, haunted, toxic, dojo`
+- `0904 | OVERQWIL | Overqwil | [DARK/POISON] | NoRegionalFlag | Standard | cave, ocean, shore, reef, swamp, bog, badlands, haunted`
+- `0944 | SHROODLE | Shroodle | [POISON/NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, swamp, bog, haunted, toxic`
+- `0945 | GRAFAIAI | Grafaiai | [POISON/NORMAL] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, swamp, bog, haunted, toxic`
+- `0965 | VAROOM | Varoom | [STEEL/POISON] | NoRegionalFlag | Standard | cave, mountain, cliff, swamp, bog, desert, badlands, rocky`
+- `0966 | REVAVROOM | Revavroom | [STEEL/POISON] | NoRegionalFlag | Standard | cave, mountain, cliff, swamp, bog, desert, badlands, rocky`
+- `0969 | GLIMMET | Glimmet | [ROCK/POISON] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, swamp, bog, badlands, haunted`
+- `0970 | GLIMMORA | Glimmora | [ROCK/POISON] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, swamp, bog, badlands, haunted`
+- `0980 | CLODSIRE | Clodsire | [POISON/GROUND] | NoRegionalFlag | Standard | plains, cave, shore, riverbank, wetland, swamp, bog, desert`
+- `0994 | IRONMOTH | Iron Moth | [FIRE/POISON] | NoRegionalFlag | Standard | mountain, cliff, swamp, bog, desert, badlands, volcanic, haunted`
+- `1014 | OKIDOGI | Okidogi | [POISON/FIGHTING] | NoRegionalFlag | Legendary | mountain, cliff, highland, swamp, bog, haunted, toxic, rare`
+- `1015 | MUNKIDORI | Munkidori | [POISON/PSYCHIC] | NoRegionalFlag | Legendary | swamp, bog, haunted, ruins, mystic, urban, toxic, rare`
+- `1016 | FEZANDIPITI | Fezandipiti | [POISON/FAIRY] | NoRegionalFlag | Legendary | forest, woodland, swamp, bog, haunted, mystic, fairygrove, flowerfield`
+- `1025 | PECHARUNT | Pecharunt | [POISON/GHOST] | NoRegionalFlag | Mythical | swamp, bog, haunted, graveyard, ruins, toxic, rare, special`
+
+## Ground Type
+
+- `0027 | SANDSHREW | Sandshrew | [GROUND] | RegionalCapable | Standard | plains, cave, desert, badlands, rocky`
+- `0028 | SANDSLASH | Sandslash | [GROUND] | RegionalCapable | Standard | plains, cave, desert, badlands, rocky`
+- `0031 | NIDOQUEEN | Nidoqueen | [POISON/GROUND] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, swamp, bog, desert, badlands`
+- `0034 | NIDOKING | Nidoking | [POISON/GROUND] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, swamp, bog, desert, badlands`
+- `0050 | DIGLETT | Diglett | [GROUND] | RegionalCapable | Standard | plains, cave, underground, desert, badlands`
+- `0051 | DUGTRIO | Dugtrio | [GROUND] | RegionalCapable | Standard | plains, cave, underground, desert, badlands`
+- `0074 | GEODUDE | Geodude | [ROCK/GROUND] | RegionalCapable | Standard | plains, cave, mountain, cliff, highland, desert, badlands`
+- `0075 | GRAVELER | Graveler | [ROCK/GROUND] | RegionalCapable | Standard | plains, cave, mountain, cliff, highland, desert, badlands`
+- `0076 | GOLEM | Golem | [ROCK/GROUND] | RegionalCapable | Standard | plains, cave, mountain, cliff, highland, desert, badlands`
+- `0095 | ONIX | Onix | [ROCK/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, desert, badlands`
+- `0104 | CUBONE | Cubone | [GROUND] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands`
+- `0105 | MAROWAK | Marowak | [GROUND] | RegionalCapable | Standard | plains, cave, mountain, cliff, highland, desert, badlands`
+- `0111 | RHYHORN | Rhyhorn | [GROUND/ROCK] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, desert, badlands, rocky`
+- `0112 | RHYDON | Rhydon | [GROUND/ROCK] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, desert, badlands, rocky`
+- `0194 | WOOPER | Wooper | [WATER/GROUND] | RegionalCapable | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0195 | QUAGSIRE | Quagsire | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0207 | GLIGAR | Gligar | [GROUND/FLYING] | NoRegionalFlag | Standard | forest, woodland, plains, cave, mountain, cliff, highland, desert`
+- `0208 | STEELIX | Steelix | [STEEL/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, desert, badlands, urban`
+- `0220 | SWINUB | Swinub | [ICE/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, desert, badlands, snow`
+- `0221 | PILOSWINE | Piloswine | [ICE/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, desert, badlands, snow`
+- `0231 | PHANPY | Phanpy | [GROUND] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky`
+- `0232 | DONPHAN | Donphan | [GROUND] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky`
+- `0246 | LARVITAR | Larvitar | [ROCK/GROUND] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands`
+- `0247 | PUPITAR | Pupitar | [ROCK/GROUND] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands`
+- `0259 | MARSHTOMP | Marshtomp | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0260 | SWAMPERT | Swampert | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0290 | NINCADA | Nincada | [BUG/GROUND] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, plains, cave, desert, badlands`
+- `0322 | NUMEL | Numel | [FIRE/GROUND] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands, volcanic`
+- `0323 | CAMERUPT | Camerupt | [FIRE/GROUND] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands, volcanic`
+- `0328 | TRAPINCH | Trapinch | [GROUND] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky`
+- `0329 | VIBRAVA | Vibrava | [GROUND/DRAGON] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands, rocky`
+- `0330 | FLYGON | Flygon | [GROUND/DRAGON] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands, rocky`
+- `0339 | BARBOACH | Barboach | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0340 | WHISCASH | Whiscash | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0343 | BALTOY | Baltoy | [GROUND/PSYCHIC] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky, ruins, mystic, urban`
+- `0344 | CLAYDOL | Claydol | [GROUND/PSYCHIC] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky, ruins, mystic, urban`
+- `0383 | GROUDON | Groudon | [GROUND] | NoRegionalFlag | Legendary | plains, cave, desert, badlands, rocky`
+- `0389 | TORTERRA | Torterra | [GRASS/GROUND] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, desert`
+- `0423 | GASTRODON | Gastrodon | [WATER/GROUND] | RegionalCapable | Standard | plains, cave, ocean, shore, reef, river, lake, wetland`
+- `0443 | GIBLE | Gible | [DRAGON/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, highland, desert, badlands`
+- `0444 | GABITE | Gabite | [DRAGON/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, highland, desert, badlands`
+- `0445 | GARCHOMP | Garchomp | [DRAGON/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, highland, desert, badlands`
+- `0449 | HIPPOPOTAS | Hippopotas | [GROUND] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky`
+- `0450 | HIPPOWDON | Hippowdon | [GROUND] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky`
+- `0464 | RHYPERIOR | Rhyperior | [GROUND/ROCK] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, desert, badlands, rocky`
+- `0472 | GLISCOR | Gliscor | [GROUND/FLYING] | NoRegionalFlag | Standard | forest, woodland, plains, cave, mountain, cliff, highland, desert`
+- `0473 | MAMOSWINE | Mamoswine | [ICE/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, desert, badlands, snow`
+- `0529 | DRILBUR | Drilbur | [GROUND] | NoRegionalFlag | Standard | plains, cave, underground, desert, badlands`
+- `0530 | EXCADRILL | Excadrill | [GROUND/STEEL] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, desert, badlands, urban`
+- `0536 | PALPITOAD | Palpitoad | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0537 | SEISMITOAD | Seismitoad | [WATER/GROUND] | NoRegionalFlag | Standard | plains, cave, ocean, shore, river, riverbank, lake, wetland`
+- `0551 | SANDILE | Sandile | [GROUND/DARK] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky, urban, nightforest`
+- `0552 | KROKOROK | Krokorok | [GROUND/DARK] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky, urban, nightforest`
+- `0553 | KROOKODILE | Krookodile | [GROUND/DARK] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky, urban, nightforest`
+- `0618 | STUNFISK | Stunfisk | [GROUND/ELECTRIC] | RegionalCapable | Standard | plains, cave, ocean, shore, reef, desert, badlands, urban`
+- `0622 | GOLETT | Golett | [GROUND/GHOST] | NoRegionalFlag | Standard | plains, cave, underground, desert, badlands, haunted, graveyard, ruins`
+- `0623 | GOLURK | Golurk | [GROUND/GHOST] | NoRegionalFlag | Standard | plains, cave, underground, desert, badlands, haunted, graveyard, ruins`
+- `0645 | LANDORUS | Landorus | [GROUND/FLYING] | RegionalCapable | Legendary | forest, woodland, plains, cave, mountain, cliff, desert, badlands`
+- `0660 | DIGGERSBY | Diggersby | [NORMAL/GROUND] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, desert, badlands`
+- `0718 | ZYGARDE | Zygarde | [DRAGON/GROUND] | RegionalCapable | Legendary | plains, cave, mountain, cliff, highland, desert, badlands, ruins`
+- `0749 | MUDBRAY | Mudbray | [GROUND] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky`
+- `0750 | MUDSDALE | Mudsdale | [GROUND] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky`
+- `0769 | SANDYGAST | Sandygast | [GHOST/GROUND] | NoRegionalFlag | Standard | plains, cave, shore, riverbank, wetland, desert, badlands, haunted`
+- `0770 | PALOSSAND | Palossand | [GHOST/GROUND] | NoRegionalFlag | Standard | plains, cave, shore, riverbank, wetland, desert, badlands, haunted`
+- `0843 | SILICOBRA | Silicobra | [GROUND] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky`
+- `0844 | SANDACONDA | Sandaconda | [GROUND] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky`
+- `0867 | RUNERIGUS | Runerigus | [GROUND/GHOST] | NoRegionalFlag | Standard | plains, cave, underground, desert, badlands, haunted, graveyard, ruins`
+- `0901 | URSALUNA | Ursaluna | [GROUND/NORMAL] | NoRegionalFlag | Standard | grassland, plains, cave, mountain, cliff, highland, desert, badlands`
+- `0948 | TOEDSCOOL | Toedscool | [GROUND/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, desert`
+- `0949 | TOEDSCRUEL | Toedscruel | [GROUND/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, desert`
+- `0980 | CLODSIRE | Clodsire | [POISON/GROUND] | NoRegionalFlag | Standard | plains, cave, shore, riverbank, wetland, swamp, bog, desert`
+- `0984 | GREATTUSK | Great Tusk | [GROUND/FIGHTING] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands, rare`
+- `0989 | SANDYSHOCKS | Sandy Shocks | [ELECTRIC/GROUND] | NoRegionalFlag | Standard | plains, cave, desert, badlands, urban, powerplant, stormfield, rare`
+- `0990 | IRONTREADS | Iron Treads | [GROUND/STEEL] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, desert, badlands, urban, factory`
+- `1003 | TINGLU | Ting-Lu | [DARK/GROUND] | NoRegionalFlag | Legendary | plains, cave, desert, badlands, urban, nightforest, rare, special`
+
+## Flying Type
+
+- `0006 | CHARIZARD | Charizard | [FIRE/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, desert, badlands, volcanic`
+- `0012 | BUTTERFREE | Butterfree | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0016 | PIDGEY | Pidgey | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0017 | PIDGEOTTO | Pidgeotto | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0018 | PIDGEOT | Pidgeot | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0021 | SPEAROW | Spearow | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, desert, badlands`
+- `0022 | FEAROW | Fearow | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, desert, badlands`
+- `0041 | ZUBAT | Zubat | [POISON/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, swamp, bog`
+- `0042 | GOLBAT | Golbat | [POISON/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, swamp, bog`
+- `0083 | FARFETCHD | Farfetch'd | [NORMAL/FLYING] | RegionalCapable | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0084 | DODUO | Doduo | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0085 | DODRIO | Dodrio | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0123 | SCYTHER | Scyther | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0130 | GYARADOS | Gyarados | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, river, riverbank`
+- `0142 | AERODACTYL | Aerodactyl | [ROCK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, highland, badlands, sky`
+- `0144 | ARTICUNO | Articuno | [ICE/FLYING] | RegionalCapable | Legendary | forest, woodland, mountain, cliff, snow, tundra, glacier, rare`
+- `0145 | ZAPDOS | Zapdos | [ELECTRIC/FLYING] | RegionalCapable | Legendary | forest, woodland, mountain, cliff, urban, powerplant, stormfield, rare`
+- `0146 | MOLTRES | Moltres | [FIRE/FLYING] | RegionalCapable | Legendary | forest, woodland, mountain, cliff, desert, badlands, volcanic, rare`
+- `0149 | DRAGONITE | Dragonite | [DRAGON/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, ocean, shore, riverbank`
+- `0163 | HOOTHOOT | Hoothoot | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0164 | NOCTOWL | Noctowl | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0165 | LEDYBA | Ledyba | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0166 | LEDIAN | Ledian | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0169 | CROBAT | Crobat | [POISON/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, swamp, bog`
+- `0176 | TOGETIC | Togetic | [FAIRY/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, mystic, fairygrove, flowerfield, sky`
+- `0177 | NATU | Natu | [PSYCHIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ruins, mystic, urban, sky`
+- `0178 | XATU | Xatu | [PSYCHIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ruins, mystic, urban, sky`
+- `0187 | HOPPIP | Hoppip | [GRASS/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0188 | SKIPLOOM | Skiploom | [GRASS/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0189 | JUMPLUFF | Jumpluff | [GRASS/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0193 | YANMA | Yanma | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0198 | MURKROW | Murkrow | [DARK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, badlands, urban, nightforest`
+- `0207 | GLIGAR | Gligar | [GROUND/FLYING] | NoRegionalFlag | Standard | forest, woodland, plains, cave, mountain, cliff, highland, desert`
+- `0225 | DELIBIRD | Delibird | [ICE/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, snow, tundra, glacier`
+- `0226 | MANTINE | Mantine | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, reef, river`
+- `0227 | SKARMORY | Skarmory | [STEEL/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0249 | LUGIA | Lugia | [PSYCHIC/FLYING] | NoRegionalFlag | Legendary | forest, woodland, mountain, cliff, ruins, mystic, urban, rare`
+- `0250 | HOOH | Ho-Oh | [FIRE/FLYING] | NoRegionalFlag | Legendary | forest, woodland, mountain, cliff, desert, badlands, volcanic, rare`
+- `0267 | BEAUTIFLY | Beautifly | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0276 | TAILLOW | Taillow | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0277 | SWELLOW | Swellow | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0278 | WINGULL | Wingull | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, reef, river`
+- `0279 | PELIPPER | Pelipper | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, reef, river`
+- `0284 | MASQUERAIN | Masquerain | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, shore, riverbank`
+- `0291 | NINJASK | Ninjask | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0333 | SWABLU | Swablu | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0334 | ALTARIA | Altaria | [DRAGON/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, ruins, sanctuary, sky`
+- `0357 | TROPIUS | Tropius | [GRASS/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, sky`
+- `0373 | SALAMENCE | Salamence | [DRAGON/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, desert, badlands, rocky`
+- `0384 | RAYQUAZA | Rayquaza | [DRAGON/FLYING] | NoRegionalFlag | Legendary | forest, woodland, mountain, cliff, highland, ruins, sanctuary, rare`
+- `0396 | STARLY | Starly | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0397 | STARAVIA | Staravia | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0398 | STARAPTOR | Staraptor | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0414 | MOTHIM | Mothim | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0415 | COMBEE | Combee | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0416 | VESPIQUEN | Vespiquen | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0425 | DRIFLOON | Drifloon | [GHOST/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, haunted, graveyard, ruins, urban`
+- `0426 | DRIFBLIM | Drifblim | [GHOST/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, haunted, graveyard, ruins, urban`
+- `0430 | HONCHKROW | Honchkrow | [DARK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, badlands, urban, nightforest`
+- `0441 | CHATOT | Chatot | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0458 | MANTYKE | Mantyke | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, reef, river`
+- `0468 | TOGEKISS | Togekiss | [FAIRY/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, mystic, fairygrove, flowerfield, sky`
+- `0469 | YANMEGA | Yanmega | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0472 | GLISCOR | Gliscor | [GROUND/FLYING] | NoRegionalFlag | Standard | forest, woodland, plains, cave, mountain, cliff, highland, desert`
+- `0519 | PIDOVE | Pidove | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, urban, city`
+- `0520 | TRANQUILL | Tranquill | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, urban, city`
+- `0521 | UNFEZANT | Unfezant | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, urban, city`
+- `0527 | WOOBAT | Woobat | [PSYCHIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, ruins, mystic`
+- `0528 | SWOOBAT | Swoobat | [PSYCHIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, ruins, mystic`
+- `0561 | SIGILYPH | Sigilyph | [PSYCHIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, ruins, mystic`
+- `0566 | ARCHEN | Archen | [ROCK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0567 | ARCHEOPS | Archeops | [ROCK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0580 | DUCKLETT | Ducklett | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, river, riverbank`
+- `0581 | SWANNA | Swanna | [WATER/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, river, riverbank`
+- `0587 | EMOLGA | Emolga | [ELECTRIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, urban, powerplant, stormfield, sky`
+- `0627 | RUFFLET | Rufflet | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, highland, sky`
+- `0628 | BRAVIARY | Braviary | [NORMAL/FLYING] | RegionalCapable | Standard | forest, woodland, grassland, plains, mountain, cliff, highland, sky`
+- `0629 | VULLABY | Vullaby | [DARK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0630 | MANDIBUZZ | Mandibuzz | [DARK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0641 | TORNADUS | Tornadus | [FLYING] | RegionalCapable | Legendary | forest, woodland, mountain, cliff, rare, special, sky`
+- `0642 | THUNDURUS | Thundurus | [ELECTRIC/FLYING] | RegionalCapable | Legendary | forest, woodland, mountain, cliff, urban, powerplant, stormfield, rare`
+- `0645 | LANDORUS | Landorus | [GROUND/FLYING] | RegionalCapable | Legendary | forest, woodland, plains, cave, mountain, cliff, desert, badlands`
+- `0661 | FLETCHLING | Fletchling | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0662 | FLETCHINDER | Fletchinder | [FIRE/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, desert`
+- `0663 | TALONFLAME | Talonflame | [FIRE/FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, desert`
+- `0666 | VIVILLON | Vivillon | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0701 | HAWLUCHA | Hawlucha | [FIGHTING/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, urban, city, industrial`
+- `0714 | NOIBAT | Noibat | [FLYING/DRAGON] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, highland, ruins`
+- `0715 | NOIVERN | Noivern | [FLYING/DRAGON] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, highland, ruins`
+- `0717 | YVELTAL | Yveltal | [DARK/FLYING] | NoRegionalFlag | Legendary | forest, woodland, cave, mountain, cliff, badlands, urban, nightforest`
+- `0722 | ROWLET | Rowlet | [GRASS/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, sky`
+- `0723 | DARTRIX | Dartrix | [GRASS/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, sky`
+- `0731 | PIKIPEK | Pikipek | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0732 | TRUMBEAK | Trumbeak | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0733 | TOUCANNON | Toucannon | [NORMAL/FLYING] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, mountain, cliff, sky`
+- `0741 | ORICORIO | Oricorio | [FIRE/FLYING] | RegionalCapable | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, desert`
+- `0774 | MINIOR | Minior | [ROCK/FLYING] | RegionalCapable | Standard | forest, woodland, cave, mountain, cliff, highland, badlands, sky`
+- `0797 | CELESTEELA | Celesteela | [STEEL/FLYING] | NoRegionalFlag | Legendary | forest, woodland, cave, mountain, cliff, urban, factory, rare`
+- `0821 | ROOKIDEE | Rookidee | [FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0822 | CORVISQUIRE | Corvisquire | [FLYING] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mountain, cliff, sky`
+- `0823 | CORVIKNIGHT | Corviknight | [FLYING/STEEL] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, cave, mountain, cliff`
+- `0845 | CRAMORANT | Cramorant | [FLYING/WATER] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ocean, shore, river, riverbank`
+- `0905 | ENAMORUS | Enamorus | [FAIRY/FLYING] | RegionalCapable | Legendary | forest, woodland, mountain, cliff, mystic, fairygrove, flowerfield, rare`
+- `0931 | SQUAWKABILLY | Squawkabilly | [NORMAL/FLYING] | RegionalCapable | Standard | forest, woodland, grassland, plains, mountain, cliff, urban, city`
+- `0940 | WATTREL | Wattrel | [ELECTRIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, shore, riverbank, wetland, urban`
+- `0941 | KILOWATTREL | Kilowattrel | [ELECTRIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, shore, riverbank, wetland, urban`
+- `0962 | BOMBIRDIER | Bombirdier | [FLYING/DARK] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, highland, badlands, urban`
+- `0973 | FLAMIGO | Flamigo | [FLYING/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, shore, riverbank, wetland`
+- `0993 | IRONJUGULIS | Iron Jugulis | [DARK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, badlands, urban, nightforest`
+
+## Psychic Type
+
+- `0063 | ABRA | Abra | [PSYCHIC] | NoRegionalFlag | Standard | grassland, ruins, mystic, urban, city, industrial`
+- `0064 | KADABRA | Kadabra | [PSYCHIC] | NoRegionalFlag | Standard | grassland, ruins, mystic, urban, city, industrial`
+- `0065 | ALAKAZAM | Alakazam | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0079 | SLOWPOKE | Slowpoke | [WATER/PSYCHIC] | RegionalCapable | Standard | ocean, shore, river, riverbank, lake, wetland, ruins, mystic`
+- `0080 | SLOWBRO | Slowbro | [WATER/PSYCHIC] | RegionalCapable | Standard | ocean, shore, river, riverbank, lake, wetland, ruins, mystic`
+- `0096 | DROWZEE | Drowzee | [PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0097 | HYPNO | Hypno | [PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0102 | EXEGGCUTE | Exeggcute | [GRASS/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, ruins, mystic, urban`
+- `0103 | EXEGGUTOR | Exeggutor | [GRASS/PSYCHIC] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, ruins, mystic, urban`
+- `0121 | STARMIE | Starmie | [WATER/PSYCHIC] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, ruins, mystic`
+- `0122 | MRMIME | Mr. Mime | [PSYCHIC/FAIRY] | RegionalCapable | Standard | forest, woodland, ruins, mystic, urban, city, industrial, fairygrove`
+- `0124 | JYNX | Jynx | [ICE/PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, snow, tundra, glacier, ruins, mystic, urban`
+- `0150 | MEWTWO | Mewtwo | [PSYCHIC] | NoRegionalFlag | Legendary | ruins, mystic, urban, rare, special`
+- `0151 | MEW | Mew | [PSYCHIC] | NoRegionalFlag | Mythical | ruins, mystic, urban, rare, special`
+- `0177 | NATU | Natu | [PSYCHIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ruins, mystic, urban, sky`
+- `0178 | XATU | Xatu | [PSYCHIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, ruins, mystic, urban, sky`
+- `0196 | ESPEON | Espeon | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0199 | SLOWKING | Slowking | [WATER/PSYCHIC] | RegionalCapable | Standard | ocean, shore, river, riverbank, lake, wetland, ruins, mystic`
+- `0201 | UNOWN | Unown | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, rare, special`
+- `0202 | WOBBUFFET | Wobbuffet | [PSYCHIC] | NoRegionalFlag | Standard | cave, underground, ruins, mystic, urban`
+- `0203 | GIRAFARIG | Girafarig | [NORMAL/PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0238 | SMOOCHUM | Smoochum | [ICE/PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, snow, tundra, glacier, ruins, mystic, urban`
+- `0249 | LUGIA | Lugia | [PSYCHIC/FLYING] | NoRegionalFlag | Legendary | forest, woodland, mountain, cliff, ruins, mystic, urban, rare`
+- `0251 | CELEBI | Celebi | [PSYCHIC/GRASS] | NoRegionalFlag | Mythical | forest, woodland, jungle, meadow, grassland, ruins, mystic, urban`
+- `0280 | RALTS | Ralts | [PSYCHIC/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ruins, mystic, urban, city, industrial, fairygrove`
+- `0281 | KIRLIA | Kirlia | [PSYCHIC/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ruins, mystic, urban, city, industrial, fairygrove`
+- `0282 | GARDEVOIR | Gardevoir | [PSYCHIC/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ruins, mystic, urban, city, industrial, fairygrove`
+- `0307 | MEDITITE | Meditite | [FIGHTING/PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, mystic, urban, dojo`
+- `0308 | MEDICHAM | Medicham | [FIGHTING/PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, mystic, urban, dojo`
+- `0325 | SPOINK | Spoink | [PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, mystic, urban`
+- `0326 | GRUMPIG | Grumpig | [PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, mystic, urban`
+- `0337 | LUNATONE | Lunatone | [ROCK/PSYCHIC] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands, ruins, mystic, urban`
+- `0338 | SOLROCK | Solrock | [ROCK/PSYCHIC] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands, ruins, mystic, urban`
+- `0343 | BALTOY | Baltoy | [GROUND/PSYCHIC] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky, ruins, mystic, urban`
+- `0344 | CLAYDOL | Claydol | [GROUND/PSYCHIC] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky, ruins, mystic, urban`
+- `0358 | CHIMECHO | Chimecho | [PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0360 | WYNAUT | Wynaut | [PSYCHIC] | NoRegionalFlag | Standard | cave, underground, ruins, mystic, urban`
+- `0374 | BELDUM | Beldum | [STEEL/PSYCHIC] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, ruins, mystic`
+- `0375 | METANG | Metang | [STEEL/PSYCHIC] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, ruins, mystic`
+- `0376 | METAGROSS | Metagross | [STEEL/PSYCHIC] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, ruins, mystic`
+- `0380 | LATIAS | Latias | [DRAGON/PSYCHIC] | NoRegionalFlag | Legendary | mountain, cliff, highland, shore, riverbank, wetland, ruins, mystic`
+- `0381 | LATIOS | Latios | [DRAGON/PSYCHIC] | NoRegionalFlag | Legendary | mountain, cliff, highland, shore, riverbank, wetland, ruins, mystic`
+- `0385 | JIRACHI | Jirachi | [STEEL/PSYCHIC] | NoRegionalFlag | Mythical | cave, mountain, cliff, highland, ruins, mystic, urban, factory`
+- `0386 | DEOXYS | Deoxys | [PSYCHIC] | NoRegionalFlag | Mythical | ruins, mystic, urban, rare, special`
+- `0433 | CHINGLING | Chingling | [PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0436 | BRONZOR | Bronzor | [STEEL/PSYCHIC] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, ruins, mystic, urban, factory`
+- `0437 | BRONZONG | Bronzong | [STEEL/PSYCHIC] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, ruins, mystic, urban, factory`
+- `0439 | MIMEJR | Mime Jr. | [PSYCHIC/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ruins, mystic, urban, city, industrial, fairygrove`
+- `0475 | GALLADE | Gallade | [PSYCHIC/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, mystic, urban, city, industrial`
+- `0480 | UXIE | Uxie | [PSYCHIC] | NoRegionalFlag | Legendary | cave, underground, ruins, mystic, urban`
+- `0481 | MESPRIT | Mesprit | [PSYCHIC] | NoRegionalFlag | Legendary | cave, underground, ruins, mystic, urban`
+- `0482 | AZELF | Azelf | [PSYCHIC] | NoRegionalFlag | Legendary | cave, underground, ruins, mystic, urban`
+- `0488 | CRESSELIA | Cresselia | [PSYCHIC] | NoRegionalFlag | Legendary | ruins, mystic, urban, rare, special`
+- `0494 | VICTINI | Victini | [PSYCHIC/FIRE] | NoRegionalFlag | Mythical | mountain, cliff, desert, badlands, volcanic, ruins, mystic, urban`
+- `0517 | MUNNA | Munna | [PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0518 | MUSHARNA | Musharna | [PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0527 | WOOBAT | Woobat | [PSYCHIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, ruins, mystic`
+- `0528 | SWOOBAT | Swoobat | [PSYCHIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, ruins, mystic`
+- `0561 | SIGILYPH | Sigilyph | [PSYCHIC/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, ruins, mystic`
+- `0574 | GOTHITA | Gothita | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0575 | GOTHORITA | Gothorita | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0576 | GOTHITELLE | Gothitelle | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0577 | SOLOSIS | Solosis | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0578 | DUOSION | Duosion | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0579 | REUNICLUS | Reuniclus | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0605 | ELGYEM | Elgyem | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0606 | BEHEEYEM | Beheeyem | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0648 | MELOETTA | Meloetta | [NORMAL/PSYCHIC] | RegionalCapable | Mythical | grassland, plains, ruins, mystic, urban, rare, special`
+- `0655 | DELPHOX | Delphox | [FIRE/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, desert, badlands, volcanic, ruins`
+- `0677 | ESPURR | Espurr | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0678 | MEOWSTIC | Meowstic | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0686 | INKAY | Inkay | [DARK/PSYCHIC] | NoRegionalFlag | Standard | cave, ocean, shore, reef, badlands, ruins, mystic, urban`
+- `0687 | MALAMAR | Malamar | [DARK/PSYCHIC] | NoRegionalFlag | Standard | cave, ocean, shore, reef, badlands, ruins, mystic, urban`
+- `0720 | HOOPA | Hoopa | [PSYCHIC/GHOST] | RegionalCapable | Mythical | haunted, graveyard, ruins, mystic, urban, rare, special, foglands`
+- `0765 | ORANGURU | Oranguru | [NORMAL/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, ruins, mystic, urban`
+- `0779 | BRUXISH | Bruxish | [WATER/PSYCHIC] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, ruins, mystic`
+- `0786 | TAPULELE | Tapu Lele | [PSYCHIC/FAIRY] | NoRegionalFlag | Legendary | forest, woodland, ruins, mystic, urban, fairygrove, flowerfield, rare`
+- `0789 | COSMOG | Cosmog | [PSYCHIC] | NoRegionalFlag | Legendary | ruins, mystic, urban, rare, special`
+- `0790 | COSMOEM | Cosmoem | [PSYCHIC] | NoRegionalFlag | Legendary | ruins, mystic, urban, rare, special`
+- `0791 | SOLGALEO | Solgaleo | [PSYCHIC/STEEL] | NoRegionalFlag | Legendary | cave, mountain, cliff, ruins, mystic, urban, factory, rare`
+- `0792 | LUNALA | Lunala | [PSYCHIC/GHOST] | NoRegionalFlag | Legendary | haunted, graveyard, ruins, mystic, urban, rare, special, foglands`
+- `0800 | NECROZMA | Necrozma | [PSYCHIC] | NoRegionalFlag | Legendary | ruins, mystic, urban, rare, special`
+- `0825 | DOTTLER | Dottler | [BUG/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, ruins, mystic`
+- `0826 | ORBEETLE | Orbeetle | [BUG/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, ruins, mystic`
+- `0856 | HATENNA | Hatenna | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0857 | HATTREM | Hattrem | [PSYCHIC] | NoRegionalFlag | Standard | ruins, mystic, urban, city, industrial`
+- `0858 | HATTERENE | Hatterene | [PSYCHIC/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ruins, mystic, urban, city, industrial, fairygrove`
+- `0866 | MRRIME | Mr. Rime | [ICE/PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, snow, tundra, glacier, ruins, mystic, urban`
+- `0876 | INDEEDEE | Indeedee | [PSYCHIC/NORMAL] | NoRegionalFlag | Standard | grassland, plains, ruins, mystic, urban, city, industrial`
+- `0898 | CALYREX | Calyrex | [PSYCHIC/GRASS] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, grassland, ruins, mystic, urban`
+- `0899 | WYRDEER | Wyrdeer | [NORMAL/PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0936 | ARMAROUGE | Armarouge | [FIRE/PSYCHIC] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, rocky, volcanic, ruins, mystic`
+- `0954 | RABSCA | Rabsca | [BUG/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, desert, badlands, rocky, ruins`
+- `0955 | FLITTLE | Flittle | [PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0956 | ESPATHRA | Espathra | [PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0976 | VELUZA | Veluza | [WATER/PSYCHIC] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, ruins, mystic`
+- `0981 | FARIGIRAF | Farigiraf | [NORMAL/PSYCHIC] | NoRegionalFlag | Standard | meadow, grassland, plains, ruins, mystic, urban`
+- `0985 | SCREAMTAIL | Scream Tail | [FAIRY/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, ruins, mystic, urban, fairygrove, flowerfield, rare`
+- `1010 | IRONLEAVES | Iron Leaves | [GRASS/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, ruins, mystic, urban`
+- `1015 | MUNKIDORI | Munkidori | [POISON/PSYCHIC] | NoRegionalFlag | Legendary | swamp, bog, haunted, ruins, mystic, urban, toxic, rare`
+- `1022 | IRONBOULDER | Iron Boulder | [ROCK/PSYCHIC] | NoRegionalFlag | Standard | cave, mountain, cliff, badlands, ruins, mystic, urban, rare`
+- `1023 | IRONCROWN | Iron Crown | [STEEL/PSYCHIC] | NoRegionalFlag | Standard | cave, mountain, cliff, ruins, mystic, urban, factory, rare`
+
+## Bug Type
+
+- `0010 | CATERPIE | Caterpie | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0011 | METAPOD | Metapod | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0012 | BUTTERFREE | Butterfree | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0013 | WEEDLE | Weedle | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0014 | KAKUNA | Kakuna | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0015 | BEEDRILL | Beedrill | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0046 | PARAS | Paras | [BUG/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0047 | PARASECT | Parasect | [BUG/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0048 | VENONAT | Venonat | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0049 | VENOMOTH | Venomoth | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0123 | SCYTHER | Scyther | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mountain, cliff`
+- `0127 | PINSIR | Pinsir | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0165 | LEDYBA | Ledyba | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0166 | LEDIAN | Ledian | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0167 | SPINARAK | Spinarak | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0168 | ARIADOS | Ariados | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0193 | YANMA | Yanma | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0204 | PINECO | Pineco | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0205 | FORRETRESS | Forretress | [BUG/STEEL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, urban`
+- `0212 | SCIZOR | Scizor | [BUG/STEEL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, mountain`
+- `0213 | SHUCKLE | Shuckle | [BUG/ROCK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, highland`
+- `0214 | HERACROSS | Heracross | [BUG/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, highland, dojo`
+- `0265 | WURMPLE | Wurmple | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0266 | SILCOON | Silcoon | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0267 | BEAUTIFLY | Beautifly | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0268 | CASCOON | Cascoon | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0269 | DUSTOX | Dustox | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0283 | SURSKIT | Surskit | [BUG/WATER] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, ocean, shore, river, riverbank`
+- `0284 | MASQUERAIN | Masquerain | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, shore, riverbank`
+- `0290 | NINCADA | Nincada | [BUG/GROUND] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, plains, cave, desert, badlands`
+- `0291 | NINJASK | Ninjask | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0292 | SHEDINJA | Shedinja | [BUG/GHOST] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, haunted, graveyard, ruins, foglands`
+- `0313 | VOLBEAT | Volbeat | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0314 | ILLUMISE | Illumise | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0347 | ANORITH | Anorith | [ROCK/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, shore`
+- `0348 | ARMALDO | Armaldo | [ROCK/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, shore`
+- `0401 | KRICKETOT | Kricketot | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0402 | KRICKETUNE | Kricketune | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0412 | BURMY | Burmy | [BUG] | RegionalCapable | Standard | forest, woodland, jungle, meadow`
+- `0413 | WORMADAM | Wormadam | [BUG/GRASS] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland`
+- `0414 | MOTHIM | Mothim | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0415 | COMBEE | Combee | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0416 | VESPIQUEN | Vespiquen | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0451 | SKORUPI | Skorupi | [POISON/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, desert, badlands`
+- `0469 | YANMEGA | Yanmega | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0540 | SEWADDLE | Sewaddle | [BUG/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0541 | SWADLOON | Swadloon | [BUG/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0542 | LEAVANNY | Leavanny | [BUG/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland`
+- `0543 | VENIPEDE | Venipede | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0544 | WHIRLIPEDE | Whirlipede | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0545 | SCOLIPEDE | Scolipede | [BUG/POISON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, swamp, bog, haunted, toxic`
+- `0557 | DWEBBLE | Dwebble | [BUG/ROCK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, shore`
+- `0558 | CRUSTLE | Crustle | [BUG/ROCK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, shore`
+- `0588 | KARRABLAST | Karrablast | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0589 | ESCAVALIER | Escavalier | [BUG/STEEL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, urban`
+- `0595 | JOLTIK | Joltik | [BUG/ELECTRIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, underground, urban, powerplant`
+- `0596 | GALVANTULA | Galvantula | [BUG/ELECTRIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, underground, urban, powerplant`
+- `0616 | SHELMET | Shelmet | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0617 | ACCELGOR | Accelgor | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0632 | DURANT | Durant | [BUG/STEEL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, urban`
+- `0636 | LARVESTA | Larvesta | [BUG/FIRE] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, desert, badlands`
+- `0637 | VOLCARONA | Volcarona | [BUG/FIRE] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, desert, badlands`
+- `0649 | GENESECT | Genesect | [BUG/STEEL] | NoRegionalFlag | Mythical | forest, woodland, jungle, meadow, cave, mountain, cliff, urban`
+- `0664 | SCATTERBUG | Scatterbug | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0665 | SPEWPA | Spewpa | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0666 | VIVILLON | Vivillon | [BUG/FLYING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, sky`
+- `0736 | GRUBBIN | Grubbin | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0737 | CHARJABUG | Charjabug | [BUG/ELECTRIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, urban, powerplant, stormfield`
+- `0738 | VIKAVOLT | Vikavolt | [BUG/ELECTRIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, urban, powerplant, stormfield`
+- `0742 | CUTIEFLY | Cutiefly | [BUG/FAIRY] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mystic, fairygrove`
+- `0743 | RIBOMBEE | Ribombee | [BUG/FAIRY] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mystic, fairygrove`
+- `0751 | DEWPIDER | Dewpider | [WATER/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, ocean, shore, river, riverbank`
+- `0752 | ARAQUANID | Araquanid | [WATER/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, ocean, shore, river, riverbank`
+- `0767 | WIMPOD | Wimpod | [BUG/WATER] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, underground, ocean, shore`
+- `0768 | GOLISOPOD | Golisopod | [BUG/WATER] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, underground, ocean, shore`
+- `0794 | BUZZWOLE | Buzzwole | [BUG/FIGHTING] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, mountain, cliff, highland, rare`
+- `0795 | PHEROMOSA | Pheromosa | [BUG/FIGHTING] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, mountain, cliff, highland, rare`
+- `0824 | BLIPBUG | Blipbug | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0825 | DOTTLER | Dottler | [BUG/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, ruins, mystic`
+- `0826 | ORBEETLE | Orbeetle | [BUG/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, ruins, mystic`
+- `0850 | SIZZLIPEDE | Sizzlipede | [FIRE/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, desert, badlands`
+- `0851 | CENTISKORCH | Centiskorch | [FIRE/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, desert, badlands`
+- `0872 | SNOM | Snom | [ICE/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, highland, snow`
+- `0873 | FROSMOTH | Frosmoth | [ICE/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, highland, snow`
+- `0900 | KLEAVOR | Kleavor | [BUG/ROCK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, mountain`
+- `0917 | TAROUNTULA | Tarountula | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0918 | SPIDOPS | Spidops | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow`
+- `0919 | NYMBLE | Nymble | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains`
+- `0920 | LOKIX | Lokix | [BUG/DARK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, badlands`
+- `0953 | RELLOR | Rellor | [BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, desert, badlands, rocky`
+- `0954 | RABSCA | Rabsca | [BUG/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, desert, badlands, rocky, ruins`
+- `0988 | SLITHERWING | Slither Wing | [BUG/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, mountain, cliff, highland, rare`
+
+## Rock Type
+
+- `0074 | GEODUDE | Geodude | [ROCK/GROUND] | RegionalCapable | Standard | plains, cave, mountain, cliff, highland, desert, badlands`
+- `0075 | GRAVELER | Graveler | [ROCK/GROUND] | RegionalCapable | Standard | plains, cave, mountain, cliff, highland, desert, badlands`
+- `0076 | GOLEM | Golem | [ROCK/GROUND] | RegionalCapable | Standard | plains, cave, mountain, cliff, highland, desert, badlands`
+- `0095 | ONIX | Onix | [ROCK/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, desert, badlands`
+- `0111 | RHYHORN | Rhyhorn | [GROUND/ROCK] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, desert, badlands, rocky`
+- `0112 | RHYDON | Rhydon | [GROUND/ROCK] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, desert, badlands, rocky`
+- `0138 | OMANYTE | Omanyte | [ROCK/WATER] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0139 | OMASTAR | Omastar | [ROCK/WATER] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0140 | KABUTO | Kabuto | [ROCK/WATER] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0141 | KABUTOPS | Kabutops | [ROCK/WATER] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0142 | AERODACTYL | Aerodactyl | [ROCK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, highland, badlands, sky`
+- `0185 | SUDOWOODO | Sudowoodo | [ROCK] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, badlands`
+- `0213 | SHUCKLE | Shuckle | [BUG/ROCK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, highland`
+- `0219 | MAGCARGO | Magcargo | [FIRE/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, desert, badlands, volcanic`
+- `0222 | CORSOLA | Corsola | [WATER/ROCK] | RegionalCapable | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0246 | LARVITAR | Larvitar | [ROCK/GROUND] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands`
+- `0247 | PUPITAR | Pupitar | [ROCK/GROUND] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands`
+- `0248 | TYRANITAR | Tyranitar | [ROCK/DARK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, urban, nightforest`
+- `0299 | NOSEPASS | Nosepass | [ROCK] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands`
+- `0304 | ARON | Aron | [STEEL/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, urban, factory`
+- `0305 | LAIRON | Lairon | [STEEL/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, urban, factory`
+- `0306 | AGGRON | Aggron | [STEEL/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, urban, factory`
+- `0337 | LUNATONE | Lunatone | [ROCK/PSYCHIC] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands, ruins, mystic, urban`
+- `0338 | SOLROCK | Solrock | [ROCK/PSYCHIC] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands, ruins, mystic, urban`
+- `0345 | LILEEP | Lileep | [ROCK/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, mountain, cliff`
+- `0346 | CRADILY | Cradily | [ROCK/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, mountain, cliff`
+- `0347 | ANORITH | Anorith | [ROCK/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, shore`
+- `0348 | ARMALDO | Armaldo | [ROCK/BUG] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, shore`
+- `0369 | RELICANTH | Relicanth | [WATER/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0377 | REGIROCK | Regirock | [ROCK] | NoRegionalFlag | Legendary | cave, underground, mountain, cliff, badlands`
+- `0408 | CRANIDOS | Cranidos | [ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky`
+- `0409 | RAMPARDOS | Rampardos | [ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky`
+- `0410 | SHIELDON | Shieldon | [ROCK/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0411 | BASTIODON | Bastiodon | [ROCK/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0438 | BONSLY | Bonsly | [ROCK] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, badlands`
+- `0464 | RHYPERIOR | Rhyperior | [GROUND/ROCK] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, desert, badlands, rocky`
+- `0476 | PROBOPASS | Probopass | [ROCK/STEEL] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands, urban, factory`
+- `0524 | ROGGENROLA | Roggenrola | [ROCK] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands`
+- `0525 | BOLDORE | Boldore | [ROCK] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands`
+- `0526 | GIGALITH | Gigalith | [ROCK] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands`
+- `0557 | DWEBBLE | Dwebble | [BUG/ROCK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, shore`
+- `0558 | CRUSTLE | Crustle | [BUG/ROCK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, shore`
+- `0564 | TIRTOUGA | Tirtouga | [WATER/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0565 | CARRACOSTA | Carracosta | [WATER/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0566 | ARCHEN | Archen | [ROCK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0567 | ARCHEOPS | Archeops | [ROCK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0639 | TERRAKION | Terrakion | [ROCK/FIGHTING] | NoRegionalFlag | Legendary | meadow, grassland, plains, cave, mountain, cliff, highland, badlands`
+- `0688 | BINACLE | Binacle | [ROCK/WATER] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0689 | BARBARACLE | Barbaracle | [ROCK/WATER] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, reef, river, lake`
+- `0696 | TYRUNT | Tyrunt | [ROCK/DRAGON] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, desert, badlands, rocky, ruins`
+- `0697 | TYRANTRUM | Tyrantrum | [ROCK/DRAGON] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, desert, badlands, rocky, ruins`
+- `0698 | AMAURA | Amaura | [ROCK/ICE] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, snow, tundra, glacier`
+- `0699 | AURORUS | Aurorus | [ROCK/ICE] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, snow, tundra, glacier`
+- `0703 | CARBINK | Carbink | [ROCK/FAIRY] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, badlands, mystic`
+- `0719 | DIANCIE | Diancie | [ROCK/FAIRY] | NoRegionalFlag | Mythical | forest, woodland, cave, mountain, cliff, badlands, mystic, fairygrove`
+- `0744 | ROCKRUFF | Rockruff | [ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands`
+- `0745 | LYCANROC | Lycanroc | [ROCK] | RegionalCapable | Standard | cave, mountain, cliff, highland, badlands`
+- `0774 | MINIOR | Minior | [ROCK/FLYING] | RegionalCapable | Standard | forest, woodland, cave, mountain, cliff, highland, badlands, sky`
+- `0793 | NIHILEGO | Nihilego | [ROCK/POISON] | NoRegionalFlag | Legendary | cave, mountain, cliff, swamp, bog, badlands, haunted, toxic`
+- `0805 | STAKATAKA | Stakataka | [ROCK/STEEL] | NoRegionalFlag | Legendary | cave, mountain, cliff, badlands, urban, factory, rare, special`
+- `0834 | DREDNAW | Drednaw | [WATER/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, river, riverbank, lake`
+- `0837 | ROLYCOLY | Rolycoly | [ROCK] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands`
+- `0838 | CARKOL | Carkol | [ROCK/FIRE] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, desert, badlands, volcanic`
+- `0839 | COALOSSAL | Coalossal | [ROCK/FIRE] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, desert, badlands, volcanic`
+- `0874 | STONJOURNER | Stonjourner | [ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands`
+- `0900 | KLEAVOR | Kleavor | [BUG/ROCK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, mountain`
+- `0932 | NACLI | Nacli | [ROCK] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands`
+- `0933 | NACLSTACK | Naclstack | [ROCK] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands`
+- `0934 | GARGANACL | Garganacl | [ROCK] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands`
+- `0950 | KLAWF | Klawf | [ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky`
+- `0969 | GLIMMET | Glimmet | [ROCK/POISON] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, swamp, bog, badlands, haunted`
+- `0970 | GLIMMORA | Glimmora | [ROCK/POISON] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, swamp, bog, badlands, haunted`
+- `0995 | IRONTHORNS | Iron Thorns | [ROCK/ELECTRIC] | NoRegionalFlag | Standard | cave, mountain, cliff, badlands, urban, powerplant, stormfield, rare`
+- `1022 | IRONBOULDER | Iron Boulder | [ROCK/PSYCHIC] | NoRegionalFlag | Standard | cave, mountain, cliff, badlands, ruins, mystic, urban, rare`
+
+## Ghost Type
+
+- `0092 | GASTLY | Gastly | [GHOST/POISON] | NoRegionalFlag | Standard | cave, underground, swamp, bog, haunted, graveyard, ruins, toxic`
+- `0093 | HAUNTER | Haunter | [GHOST/POISON] | NoRegionalFlag | Standard | cave, underground, swamp, bog, haunted, graveyard, ruins, toxic`
+- `0094 | GENGAR | Gengar | [GHOST/POISON] | NoRegionalFlag | Standard | cave, underground, swamp, bog, haunted, graveyard, ruins, toxic`
+- `0200 | MISDREAVUS | Misdreavus | [GHOST] | NoRegionalFlag | Standard | cave, underground, haunted, graveyard, ruins, foglands`
+- `0292 | SHEDINJA | Shedinja | [BUG/GHOST] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, haunted, graveyard, ruins, foglands`
+- `0302 | SABLEYE | Sableye | [DARK/GHOST] | NoRegionalFlag | Standard | cave, underground, badlands, haunted, graveyard, ruins, urban, nightforest`
+- `0353 | SHUPPET | Shuppet | [GHOST] | NoRegionalFlag | Standard | haunted, graveyard, ruins, urban, city, industrial, foglands`
+- `0354 | BANETTE | Banette | [GHOST] | NoRegionalFlag | Standard | haunted, graveyard, ruins, urban, city, industrial, foglands`
+- `0355 | DUSKULL | Duskull | [GHOST] | NoRegionalFlag | Standard | forest, woodland, haunted, graveyard, ruins, foglands`
+- `0356 | DUSCLOPS | Dusclops | [GHOST] | NoRegionalFlag | Standard | forest, woodland, haunted, graveyard, ruins, foglands`
+- `0425 | DRIFLOON | Drifloon | [GHOST/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, haunted, graveyard, ruins, urban`
+- `0426 | DRIFBLIM | Drifblim | [GHOST/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, haunted, graveyard, ruins, urban`
+- `0429 | MISMAGIUS | Mismagius | [GHOST] | NoRegionalFlag | Standard | cave, underground, haunted, graveyard, ruins, foglands`
+- `0442 | SPIRITOMB | Spiritomb | [GHOST/DARK] | NoRegionalFlag | Standard | cave, underground, badlands, haunted, graveyard, ruins, urban, nightforest`
+- `0477 | DUSKNOIR | Dusknoir | [GHOST] | NoRegionalFlag | Standard | forest, woodland, haunted, graveyard, ruins, foglands`
+- `0478 | FROSLASS | Froslass | [ICE/GHOST] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, snow, tundra, glacier, haunted`
+- `0479 | ROTOM | Rotom | [ELECTRIC/GHOST] | RegionalCapable | Standard | haunted, graveyard, ruins, urban, city, industrial, powerplant, stormfield`
+- `0487 | GIRATINA | Giratina | [GHOST/DRAGON] | RegionalCapable | Legendary | mountain, cliff, highland, haunted, graveyard, ruins, sanctuary, rare`
+- `0562 | YAMASK | Yamask | [GHOST] | RegionalCapable | Standard | cave, underground, haunted, graveyard, ruins, foglands`
+- `0563 | COFAGRIGUS | Cofagrigus | [GHOST] | NoRegionalFlag | Standard | cave, underground, haunted, graveyard, ruins, foglands`
+- `0592 | FRILLISH | Frillish | [WATER/GHOST] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, haunted, graveyard`
+- `0593 | JELLICENT | Jellicent | [WATER/GHOST] | NoRegionalFlag | Standard | ocean, shore, reef, river, lake, wetland, haunted, graveyard`
+- `0607 | LITWICK | Litwick | [GHOST/FIRE] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, volcanic, haunted, graveyard, ruins`
+- `0608 | LAMPENT | Lampent | [GHOST/FIRE] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, volcanic, haunted, graveyard, ruins`
+- `0609 | CHANDELURE | Chandelure | [GHOST/FIRE] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, volcanic, haunted, graveyard, ruins`
+- `0622 | GOLETT | Golett | [GROUND/GHOST] | NoRegionalFlag | Standard | plains, cave, underground, desert, badlands, haunted, graveyard, ruins`
+- `0623 | GOLURK | Golurk | [GROUND/GHOST] | NoRegionalFlag | Standard | plains, cave, underground, desert, badlands, haunted, graveyard, ruins`
+- `0679 | HONEDGE | Honedge | [STEEL/GHOST] | NoRegionalFlag | Standard | cave, mountain, cliff, haunted, graveyard, ruins, urban, city`
+- `0680 | DOUBLADE | Doublade | [STEEL/GHOST] | NoRegionalFlag | Standard | cave, mountain, cliff, haunted, graveyard, ruins, urban, city`
+- `0681 | AEGISLASH | Aegislash | [STEEL/GHOST] | RegionalCapable | Standard | cave, mountain, cliff, haunted, graveyard, ruins, urban, city`
+- `0708 | PHANTUMP | Phantump | [GHOST/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `0709 | TREVENANT | Trevenant | [GHOST/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `0710 | PUMPKABOO | Pumpkaboo | [GHOST/GRASS] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `0711 | GOURGEIST | Gourgeist | [GHOST/GRASS] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `0720 | HOOPA | Hoopa | [PSYCHIC/GHOST] | RegionalCapable | Mythical | haunted, graveyard, ruins, mystic, urban, rare, special, foglands`
+- `0724 | DECIDUEYE | Decidueye | [GRASS/GHOST] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `0769 | SANDYGAST | Sandygast | [GHOST/GROUND] | NoRegionalFlag | Standard | plains, cave, shore, riverbank, wetland, desert, badlands, haunted`
+- `0770 | PALOSSAND | Palossand | [GHOST/GROUND] | NoRegionalFlag | Standard | plains, cave, shore, riverbank, wetland, desert, badlands, haunted`
+- `0778 | MIMIKYU | Mimikyu | [GHOST/FAIRY] | RegionalCapable | Standard | forest, woodland, haunted, graveyard, ruins, mystic, fairygrove, flowerfield`
+- `0781 | DHELMISE | Dhelmise | [GHOST/GRASS] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, ocean, shore, reef`
+- `0792 | LUNALA | Lunala | [PSYCHIC/GHOST] | NoRegionalFlag | Legendary | haunted, graveyard, ruins, mystic, urban, rare, special, foglands`
+- `0802 | MARSHADOW | Marshadow | [FIGHTING/GHOST] | NoRegionalFlag | Mythical | mountain, cliff, highland, haunted, graveyard, ruins, rare, special`
+- `0806 | BLACEPHALON | Blacephalon | [FIRE/GHOST] | NoRegionalFlag | Legendary | mountain, cliff, desert, badlands, volcanic, haunted, graveyard, ruins`
+- `0854 | SINISTEA | Sinistea | [GHOST] | NoRegionalFlag | Standard | haunted, graveyard, ruins, urban, city, industrial, foglands`
+- `0855 | POLTEAGEIST | Polteageist | [GHOST] | NoRegionalFlag | Standard | haunted, graveyard, ruins, urban, city, industrial, foglands`
+- `0864 | CURSOLA | Cursola | [GHOST] | NoRegionalFlag | Standard | ocean, shore, reef, haunted, graveyard, ruins, foglands`
+- `0867 | RUNERIGUS | Runerigus | [GROUND/GHOST] | NoRegionalFlag | Standard | plains, cave, underground, desert, badlands, haunted, graveyard, ruins`
+- `0885 | DREEPY | Dreepy | [DRAGON/GHOST] | NoRegionalFlag | Standard | mountain, cliff, highland, haunted, graveyard, ruins, sanctuary, foglands`
+- `0886 | DRAKLOAK | Drakloak | [DRAGON/GHOST] | NoRegionalFlag | Standard | mountain, cliff, highland, haunted, graveyard, ruins, sanctuary, foglands`
+- `0887 | DRAGAPULT | Dragapult | [DRAGON/GHOST] | NoRegionalFlag | Standard | mountain, cliff, highland, haunted, graveyard, ruins, sanctuary, foglands`
+- `0897 | SPECTRIER | Spectrier | [GHOST] | NoRegionalFlag | Legendary | meadow, grassland, plains, haunted, graveyard, ruins, foglands`
+- `0902 | BASCULEGION | Basculegion | [WATER/GHOST] | RegionalCapable | Standard | ocean, shore, reef, river, lake, wetland, haunted, graveyard`
+- `0911 | SKELEDIRGE | Skeledirge | [FIRE/GHOST] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, rocky, volcanic, haunted, graveyard`
+- `0937 | CERULEDGE | Ceruledge | [FIRE/GHOST] | NoRegionalFlag | Standard | mountain, cliff, desert, badlands, rocky, volcanic, haunted, graveyard`
+- `0946 | BRAMBLIN | Bramblin | [GRASS/GHOST] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, desert, badlands, rocky`
+- `0947 | BRAMBLEGHAST | Brambleghast | [GRASS/GHOST] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, desert, badlands, rocky`
+- `0971 | GREAVARD | Greavard | [GHOST] | NoRegionalFlag | Standard | mountain, cliff, highland, haunted, graveyard, ruins, foglands`
+- `0972 | HOUNDSTONE | Houndstone | [GHOST] | NoRegionalFlag | Standard | mountain, cliff, highland, haunted, graveyard, ruins, foglands`
+- `0979 | ANNIHILAPE | Annihilape | [FIGHTING/GHOST] | NoRegionalFlag | Standard | mountain, cliff, highland, haunted, graveyard, ruins, dojo, foglands`
+- `0987 | FLUTTERMANE | Flutter Mane | [GHOST/FAIRY] | NoRegionalFlag | Standard | forest, woodland, haunted, graveyard, ruins, mystic, fairygrove, flowerfield`
+- `0999 | GIMMIGHOUL | Gimmighoul | [GHOST] | NoRegionalFlag | Standard | haunted, graveyard, ruins, urban, city, industrial, foglands`
+- `1000 | GHOLDENGO | Gholdengo | [STEEL/GHOST] | NoRegionalFlag | Standard | cave, mountain, cliff, haunted, graveyard, ruins, urban, city`
+- `1012 | POLTCHAGEIST | Poltchageist | [GRASS/GHOST] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `1013 | SINISTCHA | Sinistcha | [GRASS/GHOST] | RegionalCapable | Standard | forest, woodland, jungle, meadow, grassland, haunted, graveyard, ruins`
+- `1025 | PECHARUNT | Pecharunt | [POISON/GHOST] | NoRegionalFlag | Mythical | swamp, bog, haunted, graveyard, ruins, toxic, rare, special`
+
+## Dragon Type
+
+- `0147 | DRATINI | Dratini | [DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, shore, river, riverbank, lake, wetland`
+- `0148 | DRAGONAIR | Dragonair | [DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, shore, river, riverbank, lake, wetland`
+- `0149 | DRAGONITE | Dragonite | [DRAGON/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, ocean, shore, riverbank`
+- `0230 | KINGDRA | Kingdra | [WATER/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, reef, river, lake`
+- `0329 | VIBRAVA | Vibrava | [GROUND/DRAGON] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands, rocky`
+- `0330 | FLYGON | Flygon | [GROUND/DRAGON] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, highland, desert, badlands, rocky`
+- `0334 | ALTARIA | Altaria | [DRAGON/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, ruins, sanctuary, sky`
+- `0371 | BAGON | Bagon | [DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, rocky, ruins, sanctuary`
+- `0372 | SHELGON | Shelgon | [DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, rocky, ruins, sanctuary`
+- `0373 | SALAMENCE | Salamence | [DRAGON/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, desert, badlands, rocky`
+- `0380 | LATIAS | Latias | [DRAGON/PSYCHIC] | NoRegionalFlag | Legendary | mountain, cliff, highland, shore, riverbank, wetland, ruins, mystic`
+- `0381 | LATIOS | Latios | [DRAGON/PSYCHIC] | NoRegionalFlag | Legendary | mountain, cliff, highland, shore, riverbank, wetland, ruins, mystic`
+- `0384 | RAYQUAZA | Rayquaza | [DRAGON/FLYING] | NoRegionalFlag | Legendary | forest, woodland, mountain, cliff, highland, ruins, sanctuary, rare`
+- `0443 | GIBLE | Gible | [DRAGON/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, highland, desert, badlands`
+- `0444 | GABITE | Gabite | [DRAGON/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, highland, desert, badlands`
+- `0445 | GARCHOMP | Garchomp | [DRAGON/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, highland, desert, badlands`
+- `0483 | DIALGA | Dialga | [STEEL/DRAGON] | NoRegionalFlag | Legendary | cave, mountain, cliff, highland, ruins, sanctuary, urban, factory`
+- `0484 | PALKIA | Palkia | [WATER/DRAGON] | NoRegionalFlag | Legendary | mountain, cliff, highland, ocean, shore, river, lake, wetland`
+- `0487 | GIRATINA | Giratina | [GHOST/DRAGON] | RegionalCapable | Legendary | mountain, cliff, highland, haunted, graveyard, ruins, sanctuary, rare`
+- `0610 | AXEW | Axew | [DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, rocky, ruins, sanctuary`
+- `0611 | FRAXURE | Fraxure | [DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, rocky, ruins, sanctuary`
+- `0612 | HAXORUS | Haxorus | [DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, rocky, ruins, sanctuary`
+- `0621 | DRUDDIGON | Druddigon | [DRAGON] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, highland, ruins, sanctuary`
+- `0633 | DEINO | Deino | [DARK/DRAGON] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, highland, badlands, ruins, sanctuary`
+- `0634 | ZWEILOUS | Zweilous | [DARK/DRAGON] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, highland, badlands, ruins, sanctuary`
+- `0635 | HYDREIGON | Hydreigon | [DARK/DRAGON] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, highland, badlands, ruins, sanctuary`
+- `0643 | RESHIRAM | Reshiram | [DRAGON/FIRE] | NoRegionalFlag | Legendary | mountain, cliff, highland, desert, badlands, volcanic, ruins, sanctuary`
+- `0644 | ZEKROM | Zekrom | [DRAGON/ELECTRIC] | NoRegionalFlag | Legendary | mountain, cliff, highland, ruins, sanctuary, urban, powerplant, stormfield`
+- `0646 | KYUREM | Kyurem | [DRAGON/ICE] | NoRegionalFlag | Legendary | mountain, cliff, highland, snow, tundra, glacier, ruins, sanctuary`
+- `0691 | DRAGALGE | Dragalge | [POISON/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, reef, swamp, bog`
+- `0696 | TYRUNT | Tyrunt | [ROCK/DRAGON] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, desert, badlands, rocky, ruins`
+- `0697 | TYRANTRUM | Tyrantrum | [ROCK/DRAGON] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, desert, badlands, rocky, ruins`
+- `0704 | GOOMY | Goomy | [DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, shore, riverbank, wetland, ruins, sanctuary`
+- `0705 | SLIGGOO | Sliggoo | [DRAGON] | RegionalCapable | Standard | mountain, cliff, highland, shore, riverbank, wetland, ruins, sanctuary`
+- `0706 | GOODRA | Goodra | [DRAGON] | RegionalCapable | Standard | mountain, cliff, highland, shore, riverbank, wetland, ruins, sanctuary`
+- `0714 | NOIBAT | Noibat | [FLYING/DRAGON] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, highland, ruins`
+- `0715 | NOIVERN | Noivern | [FLYING/DRAGON] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, highland, ruins`
+- `0718 | ZYGARDE | Zygarde | [DRAGON/GROUND] | RegionalCapable | Legendary | plains, cave, mountain, cliff, highland, desert, badlands, ruins`
+- `0776 | TURTONATOR | Turtonator | [FIRE/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic, ruins, sanctuary`
+- `0780 | DRAMPA | Drampa | [NORMAL/DRAGON] | NoRegionalFlag | Standard | grassland, plains, cave, underground, mountain, cliff, highland, ruins`
+- `0782 | JANGMOO | Jangmo-o | [DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, sanctuary`
+- `0783 | HAKAMOO | Hakamo-o | [DRAGON/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, sanctuary, dojo`
+- `0784 | KOMMOO | Kommo-o | [DRAGON/FIGHTING] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, sanctuary, dojo`
+- `0799 | GUZZLORD | Guzzlord | [DARK/DRAGON] | NoRegionalFlag | Legendary | cave, mountain, cliff, highland, badlands, ruins, sanctuary, urban`
+- `0804 | NAGANADEL | Naganadel | [POISON/DRAGON] | NoRegionalFlag | Legendary | mountain, cliff, highland, swamp, bog, haunted, ruins, sanctuary`
+- `0840 | APPLIN | Applin | [GRASS/DRAGON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `0841 | FLAPPLE | Flapple | [GRASS/DRAGON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `0842 | APPLETUN | Appletun | [GRASS/DRAGON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `0880 | DRACOZOLT | Dracozolt | [ELECTRIC/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, sanctuary, urban, powerplant, stormfield`
+- `0882 | DRACOVISH | Dracovish | [WATER/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, river, lake, wetland`
+- `0884 | DURALUDON | Duraludon | [STEEL/DRAGON] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, ruins, sanctuary, urban, factory`
+- `0885 | DREEPY | Dreepy | [DRAGON/GHOST] | NoRegionalFlag | Standard | mountain, cliff, highland, haunted, graveyard, ruins, sanctuary, foglands`
+- `0886 | DRAKLOAK | Drakloak | [DRAGON/GHOST] | NoRegionalFlag | Standard | mountain, cliff, highland, haunted, graveyard, ruins, sanctuary, foglands`
+- `0887 | DRAGAPULT | Dragapult | [DRAGON/GHOST] | NoRegionalFlag | Standard | mountain, cliff, highland, haunted, graveyard, ruins, sanctuary, foglands`
+- `0890 | ETERNATUS | Eternatus | [POISON/DRAGON] | NoRegionalFlag | Legendary | mountain, cliff, highland, swamp, bog, haunted, ruins, sanctuary`
+- `0895 | REGIDRAGO | Regidrago | [DRAGON] | NoRegionalFlag | Legendary | cave, underground, mountain, cliff, highland, ruins, sanctuary`
+- `0967 | CYCLIZAR | Cyclizar | [DRAGON/NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains, mountain, cliff, highland, ruins, sanctuary`
+- `0978 | TATSUGIRI | Tatsugiri | [DRAGON/WATER] | RegionalCapable | Standard | mountain, cliff, highland, ocean, shore, reef, river, lake`
+- `0996 | FRIGIBAX | Frigibax | [DRAGON/ICE] | NoRegionalFlag | Standard | mountain, cliff, highland, snow, tundra, glacier, ruins, sanctuary`
+- `0997 | ARCTIBAX | Arctibax | [DRAGON/ICE] | NoRegionalFlag | Standard | mountain, cliff, highland, snow, tundra, glacier, ruins, sanctuary`
+- `0998 | BAXCALIBUR | Baxcalibur | [DRAGON/ICE] | NoRegionalFlag | Standard | mountain, cliff, highland, snow, tundra, glacier, ruins, sanctuary`
+- `1005 | ROARINGMOON | Roaring Moon | [DRAGON/DARK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, ruins, sanctuary, urban`
+- `1007 | KORAIDON | Koraidon | [FIGHTING/DRAGON] | NoRegionalFlag | Legendary | mountain, cliff, highland, ruins, sanctuary, rare, special, dojo`
+- `1008 | MIRAIDON | Miraidon | [ELECTRIC/DRAGON] | NoRegionalFlag | Legendary | mountain, cliff, highland, ruins, sanctuary, urban, powerplant, stormfield`
+- `1009 | WALKINGWAKE | Walking Wake | [WATER/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, ocean, shore, river, lake, wetland`
+- `1011 | DIPPLIN | Dipplin | [GRASS/DRAGON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `1018 | ARCHALUDON | Archaludon | [STEEL/DRAGON] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, ruins, sanctuary, urban, factory`
+- `1019 | HYDRAPPLE | Hydrapple | [GRASS/DRAGON] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mountain, cliff, highland`
+- `1020 | GOUGINGFIRE | Gouging Fire | [FIRE/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, desert, badlands, volcanic, ruins, sanctuary`
+- `1021 | RAGINGBOLT | Raging Bolt | [ELECTRIC/DRAGON] | NoRegionalFlag | Standard | mountain, cliff, highland, ruins, sanctuary, urban, powerplant, stormfield`
+
+## Dark Type
+
+- `0197 | UMBREON | Umbreon | [DARK] | NoRegionalFlag | Standard | cave, badlands, urban, city, industrial, nightforest`
+- `0198 | MURKROW | Murkrow | [DARK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, badlands, urban, nightforest`
+- `0215 | SNEASEL | Sneasel | [DARK/ICE] | RegionalCapable | Standard | forest, woodland, cave, mountain, cliff, badlands, snow, tundra`
+- `0228 | HOUNDOUR | Houndour | [DARK/FIRE] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, volcanic, urban`
+- `0229 | HOUNDOOM | Houndoom | [DARK/FIRE] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, volcanic, urban`
+- `0248 | TYRANITAR | Tyranitar | [ROCK/DARK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, urban, nightforest`
+- `0261 | POOCHYENA | Poochyena | [DARK] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, badlands, urban, nightforest`
+- `0262 | MIGHTYENA | Mightyena | [DARK] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, badlands, urban, nightforest`
+- `0274 | NUZLEAF | Nuzleaf | [GRASS/DARK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, badlands, urban`
+- `0275 | SHIFTRY | Shiftry | [GRASS/DARK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, badlands, urban`
+- `0302 | SABLEYE | Sableye | [DARK/GHOST] | NoRegionalFlag | Standard | cave, underground, badlands, haunted, graveyard, ruins, urban, nightforest`
+- `0318 | CARVANHA | Carvanha | [WATER/DARK] | NoRegionalFlag | Standard | cave, ocean, shore, reef, river, lake, wetland, badlands`
+- `0319 | SHARPEDO | Sharpedo | [WATER/DARK] | NoRegionalFlag | Standard | cave, ocean, shore, reef, river, lake, wetland, badlands`
+- `0332 | CACTURNE | Cacturne | [GRASS/DARK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, desert, badlands`
+- `0342 | CRAWDAUNT | Crawdaunt | [WATER/DARK] | NoRegionalFlag | Standard | cave, ocean, shore, river, riverbank, lake, wetland, badlands`
+- `0359 | ABSOL | Absol | [DARK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, urban, nightforest`
+- `0430 | HONCHKROW | Honchkrow | [DARK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, badlands, urban, nightforest`
+- `0434 | STUNKY | Stunky | [POISON/DARK] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, swamp, bog, badlands, haunted`
+- `0435 | SKUNTANK | Skuntank | [POISON/DARK] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, swamp, bog, badlands, haunted`
+- `0442 | SPIRITOMB | Spiritomb | [GHOST/DARK] | NoRegionalFlag | Standard | cave, underground, badlands, haunted, graveyard, ruins, urban, nightforest`
+- `0452 | DRAPION | Drapion | [POISON/DARK] | NoRegionalFlag | Standard | cave, swamp, bog, desert, badlands, rocky, haunted, urban`
+- `0461 | WEAVILE | Weavile | [DARK/ICE] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, badlands, snow, tundra`
+- `0491 | DARKRAI | Darkrai | [DARK] | NoRegionalFlag | Mythical | cave, badlands, urban, nightforest, rare, special`
+- `0509 | PURRLOIN | Purrloin | [DARK] | NoRegionalFlag | Standard | cave, badlands, urban, city, industrial, nightforest`
+- `0510 | LIEPARD | Liepard | [DARK] | NoRegionalFlag | Standard | cave, badlands, urban, city, industrial, nightforest`
+- `0551 | SANDILE | Sandile | [GROUND/DARK] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky, urban, nightforest`
+- `0552 | KROKOROK | Krokorok | [GROUND/DARK] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky, urban, nightforest`
+- `0553 | KROOKODILE | Krookodile | [GROUND/DARK] | NoRegionalFlag | Standard | plains, cave, desert, badlands, rocky, urban, nightforest`
+- `0559 | SCRAGGY | Scraggy | [DARK/FIGHTING] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, urban, city, industrial`
+- `0560 | SCRAFTY | Scrafty | [DARK/FIGHTING] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, urban, city, industrial`
+- `0570 | ZORUA | Zorua | [DARK] | RegionalCapable | Standard | forest, woodland, cave, badlands, urban, nightforest`
+- `0571 | ZOROARK | Zoroark | [DARK] | RegionalCapable | Standard | forest, woodland, cave, badlands, urban, nightforest`
+- `0624 | PAWNIARD | Pawniard | [DARK/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0625 | BISHARP | Bisharp | [DARK/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0629 | VULLABY | Vullaby | [DARK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0630 | MANDIBUZZ | Mandibuzz | [DARK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0633 | DEINO | Deino | [DARK/DRAGON] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, highland, badlands, ruins, sanctuary`
+- `0634 | ZWEILOUS | Zweilous | [DARK/DRAGON] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, highland, badlands, ruins, sanctuary`
+- `0635 | HYDREIGON | Hydreigon | [DARK/DRAGON] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, highland, badlands, ruins, sanctuary`
+- `0658 | GRENINJA | Greninja | [WATER/DARK] | NoRegionalFlag | Standard | cave, ocean, shore, river, riverbank, lake, wetland, badlands`
+- `0675 | PANGORO | Pangoro | [FIGHTING/DARK] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, highland, badlands, urban`
+- `0686 | INKAY | Inkay | [DARK/PSYCHIC] | NoRegionalFlag | Standard | cave, ocean, shore, reef, badlands, ruins, mystic, urban`
+- `0687 | MALAMAR | Malamar | [DARK/PSYCHIC] | NoRegionalFlag | Standard | cave, ocean, shore, reef, badlands, ruins, mystic, urban`
+- `0717 | YVELTAL | Yveltal | [DARK/FLYING] | NoRegionalFlag | Legendary | forest, woodland, cave, mountain, cliff, badlands, urban, nightforest`
+- `0727 | INCINEROAR | Incineroar | [FIRE/DARK] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, volcanic, urban, city`
+- `0799 | GUZZLORD | Guzzlord | [DARK/DRAGON] | NoRegionalFlag | Legendary | cave, mountain, cliff, highland, badlands, ruins, sanctuary, urban`
+- `0827 | NICKIT | Nickit | [DARK] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, badlands, urban, nightforest`
+- `0828 | THIEVUL | Thievul | [DARK] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, badlands, urban, nightforest`
+- `0859 | IMPIDIMP | Impidimp | [DARK/FAIRY] | NoRegionalFlag | Standard | forest, woodland, cave, badlands, mystic, urban, nightforest, fairygrove`
+- `0860 | MORGREM | Morgrem | [DARK/FAIRY] | NoRegionalFlag | Standard | forest, woodland, cave, badlands, mystic, urban, nightforest, fairygrove`
+- `0861 | GRIMMSNARL | Grimmsnarl | [DARK/FAIRY] | NoRegionalFlag | Standard | forest, woodland, cave, badlands, mystic, urban, nightforest, fairygrove`
+- `0862 | OBSTAGOON | Obstagoon | [DARK/NORMAL] | NoRegionalFlag | Standard | meadow, grassland, plains, cave, badlands, urban, nightforest`
+- `0877 | MORPEKO | Morpeko | [ELECTRIC/DARK] | RegionalCapable | Standard | forest, woodland, cave, badlands, urban, powerplant, stormfield, nightforest`
+- `0892 | URSHIFU | Urshifu | [FIGHTING/DARK] | NoRegionalFlag | Legendary | cave, mountain, cliff, highland, badlands, urban, nightforest, rare`
+- `0893 | ZARUDE | Zarude | [DARK/GRASS] | NoRegionalFlag | Mythical | forest, woodland, jungle, meadow, grassland, cave, badlands, urban`
+- `0904 | OVERQWIL | Overqwil | [DARK/POISON] | NoRegionalFlag | Standard | cave, ocean, shore, reef, swamp, bog, badlands, haunted`
+- `0908 | MEOWSCARADA | Meowscarada | [GRASS/DARK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, badlands`
+- `0920 | LOKIX | Lokix | [BUG/DARK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, badlands`
+- `0942 | MASCHIFF | Maschiff | [DARK] | NoRegionalFlag | Standard | cave, badlands, urban, city, industrial, nightforest`
+- `0943 | MABOSSTIFF | Mabosstiff | [DARK] | NoRegionalFlag | Standard | cave, badlands, urban, city, industrial, nightforest`
+- `0962 | BOMBIRDIER | Bombirdier | [FLYING/DARK] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, highland, badlands, urban`
+- `0983 | KINGAMBIT | Kingambit | [DARK/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0986 | BRUTEBONNET | Brute Bonnet | [GRASS/DARK] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, badlands, urban`
+- `0993 | IRONJUGULIS | Iron Jugulis | [DARK/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, badlands, urban, nightforest`
+- `1001 | WOCHIEN | Wo-Chien | [DARK/GRASS] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, grassland, cave, badlands, urban`
+- `1002 | CHIENPAO | Chien-Pao | [DARK/ICE] | NoRegionalFlag | Legendary | cave, mountain, cliff, badlands, snow, tundra, glacier, urban`
+- `1003 | TINGLU | Ting-Lu | [DARK/GROUND] | NoRegionalFlag | Legendary | plains, cave, desert, badlands, urban, nightforest, rare, special`
+- `1004 | CHIYU | Chi-Yu | [DARK/FIRE] | NoRegionalFlag | Legendary | cave, mountain, cliff, desert, badlands, volcanic, urban, nightforest`
+- `1005 | ROARINGMOON | Roaring Moon | [DRAGON/DARK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, ruins, sanctuary, urban`
+
+## Steel Type
+
+- `0081 | MAGNEMITE | Magnemite | [ELECTRIC/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0082 | MAGNETON | Magneton | [ELECTRIC/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0205 | FORRETRESS | Forretress | [BUG/STEEL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, urban`
+- `0208 | STEELIX | Steelix | [STEEL/GROUND] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, desert, badlands, urban`
+- `0212 | SCIZOR | Scizor | [BUG/STEEL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, cave, mountain`
+- `0227 | SKARMORY | Skarmory | [STEEL/FLYING] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0303 | MAWILE | Mawile | [STEEL/FAIRY] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, mystic, urban`
+- `0304 | ARON | Aron | [STEEL/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, urban, factory`
+- `0305 | LAIRON | Lairon | [STEEL/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, urban, factory`
+- `0306 | AGGRON | Aggron | [STEEL/ROCK] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, badlands, urban, factory`
+- `0374 | BELDUM | Beldum | [STEEL/PSYCHIC] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, ruins, mystic`
+- `0375 | METANG | Metang | [STEEL/PSYCHIC] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, ruins, mystic`
+- `0376 | METAGROSS | Metagross | [STEEL/PSYCHIC] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, ruins, mystic`
+- `0379 | REGISTEEL | Registeel | [STEEL] | NoRegionalFlag | Legendary | cave, underground, mountain, cliff, urban, factory`
+- `0385 | JIRACHI | Jirachi | [STEEL/PSYCHIC] | NoRegionalFlag | Mythical | cave, mountain, cliff, highland, ruins, mystic, urban, factory`
+- `0395 | EMPOLEON | Empoleon | [WATER/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, ocean, shore, river, riverbank, lake`
+- `0410 | SHIELDON | Shieldon | [ROCK/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0411 | BASTIODON | Bastiodon | [ROCK/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0436 | BRONZOR | Bronzor | [STEEL/PSYCHIC] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, ruins, mystic, urban, factory`
+- `0437 | BRONZONG | Bronzong | [STEEL/PSYCHIC] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, ruins, mystic, urban, factory`
+- `0448 | LUCARIO | Lucario | [FIGHTING/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, urban, factory, dojo`
+- `0462 | MAGNEZONE | Magnezone | [ELECTRIC/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0476 | PROBOPASS | Probopass | [ROCK/STEEL] | NoRegionalFlag | Standard | cave, underground, mountain, cliff, badlands, urban, factory`
+- `0483 | DIALGA | Dialga | [STEEL/DRAGON] | NoRegionalFlag | Legendary | cave, mountain, cliff, highland, ruins, sanctuary, urban, factory`
+- `0485 | HEATRAN | Heatran | [FIRE/STEEL] | NoRegionalFlag | Legendary | cave, mountain, cliff, highland, desert, badlands, volcanic, urban`
+- `0530 | EXCADRILL | Excadrill | [GROUND/STEEL] | NoRegionalFlag | Standard | plains, cave, underground, mountain, cliff, desert, badlands, urban`
+- `0589 | ESCAVALIER | Escavalier | [BUG/STEEL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, urban`
+- `0597 | FERROSEED | Ferroseed | [GRASS/STEEL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, underground, mountain`
+- `0598 | FERROTHORN | Ferrothorn | [GRASS/STEEL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, cave, underground, mountain`
+- `0599 | KLINK | Klink | [STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, urban, city, industrial, factory`
+- `0600 | KLANG | Klang | [STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, urban, city, industrial, factory`
+- `0601 | KLINKLANG | Klinklang | [STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, urban, city, industrial, factory`
+- `0624 | PAWNIARD | Pawniard | [DARK/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0625 | BISHARP | Bisharp | [DARK/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0632 | DURANT | Durant | [BUG/STEEL] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, cave, mountain, cliff, urban`
+- `0638 | COBALION | Cobalion | [STEEL/FIGHTING] | NoRegionalFlag | Legendary | meadow, grassland, plains, cave, mountain, cliff, highland, urban`
+- `0649 | GENESECT | Genesect | [BUG/STEEL] | NoRegionalFlag | Mythical | forest, woodland, jungle, meadow, cave, mountain, cliff, urban`
+- `0679 | HONEDGE | Honedge | [STEEL/GHOST] | NoRegionalFlag | Standard | cave, mountain, cliff, haunted, graveyard, ruins, urban, city`
+- `0680 | DOUBLADE | Doublade | [STEEL/GHOST] | NoRegionalFlag | Standard | cave, mountain, cliff, haunted, graveyard, ruins, urban, city`
+- `0681 | AEGISLASH | Aegislash | [STEEL/GHOST] | RegionalCapable | Standard | cave, mountain, cliff, haunted, graveyard, ruins, urban, city`
+- `0707 | KLEFKI | Klefki | [STEEL/FAIRY] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, mystic, urban, city`
+- `0777 | TOGEDEMARU | Togedemaru | [ELECTRIC/STEEL] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, urban, factory, powerplant`
+- `0791 | SOLGALEO | Solgaleo | [PSYCHIC/STEEL] | NoRegionalFlag | Legendary | cave, mountain, cliff, ruins, mystic, urban, factory, rare`
+- `0797 | CELESTEELA | Celesteela | [STEEL/FLYING] | NoRegionalFlag | Legendary | forest, woodland, cave, mountain, cliff, urban, factory, rare`
+- `0798 | KARTANA | Kartana | [GRASS/STEEL] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, grassland, cave, mountain, cliff`
+- `0801 | MAGEARNA | Magearna | [STEEL/FAIRY] | NoRegionalFlag | Mythical | forest, woodland, cave, mountain, cliff, mystic, urban, city`
+- `0805 | STAKATAKA | Stakataka | [ROCK/STEEL] | NoRegionalFlag | Legendary | cave, mountain, cliff, badlands, urban, factory, rare, special`
+- `0808 | MELTAN | Meltan | [STEEL] | NoRegionalFlag | Mythical | cave, mountain, cliff, urban, factory, rare, special`
+- `0809 | MELMETAL | Melmetal | [STEEL] | NoRegionalFlag | Mythical | cave, mountain, cliff, urban, factory, rare, special`
+- `0823 | CORVIKNIGHT | Corviknight | [FLYING/STEEL] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, cave, mountain, cliff`
+- `0863 | PERRSERKER | Perrserker | [STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, urban, city, industrial, factory`
+- `0878 | CUFANT | Cufant | [STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, urban, factory`
+- `0879 | COPPERAJAH | Copperajah | [STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, urban, factory`
+- `0884 | DURALUDON | Duraludon | [STEEL/DRAGON] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, ruins, sanctuary, urban, factory`
+- `0957 | TINKATINK | Tinkatink | [FAIRY/STEEL] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0958 | TINKATUFF | Tinkatuff | [FAIRY/STEEL] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0959 | TINKATON | Tinkaton | [FAIRY/STEEL] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0965 | VAROOM | Varoom | [STEEL/POISON] | NoRegionalFlag | Standard | cave, mountain, cliff, swamp, bog, desert, badlands, rocky`
+- `0966 | REVAVROOM | Revavroom | [STEEL/POISON] | NoRegionalFlag | Standard | cave, mountain, cliff, swamp, bog, desert, badlands, rocky`
+- `0968 | ORTHWORM | Orthworm | [STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0983 | KINGAMBIT | Kingambit | [DARK/STEEL] | NoRegionalFlag | Standard | cave, mountain, cliff, desert, badlands, rocky, urban, factory`
+- `0990 | IRONTREADS | Iron Treads | [GROUND/STEEL] | NoRegionalFlag | Standard | plains, cave, mountain, cliff, desert, badlands, urban, factory`
+- `1000 | GHOLDENGO | Gholdengo | [STEEL/GHOST] | NoRegionalFlag | Standard | cave, mountain, cliff, haunted, graveyard, ruins, urban, city`
+- `1018 | ARCHALUDON | Archaludon | [STEEL/DRAGON] | NoRegionalFlag | Standard | cave, mountain, cliff, highland, ruins, sanctuary, urban, factory`
+- `1023 | IRONCROWN | Iron Crown | [STEEL/PSYCHIC] | NoRegionalFlag | Standard | cave, mountain, cliff, ruins, mystic, urban, factory, rare`
+
+## Fairy Type
+
+- `0035 | CLEFAIRY | Clefairy | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, mystic, fairygrove, flowerfield`
+- `0036 | CLEFABLE | Clefable | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, mystic, fairygrove, flowerfield`
+- `0039 | JIGGLYPUFF | Jigglypuff | [NORMAL/FAIRY] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mystic, fairygrove, flowerfield`
+- `0040 | WIGGLYTUFF | Wigglytuff | [NORMAL/FAIRY] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mystic, fairygrove, flowerfield`
+- `0122 | MRMIME | Mr. Mime | [PSYCHIC/FAIRY] | RegionalCapable | Standard | forest, woodland, ruins, mystic, urban, city, industrial, fairygrove`
+- `0173 | CLEFFA | Cleffa | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, mystic, fairygrove, flowerfield`
+- `0174 | IGGLYBUFF | Igglybuff | [NORMAL/FAIRY] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mystic, fairygrove, flowerfield`
+- `0175 | TOGEPI | Togepi | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mystic, fairygrove, flowerfield`
+- `0176 | TOGETIC | Togetic | [FAIRY/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, mystic, fairygrove, flowerfield, sky`
+- `0183 | MARILL | Marill | [WATER/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ocean, shore, river, riverbank, lake, wetland`
+- `0184 | AZUMARILL | Azumarill | [WATER/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ocean, shore, river, riverbank, lake, wetland`
+- `0209 | SNUBBULL | Snubbull | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mystic, urban, city, industrial, fairygrove, flowerfield`
+- `0210 | GRANBULL | Granbull | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mystic, urban, city, industrial, fairygrove, flowerfield`
+- `0280 | RALTS | Ralts | [PSYCHIC/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ruins, mystic, urban, city, industrial, fairygrove`
+- `0281 | KIRLIA | Kirlia | [PSYCHIC/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ruins, mystic, urban, city, industrial, fairygrove`
+- `0282 | GARDEVOIR | Gardevoir | [PSYCHIC/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ruins, mystic, urban, city, industrial, fairygrove`
+- `0298 | AZURILL | Azurill | [NORMAL/FAIRY] | NoRegionalFlag | Standard | forest, woodland, grassland, plains, shore, riverbank, wetland, mystic`
+- `0303 | MAWILE | Mawile | [STEEL/FAIRY] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, mystic, urban`
+- `0439 | MIMEJR | Mime Jr. | [PSYCHIC/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ruins, mystic, urban, city, industrial, fairygrove`
+- `0468 | TOGEKISS | Togekiss | [FAIRY/FLYING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, mystic, fairygrove, flowerfield, sky`
+- `0546 | COTTONEE | Cottonee | [GRASS/FAIRY] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mystic, fairygrove`
+- `0547 | WHIMSICOTT | Whimsicott | [GRASS/FAIRY] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mystic, fairygrove`
+- `0669 | FLABEBE | Flabébé | [FAIRY] | RegionalCapable | Standard | forest, woodland, meadow, grassland, plains, mystic, fairygrove, flowerfield`
+- `0670 | FLOETTE | Floette | [FAIRY] | RegionalCapable | Standard | forest, woodland, meadow, grassland, plains, mystic, fairygrove, flowerfield`
+- `0671 | FLORGES | Florges | [FAIRY] | RegionalCapable | Standard | forest, woodland, meadow, grassland, plains, mystic, fairygrove, flowerfield`
+- `0682 | SPRITZEE | Spritzee | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mystic, fairygrove, flowerfield`
+- `0683 | AROMATISSE | Aromatisse | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mystic, fairygrove, flowerfield`
+- `0684 | SWIRLIX | Swirlix | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mystic, urban, city, industrial, fairygrove, flowerfield`
+- `0685 | SLURPUFF | Slurpuff | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mystic, urban, city, industrial, fairygrove, flowerfield`
+- `0700 | SYLVEON | Sylveon | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mystic, urban, city, industrial, fairygrove, flowerfield`
+- `0702 | DEDENNE | Dedenne | [ELECTRIC/FAIRY] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mystic, urban, powerplant`
+- `0703 | CARBINK | Carbink | [ROCK/FAIRY] | NoRegionalFlag | Standard | forest, woodland, cave, underground, mountain, cliff, badlands, mystic`
+- `0707 | KLEFKI | Klefki | [STEEL/FAIRY] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, mystic, urban, city`
+- `0716 | XERNEAS | Xerneas | [FAIRY] | RegionalCapable | Legendary | forest, woodland, mystic, fairygrove, flowerfield, rare, special`
+- `0719 | DIANCIE | Diancie | [ROCK/FAIRY] | NoRegionalFlag | Mythical | forest, woodland, cave, mountain, cliff, badlands, mystic, fairygrove`
+- `0730 | PRIMARINA | Primarina | [WATER/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ocean, shore, river, riverbank, lake, wetland`
+- `0742 | CUTIEFLY | Cutiefly | [BUG/FAIRY] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mystic, fairygrove`
+- `0743 | RIBOMBEE | Ribombee | [BUG/FAIRY] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, plains, mystic, fairygrove`
+- `0755 | MORELULL | Morelull | [GRASS/FAIRY] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mystic, fairygrove, flowerfield`
+- `0756 | SHIINOTIC | Shiinotic | [GRASS/FAIRY] | NoRegionalFlag | Standard | forest, woodland, jungle, meadow, grassland, mystic, fairygrove, flowerfield`
+- `0764 | COMFEY | Comfey | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, meadow, grassland, plains, mystic, fairygrove, flowerfield`
+- `0778 | MIMIKYU | Mimikyu | [GHOST/FAIRY] | RegionalCapable | Standard | forest, woodland, haunted, graveyard, ruins, mystic, fairygrove, flowerfield`
+- `0785 | TAPUKOKO | Tapu Koko | [ELECTRIC/FAIRY] | NoRegionalFlag | Legendary | forest, woodland, mystic, urban, powerplant, stormfield, fairygrove, flowerfield`
+- `0786 | TAPULELE | Tapu Lele | [PSYCHIC/FAIRY] | NoRegionalFlag | Legendary | forest, woodland, ruins, mystic, urban, fairygrove, flowerfield, rare`
+- `0787 | TAPUBULU | Tapu Bulu | [GRASS/FAIRY] | NoRegionalFlag | Legendary | forest, woodland, jungle, meadow, grassland, mystic, fairygrove, flowerfield`
+- `0788 | TAPUFINI | Tapu Fini | [WATER/FAIRY] | NoRegionalFlag | Legendary | forest, woodland, ocean, shore, river, lake, wetland, mystic`
+- `0801 | MAGEARNA | Magearna | [STEEL/FAIRY] | NoRegionalFlag | Mythical | forest, woodland, cave, mountain, cliff, mystic, urban, city`
+- `0858 | HATTERENE | Hatterene | [PSYCHIC/FAIRY] | NoRegionalFlag | Standard | forest, woodland, ruins, mystic, urban, city, industrial, fairygrove`
+- `0859 | IMPIDIMP | Impidimp | [DARK/FAIRY] | NoRegionalFlag | Standard | forest, woodland, cave, badlands, mystic, urban, nightforest, fairygrove`
+- `0860 | MORGREM | Morgrem | [DARK/FAIRY] | NoRegionalFlag | Standard | forest, woodland, cave, badlands, mystic, urban, nightforest, fairygrove`
+- `0861 | GRIMMSNARL | Grimmsnarl | [DARK/FAIRY] | NoRegionalFlag | Standard | forest, woodland, cave, badlands, mystic, urban, nightforest, fairygrove`
+- `0868 | MILCERY | Milcery | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mystic, urban, city, industrial, fairygrove, flowerfield`
+- `0869 | ALCREMIE | Alcremie | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mystic, urban, city, industrial, fairygrove, flowerfield`
+- `0888 | ZACIAN | Zacian | [FAIRY] | NoRegionalFlag | Legendary | forest, woodland, mystic, fairygrove, flowerfield, rare, special`
+- `0905 | ENAMORUS | Enamorus | [FAIRY/FLYING] | RegionalCapable | Legendary | forest, woodland, mountain, cliff, mystic, fairygrove, flowerfield, rare`
+- `0926 | FIDOUGH | Fidough | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mystic, urban, city, industrial, fairygrove, flowerfield`
+- `0927 | DACHSBUN | Dachsbun | [FAIRY] | NoRegionalFlag | Standard | forest, woodland, mystic, urban, city, industrial, fairygrove, flowerfield`
+- `0957 | TINKATINK | Tinkatink | [FAIRY/STEEL] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0958 | TINKATUFF | Tinkatuff | [FAIRY/STEEL] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0959 | TINKATON | Tinkaton | [FAIRY/STEEL] | NoRegionalFlag | Standard | forest, woodland, cave, mountain, cliff, desert, badlands, rocky`
+- `0985 | SCREAMTAIL | Scream Tail | [FAIRY/PSYCHIC] | NoRegionalFlag | Standard | forest, woodland, ruins, mystic, urban, fairygrove, flowerfield, rare`
+- `0987 | FLUTTERMANE | Flutter Mane | [GHOST/FAIRY] | NoRegionalFlag | Standard | forest, woodland, haunted, graveyard, ruins, mystic, fairygrove, flowerfield`
+- `1006 | IRONVALIANT | Iron Valiant | [FAIRY/FIGHTING] | NoRegionalFlag | Standard | forest, woodland, mountain, cliff, highland, mystic, fairygrove, flowerfield`
+- `1016 | FEZANDIPITI | Fezandipiti | [POISON/FAIRY] | NoRegionalFlag | Legendary | forest, woodland, swamp, bog, haunted, mystic, fairygrove, flowerfield`

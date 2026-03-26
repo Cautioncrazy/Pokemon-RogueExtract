@@ -2,6 +2,10 @@ import os
 import random
 from tools.pbs_generator.pbs_parser import PBSFile, PBSSection
 
+
+def _default_pbs_dir():
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "PBS"))
+
 def generate_random_dungeon_name(theme=None):
     prefixes = ["Mystic", "Shadow", "Crystal", "Forgotten", "Ancient", "Abyssal", "Verdant", "Silent", "Echoing"]
     suffixes = ["Cave", "Ruins", "Depths", "Sanctuary", "Labyrinth", "Hollow", "Grotto", "Chasm"]
@@ -17,8 +21,12 @@ def generate_random_dungeon_name(theme=None):
 
     return f"{random.choice(prefixes)} {random.choice(suffixes)}"
 
-def append_map_metadata(map_id, name=None, theme=None, pbs_dir="PBS"):
+def append_map_metadata(map_id, name=None, theme=None, pbs_dir=None):
+    if pbs_dir is None:
+        pbs_dir = _default_pbs_dir()
     filepath = os.path.join(pbs_dir, "map_metadata.txt")
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"map_metadata.txt not found in PBS folder: {filepath}")
     pbs = PBSFile(filepath)
 
     header_prefix = f"[{map_id:03d}]"
