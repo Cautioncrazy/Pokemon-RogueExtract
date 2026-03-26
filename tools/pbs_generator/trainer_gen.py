@@ -93,6 +93,30 @@ def load_trainers_rules(md_filepath):
 
     return class_themes, class_pools
 
+def _get_scaled_items(floor_number, is_boss):
+    """Returns a comma-separated string of scaled items based on the floor number and boss status."""
+    if is_boss:
+        if floor_number <= 3:
+            return "POTION"
+        elif floor_number <= 7:
+            return "SUPERPOTION,ORANBERRY"
+        elif floor_number <= 12:
+            return "HYPERPOTION,SITRUSBERRY"
+        else:
+            return "FULLRESTORE,SITRUSBERRY,LUMBERRY"
+    else:
+        # Standard trainers only have a 50% chance to have items
+        if random.random() < 0.5:
+            if floor_number <= 5:
+                return "POTION"
+            elif floor_number <= 12:
+                return "SUPERPOTION"
+            elif floor_number <= 19:
+                return "HYPERPOTION,ORANBERRY"
+            else:
+                return "MAXPOTION,SITRUSBERRY"
+        return None
+
 def calculate_party_size(floor_number):
     """Calculates party size based on floor number."""
     if floor_number <= 3:
@@ -136,8 +160,8 @@ def _filter_pool_for_floor(species_pool, floor_number):
     return filtered if filtered else species_pool
 
 
-def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None, filter_category="None", filter_value="None"):
-    """Generates a dynamic trainer for the floor's theme."""
+def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None, filter_category="None", filter_value="None", is_boss=False):
+    """Generates a dynamic trainer for the floor's theme. Optionally marks them as a Boss."""
     if pbs_dir is None:
         pbs_dir = _default_pbs_dir()
     if md_filepath is None:
@@ -182,6 +206,9 @@ def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None, filte
     first_names = ["Bob", "Alice", "Charlie", "Diana", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy", "Mallory", "Victor"]
     trainer_name = random.choice(first_names)
 
+    if is_boss:
+        trainer_name = f"Boss {trainer_name}"
+
     version = floor_number - 1 # 0-indexed version matching the floor
     if version < 0: version = 0
 
@@ -215,12 +242,23 @@ def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None, filte
     section = PBSSection(header)
 
     # Simple Lose Text based on level/version
-    if version == 0:
-         section.add_line("LoseText = You got me!")
+    if is_boss:
+        section.add_line("LoseText = Unbelievable... You're truly powerful.")
     else:
-         section.add_line(f"LoseText = I couldn't handle the floor {floor_number} pressure!")
+        if version == 0:
+            section.add_line("LoseText = You got me!")
+        else:
+            section.add_line(f"LoseText = I couldn't handle the floor {floor_number} pressure!")
 
     party_size = calculate_party_size(floor_number)
+    if is_boss:
+        party_size += 1
+
+    # Add Scaling Items
+    scaled_items = _get_scaled_items(floor_number, is_boss)
+    if scaled_items:
+        section.add_line(f"Items = {scaled_items}")
+
     available_pokemon = [p.upper() for p in class_pools.get(trainer_class, [])]
     theme_pool = get_species_pool_for_theme(theme, include_special_boss=False)
 
@@ -254,11 +292,17 @@ def generate_trainers(floor_number, theme, pbs_dir=None, md_filepath=None, filte
 
     min_lvl, max_lvl = calculate_levels(floor_number)
 
+    if is_boss:
+        min_lvl += 2
+        max_lvl += 2
+
     for pkmn in selected_pokemon:
         level = random.randint(min_lvl, max_lvl)
         section.add_line(f"Pokemon = {pkmn},{level}")
 
     pbs.add_section(section)
     pbs.save()
-    print(f"Generated Trainer {header} (Class: {trainer_class}) on Floor {floor_number} with theme '{theme}'")
+
+    boss_tag = " [BOSS]" if is_boss else ""
+    print(f"Generated Trainer {header}{boss_tag} (Class: {trainer_class}) on Floor {floor_number} with theme '{theme}'")
     return True
