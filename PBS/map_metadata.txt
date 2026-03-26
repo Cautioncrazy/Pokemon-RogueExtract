@@ -408,3 +408,7 @@ Dungeon = true
 #-------------------------------
 [080]   # Abyssys
 Dungeon = true
+#-------------------------------
+[082]   # Noxious Bog
+Name = Noxious Bog
+Dungeon = true

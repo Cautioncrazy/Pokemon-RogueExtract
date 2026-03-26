@@ -1,4 +1,4 @@
-﻿# See the documentation on the wiki to learn how to edit this file.
+# See the documentation on the wiki to learn how to edit this file.
 #-------------------------------
 [CAMPER,Liam]
 LoseText = A very good battle, indeed!
@@ -800,3 +800,8 @@ Pokemon = VENUSAUR,35
 Pokemon = FERALIGATR,35
 Pokemon = GYARADOS,35
 Pokemon = CHARIZARD,35
+#-------------------------------
+[LASS,Heidi]
+LoseText = You got me!
+Pokemon = DARTRIX,5
+Pokemon = CLEFAIRY,2

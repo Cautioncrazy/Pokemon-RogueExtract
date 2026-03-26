@@ -167,12 +167,18 @@ class PBSGeneratorApp(QMainWindow):
 
             # Generate Encounters (Version corresponds to Floor - 1 for simplicity here, or just 0, 1, 2)
             version = floor_num - 1 if floor_num > 1 else 0
-            generate_encounters(map_id, version, floor_num, theme, pbs_dir=pbs_dir)
-            self.log(f"✓ Encounters generated for Map {map_id}, Version {version}.")
+            encounters_written = generate_encounters(map_id, version, floor_num, theme, pbs_dir=pbs_dir)
+            if encounters_written:
+                self.log(f"✓ Encounters generated for Map {map_id}, Version {version}.")
+            else:
+                self.log(f"• Encounters skipped for Map {map_id}, Version {version} (section already exists).")
 
             # Generate Trainers (Usually you'd loop this based on map size, just doing 1 for proof of concept)
-            generate_trainers(floor_num, theme, pbs_dir=pbs_dir)
-            self.log(f"✓ Dynamic Trainer generated for Floor {floor_num}.")
+            trainers_written = generate_trainers(floor_num, theme, pbs_dir=pbs_dir)
+            if trainers_written:
+                self.log(f"✓ Dynamic Trainer generated for Floor {floor_num}.")
+            else:
+                self.log(f"• Dynamic Trainer skipped for Floor {floor_num}.")
 
         except Exception as e:
             self.log(f"Error during generation: {e}")

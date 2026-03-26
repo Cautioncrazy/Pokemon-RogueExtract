@@ -59,13 +59,14 @@ def calculate_party_size(floor_number):
     else:
         return random.randint(4, 6)
 
-def generate_trainers(floor_number, theme, pbs_dir="PBS", md_filepath="tools/pbs_generator/trainers.md"):
+def generate_trainers(floor_number, theme, pbs_dir="PBS", md_filepath=None):
     """Generates a dynamic trainer for the floor's theme."""
+    if md_filepath is None:
+        md_filepath = os.path.join(os.path.dirname(__file__), "trainers.md")
     class_themes, class_pools = load_trainers_rules(md_filepath)
 
     if not class_themes or not class_pools:
-        print("Error: trainers.md not found or empty.")
-        return
+        raise ValueError(f"trainers.md not found or empty: {md_filepath}")
 
     # Find Trainer Classes that support this theme
     valid_classes = []
@@ -138,3 +139,4 @@ def generate_trainers(floor_number, theme, pbs_dir="PBS", md_filepath="tools/pbs
     pbs.add_section(section)
     pbs.save()
     print(f"Generated Trainer {header} (Class: {trainer_class}) on Floor {floor_number} with theme '{theme}'")
+    return True

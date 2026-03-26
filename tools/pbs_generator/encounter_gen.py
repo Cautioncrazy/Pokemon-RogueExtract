@@ -28,12 +28,13 @@ def calculate_levels(floor_number):
 
     return base_min, base_max
 
-def generate_encounters(map_id, version, floor_number, theme, pbs_dir="PBS", md_filepath="tools/pbs_generator/encounters.md"):
+def generate_encounters(map_id, version, floor_number, theme, pbs_dir="PBS", md_filepath=None):
     """Generates encounter entries based on theme and floor number."""
+    if md_filepath is None:
+        md_filepath = os.path.join(os.path.dirname(__file__), "encounters.md")
     rules = load_encounters_rules(md_filepath)
     if not rules:
-        print("Error: encounters.md not found or empty.")
-        return
+        raise ValueError(f"encounters.md not found or empty: {md_filepath}")
 
     # Validations
     if not theme or theme not in rules:
@@ -53,7 +54,7 @@ def generate_encounters(map_id, version, floor_number, theme, pbs_dir="PBS", md_
 
     if pbs.has_section(header):
         print(f"Encounter section {header} already exists. Skipping.")
-        return
+        return False
 
     # Add space between sections if needed
     if pbs.sections:
@@ -88,3 +89,4 @@ def generate_encounters(map_id, version, floor_number, theme, pbs_dir="PBS", md_
     pbs.add_section(section)
     pbs.save()
     print(f"Generated Encounter {header} for Map {map_id} on Floor {floor_number} with theme '{theme}'")
+    return True
