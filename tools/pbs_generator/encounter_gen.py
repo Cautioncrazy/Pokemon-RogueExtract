@@ -33,7 +33,7 @@ def calculate_levels(floor_number):
 
     return base_min, base_max
 
-def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_filepath=None, step_chance=None, filter_category="None", filter_value="None"):
+def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_filepath=None, step_chance=None, filter_category="None", filter_value="None", overwrite=False):
     """Generates encounter entries based on theme and floor number."""
     if pbs_dir is None:
         pbs_dir = _default_pbs_dir()
@@ -74,8 +74,12 @@ def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_f
     header = f"[{map_id:03d},{version}]"
 
     if pbs.has_section(header):
-        print(f"Encounter section {header} already exists. Skipping.")
-        return False
+        if overwrite:
+            pbs.remove_section(header)
+            print(f"Encounter section {header} already exists. Overwriting.")
+        else:
+            print(f"Encounter section {header} already exists. Skipping.")
+            return False
 
     # Add space between sections if needed
     if pbs.sections:
