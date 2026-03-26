@@ -804,14 +804,16 @@ Pokemon = CHARIZARD,35
 #---------Python Generated------
 
 #-------------------------------
-[SUPERNERD,Judy]
+[SUPERNERD,Heidi]
 LoseText = You got me!
-Pokemon = TOGEDEMARU,5
+Pokemon = KLINK,4
 #-------------------------------
-[BIRDKEEPER,Ivan]
+[BLACKBELT,Mallory]
 LoseText = You got me!
-Pokemon = TAILLOW,5
+Pokemon = MEDITITE,1
+Pokemon = RIOLU,4
 #-------------------------------
-[BURGLAR,Mallory]
+[PICNICKER,Diana]
 LoseText = You got me!
-Pokemon = SKUNTANK,4
+Pokemon = CHARMANDER,4
+Pokemon = NUMEL,3
