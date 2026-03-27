@@ -803,39 +803,37 @@ Pokemon = CHARIZARD,35
 
 #---------Python Generated------
 
+
 #-------------------------------
-[HIKER,Mallory]
+[BURGLAR,M78_F1]
 LoseText = You got me!
 Items = POTION
-Pokemon = RHYHORN,2
-Pokemon = ARON,3
+Pokemon = GRIMER,4
 #-------------------------------
-[HIKER,Boss Mallory]
+[TEAMROCKET_M,Boss M78_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = RHYHORN,3
-Pokemon = NACLI,7
+Pokemon = KOFFING,6
+Pokemon = SALANDIT,7
+Pokemon = TRUBBISH,3
 #-------------------------------
-[HIKER,Eve]
+[BURGLAR,M79_F1]
 LoseText = You got me!
-Pokemon = DRILBUR,1
-Pokemon = NUMEL,3
+Pokemon = SALANDIT,3
 #-------------------------------
-[HIKER,Boss Judy]
+[TEAMROCKET_F,Boss M79_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = DIGLETT,4
-Pokemon = DRILBUR,3
-Pokemon = NUMEL,5
+Pokemon = KOFFING,6
+Pokemon = SALANDIT,3
+Pokemon = TRUBBISH,7
 #-------------------------------
-[HIKER,Heidi]
+[BIKER,M80_F1]
 LoseText = You got me!
-Items = POTION
-Pokemon = NACLI,4
-Pokemon = ARON,5
+Pokemon = KOFFING,5
 #-------------------------------
-[HIKER,Boss Bob]
+[BURGLAR,Boss M80_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = RHYHORN,4
-Pokemon = ROGGENROLA,4
+Pokemon = SALANDIT,7
+Pokemon = KOFFING,6

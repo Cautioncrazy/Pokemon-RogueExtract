@@ -77,7 +77,7 @@ When generating random parties for dynamic trainers, you **MUST** adhere to the 
 * **Description:** Electric, Poison, Steel, Artificial/Man-made Pokémon.
 * **Approved Pool:** GRIMER, KOFFING, VOLTORB, MAGNEMITE, PORYGON, DITTO, ROTOM, TRUBBISH, KLINK, GOLETT, CHARJABUG, TOGEDEMARU, VAROOM, IRONJUGULIS.
 
-### `ROCKET` / `BURGLAR` / `BIKER`
+### `TEAMROCKET_M` / `TEAMROCKET_F` / `BURGLAR` / `BIKER`
 * **Map Themes:** Cave, Graveyard/Ghost
 * **Description:** Poison, Dark, aggressive Normal/Fire types.
 * **Approved Pool:** ZUBAT, KOFFING, GRIMER, RATTATA, MEOWTH, HOUNDOUR, MURKROW, POOCHYENA, CARVANHA, SKUNTANK, PURRLOIN, SCRAGGY, SANDILE, TRUBBISH, INKAY, SALANDIT, NICKIT, MASCHIFF.

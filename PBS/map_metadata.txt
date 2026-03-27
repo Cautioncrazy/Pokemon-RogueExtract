@@ -398,15 +398,17 @@ Outdoor = true
 MapPosition = 1,13,16
 BattleBack = city
 #-------------------------------
-[078]   # Cavetia
-Name = Cavetia
+[078]   # Toxic Swamp
+Name = Toxic Swamp
 Dungeon = true
+BGM = bgm2,100,100
 #-------------------------------
-[079]   # Crysalo
-Name = Crysalo
+[079]   # Venomous Sludge
+Name = Venomous Sludge
 Dungeon = true
+BGM = bgm2,100,100
 #-------------------------------
-[080]   # Abyssys
+[080]   # Venomous Bog
+Name = Venomous Bog
 Dungeon = true
-
-#---------Python Generated------
+BGM = bgm7,100,100
