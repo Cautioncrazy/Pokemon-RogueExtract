@@ -30,3 +30,14 @@ Method Overriding vs. Editing: When implementing new features (like the Secure P
 
 Syntax Adherence: Always match the coding style, variable naming conventions (e.g., $Trainer, $game\_map, pbMessage), and standard RGSS standard practices found within these base files.
 
+### Known API Changes & Common Pitfalls (v21.1)
+
+Whenever you encounter a scripting issue and identify the proper v21.1 solution, document it here for future reference:
+
+*   **Numeric Input (`pbMessageChooseNumber`)**: In v21.1, you cannot pass a raw integer (like `999`) as the max-digits parameter to `pbMessageChooseNumber`. Doing so will cause a `NoMethodError` on `messageSkin`. You must pass a properly instantiated `ChooseNumberParams` object instead.
+    ```ruby
+    params = ChooseNumberParams.new
+    params.setMaxDigits(3)
+    params.setInitialValue(100) # Optional
+    selected_number = pbMessageChooseNumber("Enter a number:", params)
+    ```
