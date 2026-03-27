@@ -66,7 +66,7 @@ end
 # Register the command in the standard Pokémon Essentials v21.1 Debug Menu
 MenuHandlers.add(:debug_menu, :mass_map_generator, {
   "name"        => _INTL("Mass Generate RL Maps"),
-  "parent"      => :other_menu,
+  "parent"      => :editors_menu,
   "description" => _INTL("Creates a range of blank .rxdata maps for procedural dungeons."),
   "effect"      => proc { |menu|
     pbMassGenerateRoguelikeMaps
