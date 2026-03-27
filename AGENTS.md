@@ -105,8 +105,9 @@ We use a custom Python tool suite located in `tools/pbs_generator/` to automate 
      - **Overwrite Existing Data**: If checked, the tool actively finds and deletes matching PBS sections before rewriting them. **Important**: When overwrite is active, dynamic trainers are generated with deterministic names (e.g., `Boss M1_F5`) instead of random names (e.g., `Boss Alice`) to ensure the PBS parser can accurately locate and delete the specific previous procedural entry.
 - **Role**: As the agent, you are responsible for maintaining and expanding these Python tools alongside the standard Ruby scripts, ensuring the custom parser remains intact and never falls back to standard `configparser` or `json` libraries.
 
-### 8. Core Engine Scripts
-- **Documentation**: See `scripts.md` in the repository root for the full documentation regarding the extracted engine scripts.
+### 8. Core Engine Scripts & Mandatory Research
+- **Documentation**: See `scripts.md`, `functions.md`, and all other `.md` files in the repository root. **Before starting a task or writing a script that hooks into the engine**, you must proactively scan and research these `.md` files. They contain the specific guidelines, context, and rules you need to execute properly.
 - **Directory Path**: The core engine scripts are located at `Data/Scripts/`.
+- **Never Guess UI Symbols**: When adding commands to standard Pokémon Essentials UI (like the Debug Menu, PC menus, or Party screen), never assume the internal registry symbol based on the in-game display name (e.g., "Other editors..." does not mean `:other_menu`). **You must explicitly search the decompiled scripts** (using `grep -ri "MenuHandlers.add" Data/Scripts/` or similar commands) to find the correct, hardcoded system symbol (e.g., `:editors_menu`).
 - **Foundation First**: These extracted scripts are the foundation stones of the game. Whenever you are tasked with modifying core battle logic, map generation, UI elements, or item handling, you **must** prioritize referencing the native architecture found within this directory to ensure complete compatibility.
 - **Structural Integrity & RGSS Syntax**: It is your responsibility to reference these files to maintain structural integrity and adhere to the proper RGSS syntax and standard practices established in Pokémon Essentials v21.1.
