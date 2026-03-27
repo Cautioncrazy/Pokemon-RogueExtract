@@ -837,3 +837,38 @@ LoseText = Unbelievable... You're truly powerful.
 Items = POTION
 Pokemon = SALANDIT,7
 Pokemon = KOFFING,6
+#-------------------------------
+[LASS,M78_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = FIDOUGH,4
+Pokemon = TINKATINK,3
+#-------------------------------
+[LASS,Boss M78_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = MARILL,7
+Pokemon = TINKATINK,4
+Pokemon = FLABEBE,5
+#-------------------------------
+[LASS,M79_F1]
+LoseText = You got me!
+Pokemon = FIDOUGH,5
+Pokemon = FLABEBE,1
+#-------------------------------
+[LASS,Boss M79_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = TINKATINK,4
+Pokemon = FIDOUGH,3
+#-------------------------------
+[LASS,M80_F1]
+LoseText = You got me!
+Pokemon = TINKATINK,2
+#-------------------------------
+[LASS,Boss M80_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = CLEFAIRY,7
+Pokemon = TINKATINK,7
+Pokemon = MARILL,4
