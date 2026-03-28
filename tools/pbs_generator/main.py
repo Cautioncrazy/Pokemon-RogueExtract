@@ -84,6 +84,15 @@ class GeneratorThread(QThread):
                 except Exception as e:
                     self.log_signal.emit(f"Warning: Failed to load map_themes.json: {e}")
 
+            map_encounter_types = {}
+            enc_bridge_path = os.path.join(os.path.dirname(__file__), "map_encounter_types.json")
+            if os.path.exists(enc_bridge_path):
+                try:
+                    with open(enc_bridge_path, 'r', encoding='utf-8') as f:
+                        map_encounter_types = json.load(f)
+                except Exception as e:
+                    self.log_signal.emit(f"Warning: Failed to load map_encounter_types.json: {e}")
+
             for map_idx, map_id in enumerate(range(self.start_map, self.end_map + 1)):
                 self.log_signal.emit(f"\nProcessing Target Map ID: {map_id}")
 
@@ -92,6 +101,9 @@ class GeneratorThread(QThread):
                 tileset_override = map_theme_overrides.get(map_id_str)
                 if tileset_override:
                     self.log_signal.emit(f"   [Tileset Override Detected: {tileset_override}]")
+
+                # Check for encounter type overrides (e.g. Forest -> Land)
+                encounter_type = map_encounter_types.get(map_id_str, "Cave")
 
                 for floor_num in range(1, self.num_floors + 1):
                     # Determine theme and filter for this specific floor
@@ -131,6 +143,7 @@ class GeneratorThread(QThread):
                                                              pbs_dir=self.pbs_dir, step_chance=step_chance,
                                                              filter_category=self.filter_category,
                                                              filter_value=current_filter_val,
+                                                             encounter_type=encounter_type,
                                                              overwrite=self.overwrite_existing)
 
                     # 3. Generate Trainers
