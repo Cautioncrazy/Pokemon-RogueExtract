@@ -410,15 +410,23 @@ Dungeon = true
 Name = Silent Sanctuary
 Dungeon = true
 #-------------------------------
-[081]   # Procedural Map 081
-Name = Silent Cave
+[081]   # Mystic Labyrinth
+Name = Mystic Labyrinth
 Dungeon = true
+BattleBack = Normal
+Environment = Normal
+BGM = bgm3,100,100
 #-------------------------------
-[082]   # Procedural Map 082
-Name = Abyssal Labyrinth
+[082]   # Ancient Sanctuary
+Name = Ancient Sanctuary
 Dungeon = true
-Environment = Snow
+BattleBack = Normal
+Environment = Normal
+BGM = bgm5,100,100
 #-------------------------------
-[083]   # Procedural Map 083
-Name = Abyssal Chasm
+[083]   # Crystal Sanctuary
+Name = Crystal Sanctuary
 Dungeon = true
+BattleBack = Normal
+Environment = Normal
+BGM = bgm8,100,100

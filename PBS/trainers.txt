@@ -805,19 +805,17 @@ Pokemon = CHARIZARD,35
 #-------------------------------
 [BIRDKEEPER,M81_F1]
 LoseText = You got me!
-Items = POTION
-Pokemon = STARLY,5
-Pokemon = ROOKIDEE,1
+Pokemon = PIKIPEK,2
 #-------------------------------
 [BIRDKEEPER,Boss M81_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = PIDOVE,3
-Pokemon = SWABLU,4
+Pokemon = STARLY,7
+Pokemon = FLETCHLING,5
+Pokemon = HOOTHOOT,4
 #-------------------------------
 [POKEMANIAC,M82_F1]
 LoseText = You got me!
-Items = POTION
 Pokemon = LAPRAS,1
 #-------------------------------
 [SWIMMER_F,Boss M82_F1]
@@ -827,10 +825,11 @@ Pokemon = SPHEAL,3
 #-------------------------------
 [BIRDKEEPER,M83_F1]
 LoseText = You got me!
-Pokemon = SWABLU,2
+Items = POTION
+Pokemon = HOOTHOOT,5
 #-------------------------------
 [BIRDKEEPER,Boss M83_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = SWABLU,7
-Pokemon = FLETCHLING,6
+Pokemon = TAILLOW,7
+Pokemon = PIKIPEK,3
