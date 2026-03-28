@@ -63,6 +63,16 @@ def generate_map_metadata(start_id, end_id, theme=None, pbs_dir=None, overwrite=
         new_section.add_line(f"Name = {name}")
         new_section.add_line("Dungeon = true")
 
+        # Inject BattleBack and Environment based on theme
+        if theme:
+            theme_capitalized = theme.capitalize()
+            if theme.lower() == "ice":
+                new_section.add_line("BattleBack = grassICE")
+                new_section.add_line("Environment = Ice")
+            else:
+                new_section.add_line(f"BattleBack = {theme_capitalized}")
+                new_section.add_line(f"Environment = {theme_capitalized}")
+
         # Inject BGM if available from the Ruby generator
         map_id_str = str(map_id)
         if map_id_str in map_bgms:
