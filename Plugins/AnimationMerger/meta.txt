@@ -1,0 +1,2 @@
+Name = Animation Merger
+Version = 1.0
