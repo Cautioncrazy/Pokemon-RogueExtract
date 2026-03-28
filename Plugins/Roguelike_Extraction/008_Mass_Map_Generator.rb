@@ -6,10 +6,15 @@
 #===============================================================================
 
 def pbMassGenerateRoguelikeMaps
-  start_id = pbMessageChooseNumber("Enter Start Map ID:", 999)
+  params = ChooseNumberParams.new
+  params.setMaxDigits(3)
+  params.setInitialValue(100)
+
+  start_id = pbMessageChooseNumber("Enter Start Map ID:", params)
   return if start_id <= 0
 
-  end_id = pbMessageChooseNumber("Enter End Map ID:", 999)
+  params.setInitialValue(start_id + 10)
+  end_id = pbMessageChooseNumber("Enter End Map ID:", params)
   return if end_id < start_id
 
   if pbConfirmMessage("This will generate blank maps from #{start_id} to #{end_id}. The editor must be closed. Continue?")
