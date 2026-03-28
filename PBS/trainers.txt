@@ -803,37 +803,34 @@ Pokemon = CHARIZARD,35
 
 #---------Python Generated------
 #-------------------------------
-[POKEMANIAC,M81_F1]
-LoseText = You got me!
-Pokemon = FRIGIBAX,1
-Pokemon = LAPRAS,4
-#-------------------------------
-[POKEMANIAC,Boss M81_F1]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = LAPRAS,7
-Pokemon = FRIGIBAX,7
-#-------------------------------
-[BIRDKEEPER,M82_F1]
+[BIRDKEEPER,M81_F1]
 LoseText = You got me!
 Items = POTION
-Pokemon = PIKIPEK,4
+Pokemon = STARLY,5
+Pokemon = ROOKIDEE,1
 #-------------------------------
-[BIRDKEEPER,Boss M82_F1]
+[BIRDKEEPER,Boss M81_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = PIDOVE,7
-Pokemon = FLETCHLING,3
-Pokemon = HOOTHOOT,4
+Pokemon = PIDOVE,3
+Pokemon = SWABLU,4
+#-------------------------------
+[POKEMANIAC,M82_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = LAPRAS,1
+#-------------------------------
+[SWIMMER_F,Boss M82_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = SPHEAL,3
 #-------------------------------
 [BIRDKEEPER,M83_F1]
 LoseText = You got me!
-Items = POTION
-Pokemon = TAILLOW,1
-Pokemon = STARLY,1
+Pokemon = SWABLU,2
 #-------------------------------
 [BIRDKEEPER,Boss M83_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = PIKIPEK,3
-Pokemon = SPEAROW,7
+Pokemon = SWABLU,7
+Pokemon = FLETCHLING,6

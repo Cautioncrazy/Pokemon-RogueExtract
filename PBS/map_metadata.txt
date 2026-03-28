@@ -411,16 +411,14 @@ Name = Silent Sanctuary
 Dungeon = true
 #-------------------------------
 [081]   # Procedural Map 081
-Name = Shadow Grotto
+Name = Silent Cave
 Dungeon = true
 #-------------------------------
 [082]   # Procedural Map 082
-Name = Forgotten Cave
+Name = Abyssal Labyrinth
 Dungeon = true
+Environment = Snow
 #-------------------------------
 [083]   # Procedural Map 083
-Name = Echoing Labyrinth
-Dungeon = true
-#-------------------------------
-[084]   # dungeon forest test
+Name = Abyssal Chasm
 Dungeon = true
