@@ -803,33 +803,38 @@ Pokemon = CHARIZARD,35
 
 #---------Python Generated------
 #-------------------------------
-[BIRDKEEPER,M81_F1]
+[SCIENTIST,M81_F1]
 LoseText = You got me!
-Pokemon = PIKIPEK,2
+Items = POTION
+Pokemon = CHARJABUG,3
+Pokemon = TOGEDEMARU,5
 #-------------------------------
-[BIRDKEEPER,Boss M81_F1]
+[SCIENTIST,Boss M81_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = STARLY,7
-Pokemon = FLETCHLING,5
-Pokemon = HOOTHOOT,4
+Pokemon = TOGEDEMARU,5
+Pokemon = MAGNEMITE,4
+Pokemon = VOLTORB,5
 #-------------------------------
-[POKEMANIAC,M82_F1]
+[SWIMMER_F,M82_F1]
 LoseText = You got me!
-Pokemon = LAPRAS,1
+Items = POTION
+Pokemon = SPHEAL,1
 #-------------------------------
 [SWIMMER_F,Boss M82_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = SPHEAL,3
+Pokemon = SPHEAL,7
 #-------------------------------
-[BIRDKEEPER,M83_F1]
+[SCIENTIST,M83_F1]
 LoseText = You got me!
 Items = POTION
-Pokemon = HOOTHOOT,5
+Pokemon = CHARJABUG,1
+Pokemon = TOGEDEMARU,5
 #-------------------------------
-[BIRDKEEPER,Boss M83_F1]
+[SUPERNERD,Boss M83_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = TAILLOW,7
-Pokemon = PIKIPEK,3
+Pokemon = TOGEDEMARU,7
+Pokemon = VOLTORB,7
+Pokemon = MAGNEMITE,7

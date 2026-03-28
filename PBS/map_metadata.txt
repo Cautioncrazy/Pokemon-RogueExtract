@@ -409,24 +409,27 @@ Dungeon = true
 [080]   # Abyssys
 Name = Silent Sanctuary
 Dungeon = true
+
+#---------Python Generated------
+
 #-------------------------------
-[081]   # Mystic Labyrinth
-Name = Mystic Labyrinth
+[081]   # Shadow Labyrinth
+Name = Shadow Labyrinth
 Dungeon = true
-BattleBack = Normal
-Environment = Normal
-BGM = bgm3,100,100
+BattleBack = Electric
+Environment = None
+BGM = bgm7,100,100
 #-------------------------------
-[082]   # Ancient Sanctuary
-Name = Ancient Sanctuary
+[082]   # Silent Ruins
+Name = Silent Ruins
 Dungeon = true
-BattleBack = Normal
-Environment = Normal
-BGM = bgm5,100,100
+BattleBack = Electric
+Environment = None
+BGM = bgm9,100,100
 #-------------------------------
-[083]   # Crystal Sanctuary
-Name = Crystal Sanctuary
+[083]   # Crystal Grotto
+Name = Crystal Grotto
 Dungeon = true
-BattleBack = Normal
-Environment = Normal
-BGM = bgm8,100,100
+BattleBack = Electric
+Environment = None
+BGM = bgm4,100,100
