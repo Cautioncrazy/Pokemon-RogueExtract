@@ -872,3 +872,32 @@ Items = POTION
 Pokemon = CLEFAIRY,7
 Pokemon = TINKATINK,7
 Pokemon = MARILL,4
+#-------------------------------
+[SAILOR,M81_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = SPHEAL,4
+#-------------------------------
+[SAILOR,Boss M81_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = SPHEAL,7
+#-------------------------------
+[SWIMMER_M,M82_F1]
+LoseText = You got me!
+Pokemon = SPHEAL,1
+#-------------------------------
+[SAILOR,Boss M82_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = SPHEAL,3
+#-------------------------------
+[SWIMMER_F,M83_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = SPHEAL,1
+#-------------------------------
+[SWIMMER_M,Boss M83_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = SPHEAL,5

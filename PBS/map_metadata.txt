@@ -412,3 +412,18 @@ BGM = bgm8,100,100
 Name = Crystal Labyrinth
 Dungeon = true
 BGM = bgm7,100,100
+#-------------------------------
+[081]   # Echoing Ruins
+Name = Echoing Ruins
+Dungeon = true
+BGM = bgm9,100,100
+#-------------------------------
+[082]   # Echoing Sanctuary
+Name = Echoing Sanctuary
+Dungeon = true
+BGM = bgm5,100,100
+#-------------------------------
+[083]   # Ancient Labyrinth
+Name = Ancient Labyrinth
+Dungeon = true
+BGM = bgm3,100,100
