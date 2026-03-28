@@ -1,2 +1,8 @@
-Name = Animation Merger
-Version = 1.0
+Name = Caution's Animation Manager
+Version = 1.0.0
+Essentials = 21.1
+Website = https://github.com/Cautioncrazy/Pokemon-RogueExtract
+Credits = Jules, CautionCrazy
+
+# Description = Part of a larger project but can be used as a standalone hotfix. 
+# Handles combining multiple different animation packs with fallback to vanilla essentials anims for moves not covered.

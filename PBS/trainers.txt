@@ -828,10 +828,6 @@ Pokemon = KOFFING,6
 Pokemon = SALANDIT,3
 Pokemon = TRUBBISH,7
 #-------------------------------
-[BIKER,M80_F1]
-LoseText = You got me!
-Pokemon = KOFFING,5
-#-------------------------------
 [BURGLAR,Boss M80_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
@@ -901,3 +897,146 @@ Pokemon = SPHEAL,1
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
 Pokemon = SPHEAL,5
+#-------------------------------
+[HIKER,M78_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = ROLYCOLY,3
+#-------------------------------
+[HIKER,Boss M78_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = ROLYCOLY,5
+Pokemon = NOSEPASS,5
+#-------------------------------
+[HIKER,M79_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = NACLI,3
+Pokemon = ROLYCOLY,3
+#-------------------------------
+[HIKER,Boss M79_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = SILICOBRA,7
+Pokemon = NOSEPASS,4
+Pokemon = ROLYCOLY,5
+#-------------------------------
+[HIKER,M80_F1]
+LoseText = You got me!
+Pokemon = NACLI,3
+Pokemon = ROLYCOLY,4
+#-------------------------------
+[HIKER,Boss M80_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = ROGGENROLA,7
+Pokemon = NOSEPASS,4
+Pokemon = NACLI,4
+#-------------------------------
+[HIKER,M81_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = SILICOBRA,4
+Pokemon = NACLI,1
+#-------------------------------
+[HIKER,Boss M81_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = SILICOBRA,5
+Pokemon = NACLI,4
+Pokemon = ROLYCOLY,3
+#-------------------------------
+[HIKER,M82_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = ROGGENROLA,5
+Pokemon = NACLI,3
+#-------------------------------
+[HIKER,Boss M82_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = DIGLETT,4
+Pokemon = NACLI,6
+Pokemon = SILICOBRA,4
+#-------------------------------
+[HIKER,M83_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = NACLI,1
+#-------------------------------
+[HIKER,Boss M83_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = ROLYCOLY,6
+Pokemon = NACLI,4
+#-------------------------------
+[TEAMROCKET_M,M78_F1]
+LoseText = You got me!
+Pokemon = CARVANHA,5
+#-------------------------------
+[TEAMROCKET_F,Boss M78_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = NICKIT,4
+Pokemon = PURRLOIN,3
+Pokemon = CARVANHA,5
+#-------------------------------
+[BIKER,M79_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = NICKIT,5
+Pokemon = POOCHYENA,5
+#-------------------------------
+[TEAMROCKET_M,Boss M79_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = CARVANHA,7
+Pokemon = NICKIT,6
+#-------------------------------
+[BIKER,M80_F1]
+LoseText = You got me!
+Pokemon = CARVANHA,3
+Pokemon = PURRLOIN,4
+#-------------------------------
+[TEAMROCKET_F,Boss M80_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = POOCHYENA,7
+Pokemon = NICKIT,6
+#-------------------------------
+[BIKER,M81_F1]
+LoseText = You got me!
+Pokemon = PURRLOIN,3
+Pokemon = POOCHYENA,4
+#-------------------------------
+[BIKER,Boss M81_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = NICKIT,3
+Pokemon = CARVANHA,3
+Pokemon = POOCHYENA,4
+#-------------------------------
+[SAILOR,M82_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = SPHEAL,2
+#-------------------------------
+[POKEMANIAC,Boss M82_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = LAPRAS,3
+Pokemon = FRIGIBAX,3
+#-------------------------------
+[TEAMROCKET_F,M83_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = CARVANHA,4
+Pokemon = POOCHYENA,5
+#-------------------------------
+[TEAMROCKET_M,Boss M83_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = POOCHYENA,5
+Pokemon = NICKIT,4
+Pokemon = CARVANHA,7
