@@ -89,7 +89,9 @@ We use a custom Python tool suite located in `tools/pbs_generator/` to automate 
   - `encounters.md` / `trainers.md`: Text definitions that act as rulesets mapping Themes (Grass, Poison, etc.) to valid Pokémon species and Trainer Classes.
 - **Automated Map Pipeline**: We employ a dual-script pipeline for generating procedural maps:
   1. **In-Engine (`.rxdata`)**: Open RPG Maker XP, run the game in Debug mode, and select `Other editors... -> Mass Generate RL Maps`. Input a Map ID range. This generates the physical `MapXXX.rxdata` files and links them to the editor registry (`MapInfos.rxdata`). **You must completely restart RPG Maker XP to see the new maps.**
+      - *Tileset Naming & Theme Bridging*: The Ruby script randomly assigns a tileset to each new map. It ONLY selects tilesets whose names strictly begin with `Dungeon`. If the tileset name contains a theme suffix (e.g., `Dungeon forest_ICE`), the Ruby script writes this map-to-theme mapping into `tools/pbs_generator/map_themes.json`.
   2. **PBS Metadata (`map_metadata.txt`)**: Use the Python GUI tool to mass-generate the corresponding metadata. The tool automatically injects random names, the `Dungeon = true` flag, and randomly selects a BGM by scanning the `Audio/BGM/` directory.
+      - *Theme Overrides*: When you run bulk generation in the Python GUI, it natively reads `map_themes.json`. If a map has an assigned tileset theme (like `ICE`), it forcefully overrides whatever "Floor Theme" you selected in the GUI dropdown, guaranteeing that map's encounters and trainers match its physical tileset.
 
 - **Usage**:
   1. Ensure `PyQt6` is installed (`pip install PyQt6`).
@@ -111,3 +113,10 @@ We use a custom Python tool suite located in `tools/pbs_generator/` to automate 
 - **Never Guess UI Symbols**: When adding commands to standard Pokémon Essentials UI (like the Debug Menu, PC menus, or Party screen), never assume the internal registry symbol based on the in-game display name (e.g., "Other editors..." does not mean `:other_menu`). **You must explicitly search the decompiled scripts** (using `grep -ri "MenuHandlers.add" Data/Scripts/` or similar commands) to find the correct, hardcoded system symbol (e.g., `:editors_menu`).
 - **Foundation First**: These extracted scripts are the foundation stones of the game. Whenever you are tasked with modifying core battle logic, map generation, UI elements, or item handling, you **must** prioritize referencing the native architecture found within this directory to ensure complete compatibility.
 - **Structural Integrity & RGSS Syntax**: It is your responsibility to reference these files to maintain structural integrity and adhere to the proper RGSS syntax and standard practices established in Pokémon Essentials v21.1.
+
+### 9. Animation Merging Tool
+We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to automatically merge multiple community-made animation packs into the base `Data/PkmnAnimations.rxdata` file, ensuring the engine's default fallback animations are preserved.
+- **Directory Scanning:** The script uses `Dir.glob` to scan the `Plugins/` directory and all its subdirectories for any file named `PkmnAnimations.rxdata`.
+- **In-Game UI Priority Selection:** Accessible via the Debug menu > Other editors, the tool presents a UI loop to the user, allowing them to rank the priority of the found animation packs from Highest (1) to Lowest.
+- **Merge Logic (Reverse Iteration):** The script first loads the vanilla base fallback file. It then iterates through the user-ranked custom packs starting with the lowest priority pack and ending with the highest priority pack.
+- **Conflict Resolution:** If a custom pack contains an animation with the exact same name as one in the base array, it overwrites it. If it does not, the custom animation is appended to the end of the array. Applying the highest priority pack last ensures its animations permanently overwrite any lower-priority conflicts, while leaving untouched vanilla animations perfectly intact.
