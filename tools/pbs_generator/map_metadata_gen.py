@@ -66,12 +66,24 @@ def generate_map_metadata(start_id, end_id, theme=None, pbs_dir=None, overwrite=
         # Inject BattleBack and Environment based on theme
         if theme:
             theme_capitalized = theme.capitalize()
+            # Note: We do NOT inject generic Environment names because they must match exact IDs
+            # in GameData::Environment (like Grass, Cave, Snow, Ice, Rock, Sand, Forest).
+            # "Normal" or generic theme names will crash the compiler.
+            # We map known themes to safe environments, else we just assign BattleBack.
+
             if theme.lower() == "ice":
                 new_section.add_line("BattleBack = grassICE")
                 new_section.add_line("Environment = Ice")
+            elif theme.lower() == "grass":
+                new_section.add_line("BattleBack = Grass")
+                new_section.add_line("Environment = Grass")
+            elif theme.lower() in ["water", "poison"]:
+                new_section.add_line(f"BattleBack = {theme_capitalized}")
+                new_section.add_line("Environment = StillWater")
             else:
                 new_section.add_line(f"BattleBack = {theme_capitalized}")
-                new_section.add_line(f"Environment = {theme_capitalized}")
+                # Fallback to None to avoid compiler crashes for undefined environments
+                new_section.add_line("Environment = None")
 
         # Inject BGM if available from the Ruby generator
         map_id_str = str(map_id)
