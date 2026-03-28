@@ -28,46 +28,65 @@ def pbBuildProceduralEvent(x, y, id, name, graphic_name, trigger, direction_fix,
   page1.direction_fix = direction_fix
   page1.step_anime = stop_anim
 
+  # Adjust event setup depending on if it's a trainer
+  is_trainer = name.downcase.include?("trainer")
+
+  # Default to no sight range unless randomized
+  # In Pokémon Essentials, appending (X) gives sight range
+  final_name = name
+  needs_sight = false
+
   # Set random movement for Trainers and VIPs
-  if name.downcase.include?("trainer") || name.downcase == "vip"
+  if is_trainer || name.downcase == "vip"
     roll = rand(100)
-    if roll < 33
-      # Fixed / Look around randomly (Type 0)
+
+    # Optional static trainers (No sight, Fixed Action Button interaction later)
+    if is_trainer && roll < 20
       page1.move_type = 0
-    elsif roll < 66
-      # Random walking (Type 1)
-      page1.move_type = 1
-      page1.move_frequency = 3
-      page1.move_speed = 3
-    else
-      # Custom Pacing (Type 3)
+    # Miniboss Chasers (Fast, Approach Player, Long Sight)
+    elsif is_trainer && roll >= 20 && roll < 35
+      page1.move_type = 2 # Approach
+      page1.move_frequency = 4 # Faster
+      page1.move_speed = 4
+      needs_sight = true
+      final_name = "Trainer(6)" # Extended sight range
+    # Standard Pacing (Custom Route)
+    elsif roll >= 35 && roll < 70
       page1.move_type = 3
       page1.move_frequency = 3
       page1.move_speed = 3
+      needs_sight = is_trainer # VIPs stay Action Button, standard trainers get sight
+      final_name = "Trainer(4)" if is_trainer
 
-      # Build Move Route
       route = RPG::MoveRoute.new
       route.repeat = true
-      route.skippable = true # Ignore if can't move
+      route.skippable = true
 
       pace_dir = rand(2) == 0 ? 1 : 2 # 1 = Down, 2 = Left
       pace_dist = rand(2..4)
 
-      # EventCommand for movement:
-      # 1 = Move Down, 2 = Move Left, 3 = Move Right, 4 = Move Up
       list = []
       if pace_dir == 1
-        pace_dist.times { list.push(RPG::MoveCommand.new(1)) } # Down
-        pace_dist.times { list.push(RPG::MoveCommand.new(4)) } # Up
+        pace_dist.times { list.push(RPG::MoveCommand.new(1)) }
+        pace_dist.times { list.push(RPG::MoveCommand.new(4)) }
       else
-        pace_dist.times { list.push(RPG::MoveCommand.new(2)) } # Left
-        pace_dist.times { list.push(RPG::MoveCommand.new(3)) } # Right
+        pace_dist.times { list.push(RPG::MoveCommand.new(2)) }
+        pace_dist.times { list.push(RPG::MoveCommand.new(3)) }
       end
-      list.push(RPG::MoveCommand.new(0)) # End
+      list.push(RPG::MoveCommand.new(0))
       route.list = list
       page1.move_route = route
+    # Random Walking
+    else
+      page1.move_type = 1
+      page1.move_frequency = 3
+      page1.move_speed = 3
+      needs_sight = is_trainer
+      final_name = "Trainer(4)" if is_trainer
     end
   end
+
+  event.name = final_name
 
   # Page 1 Commands (The Script call)
   # Event Command 355 is "Script", 655 is "Script Continuation"
@@ -87,7 +106,10 @@ def pbBuildProceduralEvent(x, y, id, name, graphic_name, trigger, direction_fix,
     page2.condition.self_switch_valid = true
     # Chests use Self Switch A, Trainers use Self Switch D (for interaction phase)
     page2.condition.self_switch_ch = (name.downcase == "chest") ? "A" : "D"
-    page2.trigger = 0 # Action Button
+
+    # Chests and VIPs/Static Trainers are Action Button.
+    # Trainers with sight ranges trigger via Event Touch (2)
+    page2.trigger = needs_sight ? 2 : 0
 
     if name.downcase == "chest"
       # For chests, page 2 is blank (no graphic, no commands) so it erases itself

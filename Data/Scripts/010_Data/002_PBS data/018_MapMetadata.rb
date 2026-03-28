@@ -16,6 +16,7 @@ module GameData
     attr_reader :still_reflections
     attr_reader :random_dungeon
     attr_reader :battle_background
+    attr_reader :battle_base
     attr_reader :wild_battle_BGM
     attr_reader :trainer_battle_BGM
     attr_reader :wild_victory_BGM
@@ -47,6 +48,7 @@ module GameData
       "StillReflections"  => [:still_reflections,    "b"],
       "Dungeon"           => [:random_dungeon,       "b"],
       "BattleBack"        => [:battle_background,    "s"],
+      "BattleBase"        => [:battle_base,          "s"],
       "WildBattleBGM"     => [:wild_battle_BGM,      "s"],
       "TrainerBattleBGM"  => [:trainer_battle_BGM,   "s"],
       "WildVictoryBGM"    => [:wild_victory_BGM,     "s"],
@@ -78,6 +80,7 @@ module GameData
         ["StillReflections",  BooleanProperty,         _INTL("If true, reflections of events and the player will not ripple horizontally.")],
         ["Dungeon",           BooleanProperty,         _INTL("If true, this map has a randomly generated layout. See the wiki for more information.")],
         ["BattleBack",        StringProperty,          _INTL("PNG files named 'XXX_bg', 'XXX_base0', 'XXX_base1', 'XXX_message' in Battlebacks folder, where XXX is this property's value.")],
+        ["BattleBase",        StringProperty,          _INTL("Explicit override for the base image 'XXX_base0' if you do not want it derived from the BattleBack or Environment.")],
         ["WildBattleBGM",     BGMProperty,             _INTL("Default BGM for wild Pokémon battles on this map.")],
         ["TrainerBattleBGM",  BGMProperty,             _INTL("Default BGM for trainer battles on this map.")],
         ["WildVictoryBGM",    BGMProperty,             _INTL("Default BGM played after winning a wild Pokémon battle on this map.")],
@@ -106,6 +109,7 @@ module GameData
       @still_reflections    = hash[:still_reflections]
       @random_dungeon       = hash[:random_dungeon]
       @battle_background    = hash[:battle_background]
+      @battle_base          = hash[:battle_base]
       @wild_battle_BGM      = hash[:wild_battle_BGM]
       @trainer_battle_BGM   = hash[:trainer_battle_BGM]
       @wild_victory_BGM     = hash[:wild_victory_BGM]
