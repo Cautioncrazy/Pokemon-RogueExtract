@@ -33,7 +33,7 @@ def calculate_levels(floor_number):
 
     return base_min, base_max
 
-def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_filepath=None, step_chance=None, filter_category="None", filter_value="None", overwrite=False):
+def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_filepath=None, step_chance=None, filter_category="None", filter_value="None", encounter_type="Cave", overwrite=False):
     """Generates encounter entries based on theme and floor number."""
     if pbs_dir is None:
         pbs_dir = _default_pbs_dir()
@@ -96,7 +96,7 @@ def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_f
     else:
         encounter_density = step_chance
 
-    section.add_line(f"Cave,{encounter_density}")
+    section.add_line(f"{encounter_type},{encounter_density}")
 
     min_lvl, max_lvl = calculate_levels(floor_number)
 

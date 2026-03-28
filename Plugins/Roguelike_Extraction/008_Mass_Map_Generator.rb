@@ -183,6 +183,7 @@ def pbMassGenerateRoguelikeMaps
 
     map_themes = {}
     map_bgms = {}
+    map_encounter_types = {}
     count = 0
 
     (start_id..end_id).each do |map_id|
@@ -216,6 +217,10 @@ def pbMassGenerateRoguelikeMaps
         theme_suffix = chosen_ts[:name].split("_").last.strip
         map_themes[map_id.to_s] = theme_suffix if !theme_suffix.empty?
       end
+
+      # Determine encounter type based on tileset name
+      encounter_type = chosen_ts[:name].downcase.include?("forest") ? "Land" : "Cave"
+      map_encounter_types[map_id.to_s] = encounter_type
 
       # Inject Procedural Events into the map
       current_event_id = 1
@@ -297,6 +302,22 @@ def pbMassGenerateRoguelikeMaps
       end
     rescue => e
       pbMessage("Warning: Failed to save map_bgms.json bridge file for Python. #{e.message}")
+    end
+
+    # Save the encounter types bridge JSON file for the Python generator
+    enc_bridge_path = "tools/pbs_generator/map_encounter_types.json"
+    begin
+      File.open(enc_bridge_path, "w") do |f|
+        f.write("{\n")
+        lines = []
+        map_encounter_types.each do |k, v|
+          lines.push("  \"#{k}\": \"#{v}\"")
+        end
+        f.write(lines.join(",\n"))
+        f.write("\n}")
+      end
+    rescue => e
+      pbMessage("Warning: Failed to save map_encounter_types.json bridge file for Python. #{e.message}")
     end
 
     pbMessage("Successfully generated #{count} new maps. Please completely restart RPG Maker XP to see them in the map tree.")
