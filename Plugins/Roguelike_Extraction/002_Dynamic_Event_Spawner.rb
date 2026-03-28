@@ -13,16 +13,51 @@ module RoguelikeExtraction
 
   # The Spawner Function
   # Note: Movement/Teleportation is natively handled by Overworld_RandomDungeons.
-  # This function strictly assigns dynamic properties (Trainer Classes) and graphics.
+  # This function strictly assigns dynamic properties (Trainer Classes) and graphics,
+  # and scales the total number of events based on the current floor tier.
   def self.spawn_dynamic_events
     return if !$game_map || !$game_map.events
+
+    floor = $PokemonGlobal.current_raid_floor || 1
+
+    # Scale trainers and chests based on floor
+    # Floor 1: ~4, Floor 5: ~8, Floor 10+: ~15-20
+    max_trainers = [[(floor * 1.5).to_i + 3, 20].min, 1].max
+    max_chests = [[(floor * 1.5).to_i + 3, 20].min, 1].max
+
+    active_trainers = 0
+    active_chests = 0
 
     # Iterate through all events on the newly generated map
     $game_map.events.values.each do |event|
       # We identify dynamic entities by their Event Name in RPG Maker
       name = event.name.downcase
 
-      if name.include?("vip") || name.include?("trainer") || name.include?("chest")
+      # Handle Trader spawning sparingly (every 5-10 floors)
+      # 20% chance if floor > 2, or guaranteed every 5 floors
+      if name == "trader"
+        should_spawn_trader = (floor % 5 == 0) || (floor > 2 && rand(100) < 20)
+        if !should_spawn_trader
+          event.erase
+          next
+        end
+      end
+
+      if name.include?("trainer")
+        if active_trainers >= max_trainers
+          event.erase
+          next
+        end
+        active_trainers += 1
+      elsif name.include?("chest")
+        if active_chests >= max_chests
+          event.erase
+          next
+        end
+        active_chests += 1
+      end
+
+      if name.include?("vip") || name.include?("trainer") || name.include?("chest") || name == "extract" || name == "trader"
 
         # Pre-calculate Trainer/VIP and apply graphics immediately
         if name.include?("vip") || name.include?("trainer")

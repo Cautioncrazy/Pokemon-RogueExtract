@@ -5,6 +5,81 @@
 # and link them into the MapInfos.rxdata registry so they appear in the editor.
 #===============================================================================
 
+# Helper to easily build an RPG::Event object with scripts and pages
+def pbBuildProceduralEvent(x, y, id, name, graphic_name, trigger, direction_fix, stop_anim, script_str, needs_page2=false, needs_page3=false)
+  event = RPG::Event.new(x, y)
+  event.id = id
+  event.name = name
+
+  # Page 1 Setup
+  page1 = RPG::Event::Page.new
+  page1.trigger = trigger
+  page1.graphic.character_name = graphic_name if graphic_name
+  page1.direction_fix = direction_fix
+  page1.step_anime = stop_anim
+
+  # Page 1 Commands (The Script call)
+  # Event Command 355 is "Script", 655 is "Script Continuation"
+  list = []
+  lines = script_str.split("\n")
+  lines.each_with_index do |line, i|
+    code = (i == 0) ? 355 : 655
+    list.push(RPG::EventCommand.new(code, 0, [line]))
+  end
+  list.push(RPG::EventCommand.new(0, 0, [])) # Empty command ends list
+  page1.list = list
+  event.pages[0] = page1
+
+  # Optional Page 2 (For interactable trainers/bosses or opened chests)
+  if needs_page2
+    page2 = RPG::Event::Page.new
+    page2.condition.self_switch_valid = true
+    # Chests use Self Switch A, Trainers use Self Switch D (for interaction phase)
+    page2.condition.self_switch_ch = (name.downcase == "chest") ? "A" : "D"
+    page2.trigger = 0 # Action Button
+    page2.graphic.character_name = graphic_name if graphic_name
+    page2.direction_fix = direction_fix
+    page2.step_anime = stop_anim
+
+    if name.downcase == "chest"
+      page2.direction_fix = true
+      # Usually opened chest graphics look a certain way, we just let it be handled here
+    else
+      # If it's a trainer/vip, page 2 just repeats the exact same script call to trigger battle
+      list2 = []
+      lines.each_with_index do |line, i|
+        code = (i == 0) ? 355 : 655
+        list2.push(RPG::EventCommand.new(code, 0, [line]))
+      end
+      list2.push(RPG::EventCommand.new(0, 0, []))
+      page2.list = list2
+    end
+    event.pages.push(page2)
+  end
+
+  # Optional Page 3 (For defeated trainers/bosses)
+  if needs_page3
+    page3 = RPG::Event::Page.new
+    page3.condition.self_switch_valid = true
+    page3.condition.self_switch_ch = "A" # Defeated
+    page3.trigger = 0 # Action Button
+    page3.graphic.character_name = graphic_name if graphic_name
+    page3.direction_fix = direction_fix
+    page3.step_anime = stop_anim
+
+    list3 = []
+    # If it's a VIP, page 3 has the extract prompt
+    if name.downcase == "vip"
+      list3.push(RPG::EventCommand.new(355, 0, ["pbDefeatedVIP"]))
+    end
+    list3.push(RPG::EventCommand.new(0, 0, []))
+    page3.list = list3
+    event.pages.push(page3)
+  end
+
+  return event
+end
+
 def pbMassGenerateRoguelikeMaps
   params = ChooseNumberParams.new
   params.setMaxDigits(3)
@@ -42,7 +117,18 @@ def pbMassGenerateRoguelikeMaps
       return
     end
 
+    # Scan for available BGMs
+    available_bgms = []
+    begin
+      Dir.glob("Audio/BGM/bgm*.*").each do |f|
+        basename = File.basename(f, ".*")
+        available_bgms.push(basename) unless available_bgms.include?(basename)
+      end
+    rescue
+    end
+
     map_themes = {}
+    map_bgms = {}
     count = 0
 
     (start_id..end_id).each do |map_id|
@@ -63,10 +149,46 @@ def pbMassGenerateRoguelikeMaps
       map = RPG::Map.new(width, height)
       map.tileset_id = chosen_ts[:id]
 
+      # Assign Random BGM
+      if !available_bgms.empty?
+        chosen_bgm = available_bgms.sample
+        map.autoplay_bgm = true
+        map.bgm = RPG::AudioFile.new(chosen_bgm, 100, 100)
+        map_bgms[map_id.to_s] = chosen_bgm
+      end
+
       # Parse optional theme from tileset name (e.g., 'Dungeon forest_ICE' -> 'ICE')
       if chosen_ts[:name].include?("_")
         theme_suffix = chosen_ts[:name].split("_").last.strip
         map_themes[map_id.to_s] = theme_suffix if !theme_suffix.empty?
+      end
+
+      # Inject Procedural Events into the map
+      current_event_id = 1
+      map.events = {}
+
+      # 1 VIP
+      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "pbDynamicTrainer(\"A\")", true, true)
+      current_event_id += 1
+
+      # 1 Extract NPC
+      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "pbEarlyExtractPrompt", false, false)
+      current_event_id += 1
+
+      # 1 Trader NPC
+      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trader", "Trader", 0, false, false, "pbBlackMarketTrader", false, false)
+      current_event_id += 1
+
+      # 20 Trainers
+      20.times do
+        map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trainer", nil, 4, false, false, "pbDynamicTrainer(\"A\")", true, true)
+        current_event_id += 1
+      end
+
+      # 20 Chests
+      20.times do
+        map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "chest", "Chests", 0, true, false, "pbDynamicChestLoot", true, false)
+        current_event_id += 1
       end
 
       # Save the physical MapXXX.rxdata file
@@ -105,6 +227,22 @@ def pbMassGenerateRoguelikeMaps
       end
     rescue => e
       pbMessage("Warning: Failed to save map_themes.json bridge file for Python. #{e.message}")
+    end
+
+    # Save the bgm bridge JSON file for the Python generator
+    bgm_bridge_path = "tools/pbs_generator/map_bgms.json"
+    begin
+      File.open(bgm_bridge_path, "w") do |f|
+        f.write("{\n")
+        lines = []
+        map_bgms.each do |k, v|
+          lines.push("  \"#{k}\": \"#{v}\"")
+        end
+        f.write(lines.join(",\n"))
+        f.write("\n}")
+      end
+    rescue => e
+      pbMessage("Warning: Failed to save map_bgms.json bridge file for Python. #{e.message}")
     end
 
     pbMessage("Successfully generated #{count} new maps. Please completely restart RPG Maker XP to see them in the map tree.")
