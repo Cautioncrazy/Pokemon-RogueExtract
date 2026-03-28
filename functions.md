@@ -41,6 +41,14 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
     *   **Description:** Triggers a prompt asking the player if they want to "Extract" their loot or "Continue" deeper. Automatically calls `pbExtractRaidVIP` or `pbAdvanceRaid` based on their answer.
     *   **Usage:** Place this inside the `Script...` box on **Page 3** of your VIP event (the defeated NPC page). When the player interacts with the defeated boss, this prompt will allow them to extract safely.
 
+*   **`pbEarlyExtractPrompt`**
+    *   **Description:** An interactable NPC event that allows the player to safely extract early. Like extracting at the Hub, it resets the floor to 0 but saves all the loot gathered so far.
+    *   **Usage:** Used on the standard `Extract NPC` generated in procedural dungeons.
+
+*   **`pbBlackMarketTrader`**
+    *   **Description:** A shady NPC trader that rarely spawns (every 5-10 floors) and opens a custom `pbPokemonMart` filled with high-tier items (Revives, PP items, Choice items) unavailable at standard stores.
+    *   **Usage:** Used on the standard `Trader NPC` generated in procedural dungeons.
+
 ---
 
 ### **3. Cursed Pokemon & Easy Mode**
