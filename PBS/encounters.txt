@@ -1,2 +1,92 @@
 #---------Python Generated------
 
+[085,0] # F1 (Normal)
+Cave,5
+    20,BUNNELBY,1,5
+    20,RATTATA,1,5
+    10,LECHONK,1,5
+    10,MEOWTH,1,5
+    10,SLAKOTH,1,5
+    10,BIDOOF,1,5
+    10,SPINDA,1,5
+    5,KECLEON,1,5
+    4,PATRAT,1,5
+    1,MINCCINO,1,5
+
+[086,0] # F1 (Normal)
+Land,5
+    20,HOOTHOOT,1,5
+    20,SMOLIV,1,5
+    10,MEOWTH,1,5
+    10,PIDGEY,1,5
+    10,SWABLU,1,5
+    10,PIKIPEK,1,5
+    10,PIDOVE,1,5
+    5,SLAKOTH,1,5
+    4,LILLIPUP,1,5
+    1,LECHONK,1,5
+
+[087,0] # F1 (Normal)
+Cave,5
+    20,FLETCHLING,1,5
+    20,PIKIPEK,1,5
+    10,SMOLIV,1,5
+    10,SENTRET,1,5
+    10,YUNGOOS,1,5
+    10,PATRAT,1,5
+    10,LECHONK,1,5
+    5,SKITTY,1,5
+    4,LITLEO,1,5
+    1,BIDOOF,1,5
+
+[088,0] # F1 (Normal)
+Land,5
+    20,STARLY,1,5
+    20,SPEAROW,1,5
+    10,AUDINO,1,5
+    10,PIDGEY,1,5
+    10,SKWOVET,1,5
+    10,RATTATA,1,5
+    10,WATCHOG,1,5
+    5,TAILLOW,1,5
+    4,BUNNELBY,1,5
+    1,KECLEON,1,5
+
+[089,0] # F1 (Normal)
+Land,5
+    20,SMOLIV,1,5
+    20,MINCCINO,1,5
+    10,YUNGOOS,1,5
+    10,HOOTHOOT,1,5
+    10,TAILLOW,1,5
+    10,SKWOVET,1,5
+    10,KECLEON,1,5
+    5,AUDINO,1,5
+    4,ZIGZAGOON,1,5
+    1,PIKIPEK,1,5
+
+[090,0] # F1 (Normal)
+Cave,5
+    20,SKITTY,1,5
+    20,FLETCHLING,1,5
+    10,HOOTHOOT,1,5
+    10,WOOLOO,1,5
+    10,MEOWTH,1,5
+    10,LILLIPUP,1,5
+    10,AUDINO,1,5
+    5,SMOLIV,1,5
+    4,ZIGZAGOON,1,5
+    1,SPINDA,1,5
+
+[091,0] # F1 (ICE)
+Land,5
+    20,VANILLITE,1,5
+    20,SWINUB,1,5
+    10,SPHEAL,1,5
+    10,SPHEAL,1,5
+    10,SWINUB,1,5
+    10,SPHEAL,1,5
+    10,SPHEAL,1,5
+    5,SPHEAL,1,5
+    4,VANILLITE,1,5
+    1,SPHEAL,1,5

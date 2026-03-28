@@ -412,3 +412,53 @@ Dungeon = true
 
 #---------Python Generated------
 
+#-------------------------------
+[085]   # Abyssal Labyrinth
+Name = Abyssal Labyrinth
+Dungeon = true
+BattleBack = Normal
+Environment = None
+BGM = bgm2,100,100
+#-------------------------------
+[086]   # Forgotten Ruins
+Name = Forgotten Ruins
+Dungeon = true
+BattleBack = Normal
+Environment = None
+BGM = bgm5,100,100
+#-------------------------------
+[087]   # Crystal Sanctuary
+Name = Crystal Sanctuary
+Dungeon = true
+BattleBack = Normal
+Environment = None
+BGM = bgm6,100,100
+#-------------------------------
+[088]   # Forgotten Ruins
+Name = Forgotten Ruins
+Dungeon = true
+BattleBack = Normal
+Environment = None
+BGM = bgm3,100,100
+#-------------------------------
+[089]   # Shadow Ruins
+Name = Shadow Ruins
+Dungeon = true
+BattleBack = Normal
+Environment = None
+BGM = bgm5,100,100
+#-------------------------------
+[090]   # Forgotten Cave
+Name = Forgotten Cave
+Dungeon = true
+BattleBack = Normal
+Environment = None
+BGM = bgm4,100,100
+#-------------------------------
+[091]   # Verdant Sanctuary
+Name = Verdant Sanctuary
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+BGM = bgm8,100,100
