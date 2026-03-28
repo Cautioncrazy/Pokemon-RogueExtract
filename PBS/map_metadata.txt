@@ -412,18 +412,3 @@ BGM = bgm9,100,100
 Name = Silent Sanctuary
 Dungeon = true
 BGM = bgm7,100,100
-#-------------------------------
-[081]   # Abyssal Depths
-Name = Abyssal Depths
-Dungeon = true
-BGM = bgm3,100,100
-#-------------------------------
-[082]   # Abyssal Labyrinth
-Name = Abyssal Labyrinth
-Dungeon = true
-BGM = bgm4,100,100
-#-------------------------------
-[083]   # Silent Labyrinth
-Name = Silent Labyrinth
-Dungeon = true
-BGM = bgm3,100,100
