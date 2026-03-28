@@ -1040,3 +1040,37 @@ Items = POTION
 Pokemon = POOCHYENA,5
 Pokemon = NICKIT,4
 Pokemon = CARVANHA,7
+#-------------------------------
+[BIRDKEEPER,M81_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = FLETCHLING,3
+#-------------------------------
+[BIRDKEEPER,Boss M81_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = SPEAROW,3
+Pokemon = PIDOVE,7
+Pokemon = SWABLU,4
+#-------------------------------
+[BIRDKEEPER,M82_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = SWABLU,1
+#-------------------------------
+[BIRDKEEPER,Boss M82_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = TAILLOW,3
+Pokemon = PIDOVE,5
+#-------------------------------
+[BIRDKEEPER,M83_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = STARLY,3
+#-------------------------------
+[BIRDKEEPER,Boss M83_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = HOOTHOOT,5
+Pokemon = TAILLOW,3

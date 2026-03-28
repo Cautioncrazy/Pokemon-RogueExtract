@@ -413,17 +413,17 @@ Name = Silent Sanctuary
 Dungeon = true
 BGM = bgm7,100,100
 #-------------------------------
-[081]   # Forgotten Cave
-Name = Forgotten Cave
+[081]   # Abyssal Depths
+Name = Abyssal Depths
 Dungeon = true
-BGM = bgm9,100,100
+BGM = bgm3,100,100
 #-------------------------------
-[082]   # Verdant Cave
-Name = Verdant Cave
+[082]   # Abyssal Labyrinth
+Name = Abyssal Labyrinth
 Dungeon = true
-BGM = bgm5,100,100
+BGM = bgm4,100,100
 #-------------------------------
-[083]   # Forgotten Cave
-Name = Forgotten Cave
+[083]   # Silent Labyrinth
+Name = Silent Labyrinth
 Dungeon = true
-BGM = bgm6,100,100
+BGM = bgm3,100,100
