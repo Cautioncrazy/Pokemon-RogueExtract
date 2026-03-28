@@ -86,7 +86,8 @@ def generate_map_metadata(start_id, end_id, theme=None, pbs_dir=None, overwrite=
             # We map known themes to safe environments, else we just assign BattleBack.
 
             if current_theme.lower() == "ice":
-                new_section.add_line("BattleBack = grassICE")
+                new_section.add_line("BattleBack = snow")
+                new_section.add_line("BattleBase = grassICE")
                 # Use Snow for Ice biomes to match the user's graphical preference
                 new_section.add_line("Environment = Snow")
             elif current_theme.lower() == "grass":

@@ -86,7 +86,22 @@ module AnimationMerger
         existing_index = base_anims.find_index { |a| a && a.name == custom_anim.name }
 
         if existing_index
-          base_anims[existing_index] = custom_anim
+          # Deep Merge instead of blindly overwriting the whole object
+          base_anim = base_anims[existing_index]
+
+          # Only inherit the graphic string if the custom one actually provides one
+          if custom_anim.graphic != ""
+            base_anim.graphic = custom_anim.graphic
+            base_anim.hue = custom_anim.hue
+          end
+
+          # Overwrite frames and timing entirely as that contains the actual animation sequence
+          base_anim.array = custom_anim.array
+          base_anim.timing = custom_anim.timing
+
+          # Maintain other positional properties
+          base_anim.position = custom_anim.position
+
           total_overwritten += 1
         else
           base_anims.push(custom_anim)

@@ -281,8 +281,12 @@ module BattleCreationHelperMethods
     battle.backdrop = backdrop
     # Choose a name for bases depending on environment
     if battleRules["base"].nil?
-      environment_data = GameData::Environment.try_get(battle.environment)
-      base = environment_data.battle_base if environment_data
+      if $game_map.metadata && $game_map.metadata.battle_base && $game_map.metadata.battle_base != ""
+        base = $game_map.metadata.battle_base
+      else
+        environment_data = GameData::Environment.try_get(battle.environment)
+        base = environment_data.battle_base if environment_data
+      end
     else
       base = battleRules["base"]
     end
