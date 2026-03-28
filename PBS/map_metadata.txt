@@ -413,3 +413,24 @@ Dungeon = true
 #---------Python Generated------
 
 
+#-------------------------------
+[081]   # Mystic Ruins
+Name = Mystic Ruins
+Dungeon = true
+BattleBack = Steel
+Environment = None
+BGM = bgm1,100,100
+#-------------------------------
+[082]   # Forgotten Sanctuary
+Name = Forgotten Sanctuary
+Dungeon = true
+BattleBack = grassICE
+Environment = Snow
+BGM = bgm9,100,100
+#-------------------------------
+[083]   # Silent Grotto
+Name = Silent Grotto
+Dungeon = true
+BattleBack = grassICE
+Environment = Snow
+BGM = bgm8,100,100
