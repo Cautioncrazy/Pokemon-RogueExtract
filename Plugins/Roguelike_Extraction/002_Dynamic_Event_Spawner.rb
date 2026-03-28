@@ -21,10 +21,10 @@ module RoguelikeExtraction
 
     floor = $PokemonGlobal.current_raid_floor || 1
 
-    # Scale trainers and chests based on floor
-    # Floor 1: ~2, Floor 5: ~6, Floor 10+: ~12
-    max_trainers = [[floor + 1, 12].min, 1].max
-    max_chests = [[floor + 2, 12].min, 1].max
+    # Scale trainers and chests based on floor assuming a 50-100 floor clear.
+    # Floor 1: ~1, Floor 4: ~2, Floor 10: ~3, maxing around 10-12 on very deep floors.
+    max_trainers = [[(floor / 4.0).to_i + 1, 10].min, 1].max
+    max_chests = [[(floor / 3.0).to_i + 1, 12].min, 1].max
 
     active_trainers = 0
     active_chests = 0
@@ -62,9 +62,14 @@ module RoguelikeExtraction
     end
 
     # Actually remove them from the hash so Overworld_RandomDungeons ignores them
+    # Note: If called pre-generation, this operates on a temporary Hash, not $game_map.events directly
     events_to_delete.each do |id|
-      $game_map.events.delete(id)
+      if $game_map
+        $game_map.events.delete(id)
+      end
     end
+
+    return events_to_delete
   end
 
   def self.spawn_dynamic_events
@@ -122,27 +127,40 @@ end
 # Hooking into Map Generation
 #===============================================================================
 # Instead of waiting for on_enter_map (which might trigger too late),
-# we alias Game_Map.setup to run our logic immediately after the engine's
-# Random Dungeon map generation finishes, guaranteeing our event data is processed
-# BEFORE the player enters and the sprites render.
+# we alias Game_Map.setup to cull our events BEFORE Overworld_RandomDungeons runs,
+# and then apply graphics AFTER it runs.
 #===============================================================================
 
 class Game_Map
   alias roguelike_extraction_map_setup setup unless method_defined?(:roguelike_extraction_map_setup)
 
   def setup(map_id)
-    # 1. Run the native setup (which triggers Overworld_RandomDungeons)
+    # We must load the map data ourselves briefly to see if it's a dungeon
+    # so we can cull events BEFORE the underlying RandomDungeon engine fails to place 42 events
+    is_dungeon = false
+    if GameData::MapMetadata.exists?(map_id)
+      metadata = GameData::MapMetadata.get(map_id)
+      is_dungeon = metadata.has_flag?("Dungeon")
+    end
+
+    # 1. Run the native setup (which triggers Overworld_RandomDungeons and completely overwrites @map and @events)
     roguelike_extraction_map_setup(map_id)
 
-    # 2. Check if this newly generated map is a Dungeon
-    if GameData::MapMetadata.exists?(@map_id)
-      metadata = GameData::MapMetadata.get(@map_id)
-      if metadata.has_flag?("Dungeon")
-        # Cull the excess events from memory
-        RoguelikeExtraction.cull_excess_events
-        # Assign dynamics to the remaining ones
-        RoguelikeExtraction.spawn_dynamic_events
+    # 2. Cull the events from the now-loaded $game_map
+    if is_dungeon
+      events_to_delete = RoguelikeExtraction.cull_excess_events
+
+      # Even if Overworld_RandomDungeons moved them around, we just delete the objects from memory
+      if events_to_delete && @events
+        events_to_delete.each do |id|
+          @events.delete(id)
+        end
       end
+    end
+
+    # 2. Apply graphics to the remaining events
+    if is_dungeon
+      RoguelikeExtraction.spawn_dynamic_events
     end
   end
 end
