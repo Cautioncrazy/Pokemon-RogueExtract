@@ -398,17 +398,29 @@ Outdoor = true
 MapPosition = 1,13,16
 BattleBack = city
 #-------------------------------
-[078]   # Shadow Chasm
+[078]   # Cavetia
 Name = Shadow Chasm
 Dungeon = true
-BGM = bgm4,100,100
 #-------------------------------
-[079]   # Forgotten Hollow
+[079]   # Crysalo
 Name = Forgotten Hollow
 Dungeon = true
-BGM = bgm9,100,100
 #-------------------------------
-[080]   # Silent Sanctuary
+[080]   # Abyssys
 Name = Silent Sanctuary
 Dungeon = true
-BGM = bgm7,100,100
+#-------------------------------
+[081]   # Procedural Map 081
+Name = Shadow Grotto
+Dungeon = true
+#-------------------------------
+[082]   # Procedural Map 082
+Name = Forgotten Cave
+Dungeon = true
+#-------------------------------
+[083]   # Procedural Map 083
+Name = Echoing Labyrinth
+Dungeon = true
+#-------------------------------
+[084]   # dungeon forest test
+Dungeon = true
