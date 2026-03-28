@@ -14,9 +14,60 @@ def pbBuildProceduralEvent(x, y, id, name, graphic_name, trigger, direction_fix,
   # Page 1 Setup
   page1 = RPG::Event::Page.new
   page1.trigger = trigger
-  page1.graphic.character_name = graphic_name if graphic_name
+
+  if graphic_name
+    page1.graphic.character_name = graphic_name
+
+    # If it's a chest, randomize which of the 16 sprites it uses
+    if name.downcase == "chest"
+      page1.graphic.direction = [2, 4, 6, 8].sample
+      page1.graphic.pattern = [0, 1, 2, 3].sample
+    end
+  end
+
   page1.direction_fix = direction_fix
   page1.step_anime = stop_anim
+
+  # Set random movement for Trainers and VIPs
+  if name.downcase.include?("trainer") || name.downcase == "vip"
+    roll = rand(100)
+    if roll < 33
+      # Fixed / Look around randomly (Type 0)
+      page1.move_type = 0
+    elsif roll < 66
+      # Random walking (Type 1)
+      page1.move_type = 1
+      page1.move_frequency = 3
+      page1.move_speed = 3
+    else
+      # Custom Pacing (Type 3)
+      page1.move_type = 3
+      page1.move_frequency = 3
+      page1.move_speed = 3
+
+      # Build Move Route
+      route = RPG::MoveRoute.new
+      route.repeat = true
+      route.skippable = true # Ignore if can't move
+
+      pace_dir = rand(2) == 0 ? 1 : 2 # 1 = Down, 2 = Left
+      pace_dist = rand(2..4)
+
+      # EventCommand for movement:
+      # 1 = Move Down, 2 = Move Left, 3 = Move Right, 4 = Move Up
+      list = []
+      if pace_dir == 1
+        pace_dist.times { list.push(RPG::MoveCommand.new(1)) } # Down
+        pace_dist.times { list.push(RPG::MoveCommand.new(4)) } # Up
+      else
+        pace_dist.times { list.push(RPG::MoveCommand.new(2)) } # Left
+        pace_dist.times { list.push(RPG::MoveCommand.new(3)) } # Right
+      end
+      list.push(RPG::MoveCommand.new(0)) # End
+      route.list = list
+      page1.move_route = route
+    end
+  end
 
   # Page 1 Commands (The Script call)
   # Event Command 355 is "Script", 655 is "Script Continuation"
@@ -37,14 +88,17 @@ def pbBuildProceduralEvent(x, y, id, name, graphic_name, trigger, direction_fix,
     # Chests use Self Switch A, Trainers use Self Switch D (for interaction phase)
     page2.condition.self_switch_ch = (name.downcase == "chest") ? "A" : "D"
     page2.trigger = 0 # Action Button
-    page2.graphic.character_name = graphic_name if graphic_name
-    page2.direction_fix = direction_fix
-    page2.step_anime = stop_anim
 
     if name.downcase == "chest"
+      # For chests, page 2 is blank (no graphic, no commands) so it erases itself
+      page2.graphic.character_name = ""
       page2.direction_fix = true
-      # Usually opened chest graphics look a certain way, we just let it be handled here
+      page2.list = [RPG::EventCommand.new(0, 0, [])]
     else
+      page2.graphic.character_name = graphic_name if graphic_name
+      page2.direction_fix = direction_fix
+      page2.step_anime = stop_anim
+
       # If it's a trainer/vip, page 2 just repeats the exact same script call to trigger battle
       list2 = []
       lines.each_with_index do |line, i|

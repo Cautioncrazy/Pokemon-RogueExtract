@@ -22,9 +22,9 @@ module RoguelikeExtraction
     floor = $PokemonGlobal.current_raid_floor || 1
 
     # Scale trainers and chests based on floor
-    # Floor 1: ~4, Floor 5: ~8, Floor 10+: ~15-20
-    max_trainers = [[(floor * 1.5).to_i + 3, 20].min, 1].max
-    max_chests = [[(floor * 1.5).to_i + 3, 20].min, 1].max
+    # Floor 1: ~2, Floor 5: ~6, Floor 10+: ~12
+    max_trainers = [[floor + 1, 12].min, 1].max
+    max_chests = [[floor + 2, 12].min, 1].max
 
     active_trainers = 0
     active_chests = 0
@@ -122,41 +122,27 @@ end
 # Hooking into Map Generation
 #===============================================================================
 # Instead of waiting for on_enter_map (which might trigger too late),
-# we alias Game_Map.setup to cull our events BEFORE Overworld_RandomDungeons runs,
-# and then apply graphics AFTER it runs.
+# we alias Game_Map.setup to run our logic immediately after the engine's
+# Random Dungeon map generation finishes, guaranteeing our event data is processed
+# BEFORE the player enters and the sprites render.
 #===============================================================================
 
 class Game_Map
   alias roguelike_extraction_map_setup setup unless method_defined?(:roguelike_extraction_map_setup)
 
   def setup(map_id)
-    # We must load the map data ourselves briefly to see if it's a dungeon
-    # so we can cull events BEFORE the underlying RandomDungeon engine fails to place 42 events
-    is_dungeon = false
-    if GameData::MapMetadata.exists?(map_id)
-      metadata = GameData::MapMetadata.get(map_id)
-      is_dungeon = metadata.has_flag?("Dungeon")
-    end
-
-    if is_dungeon
-      # Temporarily load the raw map to cull events
-      @map = load_data(sprintf("Data/Map%03d.rxdata", map_id))
-      @events = {}
-      @map.events.keys.each do |i|
-        @events[i] = Game_Event.new(@map_id, @map.events[i])
-      end
-      RoguelikeExtraction.cull_excess_events
-
-      # Now we have fewer events. We must write this back to @map so Overworld_RandomDungeons reads it
-      @map.events.keep_if { |k, v| @events.keys.include?(k) }
-    end
-
     # 1. Run the native setup (which triggers Overworld_RandomDungeons)
     roguelike_extraction_map_setup(map_id)
 
-    # 2. Apply graphics to the remaining events
-    if is_dungeon
-      RoguelikeExtraction.spawn_dynamic_events
+    # 2. Check if this newly generated map is a Dungeon
+    if GameData::MapMetadata.exists?(@map_id)
+      metadata = GameData::MapMetadata.get(@map_id)
+      if metadata.has_flag?("Dungeon")
+        # Cull the excess events from memory
+        RoguelikeExtraction.cull_excess_events
+        # Assign dynamics to the remaining ones
+        RoguelikeExtraction.spawn_dynamic_events
+      end
     end
   end
 end
