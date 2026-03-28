@@ -15,7 +15,8 @@ module RoguelikeExtraction
   # Note: Movement/Teleportation is natively handled by Overworld_RandomDungeons.
   # This function strictly assigns dynamic properties (Trainer Classes) and graphics,
   # and scales the total number of events based on the current floor tier.
-  def self.spawn_dynamic_events
+  # Removes events entirely from the map object so RandomDungeons doesn't process them
+  def self.cull_excess_events
     return if !$game_map || !$game_map.events
 
     floor = $PokemonGlobal.current_raid_floor || 1
@@ -28,6 +29,8 @@ module RoguelikeExtraction
     active_trainers = 0
     active_chests = 0
 
+    events_to_delete = []
+
     # Iterate through all events on the newly generated map
     $game_map.events.values.each do |event|
       # We identify dynamic entities by their Event Name in RPG Maker
@@ -38,24 +41,38 @@ module RoguelikeExtraction
       if name == "trader"
         should_spawn_trader = (floor % 5 == 0) || (floor > 2 && rand(100) < 20)
         if !should_spawn_trader
-          event.erase
+          events_to_delete.push(event.id)
           next
         end
       end
 
       if name.include?("trainer")
         if active_trainers >= max_trainers
-          event.erase
+          events_to_delete.push(event.id)
           next
         end
         active_trainers += 1
       elsif name.include?("chest")
         if active_chests >= max_chests
-          event.erase
+          events_to_delete.push(event.id)
           next
         end
         active_chests += 1
       end
+    end
+
+    # Actually remove them from the hash so Overworld_RandomDungeons ignores them
+    events_to_delete.each do |id|
+      $game_map.events.delete(id)
+    end
+  end
+
+  def self.spawn_dynamic_events
+    return if !$game_map || !$game_map.events
+
+    # Iterate through remaining active events
+    $game_map.events.values.each do |event|
+      name = event.name.downcase
 
       if name.include?("vip") || name.include?("trainer") || name.include?("chest") || name == "extract" || name == "trader"
 
@@ -105,24 +122,41 @@ end
 # Hooking into Map Generation
 #===============================================================================
 # Instead of waiting for on_enter_map (which might trigger too late),
-# we alias Game_Map.setup to run our logic immediately after the engine's
-# Random Dungeon map generation finishes, guaranteeing our event data is processed
-# BEFORE the player enters and the sprites render.
+# we alias Game_Map.setup to cull our events BEFORE Overworld_RandomDungeons runs,
+# and then apply graphics AFTER it runs.
 #===============================================================================
 
 class Game_Map
   alias roguelike_extraction_map_setup setup unless method_defined?(:roguelike_extraction_map_setup)
 
   def setup(map_id)
+    # We must load the map data ourselves briefly to see if it's a dungeon
+    # so we can cull events BEFORE the underlying RandomDungeon engine fails to place 42 events
+    is_dungeon = false
+    if GameData::MapMetadata.exists?(map_id)
+      metadata = GameData::MapMetadata.get(map_id)
+      is_dungeon = metadata.has_flag?("Dungeon")
+    end
+
+    if is_dungeon
+      # Temporarily load the raw map to cull events
+      @map = load_data(sprintf("Data/Map%03d.rxdata", map_id))
+      @events = {}
+      @map.events.keys.each do |i|
+        @events[i] = Game_Event.new(@map_id, @map.events[i])
+      end
+      RoguelikeExtraction.cull_excess_events
+
+      # Now we have fewer events. We must write this back to @map so Overworld_RandomDungeons reads it
+      @map.events.keep_if { |k, v| @events.keys.include?(k) }
+    end
+
     # 1. Run the native setup (which triggers Overworld_RandomDungeons)
     roguelike_extraction_map_setup(map_id)
 
-    # 2. Check if this newly generated map is a Dungeon
-    if GameData::MapMetadata.exists?(@map_id)
-      metadata = GameData::MapMetadata.get(@map_id)
-      if metadata.has_flag?("Dungeon")
-        RoguelikeExtraction.spawn_dynamic_events
-      end
+    # 2. Apply graphics to the remaining events
+    if is_dungeon
+      RoguelikeExtraction.spawn_dynamic_events
     end
   end
 end
