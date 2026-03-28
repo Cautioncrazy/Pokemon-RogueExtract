@@ -23,8 +23,8 @@ module RoguelikeExtraction
 
     # Scale trainers and chests based on floor assuming a 50-100 floor clear.
     # Floor 1: ~1, Floor 4: ~2, Floor 10: ~3, maxing around 10-12 on very deep floors.
-    max_trainers = [[(floor / 4.0).to_i + 1, 10].min, 1].max
-    max_chests = [[(floor / 3.0).to_i + 1, 12].min, 1].max
+    max_trainers = [[(floor / 5.0).to_i + 1, 10].min, 1].max
+    max_chests = [[(floor / 4.0).to_i + 1, 12].min, 1].max
 
     active_trainers = 0
     active_chests = 0
