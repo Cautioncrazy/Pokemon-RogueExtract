@@ -803,36 +803,4 @@ Pokemon = CHARIZARD,35
 
 #---------Python Generated------
 
-#-------------------------------
-[SCIENTIST,M81_F1]
-LoseText = You got me!
-Items = POTION
-Pokemon = KLINK,5
-#-------------------------------
-[SCIENTIST,Boss M81_F1]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = MAGNEMITE,3
-Pokemon = VAROOM,3
-#-------------------------------
-[SAILOR,M82_F1]
-LoseText = You got me!
-Items = POTION
-Pokemon = SPHEAL,5
-#-------------------------------
-[POKEMANIAC,Boss M82_F1]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = LAPRAS,3
-Pokemon = FRIGIBAX,4
-#-------------------------------
-[POKEMANIAC,M83_F1]
-LoseText = You got me!
-Items = POTION
-Pokemon = LAPRAS,5
-Pokemon = FRIGIBAX,1
-#-------------------------------
-[SWIMMER_F,Boss M83_F1]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = SPHEAL,7
+
