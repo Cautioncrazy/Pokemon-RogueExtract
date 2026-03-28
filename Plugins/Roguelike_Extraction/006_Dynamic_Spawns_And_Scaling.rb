@@ -72,6 +72,13 @@ module RoguelikeExtraction
     return [item, amount]
   end
 
+  # Define higher tier items for the Black Market Trader
+  BLACK_MARKET_POOL = [
+    :RARECANDY, :MAXREVIVE, :FULLRESTORE, :MAXELIXIR,
+    :PPUP, :PPMAX, :NUGGET, :MASTERBALL, :LEFTOVERS,
+    :CHOICEBAND, :CHOICESCARF, :CHOICESPECS, :LIFEORB
+  ]
+
   # Calculates the trainer version based on the current floor.
   # Track defeated trainers on this floor to avoid duplicates
   def self.fought_trainers
@@ -110,6 +117,33 @@ def pbDynamicChestLoot
   # We extract the event ID automatically so the user doesn't have to pass it
   event_id = pbMapInterpreter.get_character(0).id
   pbSetSelfSwitch(event_id, "A", true)
+end
+
+# To be placed inside the Early Extract NPC
+def pbEarlyExtractPrompt
+  pbMessage(_INTL("Would you like to safely extract early?\\nThis will reset current floor but you will keep all loot found!"))
+  if pbConfirmMessage("Extract?")
+    pbMessage(_INTL("Visit any Abra to extract early!"))
+    pbExtractRaid
+  end
+end
+
+# To be placed inside the Black Market Trader NPC
+def pbBlackMarketTrader
+  pbMessage(_INTL("Psst... you look like you need some of the good stuff.\\nI got items you won't find anywhere else, for a price."))
+
+  # Create a custom stock list based on the floor tier
+  floor = $PokemonGlobal.current_raid_floor || 1
+  tier = (floor - 1) / 4
+
+  # Scale stock amount based on tier, max 6 items
+  stock_count = 3 + tier
+  stock_count = 6 if stock_count > 6
+
+  stock = RoguelikeExtraction::BLACK_MARKET_POOL.sample(stock_count)
+
+  # We use the standard Pokemon Mart but we can customize the dialogue
+  pbPokemonMart(stock, _INTL("Anything catch your eye?"), _INTL("Keep it quiet, alright?"))
 end
 
 # To be placed inside a Trainer or VIP event
