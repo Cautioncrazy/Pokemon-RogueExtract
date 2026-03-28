@@ -412,24 +412,4 @@ Dungeon = true
 
 #---------Python Generated------
 
-#-------------------------------
-[081]   # Shadow Labyrinth
-Name = Shadow Labyrinth
-Dungeon = true
-BattleBack = Electric
-Environment = None
-BGM = bgm7,100,100
-#-------------------------------
-[082]   # Silent Ruins
-Name = Silent Ruins
-Dungeon = true
-BattleBack = Electric
-Environment = None
-BGM = bgm9,100,100
-#-------------------------------
-[083]   # Crystal Grotto
-Name = Crystal Grotto
-Dungeon = true
-BattleBack = Electric
-Environment = None
-BGM = bgm4,100,100
+

@@ -802,39 +802,4 @@ Pokemon = GYARADOS,35
 Pokemon = CHARIZARD,35
 
 #---------Python Generated------
-#-------------------------------
-[SCIENTIST,M81_F1]
-LoseText = You got me!
-Items = POTION
-Pokemon = CHARJABUG,3
-Pokemon = TOGEDEMARU,5
-#-------------------------------
-[SCIENTIST,Boss M81_F1]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = TOGEDEMARU,5
-Pokemon = MAGNEMITE,4
-Pokemon = VOLTORB,5
-#-------------------------------
-[SWIMMER_F,M82_F1]
-LoseText = You got me!
-Items = POTION
-Pokemon = SPHEAL,1
-#-------------------------------
-[SWIMMER_F,Boss M82_F1]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = SPHEAL,7
-#-------------------------------
-[SCIENTIST,M83_F1]
-LoseText = You got me!
-Items = POTION
-Pokemon = CHARJABUG,1
-Pokemon = TOGEDEMARU,5
-#-------------------------------
-[SUPERNERD,Boss M83_F1]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = TOGEDEMARU,7
-Pokemon = VOLTORB,7
-Pokemon = MAGNEMITE,7
+
