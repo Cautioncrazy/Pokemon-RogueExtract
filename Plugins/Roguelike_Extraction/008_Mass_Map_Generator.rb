@@ -99,6 +99,13 @@ def pbBuildProceduralEvent(x, y, id, name, graphic_name, trigger, direction_fix,
       page2.direction_fix = direction_fix
       page2.step_anime = stop_anim
 
+      # Copy movement settings from Page 1 to Page 2 so trainers continue moving
+      # while waiting for player interaction
+      page2.move_type = page1.move_type
+      page2.move_speed = page1.move_speed
+      page2.move_frequency = page1.move_frequency
+      page2.move_route = page1.move_route
+
       # If it's a trainer/vip, page 2 just repeats the exact same script call to trigger battle
       list2 = []
       lines.each_with_index do |line, i|
