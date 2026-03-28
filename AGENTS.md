@@ -89,7 +89,9 @@ We use a custom Python tool suite located in `tools/pbs_generator/` to automate 
   - `encounters.md` / `trainers.md`: Text definitions that act as rulesets mapping Themes (Grass, Poison, etc.) to valid Pokémon species and Trainer Classes.
 - **Automated Map Pipeline**: We employ a dual-script pipeline for generating procedural maps:
   1. **In-Engine (`.rxdata`)**: Open RPG Maker XP, run the game in Debug mode, and select `Other editors... -> Mass Generate RL Maps`. Input a Map ID range. This generates the physical `MapXXX.rxdata` files and links them to the editor registry (`MapInfos.rxdata`). **You must completely restart RPG Maker XP to see the new maps.**
+      - *Tileset Naming & Theme Bridging*: The Ruby script randomly assigns a tileset to each new map. It ONLY selects tilesets whose names strictly begin with `Dungeon`. If the tileset name contains a theme suffix (e.g., `Dungeon forest_ICE`), the Ruby script writes this map-to-theme mapping into `tools/pbs_generator/map_themes.json`.
   2. **PBS Metadata (`map_metadata.txt`)**: Use the Python GUI tool to mass-generate the corresponding metadata. The tool automatically injects random names, the `Dungeon = true` flag, and randomly selects a BGM by scanning the `Audio/BGM/` directory.
+      - *Theme Overrides*: When you run bulk generation in the Python GUI, it natively reads `map_themes.json`. If a map has an assigned tileset theme (like `ICE`), it forcefully overrides whatever "Floor Theme" you selected in the GUI dropdown, guaranteeing that map's encounters and trainers match its physical tileset.
 
 - **Usage**:
   1. Ensure `PyQt6` is installed (`pip install PyQt6`).
