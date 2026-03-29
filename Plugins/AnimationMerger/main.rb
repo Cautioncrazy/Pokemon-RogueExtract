@@ -56,6 +56,16 @@ module AnimationMerger
       return
     end
 
+    merge_mode = pbMessage(_INTL("How should existing animations be handled?"),
+      [
+        _INTL("Append Only (Skip existing)"),
+        _INTL("Smart Overwrite (Has custom graphic)"),
+        _INTL("Overwrite All (Replace existing)"),
+        _INTL("Cancel")
+      ], -1)
+
+    return if merge_mode == -1 || merge_mode == 3
+
     # Merge Logic
     base_file = "Data/PkmnAnimations.rxdata"
     if !File.exist?(base_file)
@@ -96,7 +106,18 @@ module AnimationMerger
         if existing_index
           base_anim = base_array[existing_index]
 
-          # If the custom animation doesn't provide a graphic, inherit from the base animation
+          # Handle duplicate existing animations based on user selection
+          if merge_mode == 0 # Append Only
+            next
+          elsif merge_mode == 1 # Smart Overwrite
+            # Only overwrite if the custom animation explicitly uses a custom graphic sheet.
+            # This prevents blank/broken v20 vanilla field/weather moves in the plugin pack from
+            # wiping out perfectly populated v21 vanilla animations.
+            next if !custom_anim.graphic || custom_anim.graphic.empty?
+          end
+
+          # If the custom animation doesn't provide a graphic (and we chose Overwrite All),
+          # inherit the graphic string and hue from the base animation to prevent missing spritesheets
           if !custom_anim.graphic || custom_anim.graphic == ""
             custom_anim.graphic = base_anim.graphic
             custom_anim.hue = base_anim.hue
@@ -120,7 +141,8 @@ module AnimationMerger
 
     # Save output
     save_data(base_anims, base_file)
-    pbMessage(_INTL("Merge complete!\nAnimations Added: {1}\nAnimations Overwritten: {2}", total_added, total_overwritten))
+    $game_temp.battle_animations_data = nil if $game_temp
+    pbMessage(_INTL("Merge complete!\nAnimations Added: {1}\nAnimations Overwritten: {2}\n\n(Note: The game may lag slightly on the next animation as it reloads the cache).", total_added, total_overwritten))
   end
 end
 
