@@ -64,11 +64,13 @@ module AnimationMerger
     end
 
     base_anims = load_data(base_file)
-    if !base_anims || !base_anims.is_a?(Array)
+    # Essentials v21 PBAnimations inherits from Array and stores actual animations in @array
+    if !base_anims || !base_anims.respond_to?(:array) || !base_anims.array.is_a?(Array)
       pbMessage(_INTL("Base file format is invalid!"))
       return
     end
 
+    base_array = base_anims.array
     total_added = 0
     total_overwritten = 0
 
@@ -77,16 +79,17 @@ module AnimationMerger
 
     reversed_packs.each do |pack|
       custom_anims = load_data(pack[:path])
-      next if !custom_anims || !custom_anims.is_a?(Array)
+      next if !custom_anims || !custom_anims.respond_to?(:array) || !custom_anims.array.is_a?(Array)
 
-      custom_anims.each do |custom_anim|
+      custom_array = custom_anims.array
+      custom_array.each do |custom_anim|
         next if !custom_anim || !custom_anim.name || custom_anim.name.empty?
 
-        # Check if animation with same name exists in base_anims
-        existing_index = base_anims.find_index { |a| a && a.name == custom_anim.name }
+        # Check if animation with same name exists in base_array
+        existing_index = base_array.find_index { |a| a && a.name == custom_anim.name }
 
         if existing_index
-          base_anim = base_anims[existing_index]
+          base_anim = base_array[existing_index]
 
           # If the custom animation doesn't provide a graphic, inherit from the base animation
           if !custom_anim.graphic || custom_anim.graphic == ""
@@ -97,12 +100,14 @@ module AnimationMerger
           # Ensure the ID remains consistent with the base array
           custom_anim.id = base_anim.id
 
-          # Overwrite the old object entirely in the base_anims array
-          base_anims[existing_index] = custom_anim
+          # Overwrite the old object entirely in the base_array
+          base_array[existing_index] = custom_anim
 
           total_overwritten += 1
         else
-          base_anims.push(custom_anim)
+          # Add to base array and update its ID sequentially
+          custom_anim.id = base_array.length
+          base_array.push(custom_anim)
           total_added += 1
         end
       end
