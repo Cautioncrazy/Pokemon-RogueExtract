@@ -61,10 +61,11 @@ module AnimationMerger
         _INTL("Append Only (Skip existing)"),
         _INTL("Smart Overwrite (Has custom graphic)"),
         _INTL("Overwrite All (Replace existing)"),
+        _INTL("Interactive (Select overwrites)"),
         _INTL("Cancel")
       ], -1)
 
-    return if merge_mode == -1 || merge_mode == 3
+    return if merge_mode == -1 || merge_mode == 4
 
     # Merge Logic
     base_file = "Data/PkmnAnimations.rxdata"
@@ -86,6 +87,42 @@ module AnimationMerger
 
     # Iterate backwards so highest priority overwrites lower priorities
     reversed_packs = ordered_packs.reverse
+
+    # If Interactive Mode, pre-scan and ask the user
+    interactive_whitelist = {}
+    if merge_mode == 3 # Interactive
+      overwrites = []
+      reversed_packs.each do |pack|
+        custom_anims = load_data(pack[:path])
+        next if !custom_anims || !custom_anims.respond_to?(:array) || !custom_anims.array.is_a?(Array)
+        custom_anims.array.each do |custom_anim|
+          next if !custom_anim || !custom_anim.name || custom_anim.name.empty?
+          has_cels = custom_anim.any? { |frame| frame && frame.length > 0 }
+          has_timings = custom_anim.timing && custom_anim.timing.length > 0
+          next if !has_cels && !has_timings
+
+          existing_index = base_array.find_index { |a| a && a.name == custom_anim.name }
+          if existing_index
+            overwrites.push(custom_anim.name) if !overwrites.include?(custom_anim.name)
+          end
+        end
+      end
+
+      if overwrites.length > 0
+        loop do
+          commands = overwrites.map { |name| (interactive_whitelist[name] ? "[X] " : "[ ] ") + name }
+          commands.unshift(_INTL("-> DONE (Proceed with merge)"))
+          cmd = pbMessage(_INTL("Select animations to overwrite:\n(Check the boxes you want to replace)"), commands, 0)
+          break if cmd == 0 || cmd == -1
+
+          # Toggle selection
+          anim_name = overwrites[cmd - 1]
+          interactive_whitelist[anim_name] = !interactive_whitelist[anim_name]
+        end
+      else
+        pbMessage(_INTL("No existing animations found to overwrite in the selected packs."))
+      end
+    end
 
     reversed_packs.each do |pack|
       custom_anims = load_data(pack[:path])
@@ -114,6 +151,8 @@ module AnimationMerger
             # This prevents blank/broken v20 vanilla field/weather moves in the plugin pack from
             # wiping out perfectly populated v21 vanilla animations.
             next if !custom_anim.graphic || custom_anim.graphic.empty?
+          elsif merge_mode == 3 # Interactive Overwrite
+            next if !interactive_whitelist[custom_anim.name]
           end
 
           # If the custom animation doesn't provide a graphic (and we chose Overwrite All),
