@@ -46,6 +46,14 @@ module RoguelikeExtraction
         end
       end
 
+      if name == "printer"
+        should_spawn_printer = (floor % 4 == 0) || (floor > 2 && rand(100) < 15)
+        if !should_spawn_printer
+          events_to_delete.push(event.id)
+          next
+        end
+      end
+
       if name.include?("trainer")
         if active_trainers >= max_trainers
           events_to_delete.push(event.id)
@@ -79,7 +87,7 @@ module RoguelikeExtraction
     $game_map.events.values.each do |event|
       name = event.name.downcase
 
-      if name.include?("vip") || name.include?("trainer") || name.include?("chest") || name == "extract" || name == "trader"
+      if name.include?("vip") || name.include?("trainer") || name.include?("chest") || name == "extract" || name == "trader" || name == "printer"
 
         # Pre-calculate Trainer/VIP and apply graphics immediately
         if name.include?("vip") || name.include?("trainer")
