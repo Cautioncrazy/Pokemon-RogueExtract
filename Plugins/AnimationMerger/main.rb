@@ -85,6 +85,11 @@ module AnimationMerger
       custom_array.each do |custom_anim|
         next if !custom_anim || !custom_anim.name || custom_anim.name.empty?
 
+        # Skip blank/empty animations that plugin authors accidentally saved over vanilla slots
+        has_cels = custom_anim.any? { |frame| frame && frame.length > 0 }
+        has_timings = custom_anim.timing && custom_anim.timing.length > 0
+        next if !has_cels && !has_timings
+
         # Check if animation with same name exists in base_array
         existing_index = base_array.find_index { |a| a && a.name == custom_anim.name }
 
