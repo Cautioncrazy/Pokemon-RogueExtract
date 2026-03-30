@@ -1,0 +1,2 @@
+Name = Global Relic System
+Version = 1.0

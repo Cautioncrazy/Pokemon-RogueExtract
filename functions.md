@@ -93,3 +93,11 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
 *   **`pbGiveRandomTMorHM([:ITEMNAME])`**
     *   **Description:** Gives a randomly selected TM/HM from a specific pool of items passed in the array.
     *   **Usage:** `pbGiveRandomTMorHM([:TM01, :TM02, :HM01])`
+
+*   **`pbGiveRandomRelic(rarity)`**
+    *   **Description:** Gives the player a randomly selected Global Relic. `rarity` defaults to `:UNCOMMON` but can be set to `:RARE`.
+    *   **Usage:** Used in custom dynamic chests or boss drops.
+
+*   **`pb3DPrinterEvent`**
+    *   **Description:** Opens a loop dialogue where the player can feed random eligible relics from their bag to a 3D Printer to gain a specific printed relic item.
+    *   **Usage:** Used as a standalone interactable map event.
