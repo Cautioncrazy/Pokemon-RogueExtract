@@ -24,7 +24,7 @@ class Battle::Scene
 
     owned_relics = []
     relics.each do |relic|
-      qty = $PokemonBag.pbQuantity(relic)
+      qty = $bag.quantity(relic)
       if qty > 0
         owned_relics.push({ :id => relic, :qty => qty })
       end

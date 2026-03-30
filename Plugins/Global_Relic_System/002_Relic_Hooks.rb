@@ -12,7 +12,7 @@ class Battle::Move
 
     # RELIC_MUSCLE: Boosts physical Attack of all party members by 5% per stack.
     if user.pbOwnedByPlayer? && physicalMove?
-      qty = $PokemonBag.pbQuantity(:RELIC_MUSCLE)
+      qty = $bag.quantity(:RELIC_MUSCLE)
       if qty > 0
         multipliers[:attack_multiplier] *= (1.0 + (0.05 * qty))
       end
@@ -25,7 +25,7 @@ class Battle::Move
 
     # RELIC_LENS: Increases Accuracy of all moves by 5% per stack.
     if user.pbOwnedByPlayer?
-      qty = $PokemonBag.pbQuantity(:RELIC_LENS)
+      qty = $bag.quantity(:RELIC_LENS)
       if qty > 0
         modifiers[:accuracy_multiplier] *= (1.0 + (0.05 * qty))
       end
@@ -50,7 +50,7 @@ class Battle
     relic_hooks_pbStartWeather(user, newWeather, fixedDuration, showAnim)
 
     if is_limited && @field.weatherDuration > 0 && user && user.pbOwnedByPlayer?
-      qty = $PokemonBag.pbQuantity(:RELIC_EXTENDER)
+      qty = $bag.quantity(:RELIC_EXTENDER)
       if qty > 0
         @field.weatherDuration += qty
       end
@@ -63,7 +63,7 @@ class Battle
     relic_hooks_pbStartTerrain(user, newTerrain, fixedDuration)
 
     if is_limited && @field.terrainDuration > 0 && user && user.pbOwnedByPlayer?
-      qty = $PokemonBag.pbQuantity(:RELIC_EXTENDER)
+      qty = $bag.quantity(:RELIC_EXTENDER)
       if qty > 0
         @field.terrainDuration += qty
       end

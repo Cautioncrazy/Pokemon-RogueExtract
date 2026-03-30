@@ -59,7 +59,7 @@ class Interpreter
       eligible_relics = []
       all_relics.each do |relic|
         next if relic == offered_relic
-        qty = $PokemonBag.pbQuantity(relic)
+        qty = $bag.quantity(relic)
         if qty > 0
           # Add to array multiple times if multiple are owned, so it's a random pull of owned stack
           qty.times { eligible_relics.push(relic) }
@@ -77,7 +77,7 @@ class Interpreter
         consumed_name = GameData::Item.get(consumed_relic).name
 
         # Remove one consumed relic and add the printed relic
-        $PokemonBag.pbRemoveItem(consumed_relic, 1)
+        $bag.remove(consumed_relic, 1)
         pbReceiveItem(offered_relic, 1)
 
         pbMessage(_INTL("You fed the printer a {1} and received a {2}!", consumed_name, relic_name))
