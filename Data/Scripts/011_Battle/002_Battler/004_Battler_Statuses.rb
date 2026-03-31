@@ -30,12 +30,16 @@ class Battle::Battler
       if showMessages
         msg = ""
         case self.status
-        when :SLEEP     then msg = _INTL("{1} is already asleep!", pbThis)
-        when :POISON    then msg = _INTL("{1} is already poisoned!", pbThis)
-        when :BURN      then msg = _INTL("{1} already has a burn!", pbThis)
-        when :PARALYSIS then msg = _INTL("{1} is already paralyzed!", pbThis)
-        when :FROZEN    then msg = _INTL("{1} is already frozen solid!", pbThis)
-        end
+when :SLEEP     then msg = _INTL("{1} is already asleep!", pbThis)
+when :POISON    then msg = _INTL("{1} is already poisoned!", pbThis)
+when :BURN      then msg = _INTL("{1} already has a burn!", pbThis)
+when :PARALYSIS then msg = _INTL("{1} is already paralyzed!", pbThis)
+when :FROZEN    then msg = _INTL("{1} is already frozen solid!", pbThis)
+when :BLEEDING  then msg = _INTL("{1} is already bleeding!", pbThis)
+when :BLINDNESS then msg = _INTL("{1} is already blinded!", pbThis)
+when :SHAKEN    then msg = _INTL("{1} is already shaken!", pbThis)
+end
+
         @battle.pbDisplay(msg)
       end
       return false
