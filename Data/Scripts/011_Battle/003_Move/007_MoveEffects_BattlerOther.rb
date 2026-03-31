@@ -72,6 +72,25 @@ end
 #===============================================================================
 # Poisons the target.
 #===============================================================================
+class Battle::Move::BleedTarget < Battle::Move
+  def canMagicCoat?; return true; end
+
+  def pbFailsAgainstTarget?(user, target, show_message)
+    return false if damagingMove?
+    return !target.pbCanInflictStatus?(:BLEEDING, user, show_message, self)
+  end
+
+  def pbEffectAgainstTarget(user, target)
+    return if damagingMove?
+    target.pbInflictStatus(:BLEEDING, 0, _INTL("{1} began to bleed!", target.pbThis), user)
+  end
+
+  def pbAdditionalEffect(user, target)
+    return if target.damageState.substitute
+    target.pbInflictStatus(:BLEEDING, 0, _INTL("{1} began to bleed!", target.pbThis), user) if target.pbCanInflictStatus?(:BLEEDING, user, false, self)
+  end
+end
+
 class Battle::Move::PoisonTarget < Battle::Move
   def canMagicCoat?; return true; end
 

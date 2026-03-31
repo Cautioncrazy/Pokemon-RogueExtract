@@ -229,8 +229,8 @@ class Battle
       elsif battler.takesIndirectDamage?
         battler.droppedBelowHalfHP = false
         dmg = battler.totalhp / 8
-        dmg = battler.totalhp * battler.effects[PBEffects::Toxic] / 16
-        dmg = 1 if dmg < 1 if battler.statusCount > 0
+        dmg = battler.totalhp * battler.effects[PBEffects::Toxic] / 16 if battler.statusCount > 0
+        dmg = 1 if dmg < 1
         battler.pbContinueStatus { battler.pbReduceHP(dmg, false) }
         battler.pbItemHPHealCheck
         battler.pbAbilitiesOnDamageTaken
