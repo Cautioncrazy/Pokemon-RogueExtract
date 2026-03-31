@@ -244,17 +244,24 @@ class Battle::Scene::PokemonDataBox < Sprite
     pbDrawTextPositions(self.bitmap, [[gender_text, @spriteBaseX + 126, 12, :left, base_color, shadow_color]])
   end
 
-  def draw_status
-    return if @battler.status == :NONE
-    if @battler.status == :POISON && @battler.statusCount > 0   # Badly poisoned
-      s = 5
-    else
-      s = GameData::Status.get(@battler.status).icon_position
+def draw_status
+  return if @battler.status == :NONE
+  if @battler.status == :POISON && @battler.statusCount > 0   # Badly poisoned
+    s = 5
+  else
+    s = GameData::Status.get(@battler.status).icon_position
+    # Adjust for Battle UI icon sheet lacking Faint and Pokerus
+    if s >= 7 # Bleeding is 7 in Party UI, but should be 6 in Battle UI
+      s -= 1
     end
-    return if s < 0
-    pbDrawImagePositions(self.bitmap, [[_INTL("Graphics/UI/Battle/icon_statuses"), @spriteBaseX + 24, 36,
-                                        0, s * STATUS_ICON_HEIGHT, -1, STATUS_ICON_HEIGHT]])
   end
+  return if s < 0
+  # Use -1 width so it auto-reads the full 44px width of the graphic,
+  # because forcing a specific srcWidth causes drawing bugs if it's off by a pixel.
+  pbDrawImagePositions(self.bitmap, [[_INTL("Graphics/UI/Battle/icon_statuses"), @spriteBaseX + 24, 36,
+                                      0, s * STATUS_ICON_HEIGHT, -1, STATUS_ICON_HEIGHT]])
+end
+
 
   def draw_shiny_icon
     return if !@battler.shiny?
