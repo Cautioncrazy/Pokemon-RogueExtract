@@ -81,6 +81,43 @@ class Battle::Scene
     end
   end
 
+  # Hook into DBK Enhanced Battle UI if present to display Relics in the Info menu
+  if method_defined?(:pbGetDisplayEffects)
+    alias relic_hud_pbGetDisplayEffects pbGetDisplayEffects unless method_defined?(:relic_hud_pbGetDisplayEffects)
+
+    def pbGetDisplayEffects(battler)
+      display_effects = relic_hud_pbGetDisplayEffects(battler)
+
+      # Only show these global buffs if they apply to the player's side
+      if battler.pbOwnedByPlayer? || !battler.opposes?(0)
+
+        # Muscle Relic
+        qty = $bag.quantity(:RELIC_MUSCLE)
+        if qty > 0
+          desc = _INTL("Boosts the physical Attack of the Pokémon by {1}%.", qty * 5)
+          display_effects.push([_INTL("Muscle Relic"), _INTL("x{1}", qty), desc])
+        end
+
+        # Lens Relic
+        qty = $bag.quantity(:RELIC_LENS)
+        if qty > 0
+          desc = _INTL("Boosts the Accuracy of the Pokémon's moves by {1}%.", qty * 5)
+          display_effects.push([_INTL("Lens Relic"), _INTL("x{1}", qty), desc])
+        end
+
+        # Extender Relic
+        qty = $bag.quantity(:RELIC_EXTENDER)
+        if qty > 0
+          desc = _INTL("Extends Weather and Terrain duration by {1} turns.", qty)
+          display_effects.push([_INTL("Extender Relic"), _INTL("x{1}", qty), desc])
+        end
+
+      end
+
+      return display_effects
+    end
+  end
+
   def pbDisposeSprites
     pbDisposeSpriteHash(@relic_hud_sprites)
     relic_hud_pbDisposeSprites
