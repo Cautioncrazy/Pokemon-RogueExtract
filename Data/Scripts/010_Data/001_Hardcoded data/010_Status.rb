@@ -79,7 +79,7 @@ GameData::Status.register({
   :id            => :BLEEDING,
   :name          => _INTL("Bleeding"),
   :animation     => "Bleeding",
-  :icon_position => 5
+  :icon_position => 7
 })
 
 GameData::Status.register({
