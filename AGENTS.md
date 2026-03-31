@@ -14,6 +14,7 @@ As an expert coding assistant and technical project manager for this repository,
    - **Do NOT** generate, request, or attempt to manage image or audio assets.
    - Visual and audio implementations will be handled manually by the user in RPG Maker XP.
    - Reference PBS files directly when you need to call a specific Pokémon, Item, or Move name.
+   - **Exception:** If user explicitly asks agent to manage image/audio files
 
 3. **Plugin Management (meta.txt)**:
    - Any custom plugins created for the repository must include a `meta.txt` file in their directory (containing Name, Version, etc.), or else Pokémon Essentials will not load them.
@@ -73,6 +74,8 @@ You should rely on the following existing custom randomizer script calls wheneve
 ## General Guidelines
 - Always verify your work by checking the syntax and structure of the Ruby code.
 - If you encounter a problem or an ambiguity regarding v21.1 specific features, attempt to look up standard implementations or state your assumptions clearly.
+- **Always** Append new functions in functions.md **DO NOT** overwrite the whole file with a single function!
+ 
 ### 6. Standardized Trainer Pools
 - **Single Source of Truth**: The `trainers.md` file in the root directory is the absolute rulebook and central source of truth for all procedural trainer party generation.
 - **Thematic Pools**: When generating, writing scripts for, or modifying the dynamic raid trainers in `PBS/trainers.txt`, you **must** strictly adhere to the thematic species pools assigned to each Trainer Class in `trainers.md`. Do not assign Pokémon outside of a class's designated theme (e.g., no Poochyenas for Hikers).
