@@ -1,2 +1,6 @@
 Name = Global Relic System
-Version = 1.0
+Version = 1.0.0
+Essentials = 21.1
+Website = https://github.com/Cautioncrazy/Pokemon-RogueExtract
+Credits = Jules, CautionCrazy
+# Description = Custom in battle items that stack and modify stats
