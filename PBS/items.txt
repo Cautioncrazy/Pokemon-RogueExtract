@@ -7258,23 +7258,26 @@ Description = A reinforced container capable of securing a limited number of ite
 [RELIC_MUSCLE]
 Name = Muscle Relic
 NamePlural = Muscle Relics
-Pocket = 8
+Pocket = 1
 Price = 0
+SellPrice = 0
 Flags = KeyItem
 Description = A mysterious relic. Boosts physical Attack of all party members by 5% per stack.
 #-------------------------------
 [RELIC_LENS]
 Name = Lens Relic
 NamePlural = Lens Relics
-Pocket = 8
+Pocket = 1
 Price = 0
+SellPrice = 0
 Flags = KeyItem
 Description = A mysterious relic. Increases Accuracy of all moves by 5% per stack.
 #-------------------------------
 [RELIC_EXTENDER]
 Name = Extender Relic
 NamePlural = Extender Relics
-Pocket = 8
+Pocket = 1
 Price = 0
+SellPrice = 0
 Flags = KeyItem
 Description = A mysterious relic. Increases the duration of Terrain/Weather moves by 1 turn per stack.
