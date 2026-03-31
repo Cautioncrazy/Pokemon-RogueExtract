@@ -17,6 +17,7 @@ end
 # Monkey patch the Bag UI to forcefully prevent tossing Relics even in Debug mode
 class PokemonBag_Scene
   alias relic_pbChooseNumber pbChooseNumber unless method_defined?(:relic_pbChooseNumber)
+  alias relic_pbConfirm pbConfirm unless method_defined?(:relic_pbConfirm)
 
   def pbChooseNumber(helptext, maximum, initnum = 1)
     # We inspect the current item selected in the bag
@@ -30,6 +31,19 @@ class PokemonBag_Scene
     end
 
     return relic_pbChooseNumber(helptext, maximum, initnum)
+  end
+
+  def pbConfirm(msg)
+    item = @sprites["itemlist"].item
+    all_relics = RoguelikeExtraction::RELICS_UNCOMMON + RoguelikeExtraction::RELICS_RARE
+
+    # If the player bypassed pbChooseNumber (e.g. because quantity is 1), intercept here
+    if all_relics.include?(item) && msg.include?("Is it OK to throw away")
+      pbDisplay(_INTL("That's a Global Relic! It's too important to toss out!"))
+      return false
+    end
+
+    return relic_pbConfirm(msg)
   end
 end
 

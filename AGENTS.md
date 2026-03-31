@@ -124,7 +124,7 @@ We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to a
 
 ### 10. Global Relic System (Risk of Rain Style)
 - **Concept:** Players collect passive, stackable items ("Relics") during their run. These apply global buffs/modifiers to the entire party.
-- **Data Structure:** Relics are implemented directly in `PBS/items.txt` as `KeyItems` (Pocket 8) so they cannot be tossed or sold but their quantity can natively stack.
+- **Data Structure:** Relics are implemented directly in `PBS/items.txt` in the standard Items pocket (`Pocket = 1`) to ensure native bag stacking. They use `SellPrice = 0` and `Flags = KeyItem` so they cannot be sold. To strictly prevent tossing (even in Debug mode), `PokemonBag_Scene#pbChooseNumber` and `pbConfirm` are aliased in `003_Relic_Spawner.rb` to actively block players from discarding these items.
 - **Battle UI HUD:** The system hooks into `Battle::Scene` (`001_Relic_HUD.rb`). It creates a top-center, invisible-background HUD overlay during battles. It automatically scans the player's Bag for defined Relics and renders the corresponding item icon (`Graphics/Items/relic_name.png`) alongside a multiplier text counter (e.g., "x3").
 - **Battle Hooks:** Located in `002_Relic_Hooks.rb`, the system aliases native calculation modules to apply the buffs:
     - `pbCalcDamageMultipliers`: Scans for `RELIC_MUSCLE` to boost physical attack by 5% per stack.
