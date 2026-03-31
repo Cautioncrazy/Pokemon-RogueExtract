@@ -14,12 +14,23 @@ module RoguelikeExtraction
   ]
 end
 
-# Register all relics as non-tossable regardless of debug mode or pocket
-(RoguelikeExtraction::RELICS_UNCOMMON + RoguelikeExtraction::RELICS_RARE).each do |relic|
-  ItemHandlers::CanToss.add(relic, proc { |item|
-    pbMessage(_INTL("That's too important to toss out!"))
-    next false
-  })
+# Monkey patch the Bag UI to forcefully prevent tossing Relics even in Debug mode
+class PokemonBag_Scene
+  alias relic_pbChooseNumber pbChooseNumber unless method_defined?(:relic_pbChooseNumber)
+
+  def pbChooseNumber(helptext, maximum, initnum = 1)
+    # We inspect the current item selected in the bag
+    item = @sprites["itemlist"].item
+    all_relics = RoguelikeExtraction::RELICS_UNCOMMON + RoguelikeExtraction::RELICS_RARE
+
+    # If the user is trying to toss a relic, we intercept the quantity prompt and return 0
+    if all_relics.include?(item) && helptext.include?("Toss out how many")
+      pbDisplay(_INTL("That's a Global Relic! It's too important to toss out!"))
+      return 0
+    end
+
+    return relic_pbChooseNumber(helptext, maximum, initnum)
+  end
 end
 
 class Interpreter
