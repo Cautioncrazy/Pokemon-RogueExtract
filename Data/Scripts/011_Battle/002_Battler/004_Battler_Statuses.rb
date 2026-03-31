@@ -443,9 +443,16 @@ if hasImmuneType
       @battle.pbDisplay(_INTL("{1} was hurt by its burn!", pbThis))
     when :PARALYSIS
       @battle.pbDisplay(_INTL("{1} is paralyzed! It can't move!", pbThis))
-    when :FROZEN
-      @battle.pbDisplay(_INTL("{1} is frozen solid!", pbThis))
-    end
+when :FROZEN
+  @battle.pbDisplay(_INTL("{1} is frozen solid!", pbThis))
+when :BLEEDING
+  @battle.pbDisplay(_INTL("{1} was hurt by bleeding!", pbThis))
+when :BLINDNESS
+  # Display handled in pbTryUseMove, but kept here just in case
+when :SHAKEN
+  # Passive, no text needed
+end
+
     PBDebug.log("[Status continues] #{pbThis}'s sleep count is #{@statusCount}") if self.status == :SLEEP
   end
 
