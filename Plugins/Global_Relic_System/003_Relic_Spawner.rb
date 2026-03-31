@@ -14,6 +14,14 @@ module RoguelikeExtraction
   ]
 end
 
+# Register all relics as non-tossable regardless of debug mode or pocket
+(RoguelikeExtraction::RELICS_UNCOMMON + RoguelikeExtraction::RELICS_RARE).each do |relic|
+  ItemHandlers::CanToss.add(relic, proc { |item|
+    pbMessage(_INTL("That's too important to toss out!"))
+    next false
+  })
+end
+
 class Interpreter
   # Give a random relic based on rarity
   def pbGiveRandomRelic(rarity = :UNCOMMON)
@@ -48,8 +56,24 @@ class Interpreter
       return
     end
 
-    # The printer selects ONE random relic to offer
-    offered_relic = all_relics.sample
+    # Get the specific map event ID
+    event = pbMapInterpreter.get_character(0)
+    return if !event
+
+    # Use a persistent hash to save the selected item for this printer instance
+    $PokemonGlobal.instance_variable_set(:@printer_items, {}) if !$PokemonGlobal.instance_variable_defined?(:@printer_items) || $PokemonGlobal.instance_variable_get(:@printer_items).nil?
+
+    saved_printers = $PokemonGlobal.instance_variable_get(:@printer_items)
+
+    printer_key = [$game_map.map_id, event.id]
+
+    if saved_printers[printer_key]
+      offered_relic = saved_printers[printer_key]
+    else
+      offered_relic = all_relics.sample
+      saved_printers[printer_key] = offered_relic
+    end
+
     relic_name = GameData::Item.get(offered_relic).name
 
     pbMessage(_INTL("You found a 3D Printer! It is currently configured to print: {1}.", relic_name))

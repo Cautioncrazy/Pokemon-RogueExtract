@@ -20,7 +20,11 @@ class Battle::Scene
 
   def pbCreateRelicHUD
     # Define the list of global relics to check
-    relics = [:RELIC_MUSCLE, :RELIC_LENS, :RELIC_EXTENDER]
+    relics = []
+    if defined?(RoguelikeExtraction)
+      relics.concat(RoguelikeExtraction::RELICS_UNCOMMON) if defined?(RoguelikeExtraction::RELICS_UNCOMMON)
+      relics.concat(RoguelikeExtraction::RELICS_RARE) if defined?(RoguelikeExtraction::RELICS_RARE)
+    end
 
     owned_relics = []
     relics.each do |relic|
