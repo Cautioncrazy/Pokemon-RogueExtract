@@ -247,7 +247,9 @@ priority.each do |battler|
   if battler.takesIndirectDamage?
     battler.droppedBelowHalfHP = false
     dmg = battler.totalhp * battler.effects[PBEffects::Toxic] / 16
+    dmg = 1 if dmg < 1
     battler.pbContinueStatus { battler.pbReduceHP(dmg, false) }
+    pbDisplay(_INTL("{1} was hurt by bleeding!", battler.pbThis))
     battler.pbItemHPHealCheck
     battler.pbAbilitiesOnDamageTaken
     battler.pbFaint if battler.fainted?
