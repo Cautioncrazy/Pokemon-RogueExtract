@@ -229,7 +229,8 @@ class Battle
       elsif battler.takesIndirectDamage?
         battler.droppedBelowHalfHP = false
         dmg = battler.totalhp / 8
-        dmg = battler.totalhp * battler.effects[PBEffects::Toxic] / 16 if battler.statusCount > 0
+        dmg = battler.totalhp * battler.effects[PBEffects::Toxic] / 16
+        dmg = 1 if dmg < 1 if battler.statusCount > 0
         battler.pbContinueStatus { battler.pbReduceHP(dmg, false) }
         battler.pbItemHPHealCheck
         battler.pbAbilitiesOnDamageTaken
@@ -237,7 +238,24 @@ class Battle
         battler.droppedBelowHalfHP = false
       end
     end
-    # Damage from burn
+# Damage from bleeding
+priority.each do |battler|
+  next if battler.fainted?
+  next if battler.status != :BLEEDING
+  battler.effects[PBEffects::Toxic] += 1
+  battler.effects[PBEffects::Toxic] = 16 if battler.effects[PBEffects::Toxic] > 16
+  if battler.takesIndirectDamage?
+    battler.droppedBelowHalfHP = false
+    dmg = battler.totalhp * battler.effects[PBEffects::Toxic] / 16
+    battler.pbContinueStatus { battler.pbReduceHP(dmg, false) }
+    battler.pbItemHPHealCheck
+    battler.pbAbilitiesOnDamageTaken
+    battler.pbFaint if battler.fainted?
+    battler.droppedBelowHalfHP = false
+  end
+end
+# Damage from burn
+
     priority.each do |battler|
       next if battler.status != :BURN || !battler.takesIndirectDamage?
       battler.droppedBelowHalfHP = false

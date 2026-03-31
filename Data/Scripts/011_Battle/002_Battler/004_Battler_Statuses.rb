@@ -79,24 +79,47 @@ class Battle::Battler
         return false
       end
     end
-    # Type immunities
-    hasImmuneType = false
-    case newStatus
-    when :SLEEP
-      # No type is immune to sleep
-    when :POISON
-      if !(user && user.hasActiveAbility?(:CORROSION))
-        hasImmuneType |= pbHasType?(:POISON)
-        hasImmuneType |= pbHasType?(:STEEL)
+# Type immunities
+hasImmuneType = false
+case newStatus
+when :SLEEP
+  # No type is immune to sleep
+when :POISON
+  if !(user && user.hasActiveAbility?(:CORROSION))
+    hasImmuneType |= pbHasType?(:POISON)
+    hasImmuneType |= pbHasType?(:STEEL)
+  end
+when :BURN
+  hasImmuneType |= pbHasType?(:FIRE)
+when :PARALYSIS
+  hasImmuneType |= pbHasType?(:ELECTRIC) && Settings::MORE_TYPE_EFFECTS
+when :FROZEN
+  hasImmuneType |= pbHasType?(:ICE)
+else
+  # Dynamic Type Immunities framework
+  status_types = {
+    :BLEEDING  => :STEEL,
+    :BLINDNESS => :PSYCHIC,
+    :SHAKEN    => :GROUND
+  }
+  status_type = status_types[newStatus]
+  if status_type
+    # Immune if same type
+    hasImmuneType |= pbHasType?(status_type)
+    # Immune if target's type is immune to the status's type
+    # Check all types the target has
+    target_types = pbTypes(true)
+    for t in target_types
+      eff = Effectiveness.calculate(status_type, t)
+      if eff == 0 # 0 means immune
+        hasImmuneType = true
+        break
       end
-    when :BURN
-      hasImmuneType |= pbHasType?(:FIRE)
-    when :PARALYSIS
-      hasImmuneType |= pbHasType?(:ELECTRIC) && Settings::MORE_TYPE_EFFECTS
-    when :FROZEN
-      hasImmuneType |= pbHasType?(:ICE)
     end
-    if hasImmuneType
+  end
+end
+if hasImmuneType
+
       @battle.pbDisplay(_INTL("It doesn't affect {1}...", pbThis(true))) if showMessages
       return false
     end
@@ -425,6 +448,7 @@ class Battle::Battler
   def pbCureStatus(showMessages = true)
     oldStatus = status
     self.status = :NONE
+    @effects[PBEffects::Toxic] = 0 if oldStatus == :BLEEDING
     if showMessages
       case oldStatus
       when :SLEEP     then @battle.pbDisplay(_INTL("{1} woke up!", pbThis))
