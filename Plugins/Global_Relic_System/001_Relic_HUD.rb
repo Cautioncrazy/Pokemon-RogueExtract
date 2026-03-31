@@ -37,8 +37,8 @@ class Battle::Scene
     return if owned_relics.empty?
 
     # Define standard spacing and sizing
-    icon_width = 48
-    icon_padding = 48
+    icon_width = 24
+    icon_padding = 24
     total_width = (owned_relics.length * (icon_width + icon_padding)) - icon_padding
 
     # Calculate starting X to center the HUD at the top of the screen
@@ -59,14 +59,17 @@ class Battle::Scene
 
       x_pos = start_x + (i * (icon_width + icon_padding))
 
-      # Item Icon
+      # Item Icon (Scaled down to 50%)
       icon_sprite = IconSprite.new(x_pos, start_y, @viewport)
       icon_sprite.setBitmap("Graphics/Items/#{relic_id.to_s.downcase}")
+      icon_sprite.zoom_x = 0.5
+      icon_sprite.zoom_y = 0.5
       icon_sprite.z = 250
       @relic_hud_sprites["relic_icon_#{i}"] = icon_sprite
 
-      text_x = x_pos + 42
-      text_y = start_y + 14
+      # Closer text positioning
+      text_x = x_pos + 26
+      text_y = start_y + 6
 
       all_text_pos.push(["x#{qty}", text_x, text_y, 0, Color.new(248, 248, 248), Color.new(40, 40, 40)])
     end
