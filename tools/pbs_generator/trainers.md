@@ -87,7 +87,7 @@ When generating random parties for dynamic trainers, you **MUST** adhere to the 
 * **Description:** Elegant, visually appealing Pokémon (Water, Grass, Ice, Normal, Fairy).
 * **Approved Pool:** VULPIX, MEOWTH, GOLDEEN, LAPRAS, CHIKORITA, BELLOSSOM, MARILL, CORSOLA, ROSELIA, MILOTIC, CHERUBI, GLAMEOW, LILLIGANT, MINCCINO, FOMANTIS, TSARAREENA, FLABEBE, TOGEPI, HATENNA, CLEFAIRY.
 
-### `ACE_TRAINER` / `COOLTRAINER_M` / `COOLTRAINER_F`
+### `COOLTRAINER_M` / `COOLTRAINER_F`
 * **Map Themes:** Cave, Water, Grass, Graveyard/Ghost
 * **Description:** Diverse, highly competitive, strong base-stat Pokémon. No specific type limit.
 * **Approved Pool:** BULBASAUR, CHARMANDER, SQUIRTLE, EEVEE, GROWLITHE, ABRA, MACHOP, GASTLY, MAGIKARP, DRATINI, LARVITAR, BELDUM, GIBLE, DEINO, GOOMY, JANGMOO, DREEPY, FRIGIBAX.
