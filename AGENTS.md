@@ -129,6 +129,16 @@ We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to a
 - **Concept:** Players collect passive, stackable items ("Relics") during their run. These apply global buffs/modifiers to the entire party.
 - **Data Structure:** Relics are implemented directly in `PBS/items.txt` in the standard Items pocket (`Pocket = 1`) to ensure native bag stacking. They use `SellPrice = 0` and `Flags = KeyItem` so they cannot be sold. To strictly prevent tossing (even in Debug mode), `PokemonBag_Scene#pbChooseNumber` and `pbConfirm` are aliased in `003_Relic_Spawner.rb` to actively block players from discarding these items.
 - **Battle UI HUD:** The system hooks into `Battle::Scene` (`001_Relic_HUD.rb`). It creates a top-center, invisible-background HUD overlay during battles. It automatically scans the player's Bag for defined Relics and renders the corresponding item icon (`Graphics/Items/relic_name.png`) alongside a multiplier text counter (e.g., "x3").
+
+### 11. Persistent Artifacts & Mining Spawner
+- **Concept:** Players mine a custom Key Item currency ("Hollowed Soul") via the standard DPt Mining Minigame, which dynamically spawns on procedural floors. These souls are spent at a Hub Shop for "Persistent Artifacts"—stackable Key Items that provide permanent, global buffs for future runs.
+- **Mining Integration:** `:HOLLOWED_SOUL` is injected into the standard mining loot pool (`MiningGameScene::ITEMS`) with a custom 2x2 grid shape and moderate spawn probability.
+- **Dynamic Floor Spawner (`pbSpawnFloorMiningSpots`):** Scans the map during generation (or load) for passable tiles directly adjacent to impassable walls. It constructs a temporary, invisible `RPG::Event` (using the "Shiny" graphic if available) that triggers `pbMiningGame` upon interaction, then erases itself.
+- **Hub Shop Logic (`pbArtifactShop`):** A custom UI loop (via `pbMessage` and `pbShowCommands`) allows players to purchase Artifacts. It checks `$game_variables[100]` (Max Floor Reached) to unlock higher-tier items, enforces a maximum stack limit (e.g., 10), and handles the currency exchange safely.
+- **Stat Hooks:**
+  - **Fortune Coin:** Aliases `Battle#pbGainMoney` to multiply end-of-battle payouts by `1 + (0.25 * stacks)`.
+  - **Wisdom Crystal:** Aliases `Battle::ItemEffects.triggerExpGainModifier` to multiply all earned EXP by `1 + (0.15 * stacks)`.
+  - **Vitality Root:** Hooks into `EventHandlers.add(:on_end_battle)` to heal all conscious, non-cursed party members by `5% * stacks` of their Max HP after a successful battle.
 - **Battle Hooks:** Located in `002_Relic_Hooks.rb`, the system aliases native calculation modules to apply the buffs:
     - `pbCalcDamageMultipliers`: Scans for `RELIC_MUSCLE` to boost physical attack by 5% per stack.
     - `pbCalcAccuracyModifiers`: Scans for `RELIC_LENS` to boost accuracy by 5% per stack.

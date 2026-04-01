@@ -7281,3 +7281,35 @@ Price = 0
 SellPrice = 0
 Flags = KeyItem
 Description = A mysterious relic. Increases the duration of Terrain/Weather moves by 1 turn per stack.
+[HOLLOWED_SOUL]
+Name = Hollowed Soul
+NamePlural = Hollowed Souls
+Pocket = 8
+Price = 0
+Flags = KeyItem
+Description = A faint, glowing wisp salvaged from the abyss. It resonates with a quiet, enduring power.
+#-------------------------------
+[ARTIFACT_FORTUNE]
+Name = Fortune Coin
+NamePlural = Fortune Coins
+Pocket = 8
+Price = 0
+Flags = KeyItem
+Description = A glimmering coin radiating ancient greed. Increases all money earned from battles by 25%.
+#-------------------------------
+[ARTIFACT_VITALITY]
+Name = Vitality Root
+NamePlural = Vitality Roots
+Pocket = 8
+Price = 0
+Flags = KeyItem
+Description = An ever-growing root pulsing with life energy. Restores 5% of the party's Max HP after surviving a battle.
+#-------------------------------
+[ARTIFACT_WISDOM]
+Name = Wisdom Crystal
+NamePlural = Wisdom Crystals
+Pocket = 8
+Price = 0
+Flags = KeyItem
+Description = A jagged shard of glass that sharpens the mind. Increases all EXP gained by the party by 15%.
+#-------------------------------

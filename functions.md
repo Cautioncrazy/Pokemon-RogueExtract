@@ -102,6 +102,14 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
     *   **Description:** Opens a loop dialogue where the player can feed random eligible relics from their bag to a 3D Printer to gain a specific printed relic item.
     *   **Usage:** Used as a standalone interactable map event.
 
+*   **`pbSpawnFloorMiningSpots`**
+    *   **Description:** Dynamically scans the current map for passable floor tiles adjacent to impassable walls and spawns interactive, invisible mining spots with a sparkle animation. When interacted with, they launch the DPt Mining Minigame.
+    *   **Usage:** `pbSpawnFloorMiningSpots(min_spots, max_spots)` inside the teleport/map transfer event when generating or entering a new floor.
+
+*   **`pbArtifactShop`**
+    *   **Description:** Opens a custom shop UI loop allowing players to purchase Persistent Artifacts (Fortune Coin, Vitality Root, Wisdom Crystal) in exchange for the Hollowed Souls currency they've mined. Items unlock based on the player's Max Floor Reached (`$game_variables[100]`).
+    *   **Usage:** Use this on an NPC in the Hub Island (e.g., a shady merchant).
+
 ### pbInflictStatus
 The base engine's `pbInflictStatus` function is used for all custom statuses. It takes the same parameters.
 
