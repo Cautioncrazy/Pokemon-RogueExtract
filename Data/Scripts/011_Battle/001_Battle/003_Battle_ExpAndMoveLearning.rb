@@ -146,6 +146,11 @@ class Battle
     end
     # Exp. Charm increases Exp gained
     exp = exp * 3 / 2 if $bag.has?(:EXPCHARM)
+    # Wisdom Crystal (Artifact) increases Exp gained
+    wisdom_stacks = $bag.quantity(:ARTIFACT_WISDOM)
+    if wisdom_stacks > 0
+      exp = (exp * (1.0 + (0.15 * wisdom_stacks))).floor
+    end
     # Modify Exp gain based on pkmn's held item
     i = Battle::ItemEffects.triggerExpGainModifier(pkmn.item, pkmn, exp)
     if i < 0

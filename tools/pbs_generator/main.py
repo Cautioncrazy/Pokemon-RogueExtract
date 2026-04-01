@@ -14,6 +14,7 @@ from tools.pbs_generator.map_metadata_gen import generate_map_metadata
 from tools.pbs_generator.encounter_gen import generate_encounters
 from tools.pbs_generator.trainer_gen import generate_trainers
 from tools.pbs_generator.theme_data import get_all_available_themes, get_filter_categories, get_filter_values_for_category
+from tools.pbs_generator.setup_artifacts import setup_artifacts
 
 class GeneratorThread(QThread):
     log_signal = pyqtSignal(str)
@@ -347,7 +348,28 @@ class PBSGeneratorApp(QMainWindow):
         # Generate Button
         self.generate_btn = QPushButton("Generate Bulk Data")
         self.generate_btn.clicked.connect(self.on_generate_clicked)
-        control_layout.addWidget(self.generate_btn, 13, 0, 1, 2)
+        control_layout.addWidget(self.generate_btn, 13, 0, 1, 1)
+
+        # Append Items Button
+        self.append_items_btn = QPushButton("Append Artifacts to PBS")
+        self.append_items_btn.clicked.connect(self.on_append_items_clicked)
+        self.append_items_btn.setStyleSheet("""
+            QPushButton {
+                background-color: rgba(46, 204, 113, 0.6);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 10px;
+                padding: 8px 15px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: rgba(46, 204, 113, 0.8);
+            }
+            QPushButton:pressed {
+                background-color: rgba(46, 204, 113, 1.0);
+            }
+        """)
+        control_layout.addWidget(self.append_items_btn, 13, 1, 1, 1)
 
         # Progress Bars
         self.map_progress_bar = QProgressBar()
@@ -396,6 +418,16 @@ class PBSGeneratorApp(QMainWindow):
 
     def log(self, message):
         self.log_console.append(message)
+
+    def on_append_items_clicked(self):
+        pbs_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'PBS'))
+        if not os.path.exists(pbs_dir):
+            self.log("Error: 'PBS' directory not found. Are you running this from the repo root?")
+            return
+
+        self.log("--- Appending Artifacts to PBS/items.txt ---")
+        result_msg = setup_artifacts(pbs_dir)
+        self.log(result_msg)
 
     def on_filter_category_changed(self, category):
         self.filter_value_combo.clear()
