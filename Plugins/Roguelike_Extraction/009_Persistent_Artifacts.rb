@@ -84,6 +84,7 @@ def pbSpawnFloorMiningSpots(min_spots, max_spots)
     page1.graphic.character_name = ""
     page1.step_anime = true
     page1.direction_fix = true
+    page1.always_on_top = true # Renders the graphic OVER the impassable wall tile
 
     # As requested: "If possible i actually just want an animation use Graphics/Animations/Shiny.png"
     # Note: In RPG Maker XP, event graphics must exist in Graphics/Characters/.

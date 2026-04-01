@@ -85,17 +85,39 @@ def generate_map_metadata(start_id, end_id, theme=None, pbs_dir=None, overwrite=
             # "Normal" or generic theme names will crash the compiler.
             # We map known themes to safe environments, else we just assign BattleBack.
 
-            if current_theme.lower() == "ice":
+            theme_lower = current_theme.lower()
+            if theme_lower == "ice":
                 new_section.add_line("BattleBack = snow")
                 new_section.add_line("BattleBase = grassICE")
                 # Use Snow for Ice biomes to match the user's graphical preference
                 new_section.add_line("Environment = Snow")
-            elif current_theme.lower() == "grass":
+            elif theme_lower == "grass":
                 new_section.add_line("BattleBack = Grass")
                 new_section.add_line("Environment = Grass")
-            elif current_theme.lower() in ["water", "poison"]:
+            elif theme_lower in ["water", "poison"]:
                 new_section.add_line(f"BattleBack = {theme_capitalized}")
                 new_section.add_line("Environment = StillWater")
+            elif theme_lower == "forest":
+                new_section.add_line("BattleBack = forest")
+                new_section.add_line("Environment = Forest")
+            elif theme_lower == "cave":
+                # Default to a random vanilla cave graphic if unspecified
+                bg = random.choice(["cave1", "cave2", "cave3"])
+                new_section.add_line(f"BattleBack = {bg}")
+                new_section.add_line("Environment = Cave")
+            elif theme_lower in ["cave1", "cave2", "cave3", "cave_1", "cave_2", "cave_3"]:
+                bg = theme_lower.replace("_", "")
+                new_section.add_line(f"BattleBack = {bg}")
+                new_section.add_line("Environment = Cave")
+            elif theme_lower == "rock":
+                new_section.add_line("BattleBack = rocky")
+                new_section.add_line("Environment = Rock")
+            elif theme_lower == "sand":
+                new_section.add_line("BattleBack = sand")
+                new_section.add_line("Environment = Sand")
+            elif theme_lower == "snow":
+                new_section.add_line("BattleBack = snow")
+                new_section.add_line("Environment = Snow")
             else:
                 new_section.add_line(f"BattleBack = {theme_capitalized}")
                 # Fallback to None to avoid compiler crashes for undefined environments
