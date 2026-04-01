@@ -508,6 +508,12 @@ module RoguelikeExtraction
       $game_temp.player_new_y = floor_data[2]
       $game_temp.player_new_direction = 2
       $scene.transfer_player
+
+      # Spawn 3 to 5 mining spots on the newly loaded floor map
+      # Because this runs inside pbFadeOutIn after transfer_player, $game_map is the new map.
+      if defined?(pbSpawnFloorMiningSpots)
+        pbSpawnFloorMiningSpots(3, 5)
+      end
     end
   end
 end
