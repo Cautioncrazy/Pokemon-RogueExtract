@@ -803,3 +803,35 @@ Pokemon = CHARIZARD,35
 
 #---------Python Generated------
 
+#-------------------------------
+[PSYCHIC_F,M81_F1]
+LoseText = You got me!
+Pokemon = ELGYEM,2
+Pokemon = SOLOSIS,4
+#-------------------------------
+[PSYCHIC_F,Boss M81_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = SPOINK,6
+Pokemon = SOLOSIS,7
+Pokemon = BRONZOR,3
+#-------------------------------
+[PSYCHIC_F,M82_F1]
+LoseText = You got me!
+Pokemon = SOLOSIS,5
+#-------------------------------
+[PSYCHIC_F,Boss M82_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = SPOINK,6
+Pokemon = HATENNA,4
+#-------------------------------
+[PSYCHIC_F,M83_F1]
+LoseText = You got me!
+Pokemon = ELGYEM,4
+#-------------------------------
+[PSYCHIC_F,Boss M83_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = GOTHITA,5
+Pokemon = RALTS,5

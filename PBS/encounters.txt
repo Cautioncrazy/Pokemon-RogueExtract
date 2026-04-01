@@ -1,2 +1,40 @@
 #---------Python Generated------
 
+[081,0] # F1 (Psychic)
+Cave,5
+    20,HATENNA,1,5
+    20,ELGYEM,1,5
+    10,RALTS,1,5
+    10,BRONZOR,1,5
+    10,BALTOY,1,5
+    10,UNOWN,1,5
+    10,GOTHITA,1,5
+    5,SOLOSIS,1,5
+    4,SPOINK,1,5
+    1,ABRA,1,5
+
+[082,0] # F1 (Psychic)
+Land,5
+    20,RALTS,1,5
+    20,SPOINK,1,5
+    10,GOTHITA,1,5
+    10,HATENNA,1,5
+    10,BRONZOR,1,5
+    10,SOLOSIS,1,5
+    10,ABRA,1,5
+    5,UNOWN,1,5
+    4,ELGYEM,1,5
+    1,BALTOY,1,5
+
+[083,0] # F1 (Psychic)
+Cave,5
+    20,BRONZOR,1,5
+    20,ELGYEM,1,5
+    10,ABRA,1,5
+    10,UNOWN,1,5
+    10,GOTHITA,1,5
+    10,RALTS,1,5
+    10,HATENNA,1,5
+    5,SOLOSIS,1,5
+    4,BALTOY,1,5
+    1,SPOINK,1,5

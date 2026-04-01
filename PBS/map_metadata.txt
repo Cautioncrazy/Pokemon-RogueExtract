@@ -412,3 +412,24 @@ Dungeon = true
 
 #---------Python Generated------
 
+#-------------------------------
+[081]   # Ancient Grotto
+Name = Ancient Grotto
+Dungeon = true
+BattleBack = Psychic
+Environment = None
+BGM = bgm4,100,100
+#-------------------------------
+[082]   # Mystic Ruins
+Name = Mystic Ruins
+Dungeon = true
+BattleBack = Psychic
+Environment = None
+BGM = bgm4,100,100
+#-------------------------------
+[083]   # Shadow Grotto
+Name = Shadow Grotto
+Dungeon = true
+BattleBack = Psychic
+Environment = None
+BGM = bgm2,100,100
