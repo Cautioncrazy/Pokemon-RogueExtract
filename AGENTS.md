@@ -142,7 +142,7 @@ The combat system features custom primary status conditions for each Pokémon ty
 **Battle Mechanic Hooks:**
 Mechanics for each custom status are integrated directly into the `Battle::Battler` and `Battle::Move` logic.
 - **Bleeding** (Steel): Scales damage each turn exactly like Toxic. Hooked in `Data/Scripts/011_Battle/001_Battle/011_Battle_EndOfRoundPhase.rb` (`pbEORStatusProblemDamage`). It uniquely resets `PBEffects::Toxic` when inflicted.
-- **Blindness** (Psychic): 67% chance to fail executing any move. Hooked in `Data/Scripts/011_Battle/002_Battler/009_Battler_UseMoveSuccessChecks.rb` (`pbTryUseMove`).
+- **Blindness** (Psychic): 20% chance to fail executing any move. Hooked in `Data/Scripts/011_Battle/002_Battler/009_Battler_UseMoveSuccessChecks.rb` (`pbTryUseMove`).
 - **Shaken** (Ground): Halves physical Defense and reduces the critical hit stage by 1. Hooked in `Data/Scripts/011_Battle/003_Move/003_Move_UsageCalculations.rb` (`pbGetDefenseStats` via `pbCalcDamage` logic, and `pbIsCritical?`).
 
 **Dynamic Type Immunity Framework:**

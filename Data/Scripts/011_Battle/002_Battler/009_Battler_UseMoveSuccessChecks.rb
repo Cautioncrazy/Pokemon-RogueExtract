@@ -221,7 +221,7 @@ class Battle::Battler
         end
       end
 when :BLINDNESS
-  if @battle.pbRandom(100) < 67
+  if @battle.pbRandom(100) < 20
     pbContinueStatus
     PBDebug.log("[Move failed] #{pbThis} is blinded and missed")
     @battle.pbDisplay(_INTL("{1} missed due to blindness!", pbThis))
