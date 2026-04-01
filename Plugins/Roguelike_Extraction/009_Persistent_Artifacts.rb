@@ -122,6 +122,17 @@ def pbSpawnFloorMiningSpots(min_spots, max_spots)
   end
 
   $game_map.need_refresh = true
+
+  # Tell Spriteset_Map to explicitly create a sprite for our newly injected events
+  if $scene && $scene.is_a?(Scene_Map)
+    $scene.disposeSpritesets
+    $scene.createSpritesets
+  end
+
+  # Notify the user via pbMessage how many spots were successfully spawned
+  if $DEBUG
+    pbMessage(_INTL("DEBUG: Spawned {1} Dynamic Mining Spots on the walls.", selected_spots.length))
+  end
 end
 
 
