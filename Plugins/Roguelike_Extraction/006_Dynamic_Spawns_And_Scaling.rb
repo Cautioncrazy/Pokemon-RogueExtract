@@ -160,14 +160,30 @@ def pbDynamicTrainerBattle(is_vip = false)
     chosen_trainer = $PokemonGlobal.instance_variable_get(:@raid_event_trainers)[event_id]
   else
     # Failsafe if the spawner didn't run or wasn't assigned properly
-    pool = is_vip ? RoguelikeExtraction::DYNAMIC_VIPS : RoguelikeExtraction::DYNAMIC_TRAINERS
-    available = pool.reject { |t| RoguelikeExtraction.fought_trainers.include?(t) }
-    available = pool if available.empty?
-    chosen_trainer = available.sample
+    # Check if a Python trainer exists natively first
+    floor = $PokemonGlobal.current_raid_floor || 1
+    map_id = $game_map.map_id
+    python_version = floor - 1
+    python_version = 0 if python_version < 0
+    base_name = "M#{map_id}_F#{floor}"
+    python_trainer_name = is_vip ? "Boss #{base_name}" : base_name
+
+    found_key = GameData::Trainer::DATA.keys.find { |k| k[1] == python_trainer_name && k[2] == python_version }
+    if found_key
+      chosen_trainer = [found_key[0], python_trainer_name, python_version]
+    else
+      pool = is_vip ? RoguelikeExtraction::DYNAMIC_VIPS : RoguelikeExtraction::DYNAMIC_TRAINERS
+      available = pool.reject { |t| RoguelikeExtraction.fought_trainers.include?(t) }
+      available = pool if available.empty?
+      chosen_trainer = available.sample
+    end
   end
 
   trainer_type = chosen_trainer[0]
   trainer_name = chosen_trainer[1]
+
+  # If the python generator assigned an explicit version to this trainer, override the calculated tier version
+  version = chosen_trainer[2] if chosen_trainer.length > 2
 
   RoguelikeExtraction.fought_trainers.push(chosen_trainer)
 
