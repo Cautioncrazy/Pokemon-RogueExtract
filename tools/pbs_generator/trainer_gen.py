@@ -56,7 +56,8 @@ def load_trainers_rules(md_filepath):
 
             if current_classes and stripped.startswith("* **Approved Pool:**"):
                 raw = stripped.split(":**", 1)[1].strip().rstrip(".")
-                pool = [p.strip().replace("*", "").upper() for p in raw.split(",") if p.strip().replace("*", "")]
+                # Do not use .upper() because it breaks NIDORANfE and NIDORANmA
+                pool = [p.strip().replace("*", "") for p in raw.split(",") if p.strip().replace("*", "")]
                 for trainer_class in current_classes:
                     class_pools[trainer_class].extend(pool)
                 continue
@@ -88,7 +89,7 @@ def load_trainers_rules(md_filepath):
                     continue
 
                 if current_classes and current_classes != ["__PARSING_CLASSES__"] and stripped.startswith("- "):
-                    pokemon = stripped[2:].strip().upper()
+                    pokemon = stripped[2:].strip()
                     class_pools[current_classes[0]].append(pokemon)
 
     return class_themes, class_pools
@@ -183,7 +184,7 @@ def generate_trainers(map_id, floor_number, theme, pbs_dir=None, md_filepath=Non
         theme_pool = set(get_species_pool_for_theme(theme, include_special_boss=False))
         overlap_scored = []
         for trainer_class, pool in class_pools.items():
-            class_pool = {p.upper() for p in pool}
+            class_pool = {p for p in pool}
             score = len(class_pool.intersection(theme_pool))
             if score > 0:
                 overlap_scored.append((trainer_class, score))
@@ -275,7 +276,7 @@ def generate_trainers(map_id, floor_number, theme, pbs_dir=None, md_filepath=Non
     if scaled_items:
         section.add_line(f"Items = {scaled_items}")
 
-    available_pokemon = [p.upper() for p in class_pools.get(trainer_class, [])]
+    available_pokemon = [p for p in class_pools.get(trainer_class, [])]
     theme_pool = get_species_pool_for_theme(theme, include_special_boss=False)
 
     # Keep trainer class identity from trainers.md while enriching with index data.
