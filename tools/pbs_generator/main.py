@@ -23,7 +23,7 @@ class GeneratorThread(QThread):
     finished_signal = pyqtSignal()
 
     def __init__(self, start_map, end_map, num_floors, theme_selection, apply_theme_all, available_themes,
-                 min_step_chance, max_step_chance, step_chance_chunk,
+                 min_step_chance, max_step_chance, step_chance_chunk, grunt_min, grunt_max,
                  filter_category, filter_value, apply_filter_trainers,
                  boss_generation_mode, overwrite_existing, pbs_dir):
         super().__init__()
@@ -36,6 +36,8 @@ class GeneratorThread(QThread):
         self.min_step_chance = min_step_chance
         self.max_step_chance = max_step_chance
         self.step_chance_chunk = step_chance_chunk
+        self.grunt_min = grunt_min
+        self.grunt_max = grunt_max
         self.filter_category = filter_category
         self.filter_value = filter_value
         self.apply_filter_trainers = apply_filter_trainers
@@ -159,7 +161,9 @@ class GeneratorThread(QThread):
                                                              filter_category=t_filter_cat,
                                                              filter_value=t_filter_val,
                                                              is_boss=False,
-                                                             overwrite=self.overwrite_existing) or trainers_written
+                                                             overwrite=self.overwrite_existing,
+                                                             grunt_min=self.grunt_min,
+                                                             grunt_max=self.grunt_max) or trainers_written
 
                     if self.boss_generation_mode in ["Include Boss", "Only Boss"]:
                         # Generate Boss Trainer
@@ -310,6 +314,23 @@ class PBSGeneratorApp(QMainWindow):
         self.step_chunk_spin.setValue(5)
         self.step_chunk_spin.setToolTip("Floors are grouped into chunks for step chance calculation.")
         control_layout.addWidget(self.step_chunk_spin, 6, 1)
+
+        # Grunt Pool Size Configuration
+        grunt_pool_layout = QHBoxLayout()
+        self.grunt_min_spin = QSpinBox()
+        self.grunt_min_spin.setRange(1, 20)
+        self.grunt_min_spin.setValue(3)
+        self.grunt_max_spin = QSpinBox()
+        self.grunt_max_spin.setRange(1, 20)
+        self.grunt_max_spin.setValue(8)
+
+        grunt_pool_layout.addWidget(QLabel("Min:"))
+        grunt_pool_layout.addWidget(self.grunt_min_spin)
+        grunt_pool_layout.addWidget(QLabel("Max:"))
+        grunt_pool_layout.addWidget(self.grunt_max_spin)
+
+        control_layout.addWidget(QLabel("Grunt Pool Size:"), 6, 0)
+        control_layout.addLayout(grunt_pool_layout, 6, 1)
 
         # Index Filter Options
         control_layout.addWidget(QLabel("Index Filter Category:"), 7, 0)
@@ -495,6 +516,9 @@ class PBSGeneratorApp(QMainWindow):
         self.map_progress_bar.setValue(0)
         self.total_progress_bar.setValue(0)
 
+        grunt_min = self.grunt_min_spin.value()
+        grunt_max = self.grunt_max_spin.value()
+
         # Start background thread
         self.thread = GeneratorThread(
             start_map=start_map,
@@ -506,6 +530,8 @@ class PBSGeneratorApp(QMainWindow):
             min_step_chance=min_step_chance,
             max_step_chance=max_step_chance,
             step_chance_chunk=step_chance_chunk,
+            grunt_min=grunt_min,
+            grunt_max=grunt_max,
             filter_category=filter_category,
             filter_value=filter_value,
             apply_filter_trainers=apply_filter_trainers,

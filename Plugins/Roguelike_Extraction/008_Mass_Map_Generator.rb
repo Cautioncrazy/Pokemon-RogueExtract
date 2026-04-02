@@ -270,8 +270,11 @@ def pbMassGenerateRoguelikeMaps
       map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trader", "Trader", 0, false, false, "pbBlackMarketTrader", false, false)
       current_event_id += 1
 
-      # 20 Trainers
-      20.times do
+      # Scaling Standard Trainers
+      max_trainers = [1 + (count / 5).floor, 10].min
+      actual_trainers = rand(1..max_trainers)
+
+      actual_trainers.times do
         map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trainer", nil, 4, false, false, "pbDynamicTrainer(\"A\")", true, true)
         current_event_id += 1
       end
