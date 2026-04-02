@@ -9840,7 +9840,7 @@
           "NIDORINA"
         ],
         "chain": [
-          "NIDORANFE",
+          "NIDORAMfE",
           "NIDORINA",
           "NIDOQUEEN"
         ]
@@ -9894,13 +9894,13 @@
         "depth": 1,
         "is_final_evolution": false,
         "pre_evolutions": [
-          "NIDORANFE"
+          "NIDORAMfE"
         ],
         "evolves_to": [
           "NIDOQUEEN"
         ],
         "chain": [
-          "NIDORANFE",
+          "NIDORAMfE",
           "NIDORINA",
           "NIDOQUEEN"
         ]
@@ -9959,7 +9959,7 @@
         ],
         "evolves_to": [],
         "chain": [
-          "NIDORANFE",
+          "NIDORAMfE",
           "NIDORINA",
           "NIDOQUEEN"
         ]
@@ -9972,7 +9972,7 @@
     },
     {
       "national_dex": 32,
-      "species_id": "NIDORANMA",
+      "species_id": "NIDORANmA",
       "name": "Nidoran♂",
       "types": [
         "POISON"
@@ -10018,7 +10018,7 @@
           "NIDORINO"
         ],
         "chain": [
-          "NIDORANMA",
+          "NIDORANmA",
           "NIDORINO",
           "NIDOKING"
         ]
@@ -10072,13 +10072,13 @@
         "depth": 1,
         "is_final_evolution": false,
         "pre_evolutions": [
-          "NIDORANMA"
+          "NIDORANmA"
         ],
         "evolves_to": [
           "NIDOKING"
         ],
         "chain": [
-          "NIDORANMA",
+          "NIDORANmA",
           "NIDORINO",
           "NIDOKING"
         ]
@@ -10137,7 +10137,7 @@
         ],
         "evolves_to": [],
         "chain": [
-          "NIDORANMA",
+          "NIDORANmA",
           "NIDORINO",
           "NIDOKING"
         ]

@@ -519,45 +519,45 @@ BattleBack = snow
 BattleBase = grassICE
 Environment = Snow
 #-------------------------------
-[078]   # Crystal Ruins
-Name = Crystal Ruins
+[100]   # Ancient Sanctuary
+Name = Ancient Sanctuary
+Dungeon = true
+BattleBack = Ghost
+Environment = None
+#-------------------------------
+[078]   # Shadow Grotto
+Name = Shadow Grotto
 Dungeon = true
 BattleBack = cave1
 Environment = Cave
 BGM = bgm2,100,100
 #-------------------------------
-[079]   # Silent Ruins
-Name = Silent Ruins
+[079]   # Abyssal Cave
+Name = Abyssal Cave
 Dungeon = true
 BattleBack = snow
 BattleBase = grassICE
 Environment = Snow
 BGM = bgm1,100,100
 #-------------------------------
-[080]   # Ancient Sanctuary
-Name = Ancient Sanctuary
+[080]   # Shadow Depths
+Name = Shadow Depths
 Dungeon = true
 BattleBack = snow
 BattleBase = grassICE
 Environment = Snow
 BGM = bgm8,100,100
 #-------------------------------
-[081]   # Verdant Chasm
-Name = Verdant Chasm
+[081]   # Mystic Hollow
+Name = Mystic Hollow
 Dungeon = true
 BattleBack = forest
 Environment = Forest
 BGM = bgm5,100,100
 #-------------------------------
-[082]   # Abyssal Chasm
-Name = Abyssal Chasm
+[082]   # Verdant Hollow
+Name = Verdant Hollow
 Dungeon = true
 BattleBack = 2
 Environment = None
 BGM = bgm6,100,100
-#-------------------------------
-[100]   # Ancient Sanctuary
-Name = Ancient Sanctuary
-Dungeon = true
-BattleBack = Ghost
-Environment = None

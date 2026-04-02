@@ -1765,10 +1765,10 @@ When designing content:
 - `0015 | BEEDRILL | Beedrill | BST 395 | midgame`
 - `0023 | EKANS | Ekans | BST 288 | earlygame`
 - `0024 | ARBOK | Arbok | BST 448 | midgame`
-- `0029 | NIDORANFE | Nidoran♀ | BST 275 | earlygame`
+- `0029 | NIDORANfE | Nidoran♀ | BST 275 | earlygame`
 - `0030 | NIDORINA | Nidorina | BST 365 | midgame`
 - `0031 | NIDOQUEEN | Nidoqueen | BST 505 | lategame`
-- `0032 | NIDORANMA | Nidoran♂ | BST 273 | earlygame`
+- `0032 | NIDORANmA | Nidoran♂ | BST 273 | earlygame`
 - `0033 | NIDORINO | Nidorino | BST 365 | midgame`
 - `0034 | NIDOKING | Nidoking | BST 505 | lategame`
 - `0041 | ZUBAT | Zubat | BST 245 | weak`
@@ -2736,8 +2736,8 @@ When designing content:
 - `0023 | EKANS | Ekans | BST 288`
 - `0025 | PIKACHU | Pikachu | BST 320`
 - `0027 | SANDSHREW | Sandshrew | BST 300`
-- `0029 | NIDORANFE | Nidoran♀ | BST 275`
-- `0032 | NIDORANMA | Nidoran♂ | BST 273`
+- `0029 | NIDORAMfE | Nidoran♀ | BST 275`
+- `0032 | NIDORANmA | Nidoran♂ | BST 273`
 - `0035 | CLEFAIRY | Clefairy | BST 323`
 - `0037 | VULPIX | Vulpix | BST 299`
 - `0039 | JIGGLYPUFF | Jigglypuff | BST 270`
