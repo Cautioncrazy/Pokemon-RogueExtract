@@ -338,25 +338,30 @@ class Interpreter
     chosen_type = event.instance_variable_get(:@dynamic_trainer_type) || possible_types.sample
     chosen_name = event.instance_variable_get(:@dynamic_trainer_name) || "Trainer"
 
-    # Calculate expected version from Python PBS generator
-    expected_version = ($game_map.map_id * 100) + event.id
-    real_trainer = nil
+    # Search for all valid dynamically generated trainers for this map
+    valid_trainers = []
 
-    # Database Search for the specific dynamically generated trainer
+    # Database Search to pool matching trainers for the current map
     GameData::Trainer.each do |trainer|
-      if trainer.trainer_type == chosen_type && trainer.version == expected_version
-        real_trainer = trainer
-        break
+      # Filter by class and map ID
+      if trainer.trainer_type == chosen_type && (trainer.version / 100) == $game_map.map_id
+        # Filter by Boss status based on event type
+        if is_vip
+          valid_trainers.push(trainer) if trainer.name.start_with?("Boss ")
+        else
+          valid_trainers.push(trainer) if !trainer.name.start_with?("Boss ")
+        end
       end
     end
 
-    if real_trainer
-      # Python generated trainer found
+    if !valid_trainers.empty?
+      # Python generated trainer found, randomly sample one
+      real_trainer = valid_trainers.sample
       real_name = real_trainer.name
-      version = expected_version
+      version = real_trainer.version
     else
       # Fallback safety if no trainer found in database
-      pbMessage(_INTL("Error: Trainer ID {1} not found! Falling back to template.", expected_version))
+      pbMessage(_INTL("Error: No valid trainers found for map {1} and class {2}! Falling back to template.", $game_map.map_id, chosen_type))
       real_name = chosen_name
       version = RoguelikeExtraction.calculate_trainer_version
     end
