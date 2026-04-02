@@ -1,55 +1,60 @@
 #---------Python Generated------
+
 #-------------------------------
-[CAMPER,M78_F1]
-LoseText = You got me!
-Pokemon = PONYTA,3
+[LASS,Ivy,7801]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = FLABEBE,3
 #-------------------------------
-[PICNICKER,Boss M78_F1]
+[SUPERNERD,Boss Nate,7801]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon =  BULBASAUR,6
-Pokemon = SHROOMISH,4
+Pokemon = KOFFING,4
+Pokemon = TRUBBISH,5
+Pokemon = DITTO,5
 #-------------------------------
-[POKEMANIAC,M79_F1]
-LoseText = You got me!
-Pokemon = FRIGIBAX,1
-Pokemon = LAPRAS,1
+[POKEMANIAC,Alex,7901]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = KANGASKHAN,2
+Pokemon = NIDORANfE,4
 #-------------------------------
-[SWIMMER_M,Boss M79_F1]
+[SWIMMER_F,Boss Sam,7901]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = SPHEAL,4
-Pokemon = LAPRAS,5
+Pokemon = CLAUNCHER,5
+Pokemon = WOOPER,4
 #-------------------------------
-[SAILOR,M80_F1]
-LoseText = You got me!
-Pokemon = LAPRAS,3
+[LASS,Tara,8001]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = SKITTY,4
+Pokemon = FIDOUGH,1
 #-------------------------------
-[SWIMMER_M,Boss M80_F1]
+[COOLTRAINER_M,Boss Cathy,8001]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = SPHEAL,6
-Pokemon = LAPRAS,3
+Pokemon = BULBASAUR,5
+Pokemon = BELDUM,5
 #-------------------------------
-[POKEMANIAC,M81_F1]
-LoseText = You got me!
-Pokemon = BAGON,3
-Pokemon = LARVITAR,2
+[SAILOR,Vera,8101]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = SPHEAL,2
 #-------------------------------
-[BIKER,Boss M81_F1]
+[POKEMANIAC,Boss Brendan,8101]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = TRUBBISH,7
-Pokemon = SKUNTANK,5
-Pokemon = RATTATA,6
+Pokemon = FRIGIBAX,4
+Pokemon = LAPRAS,6
 #-------------------------------
-[FISHERMAN,M82_F1]
-LoseText = You got me!
-Pokemon = GOLDEEN,1
-Pokemon = REMORAID,1
+[FISHERMAN,Nate,8201]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = MAGIKARP,3
+Pokemon = BASCULIN,2
 #-------------------------------
-[PSYCHIC_M,Boss M82_F1]
+[FISHERMAN,Boss Sam,8201]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = GOTHITA,3
-Pokemon = NATU,5
+Pokemon = CARVANHA,4
+Pokemon = ARROKUDA,6
