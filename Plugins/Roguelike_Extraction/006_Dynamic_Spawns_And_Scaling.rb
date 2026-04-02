@@ -338,14 +338,35 @@ class Interpreter
     chosen_type = event.instance_variable_get(:@dynamic_trainer_type) || possible_types.sample
     chosen_name = event.instance_variable_get(:@dynamic_trainer_name) || "Trainer"
 
-    version = RoguelikeExtraction.calculate_trainer_version
+    # Calculate expected version from Python PBS generator
+    expected_version = ($game_map.map_id * 100) + event.id
+    real_trainer = nil
+
+    # Database Search for the specific dynamically generated trainer
+    GameData::Trainer.each do |trainer|
+      if trainer.trainer_type == chosen_type && trainer.version == expected_version
+        real_trainer = trainer
+        break
+      end
+    end
+
+    if real_trainer
+      # Python generated trainer found
+      real_name = real_trainer.name
+      version = expected_version
+    else
+      # Fallback safety if no trainer found in database
+      pbMessage(_INTL("Error: Trainer ID {1} not found! Falling back to template.", expected_version))
+      real_name = chosen_name
+      version = RoguelikeExtraction.calculate_trainer_version
+    end
 
     # Pre-battle message
     display_class = GameData::TrainerType.exists?(chosen_type) ? GameData::TrainerType.get(chosen_type).name : chosen_type.to_s.capitalize
-    pbMessage(_INTL("{1} {2} would like to battle!", display_class, chosen_name))
+    pbMessage(_INTL("{1} {2} would like to battle!", display_class, real_name))
 
     # Start the battle
-    outcome = TrainerBattle.start(chosen_type, chosen_name, version)
+    outcome = TrainerBattle.start(chosen_type, real_name, version)
 
     # Check if player won
     if outcome
