@@ -12,12 +12,12 @@ When generating random parties for dynamic trainers, you **MUST** adhere to the 
 ### `YOUNGSTER`
 * **Map Themes:** Grass, Cave
 * **Description:** Early-route mammals, Normal, Flying, low-tier Bug types.
-* **Approved Pool:** RATTATA, SENTRET, ZIGZAGOON, BIDOOF, PATRAT, BUNNELBY, YUNGOOS, SKWOVET, LECHONK, PIDGEY, STARLY, FLETCHLING, NIDORANmA, EKANS.
+* **Approved Pool:** RATTATA, SENTRET, ZIGZAGOON, BIDOOF, PATRAT, BUNNELBY, YUNGOOS, SKWOVET, LECHONK, PIDGEY, STARLY, FLETCHLING, NIDORANMA, EKANS.
 
 ### `LASS`
 * **Map Themes:** Grass
 * **Description:** "Cute" Pokémon, Normal, Fairy, Grass.
-* **Approved Pool:** JIGGLYPUFF, CLEFAIRY, MARILL, ODDISH, SKITTY, BUNEARY, MINCCINO, FLABEBE, FIDOUGH, TINKATINK, VULPIX, NIDORANfE, HOPPIP.
+* **Approved Pool:** JIGGLYPUFF, CLEFAIRY, MARILL, ODDISH, SKITTY, BUNEARY, MINCCINO, FLABEBE, FIDOUGH, TINKATINK, VULPIX, NIDORANFE, HOPPIP.
 
 ### `CAMPER` / `PICNICKER`
 * **Map Themes:** Grass, Cave
@@ -61,7 +61,7 @@ When generating random parties for dynamic trainers, you **MUST** adhere to the 
 ### `PSYCHIC_M` / `PSYCHIC_F`
 * **Map Themes:** Graveyard/Ghost
 * **Description:** Psychic and Ghost types.
-* **Approved Pool:** ABRA, DROWZEE, MRMIME, NATU, ESPON, RALTS, SPOINK, CHIMECHO, BRONZOR, GOTHITA, SOLOSIS, ELGYEM, HATENNA, FLITTLE.
+* **Approved Pool:** ABRA, DROWZEE, MRMIME, NATU, ESPEON, RALTS, SPOINK, CHIMECHO, BRONZOR, GOTHITA, SOLOSIS, ELGYEM, HATENNA, FLITTLE.
 
 ---
 
@@ -70,7 +70,7 @@ When generating random parties for dynamic trainers, you **MUST** adhere to the 
 ### `POKEMANIAC`
 * **Map Themes:** Cave
 * **Description:** Rare, slow-leveling, or "Kaiju" (Monster egg group) Pokémon.
-* **Approved Pool:** CHARMANDER, NIDORANmA, NIDORANfE, SLOWPOKE, CUBONE, RHYHORN, KANGASKHAN, LAPRAS, SNORLAX, LARVITAR, ARON, BAGON, GIBLE, AXEW, GOOMY, JANGMOO, FRIGIBAX.
+* **Approved Pool:** CHARMANDER, NIDORANMA, NIDORANFE, SLOWPOKE, CUBONE, RHYHORN, KANGASKHAN, LAPRAS, SNORLAX, LARVITAR, ARON, BAGON, GIBLE, AXEW, GOOMY, JANGMOO, FRIGIBAX.
 
 ### `SCIENTIST` / `SUPERNERD`
 * **Map Themes:** Cave, Graveyard/Ghost
@@ -85,7 +85,7 @@ When generating random parties for dynamic trainers, you **MUST** adhere to the 
 ### `BEAUTY`
 * **Map Themes:** Water, Grass
 * **Description:** Elegant, visually appealing Pokémon (Water, Grass, Ice, Normal, Fairy).
-* **Approved Pool:** VULPIX, MEOWTH, GOLDEEN, LAPRAS, CHIKORITA, BELLOSSOM, MARILL, CORSOLA, ROSELIA, MILOTIC, CHERUBI, GLAMEOW, LILLIGANT, MINCCINO, FOMANTIS, TSARAREENA, FLABEBE, TOGEPI, HATENNA, CLEFAIRY.
+* **Approved Pool:** VULPIX, MEOWTH, GOLDEEN, LAPRAS, CHIKORITA, BELLOSSOM, MARILL, CORSOLA, ROSELIA, MILOTIC, CHERUBI, GLAMEOW, LILLIGANT, MINCCINO, FOMANTIS, TSAREENA, FLABEBE, TOGEPI, HATENNA, CLEFAIRY.
 
 ### `COOLTRAINER_M` / `COOLTRAINER_F`
 * **Map Themes:** Cave, Water, Grass, Graveyard/Ghost
