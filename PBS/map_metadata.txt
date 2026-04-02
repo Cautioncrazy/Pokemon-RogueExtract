@@ -399,40 +399,41 @@ MapPosition = 1,13,16
 BattleBack = city
 
 #---------Python Generated------
+
 #-------------------------------
-[078]   # Shadow Chasm
-Name = Shadow Chasm
+[078]   # Crystal Grotto
+Name = Crystal Grotto
 Dungeon = true
-BattleBack = cave2
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+BGM = bgm4,100,100
+#-------------------------------
+[079]   # Abyssal Chasm
+Name = Abyssal Chasm
+Dungeon = true
+BattleBack = cave1
 Environment = Cave
 BGM = bgm2,100,100
 #-------------------------------
-[079]   # Mystic Grotto
-Name = Mystic Grotto
+[080]   # Abyssal Sanctuary
+Name = Abyssal Sanctuary
 Dungeon = true
-BattleBack = snow
-BattleBase = grassICE
-Environment = Snow
-BGM = bgm1,100,100
+BattleBack = cave1
+Environment = Cave
+BGM = bgm4,100,100
 #-------------------------------
-[080]   # Crystal Sanctuary
-Name = Crystal Sanctuary
-Dungeon = true
-BattleBack = snow
-BattleBase = grassICE
-Environment = Snow
-BGM = bgm8,100,100
-#-------------------------------
-[081]   # Shadow Hollow
-Name = Shadow Hollow
-Dungeon = true
-BattleBack = forest
-Environment = Forest
-BGM = bgm5,100,100
-#-------------------------------
-[082]   # Silent Labyrinth
-Name = Silent Labyrinth
+[081]   # Ancient Sanctuary
+Name = Ancient Sanctuary
 Dungeon = true
 BattleBack = 2
 Environment = None
+BGM = bgm9,100,100
+#-------------------------------
+[082]   # Forgotten Grotto
+Name = Forgotten Grotto
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
 BGM = bgm6,100,100

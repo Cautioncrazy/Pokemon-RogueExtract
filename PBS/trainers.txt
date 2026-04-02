@@ -1,55 +1,60 @@
 #---------Python Generated------
+
 #-------------------------------
-[CAMPER,M78_F1]
-LoseText = You got me!
-Pokemon = PONYTA,3
+[SWIMMER_M,Ivy,7801]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = SPHEAL,1
+Pokemon = LAPRAS,3
 #-------------------------------
-[PICNICKER,Boss M78_F1]
+[POKEMANIAC,Boss Nate,7801]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon =  BULBASAUR,6
-Pokemon = SHROOMISH,4
+Pokemon = LAPRAS,7
+Pokemon = FRIGIBAX,7
 #-------------------------------
-[POKEMANIAC,M79_F1]
-LoseText = You got me!
-Pokemon = FRIGIBAX,1
-Pokemon = LAPRAS,1
+[PICNICKER,Alex,7901]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = SQUIRTLE,2
+Pokemon = BULBASAUR,1
 #-------------------------------
-[SWIMMER_M,Boss M79_F1]
+[CAMPER,Boss Sam,7901]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = SPHEAL,4
+Pokemon = SHROOMISH,6
+Pokemon = CHARMANDER,3
+Pokemon = MANKEY,4
+#-------------------------------
+[PICNICKER,Tara,8001]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = SEEDOT,5
+#-------------------------------
+[CAMPER,Boss Cathy,8001]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = CHARMANDER,7
+Pokemon = NUMEL,3
+Pokemon = POLIWAG,4
+#-------------------------------
+[SWIMMER_M,Vera,8101]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = POLIWAG,4
+#-------------------------------
+[POKEMANIAC,Boss Brendan,8101]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = JANGMOO,7
+Pokemon = ARON,4
+Pokemon = CHARMANDER,7
+#-------------------------------
+[POKEMANIAC,Nate,8201]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
 Pokemon = LAPRAS,5
 #-------------------------------
-[SAILOR,M80_F1]
-LoseText = You got me!
-Pokemon = LAPRAS,3
-#-------------------------------
-[SWIMMER_M,Boss M80_F1]
+[POKEMANIAC,Boss Sam,8201]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = SPHEAL,6
-Pokemon = LAPRAS,3
-#-------------------------------
-[POKEMANIAC,M81_F1]
-LoseText = You got me!
-Pokemon = BAGON,3
-Pokemon = LARVITAR,2
-#-------------------------------
-[BIKER,Boss M81_F1]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = TRUBBISH,7
-Pokemon = SKUNTANK,5
-Pokemon = RATTATA,6
-#-------------------------------
-[FISHERMAN,M82_F1]
-LoseText = You got me!
-Pokemon = GOLDEEN,1
-Pokemon = REMORAID,1
-#-------------------------------
-[PSYCHIC_M,Boss M82_F1]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = GOTHITA,3
-Pokemon = NATU,5
+Pokemon = LAPRAS,6
+Pokemon = FRIGIBAX,7
