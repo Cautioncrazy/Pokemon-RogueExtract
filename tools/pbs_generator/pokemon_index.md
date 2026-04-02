@@ -51,10 +51,10 @@ When designing content:
 - `0026 | RAICHU | Raichu | [ELECTRIC] | 485 | lategame | normal | final | RegionalCapable | midgame, lategame`
 - `0027 | SANDSHREW | Sandshrew | [GROUND] | 300 | earlygame | very_easy | baby_or_base | RegionalCapable | earlygame`
 - `0028 | SANDSLASH | Sandslash | [GROUND] | 450 | midgame | normal | final | RegionalCapable | midgame`
-- `0029 | NIDORANFE | Nidoran♀ | [POISON] | 275 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0029 | NIDORANfE | Nidoran♀ | [POISON] | 275 | earlygame | very_easy | baby_or_base | Standard | earlygame`
 - `0030 | NIDORINA | Nidorina | [POISON] | 365 | midgame | easy | middle | Standard | midgame`
 - `0031 | NIDOQUEEN | Nidoqueen | [POISON/GROUND] | 505 | lategame | hard | final | Standard | midgame, lategame`
-- `0032 | NIDORANMA | Nidoran♂ | [POISON] | 273 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0032 | NIDORANmA | Nidoran♂ | [POISON] | 273 | earlygame | very_easy | baby_or_base | Standard | earlygame`
 - `0033 | NIDORINO | Nidorino | [POISON] | 365 | midgame | easy | middle | Standard | midgame`
 - `0034 | NIDOKING | Nidoking | [POISON/GROUND] | 505 | lategame | hard | final | Standard | midgame, lategame`
 - `0035 | CLEFAIRY | Clefairy | [FAIRY] | 323 | earlygame | easy | middle | Standard | earlygame`

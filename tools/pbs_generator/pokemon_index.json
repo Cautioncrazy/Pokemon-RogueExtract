@@ -3517,7 +3517,7 @@
         },
         {
           "national_dex": 32,
-          "species_id": "NIDORANMA",
+          "species_id": "NIDORANmA",
           "name": "Nidoran♂"
         },
         {
@@ -9794,7 +9794,7 @@
     },
     {
       "national_dex": 29,
-      "species_id": "NIDORANFE",
+      "species_id": "NIDORANfE",
       "name": "Nidoran♀",
       "types": [
         "POISON"

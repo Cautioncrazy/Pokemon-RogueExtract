@@ -397,39 +397,168 @@ Name = Tiall Region
 Outdoor = true
 MapPosition = 1,13,16
 BattleBack = city
+
+#---------Python Generated------
 #-------------------------------
-[078]   # Echoing Chasm
-Name = Echoing Chasm
-Dungeon = true
-BattleBack = Fighting
-Environment = None
-BGM = bgm9,100,100
-#-------------------------------
-[079]   # Silent Cave
-Name = Silent Cave
-Dungeon = true
-BattleBack = Fighting
-Environment = None
-BGM = bgm5,100,100
-#-------------------------------
-[080]   # Shadow Depths
-Name = Shadow Depths
+[083]   # Mystic Depths
+Name = Mystic Depths
 Dungeon = true
 BattleBack = snow
 BattleBase = grassICE
 Environment = Snow
+#-------------------------------
+[084]   # Mystic Labyrinth
+Name = Mystic Labyrinth
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[085]   # Silent Sanctuary
+Name = Silent Sanctuary
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[086]   # Forgotten Depths
+Name = Forgotten Depths
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[087]   # Echoing Labyrinth
+Name = Echoing Labyrinth
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[088]   # Echoing Labyrinth
+Name = Echoing Labyrinth
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[089]   # Echoing Grotto
+Name = Echoing Grotto
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[090]   # Echoing Hollow
+Name = Echoing Hollow
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[091]   # Forgotten Hollow
+Name = Forgotten Hollow
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[092]   # Ancient Grotto
+Name = Ancient Grotto
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[093]   # Forgotten Hollow
+Name = Forgotten Hollow
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[094]   # Crystal Depths
+Name = Crystal Depths
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[095]   # Echoing Sanctuary
+Name = Echoing Sanctuary
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[096]   # Verdant Cave
+Name = Verdant Cave
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[097]   # Forgotten Depths
+Name = Forgotten Depths
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[098]   # Verdant Labyrinth
+Name = Verdant Labyrinth
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[099]   # Shadow Grotto
+Name = Shadow Grotto
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[100]   # Shadow Labyrinth
+Name = Shadow Labyrinth
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+#-------------------------------
+[078]   # Crystal Ruins
+Name = Crystal Ruins
+Dungeon = true
+BattleBack = cave1
+Environment = Cave
+BGM = bgm2,100,100
+#-------------------------------
+[079]   # Silent Ruins
+Name = Silent Ruins
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+BGM = bgm1,100,100
+#-------------------------------
+[080]   # Ancient Sanctuary
+Name = Ancient Sanctuary
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+BGM = bgm8,100,100
+#-------------------------------
+[081]   # Verdant Chasm
+Name = Verdant Chasm
+Dungeon = true
+BattleBack = forest
+Environment = Forest
 BGM = bgm5,100,100
 #-------------------------------
-[081]   # Mystic Chasm
-Name = Mystic Chasm
+[082]   # Abyssal Chasm
+Name = Abyssal Chasm
 Dungeon = true
-BattleBack = Fighting
+BattleBack = 2
 Environment = None
-BGM = bgm9,100,100
-#-------------------------------
-[082]   # Abyssal Ruins
-Name = Abyssal Ruins
-Dungeon = true
-BattleBack = Fighting
-Environment = None
-BGM = bgm8,100,100
+BGM = bgm6,100,100

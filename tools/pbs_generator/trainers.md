@@ -61,7 +61,7 @@ When generating random parties for dynamic trainers, you **MUST** adhere to the 
 ### `PSYCHIC_M` / `PSYCHIC_F`
 * **Map Themes:** Graveyard/Ghost
 * **Description:** Psychic and Ghost types.
-* **Approved Pool:** ABRA, DROWZEE, MRMIME, NATU, ESPON, RALTS, SPOINK, CHIMECHO, BRONZOR, GOTHITA, SOLOSIS, ELGYEM, HATENNA, FLITTLE.
+* **Approved Pool:** ABRA, DROWZEE, MRMIME, NATU, ESPEON, RALTS, SPOINK, CHIMECHO, BRONZOR, GOTHITA, SOLOSIS, ELGYEM, HATENNA, FLITTLE.
 
 ---
 
