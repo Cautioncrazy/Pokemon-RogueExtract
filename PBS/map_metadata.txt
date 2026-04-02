@@ -398,38 +398,38 @@ Outdoor = true
 MapPosition = 1,13,16
 BattleBack = city
 #-------------------------------
-[078]   # Cavetia
-Name = Shadow Chasm
+[078]   # Echoing Chasm
+Name = Echoing Chasm
 Dungeon = true
-#-------------------------------
-[079]   # Crysalo
-Name = Forgotten Hollow
-Dungeon = true
-#-------------------------------
-[080]   # Abyssys
-Name = Silent Sanctuary
-Dungeon = true
-
-#---------Python Generated------
-
-#-------------------------------
-[081]   # Ancient Grotto
-Name = Ancient Grotto
-Dungeon = true
-BattleBack = Psychic
+BattleBack = Fighting
 Environment = None
-BGM = bgm4,100,100
+BGM = bgm9,100,100
 #-------------------------------
-[082]   # Mystic Ruins
-Name = Mystic Ruins
+[079]   # Silent Cave
+Name = Silent Cave
 Dungeon = true
-BattleBack = Psychic
+BattleBack = Fighting
 Environment = None
-BGM = bgm4,100,100
+BGM = bgm5,100,100
 #-------------------------------
-[083]   # Shadow Grotto
-Name = Shadow Grotto
+[080]   # Shadow Depths
+Name = Shadow Depths
 Dungeon = true
-BattleBack = Psychic
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+BGM = bgm5,100,100
+#-------------------------------
+[081]   # Mystic Chasm
+Name = Mystic Chasm
+Dungeon = true
+BattleBack = Fighting
 Environment = None
-BGM = bgm2,100,100
+BGM = bgm9,100,100
+#-------------------------------
+[082]   # Abyssal Ruins
+Name = Abyssal Ruins
+Dungeon = true
+BattleBack = Fighting
+Environment = None
+BGM = bgm8,100,100

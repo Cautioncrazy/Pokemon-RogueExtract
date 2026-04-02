@@ -804,34 +804,56 @@ Pokemon = CHARIZARD,35
 #---------Python Generated------
 
 #-------------------------------
-[PSYCHIC_F,M81_F1]
+[BLACKBELT,M78_F1]
 LoseText = You got me!
-Pokemon = ELGYEM,2
-Pokemon = SOLOSIS,4
+Items = POTION
+Pokemon = CRABRAWLER,5
+Pokemon = PANCHAM,4
 #-------------------------------
-[PSYCHIC_F,Boss M81_F1]
+[BLACKBELT,Boss M78_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = SPOINK,6
-Pokemon = SOLOSIS,7
-Pokemon = BRONZOR,3
+Pokemon = CRABRAWLER,5
+Pokemon = PANCHAM,4
 #-------------------------------
-[PSYCHIC_F,M82_F1]
+[BLACKBELT,M79_F1]
 LoseText = You got me!
-Pokemon = SOLOSIS,5
+Pokemon = PANCHAM,5
 #-------------------------------
-[PSYCHIC_F,Boss M82_F1]
+[BLACKBELT,Boss M79_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = SPOINK,6
-Pokemon = HATENNA,4
+Pokemon = CRABRAWLER,3
+Pokemon = PANCHAM,7
 #-------------------------------
-[PSYCHIC_F,M83_F1]
+[SAILOR,M80_F1]
 LoseText = You got me!
-Pokemon = ELGYEM,4
+Pokemon = SPHEAL,4
 #-------------------------------
-[PSYCHIC_F,Boss M83_F1]
+[POKEMANIAC,Boss M80_F1]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = GOTHITA,5
-Pokemon = RALTS,5
+Pokemon = LAPRAS,7
+Pokemon = FRIGIBAX,3
+#-------------------------------
+[BLACKBELT,M81_F1]
+LoseText = You got me!
+Pokemon = CRABRAWLER,1
+Pokemon = PANCHAM,4
+#-------------------------------
+[BLACKBELT,Boss M81_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = CRABRAWLER,7
+Pokemon = PANCHAM,6
+#-------------------------------
+[BLACKBELT,M82_F1]
+LoseText = You got me!
+Items = POTION
+Pokemon = CRABRAWLER,5
+#-------------------------------
+[BLACKBELT,Boss M82_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = CRABRAWLER,4
+Pokemon = PANCHAM,7
