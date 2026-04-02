@@ -329,8 +329,8 @@ class PBSGeneratorApp(QMainWindow):
         grunt_pool_layout.addWidget(QLabel("Max:"))
         grunt_pool_layout.addWidget(self.grunt_max_spin)
 
-        control_layout.addWidget(QLabel("Grunt Pool Size:"), 7, 0)
-        control_layout.addLayout(grunt_pool_layout, 7, 1)
+        control_layout.addWidget(QLabel("Grunt Pool Size:"), 6, 0)
+        control_layout.addLayout(grunt_pool_layout, 6, 1)
 
         # Index Filter Options
         control_layout.addWidget(QLabel("Index Filter Category:"), 8, 0)

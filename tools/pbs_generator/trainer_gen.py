@@ -56,7 +56,8 @@ def load_trainers_rules(md_filepath):
 
             if current_classes and stripped.startswith("* **Approved Pool:**"):
                 raw = stripped.split(":**", 1)[1].strip().rstrip(".")
-                pool = [p.strip().replace("*", "").upper() for p in raw.split(",") if p.strip().replace("*", "")]
+                # Do not use .upper() because it breaks NIDORANfE and NIDORANmA
+                pool = [p.strip().replace("*", "") for p in raw.split(",") if p.strip().replace("*", "")]
                 for trainer_class in current_classes:
                     class_pools[trainer_class].extend(pool)
                 continue
@@ -88,7 +89,7 @@ def load_trainers_rules(md_filepath):
                     continue
 
                 if current_classes and current_classes != ["__PARSING_CLASSES__"] and stripped.startswith("- "):
-                    pokemon = stripped[2:].strip().upper()
+                    pokemon = stripped[2:].strip()
                     class_pools[current_classes[0]].append(pokemon)
 
     return class_themes, class_pools
@@ -183,7 +184,7 @@ def generate_trainers(map_id, floor_number, theme, pbs_dir=None, md_filepath=Non
         theme_pool = set(get_species_pool_for_theme(theme, include_special_boss=False))
         overlap_scored = []
         for trainer_class, pool in class_pools.items():
-            class_pool = {p.upper() for p in pool}
+            class_pool = {p for p in pool}
             score = len(class_pool.intersection(theme_pool))
             if score > 0:
                 overlap_scored.append((trainer_class, score))
@@ -254,56 +255,45 @@ def generate_trainers(map_id, floor_number, theme, pbs_dir=None, md_filepath=Non
         else:
             pbs.preamble.append("#-------------------------------")
 
-        section = PBSSection(header)
+    party_size = calculate_party_size(floor_number)
+    if is_boss:
+        party_size += 1
 
-        # Simple Lose Text based on level/version
-        if is_boss:
-            section.add_line("LoseText = Unbelievable... You're truly powerful.")
-        else:
-            if version == 0:
-                section.add_line("LoseText = You got me!")
-            else:
-                section.add_line(f"LoseText = I couldn't handle the floor {floor_number} pressure!")
+    # Add Scaling Items
+    scaled_items = _get_scaled_items(floor_number, is_boss)
+    if scaled_items:
+        section.add_line(f"Items = {scaled_items}")
 
-        party_size = calculate_party_size(floor_number)
-        if is_boss:
-            party_size += 1
+    available_pokemon = [p for p in class_pools.get(trainer_class, [])]
+    theme_pool = get_species_pool_for_theme(theme, include_special_boss=False)
 
-        # Add Scaling Items
-        scaled_items = _get_scaled_items(floor_number, is_boss)
-        if scaled_items:
-            section.add_line(f"Items = {scaled_items}")
+    # Keep trainer class identity from trainers.md while enriching with index data.
+    if available_pokemon and theme_pool:
+        themed_class_pool = [p for p in available_pokemon if p in set(theme_pool)]
+        if themed_class_pool:
+            available_pokemon = themed_class_pool
+    elif theme_pool:
+        available_pokemon = theme_pool
 
-        available_pokemon = [p.upper() for p in class_pools.get(trainer_class, [])]
-        theme_pool = get_species_pool_for_theme(theme, include_special_boss=False)
+    if not available_pokemon:
+         print(f"Warning: No Pokémon pool defined for {trainer_class}. Using Pikachu fallback.")
+         available_pokemon = ["PIKACHU"]
 
-        # Keep trainer class identity from trainers.md while enriching with index data.
-        if available_pokemon and theme_pool:
-            themed_class_pool = [p for p in available_pokemon if p in set(theme_pool)]
-            if themed_class_pool:
-                available_pokemon = themed_class_pool
-        elif theme_pool:
-            available_pokemon = theme_pool
+    # Filter out legendaries/bosses based on standard floor progression
+    available_pokemon = _filter_pool_for_floor(available_pokemon, floor_number)
 
-        if not available_pokemon:
-             print(f"Warning: No Pokémon pool defined for {trainer_class}. Using Pikachu fallback.")
-             available_pokemon = ["PIKACHU"]
+    # Apply optional semantic filters (e.g. bst_tier, encounter_rarity)
+    if filter_category != "None" and filter_value != "None":
+        available_pokemon = filter_species_pool(available_pokemon, filter_category, filter_value)
 
-        # Filter out legendaries/bosses based on standard floor progression
-        available_pokemon = _filter_pool_for_floor(available_pokemon, floor_number)
-
-        # Apply optional semantic filters (e.g. bst_tier, encounter_rarity)
-        if filter_category != "None" and filter_value != "None":
-            available_pokemon = filter_species_pool(available_pokemon, filter_category, filter_value)
-
-        # Ensure unique Pokemon in the trainer's party
-        unique_pool = list(set(available_pokemon)) # Remove duplicates from the pool just in case
-        if len(unique_pool) >= party_size:
-            selected_pokemon = random.sample(unique_pool, party_size)
-        else:
-            # Fallback if the pool is smaller than the required party size
-            print(f"Warning: Pool size ({len(unique_pool)}) is smaller than party size ({party_size}) for {trainer_class}. Using all available unique Pokémon.")
-            selected_pokemon = unique_pool
+    # Ensure unique Pokemon in the trainer's party
+    unique_pool = list(set(available_pokemon)) # Remove duplicates from the pool just in case
+    if len(unique_pool) >= party_size:
+        selected_pokemon = random.sample(unique_pool, party_size)
+    else:
+        # Fallback if the pool is smaller than the required party size
+        print(f"Warning: Pool size ({len(unique_pool)}) is smaller than party size ({party_size}) for {trainer_class}. Using all available unique Pokémon.")
+        selected_pokemon = unique_pool
 
         min_lvl, max_lvl = calculate_levels(floor_number)
 
