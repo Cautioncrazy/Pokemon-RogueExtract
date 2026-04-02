@@ -401,37 +401,37 @@ BattleBack = city
 #---------Python Generated------
 
 #-------------------------------
-[078]   # Mystic Cave
-Name = Mystic Cave
+[078]   # Crystal Hollow
+Name = Crystal Hollow
 Dungeon = true
 BattleBack = forest
 Environment = Forest
 BGM = bgm6,100,100
 #-------------------------------
-[079]   # Silent Chasm
-Name = Silent Chasm
+[079]   # Verdant Ruins
+Name = Verdant Ruins
 Dungeon = true
 BattleBack = 2
 Environment = None
 BGM = bgm5,100,100
 #-------------------------------
-[080]   # Verdant Cave
-Name = Verdant Cave
+[080]   # Verdant Grotto
+Name = Verdant Grotto
 Dungeon = true
 BattleBack = 2
 Environment = None
 BGM = bgm3,100,100
 #-------------------------------
-[081]   # Silent Labyrinth
-Name = Silent Labyrinth
+[081]   # Ancient Ruins
+Name = Ancient Ruins
 Dungeon = true
 BattleBack = snow
 BattleBase = grassICE
 Environment = Snow
 BGM = bgm2,100,100
 #-------------------------------
-[082]   # Crystal Ruins
-Name = Crystal Ruins
+[082]   # Silent Depths
+Name = Silent Depths
 Dungeon = true
 BattleBack = 3
 Environment = None

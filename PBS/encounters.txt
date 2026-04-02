@@ -1,18 +1,5 @@
 #---------Python Generated------
 
-[078,0] # F1 (Poison)
-Land,5
-    20,TOXICROAK,1,5
-    20,NIDORINA,1,5
-    10,NIDOKING,1,5
-    10,GOLBAT,1,5
-    10,NIDORANfE,1,5
-    10,CROBAT,1,5
-    10,NIDORINO,1,5
-    5,SKORUPI,1,5
-    4,SWALOT,1,5
-    1,ARBOK,1,5
-
 [079,0] # F1 (Grass)
 Cave,5
     20,MEOWSCARADA,1,5
@@ -64,3 +51,16 @@ Cave,5
     5,METAGROSS,1,5
     4,STEELIX,1,5
     1,COPPERAJAH,1,5
+
+[078,0] # F1 (Poison)
+Land,5
+    20,NIDORANFE,1,5
+    20,GOLBAT,1,5
+    10,TOXTRICITY,1,5
+    10,NIDORINO,1,5
+    10,GULPIN,1,5
+    10,NIDOKING,1,5
+    10,MUK,1,5
+    5,KOFFING,1,5
+    4,WEEZING,1,5
+    1,TOXICROAK,1,5

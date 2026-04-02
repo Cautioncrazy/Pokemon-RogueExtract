@@ -58,3 +58,4 @@ LoseText = Unbelievable... You're truly powerful.
 Items = POTION
 Pokemon = CARVANHA,4
 Pokemon = ARROKUDA,6
+#-------------------------------
