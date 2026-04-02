@@ -333,46 +333,51 @@ class PBSGeneratorApp(QMainWindow):
         control_layout.addLayout(grunt_pool_layout, 6, 1)
 
         # Index Filter Options
-        control_layout.addWidget(QLabel("Index Filter Category:"), 7, 0)
+        control_layout.addWidget(QLabel("Index Filter Category:"), 8, 0)
         self.filter_category_combo = QComboBox()
         self.filter_category_combo.addItems(get_filter_categories())
         self.filter_category_combo.currentTextChanged.connect(self.on_filter_category_changed)
-        control_layout.addWidget(self.filter_category_combo, 7, 1)
+        control_layout.addWidget(self.filter_category_combo, 8, 1)
 
-        control_layout.addWidget(QLabel("Index Filter Value:"), 8, 0)
+        control_layout.addWidget(QLabel("Index Filter Value:"), 9, 0)
         self.filter_value_combo = QComboBox()
-        control_layout.addWidget(self.filter_value_combo, 8, 1)
+        control_layout.addWidget(self.filter_value_combo, 9, 1)
         self.on_filter_category_changed(self.filter_category_combo.currentText())
 
         # Apply Filter to Trainers Checkbox
         self.apply_filter_trainers_cb = QCheckBox("Apply Filter to Trainers")
         self.apply_filter_trainers_cb.setStyleSheet("color: white; font-size: 13px; background-color: transparent;")
         self.apply_filter_trainers_cb.setChecked(True)
-        control_layout.addWidget(self.apply_filter_trainers_cb, 9, 0, 1, 2)
+        control_layout.addWidget(self.apply_filter_trainers_cb, 10, 0, 1, 2)
 
         # Boss Generation Options
-        control_layout.addWidget(QLabel("Boss Generation:"), 10, 0)
+        control_layout.addWidget(QLabel("Boss Generation:"), 11, 0)
         self.boss_gen_combo = QComboBox()
         self.boss_gen_combo.addItems(["Include Boss", "Exclude Boss", "Only Boss"])
-        control_layout.addWidget(self.boss_gen_combo, 10, 1)
+        control_layout.addWidget(self.boss_gen_combo, 11, 1)
 
         # Apply Theme to All Checkbox
         self.apply_theme_all_cb = QCheckBox("Apply Selected Theme to All Maps")
         self.apply_theme_all_cb.setStyleSheet("color: white; font-size: 13px; background-color: transparent;")
-        control_layout.addWidget(self.apply_theme_all_cb, 11, 0, 1, 2)
+        control_layout.addWidget(self.apply_theme_all_cb, 12, 0, 1, 2)
 
         # Overwrite Existing Data Checkbox
         self.overwrite_cb = QCheckBox("Overwrite Existing Data (Encounters/Trainers/Metadata)")
         self.overwrite_cb.setStyleSheet("color: white; font-size: 13px; background-color: transparent;")
-        control_layout.addWidget(self.overwrite_cb, 12, 0, 1, 2)
+        control_layout.addWidget(self.overwrite_cb, 13, 0, 1, 2)
+
+        # Buttons layout
+        button_layout = QHBoxLayout()
 
         # Generate Button
         self.generate_btn = QPushButton("Generate Bulk Data")
+        self.generate_btn.setMinimumHeight(40)
         self.generate_btn.clicked.connect(self.on_generate_clicked)
-        control_layout.addWidget(self.generate_btn, 13, 0, 1, 1)
+        button_layout.addWidget(self.generate_btn)
 
         # Append Items Button
         self.append_items_btn = QPushButton("Append Artifacts to PBS")
+        self.append_items_btn.setMinimumHeight(40)
         self.append_items_btn.clicked.connect(self.on_append_items_clicked)
         self.append_items_btn.setStyleSheet("""
             QPushButton {
@@ -390,7 +395,9 @@ class PBSGeneratorApp(QMainWindow):
                 background-color: rgba(46, 204, 113, 1.0);
             }
         """)
-        control_layout.addWidget(self.append_items_btn, 13, 1, 1, 1)
+        button_layout.addWidget(self.append_items_btn)
+
+        control_layout.addLayout(button_layout, 14, 0, 1, 2)
 
         # Progress Bars
         self.map_progress_bar = QProgressBar()
@@ -403,13 +410,14 @@ class PBSGeneratorApp(QMainWindow):
                 border: 1px solid rgba(255, 255, 255, 0.2);
                 border-radius: 5px;
                 text-align: center;
+                min-height: 20px;
             }
             QProgressBar::chunk {
                 background-color: #4da6ff;
                 border-radius: 4px;
             }
         """)
-        control_layout.addWidget(self.map_progress_bar, 14, 0, 1, 2)
+        control_layout.addWidget(self.map_progress_bar, 15, 0, 1, 2)
 
         self.total_progress_bar = QProgressBar()
         self.total_progress_bar.setFormat("Total Batch Progress: %p%")
@@ -421,13 +429,14 @@ class PBSGeneratorApp(QMainWindow):
                 border: 1px solid rgba(255, 255, 255, 0.2);
                 border-radius: 5px;
                 text-align: center;
+                min-height: 20px;
             }
             QProgressBar::chunk {
                 background-color: #ff9933;
                 border-radius: 4px;
             }
         """)
-        control_layout.addWidget(self.total_progress_bar, 15, 0, 1, 2)
+        control_layout.addWidget(self.total_progress_bar, 16, 0, 1, 2)
 
         main_layout.addWidget(control_panel)
 
