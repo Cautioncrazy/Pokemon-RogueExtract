@@ -163,14 +163,13 @@ def pbDynamicTrainerBattle(is_vip = false)
     # Check if a Python trainer exists natively first
     floor = $PokemonGlobal.current_raid_floor || 1
     map_id = $game_map.map_id
-    python_version = floor - 1
-    python_version = 0 if python_version < 0
-    base_name = "M#{map_id}_F#{floor}"
-    python_trainer_name = is_vip ? "Boss #{base_name}" : base_name
+    python_version = (map_id * 100) + floor
 
-    found_key = GameData::Trainer::DATA.keys.find { |k| k[1] == python_trainer_name && k[2] == python_version }
+    found_key = GameData::Trainer::DATA.keys.find do |k|
+      k[2] == python_version && (is_vip ? k[1].start_with?("Boss ") : !k[1].start_with?("Boss "))
+    end
     if found_key
-      chosen_trainer = [found_key[0], python_trainer_name, python_version]
+      chosen_trainer = [found_key[0], found_key[1], python_version]
     else
       pool = is_vip ? RoguelikeExtraction::DYNAMIC_VIPS : RoguelikeExtraction::DYNAMIC_TRAINERS
       available = pool.reject { |t| RoguelikeExtraction.fought_trainers.include?(t) }

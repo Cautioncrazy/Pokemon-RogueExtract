@@ -202,20 +202,27 @@ def generate_trainers(map_id, floor_number, theme, pbs_dir=None, md_filepath=Non
 
     trainer_class = random.choice(valid_classes)
 
-    # To support clean overwriting in PBS (where trainers are uniquely keyed by Class+Name+Version),
-    # we must use deterministic names instead of completely random string names.
-    # Otherwise, parsing to delete the old section becomes impossible without cross-referencing.
-    if overwrite:
-        base_name = f"M{map_id}_F{floor_number}"
-        trainer_name = f"Boss {base_name}" if is_boss else base_name
-    else:
-        # Generic names for append-only mode
-        first_names = ["Bob", "Alice", "Charlie", "Diana", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy", "Mallory", "Victor"]
-        random_name = random.choice(first_names)
-        trainer_name = f"Boss {random_name}" if is_boss else random_name
+    # Instead of robotic "M82_F1" names which break game immersion during battle intros,
+    # we assign real human names and embed the unique map/floor payload inside the Version parameter.
+    # In Pokémon Essentials, Version can safely scale linearly to guarantee uniqueness.
 
-    version = floor_number - 1 # 0-indexed version matching the floor
-    if version < 0: version = 0
+    first_names = [
+        "Alex", "Brendan", "Cathy", "Dan", "Eve", "Felix", "Gina", "Hank",
+        "Ivy", "Jack", "Katy", "Leo", "Mia", "Nate", "Olivia", "Paul",
+        "Quinn", "Rose", "Sam", "Tara", "Ulysses", "Vera", "Will", "Xena",
+        "Yuri", "Zoe", "Ali", "Betty", "Anthony", "Bruce", "Clark", "Dave"
+    ]
+
+    # We maintain determinism by seeding off the map ID and floor number so we
+    # can predictably overwrite the exact same section if run multiple times.
+    random.seed(map_id * 100 + floor_number + (1000 if is_boss else 0))
+    random_name = random.choice(first_names)
+    random.seed() # Reset seed
+
+    trainer_name = f"Boss {random_name}" if is_boss else random_name
+
+    # The exact map/floor payload encoded as the Version parameter
+    version = map_id * 100 + floor_number
 
     filepath = os.path.join(pbs_dir, "trainers.txt")
     if not os.path.exists(filepath):
