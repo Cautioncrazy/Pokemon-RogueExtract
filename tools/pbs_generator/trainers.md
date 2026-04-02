@@ -12,12 +12,12 @@ When generating random parties for dynamic trainers, you **MUST** adhere to the 
 ### `YOUNGSTER`
 * **Map Themes:** Grass, Cave
 * **Description:** Early-route mammals, Normal, Flying, low-tier Bug types.
-* **Approved Pool:** RATTATA, SENTRET, ZIGZAGOON, BIDOOF, PATRAT, BUNNELBY, YUNGOOS, SKWOVET, LECHONK, PIDGEY, STARLY, FLETCHLING, NIDORANMA, EKANS.
+* **Approved Pool:** RATTATA, SENTRET, ZIGZAGOON, BIDOOF, PATRAT, BUNNELBY, YUNGOOS, SKWOVET, LECHONK, PIDGEY, STARLY, FLETCHLING, NIDORANmA, EKANS.
 
 ### `LASS`
 * **Map Themes:** Grass
 * **Description:** "Cute" Pokémon, Normal, Fairy, Grass.
-* **Approved Pool:** JIGGLYPUFF, CLEFAIRY, MARILL, ODDISH, SKITTY, BUNEARY, MINCCINO, FLABEBE, FIDOUGH, TINKATINK, VULPIX, NIDORANFE, HOPPIP.
+* **Approved Pool:** JIGGLYPUFF, CLEFAIRY, MARILL, ODDISH, SKITTY, BUNEARY, MINCCINO, FLABEBE, FIDOUGH, TINKATINK, VULPIX, NIDORANfE, HOPPIP.
 
 ### `CAMPER` / `PICNICKER`
 * **Map Themes:** Grass, Cave
@@ -70,7 +70,7 @@ When generating random parties for dynamic trainers, you **MUST** adhere to the 
 ### `POKEMANIAC`
 * **Map Themes:** Cave
 * **Description:** Rare, slow-leveling, or "Kaiju" (Monster egg group) Pokémon.
-* **Approved Pool:** CHARMANDER, NIDORANMA, NIDORANFE, SLOWPOKE, CUBONE, RHYHORN, KANGASKHAN, LAPRAS, SNORLAX, LARVITAR, ARON, BAGON, GIBLE, AXEW, GOOMY, JANGMOO, FRIGIBAX.
+* **Approved Pool:** CHARMANDER, NIDORANmA, NIDORANfE, SLOWPOKE, CUBONE, RHYHORN, KANGASKHAN, LAPRAS, SNORLAX, LARVITAR, ARON, BAGON, GIBLE, AXEW, GOOMY, JANGMOO, FRIGIBAX.
 
 ### `SCIENTIST` / `SUPERNERD`
 * **Map Themes:** Cave, Graveyard/Ghost

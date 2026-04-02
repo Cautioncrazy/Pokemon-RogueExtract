@@ -295,3 +295,14 @@ Items = POTION
 Pokemon = GIBLE,3
 Pokemon = SLOWPOKE,3
 Pokemon = JANGMOO,5
+#-------------------------------
+[SCIENTIST,M100_F1]
+LoseText = You got me!
+Pokemon = ROTOM,5
+Pokemon = GOLETT,5
+#-------------------------------
+[SUPERNERD,Boss M100_F1]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = GOLETT,5
+Pokemon = ROTOM,5

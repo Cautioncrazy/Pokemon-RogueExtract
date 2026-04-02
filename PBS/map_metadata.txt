@@ -519,13 +519,6 @@ BattleBack = snow
 BattleBase = grassICE
 Environment = Snow
 #-------------------------------
-[100]   # Shadow Labyrinth
-Name = Shadow Labyrinth
-Dungeon = true
-BattleBack = snow
-BattleBase = grassICE
-Environment = Snow
-#-------------------------------
 [078]   # Crystal Ruins
 Name = Crystal Ruins
 Dungeon = true
@@ -562,3 +555,9 @@ Dungeon = true
 BattleBack = 2
 Environment = None
 BGM = bgm6,100,100
+#-------------------------------
+[100]   # Ancient Sanctuary
+Name = Ancient Sanctuary
+Dungeon = true
+BattleBack = Ghost
+Environment = None
