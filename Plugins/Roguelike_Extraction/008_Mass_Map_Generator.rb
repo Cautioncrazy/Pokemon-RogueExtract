@@ -244,8 +244,11 @@ def pbMassGenerateRoguelikeMaps
       # Parse optional theme from tileset name (e.g., 'Dungeon forest_ICE' -> 'ICE')
       if chosen_ts[:name].include?("_")
         theme_suffix = chosen_ts[:name].split("_").last.strip
-        map_themes[map_id.to_s] = theme_suffix if !theme_suffix.empty?
+      else
+        # E.g. 'Dungeon cave' -> 'cave'
+        theme_suffix = chosen_ts[:name].split(" ").last.strip
       end
+      map_themes[map_id.to_s] = theme_suffix if !theme_suffix.empty?
 
       # Determine encounter type based on tileset name
       encounter_type = chosen_ts[:name].downcase.include?("forest") ? "Land" : "Cave"
@@ -362,3 +365,77 @@ MenuHandlers.add(:debug_menu, :mass_map_generator, {
     pbMassGenerateRoguelikeMaps
   }
 })
+
+MenuHandlers.add(:debug_menu, :roguelike_refresh_themes, {
+  "name"        => _INTL("Refresh Dungeon Themes JSON"),
+  "parent"      => :editors_menu,
+  "description" => _INTL("Re-exports map_themes.json for all existing Dungeon maps based on their Tileset."),
+  "effect"      => proc {
+    pbRefreshDungeonThemesJSON
+  }
+})
+
+def pbRefreshDungeonThemesJSON
+  mapinfos_path = "Data/MapInfos.rxdata"
+  tilesets_path = "Data/Tilesets.rxdata"
+
+  begin
+    mapinfos = File.open(mapinfos_path, "rb") { |f| Marshal.load(f) }
+    tilesets = File.open(tilesets_path, "rb") { |f| Marshal.load(f) }
+  rescue
+    pbMessage("Failed to load MapInfos or Tilesets. Aborting.")
+    return
+  end
+
+  map_themes = {}
+  map_encounter_types = {}
+
+  mapinfos.each do |map_id, map|
+    next if map.nil? || map.name.nil?
+    # Only process maps that we consider "Dungeons" or match our generated patterns
+    # A safe heuristic is checking if the Map's tileset has 'Dungeon' in the name
+    ts = tilesets[map.tileset_id]
+    next if ts.nil? || ts.name.nil? || !ts.name.start_with?("Dungeon")
+
+    if ts.name.include?("_")
+      theme_suffix = ts.name.split("_").last.strip
+    else
+      theme_suffix = ts.name.split(" ").last.strip
+    end
+    map_themes[map_id.to_s] = theme_suffix if !theme_suffix.empty?
+
+    encounter_type = ts.name.downcase.include?("forest") ? "Land" : "Cave"
+    map_encounter_types[map_id.to_s] = encounter_type
+  end
+
+  if map_themes.empty?
+    pbMessage("No Dungeon maps found in the database. Nothing to export.")
+    return
+  end
+
+  bridge_path = "tools/pbs_generator/map_themes.json"
+  begin
+    File.open(bridge_path, "w") do |f|
+      f.write("{\n")
+      lines = map_themes.map { |k, v| "  \"#{k}\": \"#{v}\"" }
+      f.write(lines.join(",\n"))
+      f.write("\n}")
+    end
+  rescue => e
+    pbMessage("Warning: Failed to save map_themes.json. #{e.message}")
+  end
+
+  enc_bridge_path = "tools/pbs_generator/map_encounter_types.json"
+  begin
+    File.open(enc_bridge_path, "w") do |f|
+      f.write("{\n")
+      lines = map_encounter_types.map { |k, v| "  \"#{k}\": \"#{v}\"" }
+      f.write(lines.join(",\n"))
+      f.write("\n}")
+    end
+  rescue => e
+    pbMessage("Warning: Failed to save map_encounter_types.json. #{e.message}")
+  end
+
+  pbMessage("Successfully exported themes and encounter types for #{map_themes.length} Dungeon maps.")
+end
