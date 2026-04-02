@@ -55,8 +55,8 @@ def load_trainers_rules(md_filepath):
                 continue
 
             if current_classes and stripped.startswith("* **Approved Pool:**"):
-                raw = stripped.split(":", 1)[1].strip().rstrip(".")
-                pool = [p.strip().upper() for p in raw.split(",") if p.strip()]
+                raw = stripped.split(":**", 1)[1].strip().rstrip(".")
+                pool = [p.strip().replace("*", "").upper() for p in raw.split(",") if p.strip().replace("*", "")]
                 for trainer_class in current_classes:
                     class_pools[trainer_class].extend(pool)
                 continue
