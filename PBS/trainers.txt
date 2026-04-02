@@ -1,60 +1,60 @@
 #---------Python Generated------
 
 #-------------------------------
-[SWIMMER_M,Ivy,7801]
+[PSYCHIC_M,Ivy,7801]
 LoseText = I couldn't handle the floor 1 pressure!
-Pokemon = SPHEAL,1
-Pokemon = LAPRAS,3
+Items = POTION
+Pokemon = HATENNA,4
+Pokemon = FLITTLE,3
 #-------------------------------
-[POKEMANIAC,Boss Nate,7801]
+[BIRDKEEPER,Boss Nate,7801]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = LAPRAS,7
-Pokemon = FRIGIBAX,7
+Pokemon = PIDGEY,5
+Pokemon = SWABLU,6
 #-------------------------------
-[PICNICKER,Alex,7901]
+[LASS,Alex,7901]
 LoseText = I couldn't handle the floor 1 pressure!
-Pokemon = SQUIRTLE,2
-Pokemon = BULBASAUR,1
+Pokemon = MINCCINO,2
+Pokemon = NIDORANfE,2
 #-------------------------------
-[CAMPER,Boss Sam,7901]
+[SCIENTIST,Boss Sam,7901]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = SHROOMISH,6
-Pokemon = CHARMANDER,3
-Pokemon = MANKEY,4
+Pokemon = TRUBBISH,4
+Pokemon = KOFFING,6
 #-------------------------------
-[PICNICKER,Tara,8001]
+[SWIMMER_F,Tara,8001]
 LoseText = I couldn't handle the floor 1 pressure!
 Items = POTION
-Pokemon = SEEDOT,5
+Pokemon = LAPRAS,2
 #-------------------------------
-[CAMPER,Boss Cathy,8001]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = CHARMANDER,7
-Pokemon = NUMEL,3
-Pokemon = POLIWAG,4
-#-------------------------------
-[SWIMMER_M,Vera,8101]
-LoseText = I couldn't handle the floor 1 pressure!
-Items = POTION
-Pokemon = POLIWAG,4
-#-------------------------------
-[POKEMANIAC,Boss Brendan,8101]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = JANGMOO,7
-Pokemon = ARON,4
-Pokemon = CHARMANDER,7
-#-------------------------------
-[POKEMANIAC,Nate,8201]
-LoseText = I couldn't handle the floor 1 pressure!
-Items = POTION
-Pokemon = LAPRAS,5
-#-------------------------------
-[POKEMANIAC,Boss Sam,8201]
+[SAILOR,Boss Cathy,8001]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
 Pokemon = LAPRAS,6
-Pokemon = FRIGIBAX,7
+Pokemon = SPHEAL,7
+#-------------------------------
+[COOLTRAINER_M,Vera,8101]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = DEINO,4
+Pokemon = BULBASAUR,1
+#-------------------------------
+[BUGCATCHER,Boss Brendan,8101]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = WEEDLE,3
+Pokemon = GRUBBIN,7
+Pokemon = KRICKETOT,6
+#-------------------------------
+[PSYCHIC_M,Nate,8201]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = DROWZEE,5
+#-------------------------------
+[LASS,Boss Sam,8201]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = NIDORANfE,5
+Pokemon = BUNEARY,5
+Pokemon = TINKATINK,4
