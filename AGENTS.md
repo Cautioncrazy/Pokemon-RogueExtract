@@ -14,6 +14,7 @@ As an expert coding assistant and technical project manager for this repository,
    - **Do NOT** generate, request, or attempt to manage image or audio assets.
    - Visual and audio implementations will be handled manually by the user in RPG Maker XP.
    - Reference PBS files directly when you need to call a specific Pokémon, Item, or Move name.
+   - **Exception:** If user explicitly asks agent to manage image/audio files
 
 3. **Plugin Management (meta.txt)**:
    - Any custom plugins created for the repository must include a `meta.txt` file in their directory (containing Name, Version, etc.), or else Pokémon Essentials will not load them.
@@ -44,7 +45,7 @@ You are responsible for writing and maintaining scripts for the following core s
 
 ### 2. Procedural Dungeons & Dynamic Injection (Spawning)
 - **Dynamic Trainer Management System**: A new helper function, `pbSetAndStartDynamicTrainer`, simplifies event setups. This function randomizes the trainer's class/name, modifies their map graphic on the fly, shows the battle message, and initiates the battle. This removes the need for multiple parallel processes on a per-event basis.
-- **Dungeons**: The project relies on the built-in `Overworld_RandomDungeons` module triggered via `Dungeon = true` map metadata.
+- **Dungeons**: The project relies on the built-in `Overworld_RandomDungeons` module triggered via `Dungeon = true` map metadata. Dynamic event density is mathematically scaled during mass map generation so that early floors feel sparse, while deeper floors can be heavily populated.
 - **Valid Tile Detection**: Since standard static events spawn in walls on dynamically generated maps, we use a mobile-optimized random coordinate sampler to hook into the generator. The script scans tiles via a dual-check: passability (`passable?`) and predefined Terrain Tags (e.g., standard floor tags) to prevent heavy full-map iteration loops.
 - **Event Teleportation**: Dynamic entities are identified by parsing their RPG Maker Event Name (e.g., "VIP", "Trainer", "Chest") and teleported to valid coordinates using `.moveto(x, y)` right as the map loads.
 - **Loot**: Utilize the existing item-randomizer and HM-TM selector plugins to populate loot chests.
@@ -73,6 +74,8 @@ You should rely on the following existing custom randomizer script calls wheneve
 ## General Guidelines
 - Always verify your work by checking the syntax and structure of the Ruby code.
 - If you encounter a problem or an ambiguity regarding v21.1 specific features, attempt to look up standard implementations or state your assumptions clearly.
+- **Always** Append new functions in functions.md **DO NOT** overwrite the whole file with a single function!
+ 
 ### 6. Standardized Trainer Pools
 - **Single Source of Truth**: The `trainers.md` file in the root directory is the absolute rulebook and central source of truth for all procedural trainer party generation.
 - **Thematic Pools**: When generating, writing scripts for, or modifying the dynamic raid trainers in `PBS/trainers.txt`, you **must** strictly adhere to the thematic species pools assigned to each Trainer Class in `trainers.md`. Do not assign Pokémon outside of a class's designated theme (e.g., no Poochyenas for Hikers).
@@ -102,6 +105,7 @@ We use a custom Python tool suite located in `tools/pbs_generator/` to automate 
      - **Floor Theme**: Select a specific theme or use "Random".
      - **Apply Selected Theme to All Maps**: A toggle checkbox. If checked, it applies the exact selected theme to all floors. If the selected theme is "Random", it will pick a *new* random theme for *every* individual floor. If the checkbox is unchecked, it completely ignores the dropdown and forces a *new* random theme for *every* individual floor.
      - **Step Chance Config**: Defines the encounter step chance increment. You input a min chance (e.g., 5%), max chance (e.g., 20%), and a "Chunk" size. Floors are grouped into these chunks, and the step chance linearly scales from min to max across the total number of chunks.
+     - **Grunt Pool Size**: A min/max configuration that dictates how many distinct standard trainers the script will generate per map version, providing a wider pool for the randomizer to pull from and reducing clone armies on the map.
      - **Index Filter**: An optional semantic filter powered by `pokemon_index.json`. You can select a category (e.g., `bst_tier`, `encounter_rarity`) and a value (e.g., `earlygame`, `legendary`) to restrict the pool of generated Pokémon. The filter applies natively to Wild Encounters and features an automated fallback system (e.g., trying `midgame` if `earlygame` yields 0 Pokémon) to guarantee generation. You can toggle whether this filter also applies to procedurally generated Trainer Parties.
      - **Boss Generation**: Controls if Boss trainers are generated (`Include Boss`, `Exclude Boss`, or `Only Boss`). When generated, Boss trainers receive the `"Boss "` name prefix, a +1 party size increase, +2 level boost, unique LoseText, and a guaranteed set of healing items that scale with the floor depth (e.g., `POTION` on F1, scaling up to `FULLRESTORE,SITRUSBERRY,LUMBERRY` on F13+). Standard trainers also have a 50% chance to receive slightly weaker, slower-scaling items.
      - **Overwrite Existing Data**: If checked, the tool actively finds and deletes matching PBS sections before rewriting them. **Important**: When overwrite is active, dynamic trainers are generated with deterministic names (e.g., `Boss M1_F5`) instead of random names (e.g., `Boss Alice`) to ensure the PBS parser can accurately locate and delete the specific previous procedural entry.
@@ -121,3 +125,66 @@ We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to a
 - **Merge Logic (Reverse Iteration):** The script first loads the vanilla base fallback file. It then iterates through the user-ranked custom packs starting with the lowest priority pack and ending with the highest priority pack.
 - **Conflict Resolution:** If a custom pack contains an animation with the exact same name as one in the base array, it overwrites it. If it does not, the custom animation is appended to the end of the array. Applying the highest priority pack last ensures its animations permanently overwrite any lower-priority conflicts, while leaving untouched vanilla animations perfectly intact.
 - Any engine performance plugins should live in the new hotfix plugin folder (`Plugins/Caution's 21.1 Hotfixes`), and reference the new readme.md in that directory.
+
+### 10. Global Relic System (Risk of Rain Style)
+- **Concept:** Players collect passive, stackable items ("Relics") during their run. These apply global buffs/modifiers to the entire party.
+- **Data Structure:** Relics are implemented directly in `PBS/items.txt` in the standard Items pocket (`Pocket = 1`) to ensure native bag stacking. They use `SellPrice = 0` and `Flags = KeyItem` so they cannot be sold. To strictly prevent tossing (even in Debug mode), `PokemonBag_Scene#pbChooseNumber` and `pbConfirm` are aliased in `003_Relic_Spawner.rb` to actively block players from discarding these items.
+- **Battle UI HUD:** The system hooks into `Battle::Scene` (`001_Relic_HUD.rb`). It creates a top-center, invisible-background HUD overlay during battles. It automatically scans the player's Bag for defined Relics and renders the corresponding item icon (`Graphics/Items/relic_name.png`) alongside a multiplier text counter (e.g., "x3").
+
+### 11. Persistent Artifacts & Mining Spawner
+- **Concept:** Players mine a custom Key Item currency ("Hollowed Soul") via the standard DPt Mining Minigame, which dynamically spawns on procedural floors. These souls are spent at a Hub Shop for "Persistent Artifacts"—stackable Key Items that provide permanent, global buffs for future runs.
+- **Mining Integration:** `:HOLLOWED_SOUL` is injected into the standard mining loot pool (`MiningGameScene::ITEMS`) with a custom 2x2 grid shape and moderate spawn probability.
+- **Dynamic Floor Spawner (`pbSpawnFloorMiningSpots`):** Scans the map during generation (or load) for passable tiles directly adjacent to impassable walls. It constructs a temporary, invisible `RPG::Event` (using the "Shiny" graphic if available) that triggers `pbMiningGame` upon interaction, then erases itself.
+- **Hub Shop Logic (`pbArtifactShop`):** A custom UI loop (via `pbMessage` and `pbShowCommands`) allows players to purchase Artifacts. It checks `$game_variables[100]` (Max Floor Reached) to unlock higher-tier items, enforces a maximum stack limit (e.g., 10), and handles the currency exchange safely.
+- **Stat Hooks:**
+  - **Fortune Coin:** Aliases `Battle#pbGainMoney` to multiply end-of-battle payouts by `1 + (0.25 * stacks)`.
+  - **Wisdom Crystal:** Aliases `Battle::ItemEffects.triggerExpGainModifier` to multiply all earned EXP by `1 + (0.15 * stacks)`.
+  - **Vitality Root:** Hooks into `EventHandlers.add(:on_end_battle)` to heal all conscious, non-cursed party members by `5% * stacks` of their Max HP after a successful battle.
+
+### 12. Extraction Bounties (Quest System)
+- **Plugin Integration:** The project utilizes the "Modern Quest System + UI" plugin (Resource 709).
+- **Data Configuration:** Quest data is defined natively within `Plugins/MQS/004_Quest_Data.rb` via the `QuestModule`. We use specific Stage descriptions to act as long-term goals without necessarily relying on multi-stage progression.
+- **Progression Logic:** The quests (Bounties) track their numerical goals through native `$game_variables`:
+  - **Slayer / Apex Predator:** Hooks into `pbSetAndStartDynamicTrainer` in `006_Dynamic_Spawns_And_Scaling.rb` to track defeated `is_vip` trainers.
+  - **Gatherer:** Hooks into the end of `pbMiningGame` (`pbGiveItems` in `006_Minigame_Mining.rb`) to track mined `:HOLLOWED_SOUL`.
+  - **Survivor:** Hooks into `pbAdvanceRaid` in `003_Raid_Tracker.rb` to check the `$PokemonGlobal.current_raid_floor` against the goal of Floor 20.
+- **Bounty Board UI:** Handled by `pbBountyBoard` in `Plugins/Roguelike_Extraction/010_Bounty_Board.rb`. This allows players to activate and turn in quests. The logic supports:
+  - **Repeatable Quests:** If a bounty (like Slayer) is completed, turning it in removes it from the completed log, dispenses the reward, and automatically re-activates it so the player can immediately farm it again.
+  - **Tiered Milestone Chaining:** If a chained bounty (like Apex Predator I) is completed, turning it in dispenses the reward and automatically activates the next tier in the chain (Apex Predator II).
+- **Start Menu UI Overrides:** In `Plugins/Roguelike_Extraction/011_Menu_Overrides.rb`, the standard "Quit Game" option is completely unregistered from the Pause Menu to prevent soft-resetting/save-scumming during a raid. A new "Bounties" option is injected to easily open the Quest UI anywhere.
+- **Automated Credits Tracking:** The script `scripts/update_credits.py` must be maintained and ran when a new plugin is added. It parses the `meta.txt` files across the `Plugins/` directory and outputs a sorted list of authors and their installed plugins to `credits.md` at the root of the project.
+- **Battle Hooks:** Located in `002_Relic_Hooks.rb`, the system aliases native calculation modules to apply the buffs:
+    - `pbCalcDamageMultipliers`: Scans for `RELIC_MUSCLE` to boost physical attack by 5% per stack.
+    - `pbCalcAccuracyModifiers`: Scans for `RELIC_LENS` to boost accuracy by 5% per stack.
+    - `pbStartWeather` & `pbStartTerrain`: Scans for `RELIC_EXTENDER` to boost the duration of weather/terrain moves by 1 turn per stack.
+- **Loot Spawning & 3D Printer:** Located in `003_Relic_Spawner.rb`, `pbGiveRandomRelic` is designed to be called in chest/boss loot pools. `pb3DPrinterEvent` handles the interactive "3D Printer" feature, allowing players to feed owned relics to exchange them for a specific new relic generated by the event. The printer avoids trading a relic for the exact same relic. The `002_Dynamic_Event_Spawner.rb` handles spawning the printer procedurally in dungeons, similarly to the "Trader" NPC.
+
+## Expanded Type Status Conditions
+
+The combat system features custom primary status conditions for each Pokémon type. These are defined in `GameData::Status` (`Data/Scripts/010_Data/001_Hardcoded data/010_Status.rb`) with unique `:id` and `:icon_position` attributes.
+
+**Battle Mechanic Hooks:**
+Mechanics for each custom status are integrated directly into the `Battle::Battler` and `Battle::Move` logic.
+- **Bleeding** (Steel): Scales damage each turn exactly like Toxic. Hooked in `Data/Scripts/011_Battle/001_Battle/011_Battle_EndOfRoundPhase.rb` (`pbEORStatusProblemDamage`). It uniquely resets `PBEffects::Toxic` when inflicted.
+- **Blindness** (Psychic): 20% chance to fail executing any move. Hooked in `Data/Scripts/011_Battle/002_Battler/009_Battler_UseMoveSuccessChecks.rb` (`pbTryUseMove`).
+- **Shaken** (Ground): Halves physical Defense and reduces the critical hit stage by 1. Hooked in `Data/Scripts/011_Battle/003_Move/003_Move_UsageCalculations.rb` (`pbGetDefenseStats` via `pbCalcDamage` logic, and `pbIsCritical?`).
+
+**Dynamic Type Immunity Framework:**
+Immunities are managed dynamically in `Data/Scripts/011_Battle/002_Battler/004_Battler_Statuses.rb` (`pbCanInflictStatus?`).
+A status condition is intrinsically tied to a specific Pokémon type via the `status_types` hash:
+```ruby
+status_types = {
+  :BLEEDING  => :STEEL,
+  :BLINDNESS => :PSYCHIC,
+  :SHAKEN    => :GROUND
+}
+```
+If a Pokémon attempts to inflict one of these mapped statuses, the framework automatically checks the target's types against the standard Type Effectiveness Chart (`Effectiveness.calculate`).
+- **Same-Type Immunity:** If the target possesses the type mapped to the status, it is immune (e.g., Steel is immune to Bleeding).
+- **Matchup Immunity:** If any of the target's types has a `0` effectiveness multiplier against the status's mapped type, it is immune (e.g., Dark is immune to Psychic, thus immune to Blindness. Flying is immune to Ground, thus immune to Shaken).
+
+To add a new custom status for a different type, simply define it in `010_Status.rb`, add its mechanical hook where necessary, and add its Type mapping to the `status_types` hash in `pbCanInflictStatus?`.
+
+**UI Icon Hardcoding:**
+The default Essentials logic assumes the `Fainted`, `Pokérus`, and `Badly Poisoned` icons are always appended to the very bottom of the `Graphics/UI/statuses.png` and `Graphics/UI/Battle/icon_statuses.png` sheets. Because we are appending numerous custom types directly to the bottom of the graphic, this logic was overridden.
+The files `Data/Scripts/016_UI/005_UI_Party.rb`, `006_UI_Summary.rb`, and `Data/Scripts/011_Battle/004_Scene/006_Battle_Scene_Objects.rb` have been explicitly updated to look for `Fainted` at position `5`, `Pokérus` at position `6`, and `Bad Poison` at position `5`. This allows appending an infinite amount of custom statuses vertically without having to manually shuffle Fainted/Pokerus to the new bottom position.

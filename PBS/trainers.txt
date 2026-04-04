@@ -1,903 +1,155 @@
-# See the documentation on the wiki to learn how to edit this file.
-#-------------------------------
-[CAMPER,Liam]
-LoseText = A very good battle, indeed!
-Pokemon = DIGLETT,10
-Pokemon = BONSLY,11
-#-------------------------------
-[LEADER_Brock,Brock]
-Items = FULLRESTORE,FULLRESTORE
-LoseText = Very good.
-Pokemon = GEODUDE,12
-    Moves = DEFENSECURL,HEADSMASH,ROCKPOLISH,ROCKTHROW
-    AbilityIndex = 0
-    Gender = male
-    IV = 20,20,20,20,20,20
-Pokemon = ONIX,14
-    Name = Rocky
-    Moves = HEADSMASH,ROCKTHROW,RAGE,ROCKTOMB
-    AbilityIndex = 0
-    Item = SITRUSBERRY
-    Gender = male
-    IV = 20,20,20,20,20,20
-    Shiny = true
-    Ball = HEAVYBALL
-#-------------------------------
-[TEAMROCKET_M,Grunt,1]
-LoseText = You're too good for me!
-Pokemon = WEEPINBELL,21
-    Shadow = true
-#-------------------------------
-[TEAMROCKET_F,Grunt,1]
-LoseText = You're too good for me!
-Pokemon = BURMY,19
-Pokemon = WINGULL,19
-Pokemon = ELECTABUZZ,20
-    Shadow = true
-#-------------------------------
-[YOUNGSTER,Ben]
-LoseText = Aww, I lost.
-Pokemon = RATTATA,11
-Pokemon = EKANS,11
-#-------------------------------
-[CAMPER,Jeff]
-LoseText = A very good battle, indeed!
-Pokemon = SPEAROW,16
-Pokemon = SENTRET,16
-#-------------------------------
-[CAMPER,Jeff,1]
-LoseText = You beat me again!
-Pokemon = FEAROW,29
-Pokemon = FURRET,29
-#-------------------------------
-[PICNICKER,Susie]
-LoseText = Defeated! Oh my!
-Pokemon = MEOWTH,18
-#-------------------------------
-[PICNICKER,Susie,1]
-LoseText = Defeated! Oh my!
-Pokemon = PERSIAN,32
-#-------------------------------
-[HIKER,Ford]
-LoseText = You're too good for me!
-Pokemon = MACHOP,19
-#-------------------------------
-[FISHERMAN,Andrew]
-LoseText = Washed out!
-Pokemon = MAGIKARP,14
-Pokemon = MAGIKARP,18
-#-------------------------------
-[BEAUTY,Bridget]
-LoseText = My Skitty!
-Pokemon = SKITTY,18
-#-------------------------------
-[LASS,Crissy]
-LoseText = You didn't have to win so convincingly!
-Pokemon = PLUSLE,17
-Pokemon = MINUN,17
-#-------------------------------
-[COOLCOUPLE,Alice & Bob]
-LoseText = Our teamwork failed!
-Pokemon = TURTWIG,19
-Pokemon = CHIMCHAR,19
-#-------------------------------
-[POKEMONTRAINER_May,May]
-LoseText = ...
-Pokemon = COMBUSKEN,19
-#-------------------------------
-[SWIMMER2_F,Ariel]
-LoseText = Washed out!
-Pokemon = STARYU,15
-Pokemon = GOLDEEN,11
-#-------------------------------
-[RIVAL1,Blue]
-LoseText = Not too shabby.
-Pokemon = PIDGEOTTO,17
-Pokemon = RATTATA,15
-Pokemon = BULBASAUR,18
-#-------------------------------
-[RIVAL1,Blue,1]
-LoseText = Not too shabby.
-Pokemon = PIDGEOTTO,17
-Pokemon = RATTATA,15
-Pokemon = CHARMANDER,18
-#-------------------------------
-[RIVAL1,Blue,2]
-LoseText = Not too shabby.
-Pokemon = PIDGEOTTO,17
-Pokemon = RATTATA,15
-Pokemon = SQUIRTLE,18
-#-------------------------------
-[CHAMPION,Blue]
-LoseText = A good battle indeed!
-Pokemon = VENUSAUR,63
-    Item = SITRUSBERRY
-Pokemon = CHARIZARD,63
-    Item = SITRUSBERRY
-Pokemon = BLASTOISE,63
-    Item = SITRUSBERRY
-#-------------------
-# Pokemon World Tournament - Example Tournament
-# Kanto Leaders 
-#-------------------
-[LEADER_Brock,Brock,1]
-LoseText = Looks like you were the sturdier of us.
-Pokemon = ONIX,50
-	Moves = STEALTHROCK,DRAGONBREATH,SANDTOMB,IRONTAIL
-	IV = 21,21,21,21,21,21
-Pokemon = SUDOWOODO,50
-	Item = CHOPLEBERRY
-	Moves = STONEEDGE,HAMMERARM,WOODHAMMER,SUCKERPUNCH
-	IV = 21,21,21,21,21,21
-Pokemon = RHYPERIOR,50
-	Item = CHARTIBERRY
-	Moves = THUNDERBOLT,ROCKBLAST,HAMMERARM,DRILLRUN
-	IV = 21,21,21,21,21,21
-Pokemon = KABUTOPS,50
-	Item = LIECHIBERRY
-	Moves = STONEEDGE,AQUAJET,SUPERPOWER,SWORDSDANCE
-	IV = 21,21,21,21,21,21
-Pokemon = OMASTAR,50
-	Item = RINDOBERRY
-	Moves = HYDROPUMP,ANCIENTPOWER,EARTHPOWER,ICEBEAM
-	IV = 21,21,21,21,21,21
-Pokemon = RELICANTH,50
-	Item = ROCKGEM
-	Moves = ROCKSLIDE,WATERFALL,YAWN,ROCKPOLISH
-	IV = 21,21,21,21,21,21
-#-------------------
-[LEADER_Misty,Misty,1]
-LoseText = You were pretty tough! I can't wait to face off against you again!
-Pokemon = STARMIE,50
-	Item = PETAYABERRY
-	Moves = PSYCHIC,HYDROPUMP,ICEBEAM,THUNDERBOLT
-	IV = 21,21,21,21,21,21
-Pokemon = POLITOED,50
-	Item = APICOTBERRY
-	Moves = PERISHSONG,SURF,BOUNCE,HYPERVOICE
-	IV = 21,21,21,21,21,21
-Pokemon = LAPRAS,50
-	Item = GANLONBERRY
-	Moves = ICEBEAM,THUNDER,CONFUSERAY,HYDROPUMP
-	IV = 21,21,21,21,21,21
-Pokemon = SEAKING,50
-	Item = WACANBERRY
-	Moves = MEGAHORN,WATERFALL,POISONJAB,AGILITY
-	IV = 21,21,21,21,21,21
-Pokemon = GOLDUCK,50
-	Item = WATERGEM
-	Moves = BLIZZARD,FOCUSBLAST,AQUAJET,HONECLAWS
-	IV = 21,21,21,21,21,21
-Pokemon = BLASTOISE,50
-	Item = SALACBERRY
-	Moves = AVALANCHE,HYDROPUMP,HEADSMASH,IRONTAIL
-	IV = 21,21,21,21,21,21
-#-------------------
-[LEADER_Surge,Lt.Surge,1]
-LoseText = You shocked my very core, soldier!
-Pokemon = RAICHU,50
-	Item = ELECTRICGEM
-	Moves = THUNDERWAVE,FOCUSBLAST,SIGNALBEAM,THUNDERBOLT
-	IV = 21,21,21,21,21,21
-Pokemon = JOLTEON,50
-	Item = SHUCABERRY
-	Moves = RAINDANCE,SHADOWBALL,THUNDER,SIGNALBEAM
-	IV = 21,21,21,21,21,21
-Pokemon = ELECTIVIRE,50
-	Moves = ELECTROBALL,THUNDERPUNCH,DISCHARGE,THUNDERBOLT
-	IV = 21,21,21,21,21,21
-Pokemon = ELECTRODE,50
-	Item = LUMBERRY
-	Moves = CHARGE,MIRRORCOAT,MAGNETRISE,THUNDER
-	IV = 21,21,21,21,21,21
-Pokemon = MAGNETON,50
-	Item = AIRBALLOON
-	Moves = DISCHARGE,FLASHCANNON,BARRIER,SIGNALBEAM
-	IV = 21,21,21,21,21,21
-Pokemon = LANTURN,50
-	Item = PETAYABERRY
-	Moves = CHARGE,DISCHARGE,SURF,POWERGEM
-	IV = 21,21,21,21,21,21
-#-------------------
-[LEADER_Erika,Erika,1]
-LoseText = Oh my! Looks like I've underestimated you.
-Pokemon = VILEPLUME,50
-	Item = GRASSGEM
-	Moves = PETALDANCE,SLEEPPOWDER,SUNNYDAY,MOONLIGHT
-	IV = 21,21,21,21,21,21
-Pokemon = BELLOSSOM,50
-	Item = FIGHTINGGEM
-	Moves = SUNNYDAY,DRAINPUNCH,LEAFBLADE,MAGICALLEAF
-	IV = 21,21,21,21,21,21
-Pokemon = VICTREEBEL,50
-	Item = SALACBERRY
-	Moves = SUCKERPUNCH,LEAFTORNADO,REFLECT,LEAFBLADE
-	IV = 21,21,21,21,21,21
-Pokemon = EXEGGUTOR,50
-	Item = TANGABERRY
-	Moves = PSYSHOCK,SOLARBEAM,HYPNOSIS,SUNNYDAY
-	IV = 21,21,21,21,21,21
-Pokemon = JUMPLUFF,50
-	Item = LIECHIBERRY
-	Moves = SWORDSDANCE,ROCKSLIDE,POWERWHIP,AERIALACE
-	IV = 21,21,21,21,21,21
-Pokemon = VENUSAUR,50
-	Item = SITRUSBERRY
-	Moves = SYNTHESIS,LIGHTSCREEN,LEAFSTORM,TOXIC
-	IV = 21,21,21,21,21,21
-#-------------------
-[LEADER_Sabrina,Sabrina,1]
-LoseText = Impossible! I did not predict this!
-Pokemon = ALAKAZAM,50
-	Item = COLBURBERRY
-	Moves = PSYSHOCK,SHADOWBALL,FOCUSBLAST,CHARGEBEAM
-	IV = 21,21,21,21,21,21
-Pokemon = HYPNO,50
-	Item = SITRUSBERRY
-	Moves = HYPNOSIS,DREAMEATER,CALMMIND,SHADOWBALL
-	IV = 21,21,21,21,21,21
-Pokemon = MRMIME,50
-	Item = KASIBBERRY
-	Moves = PSYCHIC,LIGHTSCREEN,CHARGEBEAM,REFLECT
-	IV = 21,21,21,21,21,21
-Pokemon = SLOWKING,50
-	Item = GANLONBERRY
-	Moves = PSYSHOCK,ICEBEAM,CALMMIND,SLACKOFF
-	IV = 21,21,21,21,21,21
-Pokemon = ESPEON,50
-	Item = PETAYABERRY
-	Moves = PSYSHOCK,SHADOWBALL,REFLECT,YAWN
-	IV = 21,21,21,21,21,21
-Pokemon = JYNX,50
-	Item = SALACBERRY
-	Moves = LOVELYKISS,DREAMEATER,FROSTBREATH,ENERGYBALL
-	IV = 21,21,21,21,21,21
-#-------------------
-[LEADER_Koga,Koga,1]
-LoseText = You've got a great battle technique!
-Pokemon = ARIADOS,50
-	Item = PAYAPABERRY
-	Moves = POISONJAB,STRUGGLEBUG,ELECTROWEB,SUCKERPUNCH
-	IV = 21,21,21,21,21,21
-Pokemon = MUK,50
-	Item = FIREGEM
-	Moves = FIREBLAST,SLUDGEBOMB,ACIDARMOR,SLUDGEWAVE
-	IV = 21,21,21,21,21,21
-Pokemon = CROBAT,50
-	Item = SITRUSBERRY
-	Moves = TOXIC,SUPERFANG,HEATWAVE,TAILWIND
-	IV = 21,21,21,21,21,21
-Pokemon = ARBOK,50
-	Item = SHUCABERRY
-	Moves = GUNKSHOT,SUCKERPUNCH,COIL,DRAGONTAIL
-	IV = 21,21,21,21,21,21
-Pokemon = VENOMOTH,50
-	Item = PETAYABERRY
-	Moves = SIGNALBEAM,BUGBUZZ,GIGADRAIN,SLUDGEBOMB
-	IV = 21,21,21,21,21,21
-Pokemon = DUSTOX,50
-	Item = APICOTBERRY
-	Moves = TOXICSPIKES,SIGNALBEAM,AERIALACE,BARRIER
-	IV = 21,21,21,21,21,21
-#-------------------
-[LEADER_Blaine,Blaine,1]
-LoseText = Your flame burnt me up!
-Pokemon = FLAREON,50
-	Item = SALACBERRY
-	Moves = FLAMECHARGE,SUPERPOWER,FLAIL,YAWN
-	IV = 21,21,21,21,21,21
-Pokemon = ARCANINE,50
-	Item = LIECHIBERRY
-	Moves = FLAREBLITZ,WILDCHARGE,CLOSECOMBAT,EXTREMESPEED
-	IV = 21,21,21,21,21,21
-Pokemon = MAGMORTAR,50
-	Item = PETAYABERRY
-	Moves = FIREBLAST,PSYCHIC,THUNDERBOLT,FOCUSBLAST
-	IV = 21,21,21,21,21,21
-Pokemon = NINETALES,50
-	Item = CHARTIBERRY
-	Moves = HEATWAVE,ENERGYBALL,HYPNOSIS,NASTYPLOT
-	IV = 21,21,21,21,21,21
-Pokemon = CHARIZARD,50
-	Item = DRAGONGEM
-	Moves = INFERNO,DRAGONRUSH,FOCUSBLAST,HONECLAWS
-	IV = 21,21,21,21,21,21
-Pokemon = RAPIDASH,50
-	Item = SHUCABERRY
-	Moves = FLAREBLITZ,MEGAHORN,WILDCHARGE,HYPNOSIS
-	IV = 21,21,21,21,21,21
-#-------------------
-[LEADER_Giovanni,Giovanni,1]
-LoseText = What? Me, lose?!
-Pokemon = SANDSLASH,50
-	Item = SALACBERRY
-	Moves = SANDSTORM,ROCKSLIDE,EARTHQUAKE,BRICKBREAK
-	IV = 21,21,21,21,21,21
-Pokemon = NIDOKING,50
-	Item = SHUCABERRY
-	Moves = MEGAHORN,BLIZZARD,EARTHPOWER,SLUDGEWAVE
-	IV = 21,21,21,21,21,21
-Pokemon = TYRANITAR,50
-	Item = RINDOBERRY
-	Moves = THRASH,DARKPULSE,EARTHQUAKE,CRUNCH
-	IV = 21,21,21,21,21,21
-Pokemon = MAROWAK,50
-	Item = YACHEBERRY
-	Moves = BONEMERANG,STONEEDGE,OUTRAGE,THUNDERPUNCH
-	IV = 21,21,21,21,21,21
-Pokemon = NIDOQUEEN,50
-	Item = PASSHOBERRY
-	Moves = SUPERPOWER,POISONJAB,EARTHPOWER,THUNDER
-	IV = 21,21,21,21,21,21
-Pokemon = RHYDON,50
-	Item = LIECHIBERRY
-	Moves = HAMMERARM,STONEEDGE,MEGAHORN,DRILLRUN
-	IV = 21,21,21,21,21,21
-
-
-#===============================================================================
-# Dynamic Raid Trainers
-#===============================================================================
-
-[YOUNGSTER, Ben, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = FLETCHLING,5
-Pokemon = PATRAT,5
-
-[YOUNGSTER, Ben, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = BUNNELBY,15
-Pokemon = PIDGEY,15
-
-[YOUNGSTER, Ben, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = FLETCHLING,30
-Pokemon = PATRAT,30
-Pokemon = ZIGZAGOON,30
-Pokemon = NIDORANmA,30
-
-[YOUNGSTER, Calvin, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = YUNGOOS,5
-Pokemon = SKWOVET,5
-
-[YOUNGSTER, Calvin, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = ZIGZAGOON,15
-Pokemon = EKANS,15
-
-[YOUNGSTER, Calvin, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = SENTRET,30
-Pokemon = RATTATA,30
-Pokemon = RATTATA,30
-
-[YOUNGSTER, Dan, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = NIDORANmA,5
-Pokemon = PIDGEY,5
-
-[YOUNGSTER, Dan, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = RATTATA,15
-Pokemon = BUNNELBY,15
-Pokemon = LECHONK,15
-
-[YOUNGSTER, Dan, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = SENTRET,30
-Pokemon = PIDGEY,30
-Pokemon = YUNGOOS,30
-Pokemon = BIDOOF,30
-
-[LASS, Ali, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = FIDOUGH,5
-Pokemon = JIGGLYPUFF,5
-
-[LASS, Ali, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = ODDISH,15
-Pokemon = FIDOUGH,15
-
-[LASS, Ali, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = MINCCINO,30
-Pokemon = FIDOUGH,30
-Pokemon = MARILL,30
-Pokemon = VULPIX,30
-
-[LASS, Betty, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = FIDOUGH,5
-Pokemon = MINCCINO,5
-
-[LASS, Betty, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = FLABEBE,15
-Pokemon = FIDOUGH,15
-Pokemon = HOPPIP,15
-
-[LASS, Betty, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = MINCCINO,30
-Pokemon = NIDORANfE,30
-Pokemon = FIDOUGH,30
-Pokemon = BUNEARY,30
-
-[LASS, Cathy, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = FLABEBE,5
-
-[LASS, Cathy, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = FLABEBE,15
-Pokemon = NIDORANfE,15
-
-[LASS, Cathy, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = TINKATINK,30
-Pokemon = SKITTY,30
-Pokemon = TINKATINK,30
-Pokemon = NIDORANfE,30
-
-[HIKER, Anthony, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = GEODUDE,5
-Pokemon = DRILBUR,5
-
-[HIKER, Anthony, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = MUDBRAY,15
-Pokemon = MUDBRAY,15
-Pokemon = ONIX,15
-
-[HIKER, Anthony, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = ROGGENROLA,30
-Pokemon = ROLYCOLY,30
-Pokemon = MACHOP,30
-
-[HIKER, Bruce, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = ONIX,5
-
-[HIKER, Bruce, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = MUDBRAY,15
-Pokemon = NOSEPASS,15
-Pokemon = ROLYCOLY,15
-
-[HIKER, Bruce, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = ONIX,30
-Pokemon = DIGLETT,30
-Pokemon = TIMBURR,30
-
-[HIKER, Clark, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = ARON,5
-Pokemon = RHYHORN,5
-
-[HIKER, Clark, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = DRILBUR,15
-Pokemon = ONIX,15
-
-[HIKER, Clark, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = NUMEL,30
-Pokemon = ONIX,30
-Pokemon = NUMEL,30
-Pokemon = TIMBURR,30
-
-[CAMPER, Dave, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = CHARMANDER,5
-
-[CAMPER, Dave, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = POLIWAG,15
-Pokemon = SQUIRTLE,15
-Pokemon = PONYTA,15
-
-[CAMPER, Dave, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = SHROOMISH,30
-Pokemon = POLIWAG,30
-Pokemon = BULBASAUR,30
-
-[CAMPER, Edgar, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = BULBASAUR,5
-Pokemon = BULBASAUR,5
-
-[CAMPER, Edgar, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = POLIWAG,15
-Pokemon = SEEDOT,15
-
-[CAMPER, Edgar, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = MANKEY,30
-Pokemon = BULBASAUR,30
-Pokemon = SQUIRTLE,30
-
-[CAMPER, Frank, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = SQUIRTLE,5
-
-[CAMPER, Frank, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = MANKEY,15
-Pokemon = MAREEP,15
-Pokemon = MAREEP,15
-
-[CAMPER, Frank, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = LOTAD,30
-Pokemon = MAREEP,30
-Pokemon = MANKEY,30
-Pokemon = BULBASAUR,30
-
-[PICNICKER, Gina, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = LOTAD,5
-Pokemon = SQUIRTLE,5
-
-[PICNICKER, Gina, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = PONYTA,15
-Pokemon = NUMEL,15
-
-[PICNICKER, Gina, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = SHROOMISH,30
-Pokemon = SEEDOT,30
-Pokemon = MANKEY,30
-Pokemon = CHARMANDER,30
-
-[PICNICKER, Helen, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = POLIWAG,5
-
-[PICNICKER, Helen, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = POLIWAG,15
-Pokemon = POLIWAG,15
-
-[PICNICKER, Helen, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = SQUIRTLE,30
-Pokemon = MAREEP,30
-Pokemon = SQUIRTLE,30
-
-[PICNICKER, Irene, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = SEEDOT,5
-Pokemon = MANKEY,5
-
-[PICNICKER, Irene, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = BULBASAUR,15
-Pokemon = NUMEL,15
-
-[PICNICKER, Irene, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = SQUIRTLE,30
-Pokemon = NUMEL,30
-Pokemon = POLIWAG,30
-Pokemon = MAREEP,30
-
-[BUGCATCHER, James, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = SPINARAK,5
-
-[BUGCATCHER, James, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = CATERPIE,15
-Pokemon = NYMBLE,15
-Pokemon = SPINARAK,15
-
-[BUGCATCHER, James, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = WURMPLE,30
-Pokemon = VENIPEDE,30
-Pokemon = SURSKIT,30
-
-[BUGCATCHER, Ken, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = VENIPEDE,5
-Pokemon = VENONAT,5
-
-[BUGCATCHER, Ken, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = NINCADA,15
-Pokemon = COMBEE,15
-Pokemon = JOLTIK,15
-
-[BUGCATCHER, Ken, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = SCYTHER,30
-Pokemon = COMBEE,30
-Pokemon = KRICKETOT,30
-
-[BUGCATCHER, Leo, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = BURMY,5
-
-[BUGCATCHER, Leo, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = SEWADDLE,15
-Pokemon = KARRABLAST,15
-
-[BUGCATCHER, Leo, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = LEDYBA,30
-Pokemon = PINSIR,30
-Pokemon = NYMBLE,30
-
-[SUPERNERD, Mike, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = PORYGON,5
-
-[SUPERNERD, Mike, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = TRUBBISH,15
-Pokemon = VOLTORB,15
-
-[SUPERNERD, Mike, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = CHARJABUG,30
-Pokemon = VOLTORB,30
-Pokemon = KLINK,30
-Pokemon = PORYGON,30
-
-[SUPERNERD, Nick, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = TRUBBISH,5
-Pokemon = TOGEDEMARU,5
-
-[SUPERNERD, Nick, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = GOLETT,15
-Pokemon = KLINK,15
-Pokemon = TOGEDEMARU,15
-
-[SUPERNERD, Nick, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = KLINK,30
-Pokemon = VOLTORB,30
-Pokemon = GOLETT,30
-
-[SUPERNERD, Owen, 0]
-LoseText = You beat me! Good luck on your run.
-Pokemon = VOLTORB,5
-
-[SUPERNERD, Owen, 1]
-LoseText = Again?! You are getting stronger...
-Pokemon = KLINK,15
-Pokemon = GOLETT,15
-Pokemon = VAROOM,15
-
-[SUPERNERD, Owen, 2]
-LoseText = I'll never defeat you! You are a master.
-Pokemon = GOLETT,30
-Pokemon = DITTO,30
-Pokemon = VOLTORB,30
-Pokemon = TRUBBISH,30
-
-[TEAMROCKET_M, Boss Grunt, 0]
-LoseText = You've got potential, kid.
-Items = ORANBERRY
-Pokemon = SCRAGGY,7
-Pokemon = CARVANHA,7
-Pokemon = SALANDIT,7
-
-[TEAMROCKET_M, Boss Grunt, 1]
-LoseText = Not bad, but I'm just warming up!
-Items = SITRUSBERRY,SUPERPOTION
-Pokemon = SKUNTANK,18
-Pokemon = GRIMER,18
-Pokemon = TRUBBISH,18
-
-[TEAMROCKET_M, Boss Grunt, 2]
-LoseText = Unbelievable... You're truly powerful.
-Items = SITRUSBERRY,LUMBERRY,FULLRESTORE
-Pokemon = GRIMER,35
-Pokemon = KOFFING,35
-Pokemon = NICKIT,35
-Pokemon = SALANDIT,35
-
-[BEAUTY, Boss Bella, 0]
-LoseText = You've got potential, kid.
-Items = ORANBERRY
-Pokemon = TOGEPI,7
-Pokemon = CLEFAIRY,7
-Pokemon = GOLDEEN,7
-
-[BEAUTY, Boss Bella, 1]
-LoseText = Not bad, but I'm just warming up!
-Items = SITRUSBERRY,SUPERPOTION
-Pokemon = LAPRAS,18
-Pokemon = VULPIX,18
-Pokemon = GOLDEEN,18
-
-[BEAUTY, Boss Bella, 2]
-LoseText = Unbelievable... You're truly powerful.
-Items = SITRUSBERRY,LUMBERRY,FULLRESTORE
-Pokemon = MARILL,35
-Pokemon = BELLOSSOM,35
-Pokemon = FOMANTIS,35
-Pokemon = HATENNA,35
-Pokemon = CHERUBI,35
-
-[FISHERMAN, Boss Finn, 0]
-LoseText = You've got potential, kid.
-Items = ORANBERRY
-Pokemon = BARBOACH,7
-Pokemon = GOLDEEN,7
-Pokemon = BARBOACH,7
-
-[FISHERMAN, Boss Finn, 1]
-LoseText = Not bad, but I'm just warming up!
-Items = SITRUSBERRY,SUPERPOTION
-Pokemon = REMORAID,18
-Pokemon = CORPHISH,18
-Pokemon = HORSEA,18
-
-[FISHERMAN, Boss Finn, 2]
-LoseText = Unbelievable... You're truly powerful.
-Items = SITRUSBERRY,LUMBERRY,FULLRESTORE
-Pokemon = FINNEON,35
-Pokemon = WISHIWASHI,35
-Pokemon = WISHIWASHI,35
-Pokemon = BARBOACH,35
-Pokemon = REMORAID,35
-
-[SWIMMER2_F, Boss Ariel, 0]
-LoseText = You've got potential, kid.
-Items = ORANBERRY
-Pokemon = STARYU,7
-Pokemon = WAILMER,7
-Pokemon = MARILL,7
-
-[SWIMMER2_F, Boss Ariel, 1]
-LoseText = Not bad, but I'm just warming up!
-Items = SITRUSBERRY,SUPERPOTION
-Pokemon = WOOPER,18
-Pokemon = POLIWAG,18
-Pokemon = WIMPOD,18
-
-[SWIMMER2_F, Boss Ariel, 2]
-LoseText = Unbelievable... You're truly powerful.
-Items = SITRUSBERRY,LUMBERRY,FULLRESTORE
-Pokemon = WOOPER,35
-Pokemon = FRILLISH,35
-Pokemon = MARILL,35
-Pokemon = WIMPOD,35
-Pokemon = WOOPER,35
-
-[CHAMPION, Boss Blue, 0]
-LoseText = You've got potential, kid.
-Items = ORANBERRY
-Pokemon = CHARMANDER,7
-Pokemon = GABITE,7
-Pokemon = TREECKO,7
-
-[CHAMPION, Boss Blue, 1]
-LoseText = Not bad, but I'm just warming up!
-Items = SITRUSBERRY,SUPERPOTION
-Pokemon = MUDKIP,18
-Pokemon = BULBASAUR,18
-Pokemon = TORCHIC,18
-Pokemon = TREECKO,18
-
-[CHAMPION, Boss Blue, 2]
-LoseText = Unbelievable... You're truly powerful.
-Items = SITRUSBERRY,LUMBERRY,FULLRESTORE
-Pokemon = VENUSAUR,35
-Pokemon = FERALIGATR,35
-Pokemon = GYARADOS,35
-Pokemon = CHARIZARD,35
-
 #---------Python Generated------
 
-
 #-------------------------------
-[BURGLAR,M78_F1]
-LoseText = You got me!
+[YOUNGSTER,Paul,7801]
+LoseText = I couldn't handle the floor 1 pressure!
 Items = POTION
-Pokemon = GRIMER,4
+Pokemon = YUNGOOS,5
+Pokemon = PATRAT,5
 #-------------------------------
-[TEAMROCKET_M,Boss M78_F1]
+[BUGCATCHER,Anthony,7801]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = SCATTERBUG,2
+Pokemon = NYMBLE,2
+#-------------------------------
+[BIRDKEEPER,Nora,7801]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = PIKIPEK,2
+#-------------------------------
+[TEAMROCKET_F,Boss Xena,7801]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = KOFFING,6
-Pokemon = SALANDIT,7
-Pokemon = TRUBBISH,3
+Pokemon = GRIMER,5
+Pokemon = KOFFING,7
+Pokemon = MASCHIFF,7
 #-------------------------------
-[BURGLAR,M79_F1]
-LoseText = You got me!
-Pokemon = SALANDIT,3
+[PICNICKER,Alex,7901]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = BULBASAUR,5
+Pokemon = POLIWAG,1
 #-------------------------------
-[TEAMROCKET_F,Boss M79_F1]
+[FISHERMAN,Quinn,7901]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = QWILFISH,5
+#-------------------------------
+[BIRDKEEPER,Hannah,7901]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = STARLY,3
+Pokemon = HOOTHOOT,4
+#-------------------------------
+[POKEMANIAC,Paul,7901]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = GIBLE,2
+Pokemon = LAPRAS,4
+#-------------------------------
+[PSYCHIC_F,Katy,7901]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = SOLOSIS,1
+Pokemon = FLITTLE,5
+#-------------------------------
+[CAMPER,Aaron,7901]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = LOTAD,1
+#-------------------------------
+[PSYCHIC_F,Xena,7901]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = MRMIME,1
+#-------------------------------
+[SCIENTIST,Boss Peter,7901]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = KOFFING,6
-Pokemon = SALANDIT,3
-Pokemon = TRUBBISH,7
+Pokemon = CHARJABUG,3
+Pokemon = GRIMER,5
 #-------------------------------
-[BIKER,M80_F1]
-LoseText = You got me!
-Pokemon = KOFFING,5
+[BIRDKEEPER,Eve,8001]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = VULLABY,2
+Pokemon = SWABLU,5
 #-------------------------------
-[BURGLAR,Boss M80_F1]
+[TEAMROCKET_M,Steve,8001]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = SKUNTANK,2
+#-------------------------------
+[FISHERMAN,Bruce,8001]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = REMORAID,3
+#-------------------------------
+[BLACKBELT,Isla,8001]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = SAWK,4
+Pokemon = CRABRAWLER,5
+#-------------------------------
+[FISHERMAN,Paul,8001]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = HORSEA,2
+#-------------------------------
+[SWIMMER_M,Felix,8001]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = WIMPOD,2
+Pokemon = FRILLISH,2
+#-------------------------------
+[PICNICKER,Mary,8001]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = BELLSPROUT,3
+Pokemon = MARILL,3
+#-------------------------------
+[COOLTRAINER_M,Boss Dan,8001]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = SALANDIT,7
-Pokemon = KOFFING,6
+Pokemon = MACHOP,4
+Pokemon = EEVEE,4
+Pokemon = MAGIKARP,5
 #-------------------------------
-[LASS,M78_F1]
-LoseText = You got me!
-Items = POTION
-Pokemon = FIDOUGH,4
-Pokemon = TINKATINK,3
+[SWIMMER_F,Fiona,8101]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = STARYU,1
 #-------------------------------
-[LASS,Boss M78_F1]
+[PICNICKER,Sara,8101]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = BULBASAUR,2
+#-------------------------------
+[YOUNGSTER,Noah,8101]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = SENTRET,4
+#-------------------------------
+[PICNICKER,Boss Cathy,8101]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = MARILL,7
-Pokemon = TINKATINK,4
-Pokemon = FLABEBE,5
+Pokemon = BULBASAUR,3
+Pokemon = SQUIRTLE,3
 #-------------------------------
-[LASS,M79_F1]
-LoseText = You got me!
-Pokemon = FIDOUGH,5
-Pokemon = FLABEBE,1
+[SUPERNERD,Yuri,8201]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = CHARJABUG,2
+Pokemon = GOLETT,5
 #-------------------------------
-[LASS,Boss M79_F1]
+[LASS,Kara,8201]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = ODDISH,2
+Pokemon = MINCCINO,5
+#-------------------------------
+[SUPERNERD,Mike,8201]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = GOLETT,4
+Pokemon = VAROOM,1
+#-------------------------------
+[TEAMROCKET_F,Penny,8201]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = POOCHYENA,1
+#-------------------------------
+[TEAMROCKET_F,Gina,8201]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = ZUBAT,1
+#-------------------------------
+[BURGLAR,Boss Aaron,8201]
 LoseText = Unbelievable... You're truly powerful.
 Items = POTION
-Pokemon = TINKATINK,4
-Pokemon = FIDOUGH,3
-#-------------------------------
-[LASS,M80_F1]
-LoseText = You got me!
-Pokemon = TINKATINK,2
-#-------------------------------
-[LASS,Boss M80_F1]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = CLEFAIRY,7
-Pokemon = TINKATINK,7
-Pokemon = MARILL,4
-#-------------------------------
-[SAILOR,M81_F1]
-LoseText = You got me!
-Items = POTION
-Pokemon = SPHEAL,4
-#-------------------------------
-[SAILOR,Boss M81_F1]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = SPHEAL,7
-#-------------------------------
-[SWIMMER_M,M82_F1]
-LoseText = You got me!
-Pokemon = SPHEAL,1
-#-------------------------------
-[SAILOR,Boss M82_F1]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = SPHEAL,3
-#-------------------------------
-[SWIMMER_F,M83_F1]
-LoseText = You got me!
-Items = POTION
-Pokemon = SPHEAL,1
-#-------------------------------
-[SWIMMER_M,Boss M83_F1]
-LoseText = Unbelievable... You're truly powerful.
-Items = POTION
-Pokemon = SPHEAL,5
+Pokemon = CARVANHA,6
+Pokemon = SANDILE,7

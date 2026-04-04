@@ -220,7 +220,16 @@ class Battle::Battler
           return false
         end
       end
-    when :FROZEN
+when :BLINDNESS
+  if @battle.pbRandom(100) < 20
+    pbContinueStatus
+    PBDebug.log("[Move failed] #{pbThis} is blinded and missed")
+    @battle.pbDisplay(_INTL("{1} missed due to blindness!", pbThis))
+    @lastMoveFailed = true
+    return false
+  end
+when :FROZEN
+
       if !move.thawsUser?
         if @battle.pbRandom(100) < 20
           pbCureStatus

@@ -600,14 +600,26 @@ class MiningGameScene
 
   def pbGiveItems
     if @itemswon.length > 0
+      hollowed_souls_mined = 0
       @itemswon.each do |i|
         if $bag.add(i)
           pbMessage(_INTL("One {1} was obtained.", GameData::Item.get(i).name) + "\\se[Mining item get]\\wtnp[30]")
+          hollowed_souls_mined += 1 if i == :HOLLOWED_SOUL || i == :ITEM_HOLLOWED_SOUL
         else
           pbMessage(_INTL("One {1} was found, but you have no room for it.",
                           GameData::Item.get(i).name))
         end
       end
+
+      # --- BOUNTY HOOK: GATHERER ---
+      if hollowed_souls_mined > 0 && $PokemonGlobal && $PokemonGlobal.quests.active_quests.any? { |q| q.id == :Quest2 }
+        $game_variables[102] += hollowed_souls_mined
+        if $game_variables[102] >= 10
+          completeQuest(:Quest2)
+          # We don't give the reward here, the player claims it at the board
+        end
+      end
+      # -----------------------------
     end
   end
 

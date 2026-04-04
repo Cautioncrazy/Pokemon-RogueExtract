@@ -93,3 +93,48 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
 *   **`pbGiveRandomTMorHM([:ITEMNAME])`**
     *   **Description:** Gives a randomly selected TM/HM from a specific pool of items passed in the array.
     *   **Usage:** `pbGiveRandomTMorHM([:TM01, :TM02, :HM01])`
+
+*   **`pbGiveRandomRelic(rarity)`**
+    *   **Description:** Gives the player a randomly selected Global Relic. `rarity` defaults to `:UNCOMMON` but can be set to `:RARE`.
+    *   **Usage:** Used in custom dynamic chests or boss drops.
+
+*   **`pb3DPrinterEvent`**
+    *   **Description:** Opens a loop dialogue where the player can feed random eligible relics from their bag to a 3D Printer to gain a specific printed relic item.
+    *   **Usage:** Used as a standalone interactable map event.
+
+*   **`pbSpawnFloorMiningSpots`**
+    *   **Description:** Dynamically scans the current map for passable floor tiles adjacent to impassable walls and spawns interactive, invisible mining spots with a sparkle animation. When interacted with, they launch the DPt Mining Minigame.
+    *   **Usage:** `pbSpawnFloorMiningSpots(min_spots, max_spots)` inside the teleport/map transfer event when generating or entering a new floor.
+
+*   **`pbArtifactShop`**
+    *   **Description:** Opens a custom shop UI loop allowing players to purchase Persistent Artifacts (Fortune Coin, Vitality Root, Wisdom Crystal) in exchange for the Hollowed Souls currency they've mined. Items unlock based on the player's Max Floor Reached (`$game_variables[100]`).
+    *   **Usage:** Use this on an NPC in the Hub Island (e.g., a shady merchant).
+
+---
+
+### **6. Extraction Bounties (Quest System)**
+*(Located in `010_Bounty_Board.rb` & `Plugins/MQS`)*
+
+*   **`pbBountyBoard`**
+    *   **Description:** Opens the Bounty Board UI loop, allowing players to view the Quest log (`pbViewQuests`), accept bounties, and turn them in for rewards. Handles repeatable quests by resetting them upon turn-in, and tiered chains (Apex Predator) by automatically unlocking the next tier.
+    *   **Usage:** Use this on a static Board/Sign event in the Hub Island.
+
+*   **`pbViewQuests`** / **`activateQuest(:Quest1)`** / **`completeQuest(:Quest1)`**
+    *   **Description:** Standard API functions from the Modern Quest System + UI plugin. Used natively within the bounty scripts to toggle the visual quest interface and progress the states.
+
+### pbInflictStatus
+The base engine's `pbInflictStatus` function is used for all custom statuses. It takes the same parameters.
+
+**Signature:** `battler.pbInflictStatus(status_id, status_count = 0, msg = nil, user = nil)`
+**Parameters:**
+- `status_id` (Symbol): The `:id` of the status to inflict (e.g., `:BLEEDING`, `:BLINDNESS`, `:SHAKEN`).
+- `status_count` (Integer): Optional. Number of turns the status should last. Default is 0.
+- `msg` (String): Optional. Message to display when inflicted.
+- `user` (Battler): Optional. The battler inflicting the status.
+
+**Example usage in a move effect:**
+```ruby
+if target.pbCanInflictStatus?(:BLEEDING, user, false, self)
+  target.pbInflictStatus(:BLEEDING, 0, _INTL("{1} began to bleed!", target.pbThis), user)
+end
+```

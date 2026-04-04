@@ -56,8 +56,7 @@ def load_trainers_rules(md_filepath):
 
             if current_classes and stripped.startswith("* **Approved Pool:**"):
                 raw = stripped.split(":**", 1)[1].strip().rstrip(".")
-                # Do not use .upper() because it breaks NIDORANfE and NIDORANmA
-                pool = [p.strip().replace("*", "") for p in raw.split(",") if p.strip().replace("*", "")]
+                pool = [p.strip().replace("*", "").upper() for p in raw.split(",") if p.strip().replace("*", "")]
                 for trainer_class in current_classes:
                     class_pools[trainer_class].extend(pool)
                 continue
@@ -89,7 +88,7 @@ def load_trainers_rules(md_filepath):
                     continue
 
                 if current_classes and current_classes != ["__PARSING_CLASSES__"] and stripped.startswith("- "):
-                    pokemon = stripped[2:].strip()
+                    pokemon = stripped[2:].strip().upper()
                     class_pools[current_classes[0]].append(pokemon)
 
     return class_themes, class_pools
@@ -161,8 +160,8 @@ def _filter_pool_for_floor(species_pool, floor_number):
     return filtered if filtered else species_pool
 
 
-def generate_trainers(map_id, floor_number, theme, pbs_dir=None, md_filepath=None, filter_category="None", filter_value="None", is_boss=False, overwrite=False):
-    """Generates a dynamic trainer for the floor's theme. Optionally marks them as a Boss."""
+def generate_trainers(map_id, floor_number, theme, pbs_dir=None, md_filepath=None, filter_category="None", filter_value="None", is_boss=False, overwrite=False, grunt_min=1, grunt_max=1):
+    """Generates dynamic trainers for the floor's theme. Loops based on the grunt pool size range."""
     if pbs_dir is None:
         pbs_dir = _default_pbs_dir()
     if md_filepath is None:
@@ -184,7 +183,7 @@ def generate_trainers(map_id, floor_number, theme, pbs_dir=None, md_filepath=Non
         theme_pool = set(get_species_pool_for_theme(theme, include_special_boss=False))
         overlap_scored = []
         for trainer_class, pool in class_pools.items():
-            class_pool = {p for p in pool}
+            class_pool = {p.upper() for p in pool}
             score = len(class_pool.intersection(theme_pool))
             if score > 0:
                 overlap_scored.append((trainer_class, score))
@@ -201,125 +200,162 @@ def generate_trainers(map_id, floor_number, theme, pbs_dir=None, md_filepath=Non
             print(f"Warning: No Trainer Class found for theme '{theme}'. Defaulting to random.")
             valid_classes = list(class_themes.keys())
 
-    trainer_class = random.choice(valid_classes)
-
-    # Instead of robotic "M82_F1" names which break game immersion during battle intros,
-    # we assign real human names and embed the unique map/floor payload inside the Version parameter.
-    # In Pokémon Essentials, Version can safely scale linearly to guarantee uniqueness.
-
-    first_names = [
-        "Alex", "Brendan", "Cathy", "Dan", "Eve", "Felix", "Gina", "Hank",
-        "Ivy", "Jack", "Katy", "Leo", "Mia", "Nate", "Olivia", "Paul",
-        "Quinn", "Rose", "Sam", "Tara", "Ulysses", "Vera", "Will", "Xena",
-        "Yuri", "Zoe", "Ali", "Betty", "Anthony", "Bruce", "Clark", "Dave"
+    male_names = [
+        "Alex", "Brendan", "Dan", "Felix", "Hank", "Jack", "Leo", "Nate", "Paul",
+        "Quinn", "Sam", "Ulysses", "Will", "Yuri", "Anthony", "Bruce", "Clark", "Dave",
+        "Aaron", "Ben", "Carl", "Derek", "Evan", "Frank", "George", "Henry", "Ian",
+        "John", "Kyle", "Liam", "Mike", "Noah", "Owen", "Peter", "Ralph", "Steve"
+    ]
+    female_names = [
+        "Alex", "Cathy", "Eve", "Gina", "Ivy", "Katy", "Mia", "Olivia", "Quinn",
+        "Rose", "Sam", "Tara", "Vera", "Xena", "Zoe", "Ali", "Betty", "Alice",
+        "Chloe", "Diana", "Elena", "Fiona", "Grace", "Hannah", "Isla", "Jane",
+        "Kara", "Lily", "Mary", "Nora", "Penny", "Ruby", "Sara", "Tina", "Uma"
     ]
 
-    # We maintain determinism by seeding off the map ID and floor number so we
-    # can predictably overwrite the exact same section if run multiple times.
-    random.seed(map_id * 100 + floor_number + (1000 if is_boss else 0))
-    random_name = random.choice(first_names)
-    random.seed() # Reset seed
+    def get_gender_from_class(cls_name):
+        cls_name = cls_name.upper()
+        if cls_name.endswith("_M") or cls_name.endswith("BOY") or cls_name.endswith("GUY") or cls_name.endswith("MAN"):
+            return "M"
+        if cls_name.endswith("_F") or cls_name.endswith("GIRL") or cls_name.endswith("LADY") or cls_name.endswith("WOMAN"):
+            return "F"
 
-    trainer_name = f"Boss {random_name}" if is_boss else random_name
+        male_classes = {
+            "CAMPER", "HIKER", "YOUNGSTER", "BUGCATCHER", "SUPERNERD", "SAILOR",
+            "BIRD_KEEPER", "BLACK_BELT", "BURGLAR", "CUE_BALL", "FISHERMAN",
+            "JUGGLER", "POKEMANIAC", "ROCKER", "ROUGHNECK", "SCIENTIST", "TAMER",
+            "BIKER", "ENGINEER", "GAMER", "GENTLEMAN", "NINJA_BOY", "RICH_BOY"
+        }
+        female_classes = {
+            "PICNICKER", "LASS", "BEAUTY", "AROMA_LADY", "LADY", "BATTLE_GIRL",
+            "BEAUTY", "COWGIRL", "PARASOL_LADY"
+        }
 
-    # The exact map/floor payload encoded as the Version parameter
-    version = map_id * 100 + floor_number
+        if cls_name in male_classes:
+            return "M"
+        if cls_name in female_classes:
+            return "F"
+
+        return "Neutral"
 
     filepath = os.path.join(pbs_dir, "trainers.txt")
     if not os.path.exists(filepath):
         raise FileNotFoundError(f"trainers.txt not found in PBS folder: {filepath}")
     pbs = PBSFile(filepath)
 
-    header = f"[{trainer_class},{trainer_name},{version}]"
-    if version == 0:
-        header = f"[{trainer_class},{trainer_name}]"
+    # Determine how many trainers to generate
+    pool_size = 1 if is_boss else random.randint(grunt_min, grunt_max)
 
-    if pbs.has_section(header):
-        if overwrite:
-            pbs.remove_section(header)
-            print(f"Trainer section {header} already exists. Overwriting.")
+    for i in range(pool_size):
+        trainer_class = random.choice(valid_classes)
+
+        # We maintain determinism by seeding off the map ID, floor number, and iteration index
+        random.seed(map_id * 100 + floor_number + (1000 if is_boss else 0) + i)
+        gender = get_gender_from_class(trainer_class)
+        if gender == "M":
+            random_name = random.choice(male_names)
+        elif gender == "F":
+            random_name = random.choice(female_names)
         else:
-            # We can append multiple with the same header in v21.1 if needed,
-            # but typically names are distinct. To be safe, skip or pick a new name.
-            print(f"Trainer section {header} already exists. Appending unique ID to name.")
-            trainer_name = f"{trainer_name}_{random.randint(100, 999)}"
-            if version == 0:
-                header = f"[{trainer_class},{trainer_name}]"
-            else:
-                header = f"[{trainer_class},{trainer_name},{version}]"
+            random_name = random.choice(male_names + female_names)
+        random.seed() # Reset seed
 
-    # Add space between sections
-    if pbs.sections:
-        last_section = pbs.sections[-1]
-        if last_section.lines and not last_section.lines[-1].startswith("#-------------------------------"):
-             last_section.add_line("#-------------------------------")
-    else:
-        pbs.preamble.append("#-------------------------------")
+        trainer_name = f"Boss {random_name}" if is_boss else random_name
 
-    section = PBSSection(header)
+        # The exact map/floor payload encoded as the Version parameter
+        version = map_id * 100 + floor_number
 
-    # Simple Lose Text based on level/version
-    if is_boss:
-        section.add_line("LoseText = Unbelievable... You're truly powerful.")
-    else:
+        header = f"[{trainer_class},{trainer_name},{version}]"
         if version == 0:
-            section.add_line("LoseText = You got me!")
+            header = f"[{trainer_class},{trainer_name}]"
+
+        if pbs.has_section(header):
+            if overwrite:
+                pbs.remove_section(header)
+                print(f"Trainer section {header} already exists. Overwriting.")
+            else:
+                # We can append multiple with the same header in v21.1 if needed,
+                # but typically names are distinct. To be safe, skip or pick a new name.
+                print(f"Trainer section {header} already exists. Appending unique ID to name.")
+                trainer_name = f"{trainer_name}_{random.randint(100, 999)}"
+                if version == 0:
+                    header = f"[{trainer_class},{trainer_name}]"
+                else:
+                    header = f"[{trainer_class},{trainer_name},{version}]"
+
+        # Add space between sections
+        if pbs.sections:
+            last_section = pbs.sections[-1]
+            if last_section.lines and not last_section.lines[-1].startswith("#-------------------------------"):
+                 last_section.add_line("#-------------------------------")
         else:
-            section.add_line(f"LoseText = I couldn't handle the floor {floor_number} pressure!")
+            pbs.preamble.append("#-------------------------------")
 
-    party_size = calculate_party_size(floor_number)
-    if is_boss:
-        party_size += 1
+        section = PBSSection(header)
 
-    # Add Scaling Items
-    scaled_items = _get_scaled_items(floor_number, is_boss)
-    if scaled_items:
-        section.add_line(f"Items = {scaled_items}")
+        # Simple Lose Text based on level/version
+        if is_boss:
+            section.add_line("LoseText = Unbelievable... You're truly powerful.")
+        else:
+            if version == 0:
+                section.add_line("LoseText = You got me!")
+            else:
+                section.add_line(f"LoseText = I couldn't handle the floor {floor_number} pressure!")
 
-    available_pokemon = [p for p in class_pools.get(trainer_class, [])]
-    theme_pool = get_species_pool_for_theme(theme, include_special_boss=False)
+        party_size = calculate_party_size(floor_number)
+        if is_boss:
+            party_size += 1
 
-    # Keep trainer class identity from trainers.md while enriching with index data.
-    if available_pokemon and theme_pool:
-        themed_class_pool = [p for p in available_pokemon if p in set(theme_pool)]
-        if themed_class_pool:
-            available_pokemon = themed_class_pool
-    elif theme_pool:
-        available_pokemon = theme_pool
+        # Add Scaling Items
+        scaled_items = _get_scaled_items(floor_number, is_boss)
+        if scaled_items:
+            section.add_line(f"Items = {scaled_items}")
 
-    if not available_pokemon:
-         print(f"Warning: No Pokémon pool defined for {trainer_class}. Using Pikachu fallback.")
-         available_pokemon = ["PIKACHU"]
+        available_pokemon = [p.upper() for p in class_pools.get(trainer_class, [])]
+        theme_pool = get_species_pool_for_theme(theme, include_special_boss=False)
 
-    # Filter out legendaries/bosses based on standard floor progression
-    available_pokemon = _filter_pool_for_floor(available_pokemon, floor_number)
+        # Keep trainer class identity from trainers.md while enriching with index data.
+        if available_pokemon and theme_pool:
+            themed_class_pool = [p for p in available_pokemon if p in set(theme_pool)]
+            if themed_class_pool:
+                available_pokemon = themed_class_pool
+        elif theme_pool:
+            available_pokemon = theme_pool
 
-    # Apply optional semantic filters (e.g. bst_tier, encounter_rarity)
-    if filter_category != "None" and filter_value != "None":
-        available_pokemon = filter_species_pool(available_pokemon, filter_category, filter_value)
+        if not available_pokemon:
+             print(f"Warning: No Pokémon pool defined for {trainer_class}. Using Pikachu fallback.")
+             available_pokemon = ["PIKACHU"]
 
-    # Ensure unique Pokemon in the trainer's party
-    unique_pool = list(set(available_pokemon)) # Remove duplicates from the pool just in case
-    if len(unique_pool) >= party_size:
-        selected_pokemon = random.sample(unique_pool, party_size)
-    else:
-        # Fallback if the pool is smaller than the required party size
-        print(f"Warning: Pool size ({len(unique_pool)}) is smaller than party size ({party_size}) for {trainer_class}. Using all available unique Pokémon.")
-        selected_pokemon = unique_pool
+        # Filter out legendaries/bosses based on standard floor progression
+        available_pokemon = _filter_pool_for_floor(available_pokemon, floor_number)
 
-    min_lvl, max_lvl = calculate_levels(floor_number)
+        # Apply optional semantic filters (e.g. bst_tier, encounter_rarity)
+        if filter_category != "None" and filter_value != "None":
+            available_pokemon = filter_species_pool(available_pokemon, filter_category, filter_value)
 
-    if is_boss:
-        min_lvl += 2
-        max_lvl += 2
+        # Ensure unique Pokemon in the trainer's party
+        unique_pool = list(set(available_pokemon)) # Remove duplicates from the pool just in case
+        if len(unique_pool) >= party_size:
+            selected_pokemon = random.sample(unique_pool, party_size)
+        else:
+            # Fallback if the pool is smaller than the required party size
+            print(f"Warning: Pool size ({len(unique_pool)}) is smaller than party size ({party_size}) for {trainer_class}. Using all available unique Pokémon.")
+            selected_pokemon = unique_pool
 
-    for pkmn in selected_pokemon:
-        level = random.randint(min_lvl, max_lvl)
-        section.add_line(f"Pokemon = {pkmn},{level}")
+        min_lvl, max_lvl = calculate_levels(floor_number)
 
-    pbs.add_section(section)
+        if is_boss:
+            min_lvl += 2
+            max_lvl += 2
+
+        for pkmn in selected_pokemon:
+            level = random.randint(min_lvl, max_lvl)
+            section.add_line(f"Pokemon = {pkmn},{level}")
+
+        pbs.add_section(section)
+
+        boss_tag = " [BOSS]" if is_boss else ""
+        print(f"Generated Trainer {header}{boss_tag} (Class: {trainer_class}) on Floor {floor_number} with theme '{theme}'")
+
     pbs.save()
-
-    boss_tag = " [BOSS]" if is_boss else ""
-    print(f"Generated Trainer {header}{boss_tag} (Class: {trainer_class}) on Floor {floor_number} with theme '{theme}'")
     return True

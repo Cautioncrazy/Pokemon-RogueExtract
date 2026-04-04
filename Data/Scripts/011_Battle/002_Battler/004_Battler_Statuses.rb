@@ -30,12 +30,16 @@ class Battle::Battler
       if showMessages
         msg = ""
         case self.status
-        when :SLEEP     then msg = _INTL("{1} is already asleep!", pbThis)
-        when :POISON    then msg = _INTL("{1} is already poisoned!", pbThis)
-        when :BURN      then msg = _INTL("{1} already has a burn!", pbThis)
-        when :PARALYSIS then msg = _INTL("{1} is already paralyzed!", pbThis)
-        when :FROZEN    then msg = _INTL("{1} is already frozen solid!", pbThis)
-        end
+when :SLEEP     then msg = _INTL("{1} is already asleep!", pbThis)
+when :POISON    then msg = _INTL("{1} is already poisoned!", pbThis)
+when :BURN      then msg = _INTL("{1} already has a burn!", pbThis)
+when :PARALYSIS then msg = _INTL("{1} is already paralyzed!", pbThis)
+when :FROZEN    then msg = _INTL("{1} is already frozen solid!", pbThis)
+when :BLEEDING  then msg = _INTL("{1} is already bleeding!", pbThis)
+when :BLINDNESS then msg = _INTL("{1} is already blinded!", pbThis)
+when :SHAKEN    then msg = _INTL("{1} is already shaken!", pbThis)
+end
+
         @battle.pbDisplay(msg)
       end
       return false
@@ -79,24 +83,47 @@ class Battle::Battler
         return false
       end
     end
-    # Type immunities
-    hasImmuneType = false
-    case newStatus
-    when :SLEEP
-      # No type is immune to sleep
-    when :POISON
-      if !(user && user.hasActiveAbility?(:CORROSION))
-        hasImmuneType |= pbHasType?(:POISON)
-        hasImmuneType |= pbHasType?(:STEEL)
+# Type immunities
+hasImmuneType = false
+case newStatus
+when :SLEEP
+  # No type is immune to sleep
+when :POISON
+  if !(user && user.hasActiveAbility?(:CORROSION))
+    hasImmuneType |= pbHasType?(:POISON)
+    hasImmuneType |= pbHasType?(:STEEL)
+  end
+when :BURN
+  hasImmuneType |= pbHasType?(:FIRE)
+when :PARALYSIS
+  hasImmuneType |= pbHasType?(:ELECTRIC) && Settings::MORE_TYPE_EFFECTS
+when :FROZEN
+  hasImmuneType |= pbHasType?(:ICE)
+else
+  # Dynamic Type Immunities framework
+  status_types = {
+    :BLEEDING  => :STEEL,
+    :BLINDNESS => :PSYCHIC,
+    :SHAKEN    => :GROUND
+  }
+  status_type = status_types[newStatus]
+  if status_type
+    # Immune if same type
+    hasImmuneType |= pbHasType?(status_type)
+    # Immune if target's type is immune to the status's type
+    # Check all types the target has
+    target_types = pbTypes(true)
+    for t in target_types
+      eff = Effectiveness.calculate(status_type, t)
+      if eff == 0 # 0 means immune
+        hasImmuneType = true
+        break
       end
-    when :BURN
-      hasImmuneType |= pbHasType?(:FIRE)
-    when :PARALYSIS
-      hasImmuneType |= pbHasType?(:ELECTRIC) && Settings::MORE_TYPE_EFFECTS
-    when :FROZEN
-      hasImmuneType |= pbHasType?(:ICE)
     end
-    if hasImmuneType
+  end
+end
+if hasImmuneType
+
       @battle.pbDisplay(_INTL("It doesn't affect {1}...", pbThis(true))) if showMessages
       return false
     end
@@ -416,15 +443,23 @@ class Battle::Battler
       @battle.pbDisplay(_INTL("{1} was hurt by its burn!", pbThis))
     when :PARALYSIS
       @battle.pbDisplay(_INTL("{1} is paralyzed! It can't move!", pbThis))
-    when :FROZEN
-      @battle.pbDisplay(_INTL("{1} is frozen solid!", pbThis))
-    end
+when :FROZEN
+  @battle.pbDisplay(_INTL("{1} is frozen solid!", pbThis))
+when :BLEEDING
+  @battle.pbDisplay(_INTL("{1} was hurt by bleeding!", pbThis))
+when :BLINDNESS
+  # Display handled in pbTryUseMove, but kept here just in case
+when :SHAKEN
+  # Passive, no text needed
+end
+
     PBDebug.log("[Status continues] #{pbThis}'s sleep count is #{@statusCount}") if self.status == :SLEEP
   end
 
   def pbCureStatus(showMessages = true)
     oldStatus = status
     self.status = :NONE
+    @effects[PBEffects::Toxic] = 0 if oldStatus == :BLEEDING
     if showMessages
       case oldStatus
       when :SLEEP     then @battle.pbDisplay(_INTL("{1} woke up!", pbThis))

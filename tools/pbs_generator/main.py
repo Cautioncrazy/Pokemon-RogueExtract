@@ -14,6 +14,7 @@ from tools.pbs_generator.map_metadata_gen import generate_map_metadata
 from tools.pbs_generator.encounter_gen import generate_encounters
 from tools.pbs_generator.trainer_gen import generate_trainers
 from tools.pbs_generator.theme_data import get_all_available_themes, get_filter_categories, get_filter_values_for_category
+from tools.pbs_generator.setup_artifacts import setup_artifacts
 
 class GeneratorThread(QThread):
     log_signal = pyqtSignal(str)
@@ -22,7 +23,7 @@ class GeneratorThread(QThread):
     finished_signal = pyqtSignal()
 
     def __init__(self, start_map, end_map, num_floors, theme_selection, apply_theme_all, available_themes,
-                 min_step_chance, max_step_chance, step_chance_chunk,
+                 min_step_chance, max_step_chance, step_chance_chunk, grunt_min, grunt_max,
                  filter_category, filter_value, apply_filter_trainers,
                  boss_generation_mode, overwrite_existing, pbs_dir):
         super().__init__()
@@ -35,6 +36,8 @@ class GeneratorThread(QThread):
         self.min_step_chance = min_step_chance
         self.max_step_chance = max_step_chance
         self.step_chance_chunk = step_chance_chunk
+        self.grunt_min = grunt_min
+        self.grunt_max = grunt_max
         self.filter_category = filter_category
         self.filter_value = filter_value
         self.apply_filter_trainers = apply_filter_trainers
@@ -158,7 +161,9 @@ class GeneratorThread(QThread):
                                                              filter_category=t_filter_cat,
                                                              filter_value=t_filter_val,
                                                              is_boss=False,
-                                                             overwrite=self.overwrite_existing) or trainers_written
+                                                             overwrite=self.overwrite_existing,
+                                                             grunt_min=self.grunt_min,
+                                                             grunt_max=self.grunt_max) or trainers_written
 
                     if self.boss_generation_mode in ["Include Boss", "Only Boss"]:
                         # Generate Boss Trainer
@@ -310,44 +315,89 @@ class PBSGeneratorApp(QMainWindow):
         self.step_chunk_spin.setToolTip("Floors are grouped into chunks for step chance calculation.")
         control_layout.addWidget(self.step_chunk_spin, 6, 1)
 
+        # Grunt Pool Size Configuration
+        grunt_pool_layout = QHBoxLayout()
+        self.grunt_min_spin = QSpinBox()
+        self.grunt_min_spin.setRange(1, 20)
+        self.grunt_min_spin.setValue(3)
+        self.grunt_max_spin = QSpinBox()
+        self.grunt_max_spin.setRange(1, 20)
+        self.grunt_max_spin.setValue(8)
+
+        grunt_pool_layout.addWidget(QLabel("Min:"))
+        grunt_pool_layout.addWidget(self.grunt_min_spin)
+        grunt_pool_layout.addWidget(QLabel("Max:"))
+        grunt_pool_layout.addWidget(self.grunt_max_spin)
+
+        control_layout.addWidget(QLabel("Grunt Pool Size:"), 7, 0)
+        control_layout.addLayout(grunt_pool_layout, 7, 1)
+
         # Index Filter Options
-        control_layout.addWidget(QLabel("Index Filter Category:"), 7, 0)
+        control_layout.addWidget(QLabel("Index Filter Category:"), 8, 0)
         self.filter_category_combo = QComboBox()
         self.filter_category_combo.addItems(get_filter_categories())
         self.filter_category_combo.currentTextChanged.connect(self.on_filter_category_changed)
-        control_layout.addWidget(self.filter_category_combo, 7, 1)
+        control_layout.addWidget(self.filter_category_combo, 8, 1)
 
-        control_layout.addWidget(QLabel("Index Filter Value:"), 8, 0)
+        control_layout.addWidget(QLabel("Index Filter Value:"), 9, 0)
         self.filter_value_combo = QComboBox()
-        control_layout.addWidget(self.filter_value_combo, 8, 1)
+        control_layout.addWidget(self.filter_value_combo, 9, 1)
         self.on_filter_category_changed(self.filter_category_combo.currentText())
 
         # Apply Filter to Trainers Checkbox
         self.apply_filter_trainers_cb = QCheckBox("Apply Filter to Trainers")
         self.apply_filter_trainers_cb.setStyleSheet("color: white; font-size: 13px; background-color: transparent;")
         self.apply_filter_trainers_cb.setChecked(True)
-        control_layout.addWidget(self.apply_filter_trainers_cb, 9, 0, 1, 2)
+        control_layout.addWidget(self.apply_filter_trainers_cb, 10, 0, 1, 2)
 
         # Boss Generation Options
-        control_layout.addWidget(QLabel("Boss Generation:"), 10, 0)
+        control_layout.addWidget(QLabel("Boss Generation:"), 11, 0)
         self.boss_gen_combo = QComboBox()
         self.boss_gen_combo.addItems(["Include Boss", "Exclude Boss", "Only Boss"])
-        control_layout.addWidget(self.boss_gen_combo, 10, 1)
+        control_layout.addWidget(self.boss_gen_combo, 11, 1)
 
         # Apply Theme to All Checkbox
         self.apply_theme_all_cb = QCheckBox("Apply Selected Theme to All Maps")
         self.apply_theme_all_cb.setStyleSheet("color: white; font-size: 13px; background-color: transparent;")
-        control_layout.addWidget(self.apply_theme_all_cb, 11, 0, 1, 2)
+        control_layout.addWidget(self.apply_theme_all_cb, 12, 0, 1, 2)
 
         # Overwrite Existing Data Checkbox
         self.overwrite_cb = QCheckBox("Overwrite Existing Data (Encounters/Trainers/Metadata)")
         self.overwrite_cb.setStyleSheet("color: white; font-size: 13px; background-color: transparent;")
-        control_layout.addWidget(self.overwrite_cb, 12, 0, 1, 2)
+        control_layout.addWidget(self.overwrite_cb, 13, 0, 1, 2)
+
+        # Buttons layout
+        button_layout = QHBoxLayout()
 
         # Generate Button
         self.generate_btn = QPushButton("Generate Bulk Data")
+        self.generate_btn.setMinimumHeight(40)
         self.generate_btn.clicked.connect(self.on_generate_clicked)
-        control_layout.addWidget(self.generate_btn, 13, 0, 1, 2)
+        button_layout.addWidget(self.generate_btn)
+
+        # Append Items Button
+        self.append_items_btn = QPushButton("Append Artifacts to PBS")
+        self.append_items_btn.setMinimumHeight(40)
+        self.append_items_btn.clicked.connect(self.on_append_items_clicked)
+        self.append_items_btn.setStyleSheet("""
+            QPushButton {
+                background-color: rgba(46, 204, 113, 0.6);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 10px;
+                padding: 8px 15px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: rgba(46, 204, 113, 0.8);
+            }
+            QPushButton:pressed {
+                background-color: rgba(46, 204, 113, 1.0);
+            }
+        """)
+        button_layout.addWidget(self.append_items_btn)
+
+        control_layout.addLayout(button_layout, 14, 0, 1, 2)
 
         # Progress Bars
         self.map_progress_bar = QProgressBar()
@@ -360,13 +410,14 @@ class PBSGeneratorApp(QMainWindow):
                 border: 1px solid rgba(255, 255, 255, 0.2);
                 border-radius: 5px;
                 text-align: center;
+                min-height: 20px;
             }
             QProgressBar::chunk {
                 background-color: #4da6ff;
                 border-radius: 4px;
             }
         """)
-        control_layout.addWidget(self.map_progress_bar, 14, 0, 1, 2)
+        control_layout.addWidget(self.map_progress_bar, 15, 0, 1, 2)
 
         self.total_progress_bar = QProgressBar()
         self.total_progress_bar.setFormat("Total Batch Progress: %p%")
@@ -378,13 +429,14 @@ class PBSGeneratorApp(QMainWindow):
                 border: 1px solid rgba(255, 255, 255, 0.2);
                 border-radius: 5px;
                 text-align: center;
+                min-height: 20px;
             }
             QProgressBar::chunk {
                 background-color: #ff9933;
                 border-radius: 4px;
             }
         """)
-        control_layout.addWidget(self.total_progress_bar, 15, 0, 1, 2)
+        control_layout.addWidget(self.total_progress_bar, 16, 0, 1, 2)
 
         main_layout.addWidget(control_panel)
 
@@ -396,6 +448,16 @@ class PBSGeneratorApp(QMainWindow):
 
     def log(self, message):
         self.log_console.append(message)
+
+    def on_append_items_clicked(self):
+        pbs_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'PBS'))
+        if not os.path.exists(pbs_dir):
+            self.log("Error: 'PBS' directory not found. Are you running this from the repo root?")
+            return
+
+        self.log("--- Appending Artifacts to PBS/items.txt ---")
+        result_msg = setup_artifacts(pbs_dir)
+        self.log(result_msg)
 
     def on_filter_category_changed(self, category):
         self.filter_value_combo.clear()
@@ -463,6 +525,9 @@ class PBSGeneratorApp(QMainWindow):
         self.map_progress_bar.setValue(0)
         self.total_progress_bar.setValue(0)
 
+        grunt_min = self.grunt_min_spin.value()
+        grunt_max = self.grunt_max_spin.value()
+
         # Start background thread
         self.thread = GeneratorThread(
             start_map=start_map,
@@ -474,6 +539,8 @@ class PBSGeneratorApp(QMainWindow):
             min_step_chance=min_step_chance,
             max_step_chance=max_step_chance,
             step_chance_chunk=step_chance_chunk,
+            grunt_min=grunt_min,
+            grunt_max=grunt_max,
             filter_category=filter_category,
             filter_value=filter_value,
             apply_filter_trainers=apply_filter_trainers,

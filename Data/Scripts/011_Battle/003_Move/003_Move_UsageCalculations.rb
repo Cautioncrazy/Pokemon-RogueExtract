@@ -200,10 +200,13 @@ class Battle::Move
     end
     # Other effects
     return true if c > 50   # Merciless
-    return true if user.effects[PBEffects::LaserFocus] > 0
-    c += 1 if highCriticalRate?
-    c += user.effects[PBEffects::FocusEnergy]
-    c += 1 if user.inHyperMode? && @type == :SHADOW
+return true if user.effects[PBEffects::LaserFocus] > 0
+c += 1 if highCriticalRate?
+c += user.effects[PBEffects::FocusEnergy]
+c += 1 if user.inHyperMode? && @type == :SHADOW
+c -= 1 if user.status == :SHAKEN
+c = 0 if c < 0
+
     # Set up the critical hit ratios
     ratios = CRITICAL_HIT_RATIOS
     c = ratios.length - 1 if c >= ratios.length
@@ -257,12 +260,14 @@ class Battle::Move
       atkStage = max_stage if target.damageState.critical && atkStage < max_stage
       atk = (atk.to_f * stageMul[atkStage] / stageDiv[atkStage]).floor
     end
-    # Calculate target's defense stat
-    defense, defStage = pbGetDefenseStats(user, target)
-    if !user.hasActiveAbility?(:UNAWARE)
-      defStage = max_stage if target.damageState.critical && defStage > max_stage
-      defense = (defense.to_f * stageMul[defStage] / stageDiv[defStage]).floor
-    end
+# Calculate target's defense stat
+defense, defStage = pbGetDefenseStats(user, target)
+if !user.hasActiveAbility?(:UNAWARE)
+  defStage = max_stage if target.damageState.critical && defStage > max_stage
+  defense = (defense.to_f * stageMul[defStage] / stageDiv[defStage]).floor
+end
+defense = (defense / 2.0).round if target.status == :SHAKEN && physicalMove?
+
     # Calculate all multiplier effects
     multipliers = {
       :power_multiplier        => 1.0,

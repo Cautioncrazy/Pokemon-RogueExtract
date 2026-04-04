@@ -9840,4 +9840,14 @@ FunctionCode = BadPoisonTarget
 Flags = CanProtect,CanMirrorMove
 EffectChance = 50
 Description = Wraps the target in a toxic, corrosive chain. This may also leave the target badly poisoned.
-
+#-------------------------------
+[LACERATE]
+Name = Lacerate
+Type = STEEL
+Category = Status
+Accuracy = 85
+TotalPP = 15
+Target = NearOther
+FunctionCode = BleedTarget
+Flags = CanProtect,CanMirrorMove
+Description = The user whips a steel appendage at the target to inflict bleeding.

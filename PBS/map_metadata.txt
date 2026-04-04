@@ -397,33 +397,41 @@ Name = Tiall Region
 Outdoor = true
 MapPosition = 1,13,16
 BattleBack = city
+
+#---------Python Generated------
+
 #-------------------------------
-[078]   # Crystal Cave
-Name = Crystal Cave
+[078]   # Shadow Depths
+Name = Shadow Depths
 Dungeon = true
-BGM = bgm4,100,100
+BattleBack = forest
+Environment = Forest
+BGM = bgm2,100,100
 #-------------------------------
-[079]   # Verdant Grotto
-Name = Verdant Grotto
+[079]   # Verdant Ruins
+Name = Verdant Ruins
 Dungeon = true
-BGM = bgm8,100,100
+BattleBack = forest
+Environment = Forest
+BGM = bgm1,100,100
 #-------------------------------
-[080]   # Crystal Labyrinth
-Name = Crystal Labyrinth
+[080]   # Forgotten Grotto
+Name = Forgotten Grotto
 Dungeon = true
-BGM = bgm7,100,100
+BattleBack = 2
+Environment = None
+BGM = bgm6,100,100
 #-------------------------------
-[081]   # Echoing Ruins
-Name = Echoing Ruins
+[081]   # Mystic Cave
+Name = Mystic Cave
 Dungeon = true
-BGM = bgm9,100,100
+BattleBack = forest
+Environment = Forest
+BGM = bgm3,100,100
 #-------------------------------
-[082]   # Echoing Sanctuary
-Name = Echoing Sanctuary
+[082]   # Ancient Ruins
+Name = Ancient Ruins
 Dungeon = true
-BGM = bgm5,100,100
-#-------------------------------
-[083]   # Ancient Labyrinth
-Name = Ancient Labyrinth
-Dungeon = true
+BattleBack = forest
+Environment = Forest
 BGM = bgm3,100,100
