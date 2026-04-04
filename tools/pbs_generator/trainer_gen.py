@@ -200,12 +200,43 @@ def generate_trainers(map_id, floor_number, theme, pbs_dir=None, md_filepath=Non
             print(f"Warning: No Trainer Class found for theme '{theme}'. Defaulting to random.")
             valid_classes = list(class_themes.keys())
 
-    first_names = [
-        "Alex", "Brendan", "Cathy", "Dan", "Eve", "Felix", "Gina", "Hank",
-        "Ivy", "Jack", "Katy", "Leo", "Mia", "Nate", "Olivia", "Paul",
-        "Quinn", "Rose", "Sam", "Tara", "Ulysses", "Vera", "Will", "Xena",
-        "Yuri", "Zoe", "Ali", "Betty", "Anthony", "Bruce", "Clark", "Dave"
+    male_names = [
+        "Alex", "Brendan", "Dan", "Felix", "Hank", "Jack", "Leo", "Nate", "Paul",
+        "Quinn", "Sam", "Ulysses", "Will", "Yuri", "Anthony", "Bruce", "Clark", "Dave",
+        "Aaron", "Ben", "Carl", "Derek", "Evan", "Frank", "George", "Henry", "Ian",
+        "John", "Kyle", "Liam", "Mike", "Noah", "Owen", "Peter", "Ralph", "Steve"
     ]
+    female_names = [
+        "Alex", "Cathy", "Eve", "Gina", "Ivy", "Katy", "Mia", "Olivia", "Quinn",
+        "Rose", "Sam", "Tara", "Vera", "Xena", "Zoe", "Ali", "Betty", "Alice",
+        "Chloe", "Diana", "Elena", "Fiona", "Grace", "Hannah", "Isla", "Jane",
+        "Kara", "Lily", "Mary", "Nora", "Penny", "Ruby", "Sara", "Tina", "Uma"
+    ]
+
+    def get_gender_from_class(cls_name):
+        cls_name = cls_name.upper()
+        if cls_name.endswith("_M") or cls_name.endswith("BOY") or cls_name.endswith("GUY") or cls_name.endswith("MAN"):
+            return "M"
+        if cls_name.endswith("_F") or cls_name.endswith("GIRL") or cls_name.endswith("LADY") or cls_name.endswith("WOMAN"):
+            return "F"
+
+        male_classes = {
+            "CAMPER", "HIKER", "YOUNGSTER", "BUGCATCHER", "SUPERNERD", "SAILOR",
+            "BIRD_KEEPER", "BLACK_BELT", "BURGLAR", "CUE_BALL", "FISHERMAN",
+            "JUGGLER", "POKEMANIAC", "ROCKER", "ROUGHNECK", "SCIENTIST", "TAMER",
+            "BIKER", "ENGINEER", "GAMER", "GENTLEMAN", "NINJA_BOY", "RICH_BOY"
+        }
+        female_classes = {
+            "PICNICKER", "LASS", "BEAUTY", "AROMA_LADY", "LADY", "BATTLE_GIRL",
+            "BEAUTY", "COWGIRL", "PARASOL_LADY"
+        }
+
+        if cls_name in male_classes:
+            return "M"
+        if cls_name in female_classes:
+            return "F"
+
+        return "Neutral"
 
     filepath = os.path.join(pbs_dir, "trainers.txt")
     if not os.path.exists(filepath):
@@ -220,7 +251,13 @@ def generate_trainers(map_id, floor_number, theme, pbs_dir=None, md_filepath=Non
 
         # We maintain determinism by seeding off the map ID, floor number, and iteration index
         random.seed(map_id * 100 + floor_number + (1000 if is_boss else 0) + i)
-        random_name = random.choice(first_names)
+        gender = get_gender_from_class(trainer_class)
+        if gender == "M":
+            random_name = random.choice(male_names)
+        elif gender == "F":
+            random_name = random.choice(female_names)
+        else:
+            random_name = random.choice(male_names + female_names)
         random.seed() # Reset seed
 
         trainer_name = f"Boss {random_name}" if is_boss else random_name
