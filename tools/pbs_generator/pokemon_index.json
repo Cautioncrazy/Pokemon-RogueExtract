@@ -9840,7 +9840,7 @@
           "NIDORINA"
         ],
         "chain": [
-          "NIDORANfE",
+          "NIDORAMfE",
           "NIDORINA",
           "NIDOQUEEN"
         ]
@@ -9894,13 +9894,13 @@
         "depth": 1,
         "is_final_evolution": false,
         "pre_evolutions": [
-          "NIDORANfE"
+          "NIDORAMfE"
         ],
         "evolves_to": [
           "NIDOQUEEN"
         ],
         "chain": [
-          "NIDORANfE",
+          "NIDORAMfE",
           "NIDORINA",
           "NIDOQUEEN"
         ]
@@ -9959,7 +9959,7 @@
         ],
         "evolves_to": [],
         "chain": [
-          "NIDORANfE",
+          "NIDORAMfE",
           "NIDORINA",
           "NIDOQUEEN"
         ]
