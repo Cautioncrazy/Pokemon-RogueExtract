@@ -1,2 +1,128 @@
 #---------Python Generated------
 
+#-------------------------------
+[CAMPER,Paul,7801]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = MAREEP,1
+Pokemon = POLIWAG,5
+#-------------------------------
+[CAMPER,Anthony,7801]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = POLIWAG,1
+Pokemon = CHARMANDER,1
+#-------------------------------
+[PICNICKER,Sara,7801]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = BULBASAUR,3
+#-------------------------------
+[CAMPER,Frank,7801]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = SQUIRTLE,3
+Pokemon = CHARMANDER,5
+#-------------------------------
+[PICNICKER,Katy,7801]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = CHARMANDER,3
+Pokemon = SHROOMISH,3
+#-------------------------------
+[PICNICKER,Boss Xena,7801]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = NUMEL,7
+Pokemon = MANKEY,4
+#-------------------------------
+[PSYCHIC_F,Alex,7901]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = DROWZEE,4
+#-------------------------------
+[COOLTRAINER_M,Quinn,7901]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = CHARMANDER,5
+#-------------------------------
+[HIKER,Liam,7901]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = TIMBURR,4
+#-------------------------------
+[SWIMMER_M,Boss Peter,7901]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = POLIWAG,5
+Pokemon = FRILLISH,3
+#-------------------------------
+[CAMPER,Ben,8001]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = BULBASAUR,5
+#-------------------------------
+[CAMPER,Steve,8001]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = CHARMANDER,1
+#-------------------------------
+[PICNICKER,Ali,8001]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = NUMEL,4
+#-------------------------------
+[CAMPER,Mike,8001]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = SQUIRTLE,4
+#-------------------------------
+[CAMPER,Boss Dan,8001]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = MANKEY,7
+Pokemon = BELLSPROUT,3
+Pokemon = BULBASAUR,5
+#-------------------------------
+[SAILOR,Derek,8101]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = SPHEAL,3
+#-------------------------------
+[SWIMMER_M,Owen,8101]
+LoseText = I couldn't handle the floor 1 pressure!
+Items = POTION
+Pokemon = SPHEAL,1
+#-------------------------------
+[SAILOR,Noah,8101]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = SPHEAL,4
+#-------------------------------
+[SWIMMER_F,Betty,8101]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = SPHEAL,1
+#-------------------------------
+[SWIMMER_F,Boss Cathy,8101]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = SPHEAL,3
+#-------------------------------
+[POKEMANIAC,Yuri,8201]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = FRIGIBAX,3
+#-------------------------------
+[SWIMMER_M,Ian,8201]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = SPHEAL,4
+#-------------------------------
+[SWIMMER_M,Mike,8201]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = SPHEAL,4
+#-------------------------------
+[SWIMMER_F,Penny,8201]
+LoseText = I couldn't handle the floor 1 pressure!
+Pokemon = SPHEAL,1
+#-------------------------------
+[SAILOR,Boss Aaron,8201]
+LoseText = Unbelievable... You're truly powerful.
+Items = POTION
+Pokemon = SPHEAL,6

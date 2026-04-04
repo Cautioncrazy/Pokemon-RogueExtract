@@ -163,6 +163,19 @@ def pbBuildProceduralEvent(x, y, id, name, graphic_name, trigger, direction_fix,
   return event
 end
 
+# Strips the "Dungeon " tileset prefix, then returns the theme token (underscore suffix if present,
+# otherwise the full remainder — e.g. "Dungeon cave 2" -> "cave 2", not "2").
+def pbDungeonTilesetThemeSuffix(tileset_name)
+  return "" if tileset_name.nil? || tileset_name.to_s.empty?
+  remainder = tileset_name.to_s.sub(/\ADungeon\s*/i, "").strip
+  return "" if remainder.empty?
+  if remainder.include?("_")
+    remainder.split("_").last.strip
+  else
+    remainder
+  end
+end
+
 def pbMassGenerateRoguelikeMaps
   params = ChooseNumberParams.new
   params.setMaxDigits(3)
@@ -241,13 +254,8 @@ def pbMassGenerateRoguelikeMaps
         map_bgms[map_id.to_s] = chosen_bgm
       end
 
-      # Parse optional theme from tileset name (e.g., 'Dungeon forest_ICE' -> 'ICE')
-      if chosen_ts[:name].include?("_")
-        theme_suffix = chosen_ts[:name].split("_").last.strip
-      else
-        # E.g. 'Dungeon cave' -> 'cave'
-        theme_suffix = chosen_ts[:name].split(" ").last.strip
-      end
+      # Parse optional theme from tileset name (e.g. 'Dungeon forest_ICE' -> 'ICE', 'Dungeon cave 2' -> 'cave 2')
+      theme_suffix = pbDungeonTilesetThemeSuffix(chosen_ts[:name])
       map_themes[map_id.to_s] = theme_suffix if !theme_suffix.empty?
 
       # Determine encounter type based on tileset name
@@ -400,11 +408,7 @@ def pbRefreshDungeonThemesJSON
     ts = tilesets[map.tileset_id]
     next if ts.nil? || ts.name.nil? || !ts.name.start_with?("Dungeon")
 
-    if ts.name.include?("_")
-      theme_suffix = ts.name.split("_").last.strip
-    else
-      theme_suffix = ts.name.split(" ").last.strip
-    end
+    theme_suffix = pbDungeonTilesetThemeSuffix(ts.name)
     map_themes[map_id.to_s] = theme_suffix if !theme_suffix.empty?
 
     encounter_type = ts.name.downcase.include?("forest") ? "Land" : "Cave"
