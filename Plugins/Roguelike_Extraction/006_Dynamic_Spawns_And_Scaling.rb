@@ -381,6 +381,16 @@ class Interpreter
 
     # Check if player won
     if outcome
+      # --- BOUNTY HOOK: SLAYER ---
+      if is_vip && $PokemonGlobal && $PokemonGlobal.quests.active_quests.any? { |q| q.id == "1" }
+        $game_variables[101] += 1
+        if $game_variables[101] >= 5
+          completeQuest("1")
+          pbReceiveItem(:ITEM_HOLLOWED_SOUL, 5)
+        end
+      end
+      # ---------------------------
+
       pbSetSelfSwitch(event.id, victory_switch, true)
       return true
     end

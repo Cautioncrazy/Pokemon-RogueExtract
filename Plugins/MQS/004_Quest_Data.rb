@@ -1,61 +1,33 @@
 module QuestModule
   
-  # You don't actually need to add any information, but the respective fields in the UI will be blank or "???"
-  # I included this here mostly as an example of what not to do, but also to show it's a thing that exists
-  Quest0 = {
-  
-  }
-  
-  # Here's the simplest example of a single-stage quest with everything specified
   Quest1 = {
     :ID => "1",
-    :Name => "Introductions",
-    :QuestGiver => "Little Boy",
-    :Stage1 => "Look for clues.",
-    :Location1 => "Lappet Town",
-    :QuestDescription => "Some wild Pokémon stole a little boy's favourite toy. Find those troublemakers and help him get it back.",
-    :RewardString => "Something shiny!"
+    :Name => "Bounty: Slayer",
+    :QuestGiver => "Bounty Board",
+    :Stage1 => "Defeat 5 VIP/Boss Trainers in runs.",
+    :Location1 => "The Underground",
+    :QuestDescription => "The Hub needs you to clear out high-value targets. Take down 5 VIP/Boss trainers during your runs.",
+    :RewardString => "5 Hollowed Souls"
   }
-  
-  # Here's an extension of the above that includes multiple stages
+
   Quest2 = {
     :ID => "2",
-    :Name => "Introductions",
-    :QuestGiver => "Little Boy",
-    :Stage1 => "Look for clues.",
-    :Stage2 => "Follow the trail.",
-    :Stage3 => "Catch the troublemakers!",
-    :Location1 => "Lappet Town",
-    :Location2 => "Viridian Forest",
-    :Location3 => "Route 3",
-	:StageLabel1 => "1",
-	:StageLabel2 => "2",
-    :QuestDescription => "Some wild Pokémon stole a little boy's favourite toy. Find those troublemakers and help him get it back.",
-    :RewardString => "Something shiny!"
+    :Name => "Bounty: Gatherer",
+    :QuestGiver => "Bounty Board",
+    :Stage1 => "Mine 10 Hollowed Souls.",
+    :Location1 => "The Underground",
+    :QuestDescription => "We need raw materials. Use the mining walls during your runs to gather 10 Hollowed Souls.",
+    :RewardString => "1 Fortune Coin Artifact"
   }
-  
-  # Here's an example of a quest with lots of stages that also doesn't have a stage location defined for every stage
+
   Quest3 = {
     :ID => "3",
-    :Name => "Last-minute chores",
-    :QuestGiver => "Grandma",
-    :Stage1 => "A",
-    :Stage2 => "B",
-    :Stage3 => "C",
-    :Stage4 => "D",
-    :Stage5 => "E",
-    :Stage6 => "F",
-    :Stage7 => "G",
-    :Stage8 => "H",
-    :Stage9 => "I",
-    :Stage10 => "J",
-    :Stage11 => "K",
-    :Stage12 => "L",
-    :Location1 => "nil",
-    :Location2 => "nil",
-    :Location3 => "Dewford Town",
-    :QuestDescription => "Isn't the alphabet longer than this?",
-    :RewardString => "Chicken soup!"
+    :Name => "Bounty: Survivor",
+    :QuestGiver => "Bounty Board",
+    :Stage1 => "Reach Floor 20 in a single run.",
+    :Location1 => "The Underground",
+    :QuestDescription => "Prove your endurance. Make it to Floor 20 in a single continuous extraction run.",
+    :RewardString => "1 Vitality Root Artifact"
   }
   
   # Here's an example of not defining the quest giver and reward text
