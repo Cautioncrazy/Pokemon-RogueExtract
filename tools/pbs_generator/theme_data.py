@@ -16,19 +16,7 @@ def _pokemon_index_json_path():
 
 
 def _normalize_species_id(species_id):
-    return str(species_id).strip()
-
-
-def _type_group_key_for_theme(theme, type_groups):
-    """Match GUI/theme strings to type_groups keys case-insensitively (keys are type names, not species)."""
-    t = str(theme or "").strip()
-    if not t or not type_groups:
-        return None
-    tf = t.casefold()
-    for k in type_groups.keys():
-        if str(k).casefold() == tf:
-            return k
-    return None
+    return str(species_id).strip().upper()
 
 
 @lru_cache(maxsize=1)
@@ -78,9 +66,8 @@ def _theme_pool_from_types_json(theme):
     if not payload:
         return []
     type_groups = payload.get("type_groups", {})
-    key = _type_group_key_for_theme(theme, type_groups)
-    if key is None:
-        return []
+    # Type themes use uppercase key names in JSON (e.g. GRASS, FIRE)
+    key = str(theme or "").strip().upper()
     group = type_groups.get(key, [])
     return [_normalize_species_id(p.get("species_id", "")) for p in group if p.get("species_id")]
 

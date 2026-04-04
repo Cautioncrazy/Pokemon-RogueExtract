@@ -17,7 +17,9 @@ TYPE_ORDER = [
     "ROCK", "GHOST", "DRAGON", "DARK", "STEEL", "FAIRY"
 ]
 
-_TYPE_BY_FOLD = {t.casefold(): t for t in TYPE_ORDER}
+# ============================================================
+# KNOWN TAG SETS / CURATED LISTS
+# ============================================================
 
 STARTERS = {
     "BULBASAUR", "CHARMANDER", "SQUIRTLE",
@@ -67,8 +69,6 @@ PARADOX_NAMES = {
     "WALKING WAKE", "IRON LEAVES", "GOUGING FIRE", "RAGING BOLT",
     "IRON BOULDER", "IRON CROWN"
 }
-
-_PARADOX_NAMES_FOLD = {x.casefold() for x in PARADOX_NAMES}
 
 REGIONAL_FORM_CAPABLE = {
     "RATTATA", "RATICATE", "RAICHU", "SANDSHREW", "SANDSLASH", "VULPIX", "NINETALES",
@@ -151,14 +151,7 @@ def parse_csv_field(value):
     return [x.strip() for x in value.split(",") if x.strip()]
 
 def parse_types(type_str):
-    out = []
-    for x in parse_csv_field(type_str):
-        s = x.strip()
-        if not s:
-            continue
-        canon = _TYPE_BY_FOLD.get(s.casefold())
-        out.append(canon if canon else s)
-    return out
+    return [x.strip().upper() for x in parse_csv_field(type_str)]
 
 def parse_int(value, default=0):
     try:
@@ -174,7 +167,7 @@ def parse_base_stats(stats_str):
     return vals[:6]
 
 def normalize_species_key(species_id):
-    return species_id.strip()
+    return species_id.strip().upper()
 
 def display_species_key(species_id):
     return species_id.replace("_", " ")
@@ -212,12 +205,12 @@ def detect_paradox(species_id, name, flags):
     if any("paradox" in f for f in lower_flags):
         return True
 
-    name_cf = (name or "").strip().casefold()
-    disp_cf = display_species_key(species_id).casefold()
+    upper_name = (name or "").strip().upper()
+    upper_species_display = display_species_key(species_id)
 
-    if name_cf in _PARADOX_NAMES_FOLD or disp_cf in _PARADOX_NAMES_FOLD:
+    if upper_name in PARADOX_NAMES or upper_species_display in PARADOX_NAMES:
         return True
-    if name_cf.startswith("iron ") or disp_cf.startswith("iron "):
+    if upper_name.startswith("IRON ") or upper_species_display.startswith("IRON "):
         return True
 
     return False
@@ -249,7 +242,7 @@ def parse_evolutions(evo_str):
 
     i = 0
     while i < len(tokens):
-        target = tokens[i].strip()
+        target = tokens[i].strip().upper()
         method = tokens[i + 1].strip() if i + 1 < len(tokens) else None
         param = tokens[i + 2].strip() if i + 2 < len(tokens) else None
 
