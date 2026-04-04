@@ -166,7 +166,7 @@ def pbDynamicTrainerBattle(is_vip = false)
     python_version = (map_id * 100) + floor
 
     found_keys = GameData::Trainer::DATA.keys.select do |k|
-      k[2] == python_version && (is_vip ? k[1].start_with?("Boss ") : !k[1].start_with?("Boss "))
+      k[2] == python_version && (is_vip ? k[1].start_with?("Boss") : !k[1].start_with?("Boss"))
     end
 
     $PokemonGlobal.assigned_dynamic_trainers ||= []

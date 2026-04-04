@@ -94,7 +94,7 @@ module RoguelikeExtraction
           # Find ALL generated trainers that have this specific payload version!
           # We differentiate Bosses from regular trainers by checking if the name starts with "Boss"
           found_keys = GameData::Trainer::DATA.keys.select do |k|
-            k[2] == python_version && (is_vip ? k[1].start_with?("Boss ") : !k[1].start_with?("Boss "))
+            k[2] == python_version && (is_vip ? k[1].start_with?("Boss") : !k[1].start_with?("Boss"))
           end
 
           # Initialize tracker for assigned trainers on this floor to avoid duplicates
