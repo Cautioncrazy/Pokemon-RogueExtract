@@ -1,13 +1,17 @@
 module QuestModule
   
+  # ==========================================
+  # REPEATABLE FARMING BOUNTIES
+  # ==========================================
+
   Quest1 = {
     :ID => "1",
     :Name => "Bounty: Slayer",
     :QuestGiver => "Bounty Board",
-    :Stage1 => "Defeat 5 VIP/Boss Trainers in runs.",
+    :Stage1 => "Defeat 5 VIP/Boss Trainers.",
     :Location1 => "The Underground",
     :QuestDescription => "The Hub needs you to clear out high-value targets. Take down 5 VIP/Boss trainers during your runs.",
-    :RewardString => "5 Hollowed Souls"
+    :RewardString => "5 Hollowed Souls (Repeatable)"
   }
 
   Quest2 = {
@@ -17,11 +21,35 @@ module QuestModule
     :Stage1 => "Mine 10 Hollowed Souls.",
     :Location1 => "The Underground",
     :QuestDescription => "We need raw materials. Use the mining walls during your runs to gather 10 Hollowed Souls.",
-    :RewardString => "1 Fortune Coin Artifact"
+    :RewardString => "5 Hollowed Souls (Repeatable)"
   }
 
   Quest3 = {
     :ID => "3",
+    :Name => "Bounty: Bloodletting",
+    :QuestGiver => "Bounty Board",
+    :Stage1 => "Defeat 20 Pokémon afflicted by Bleeding, Blindness, or Shaken.",
+    :Location1 => "The Underground",
+    :QuestDescription => "Test our new combat modifiers. We need field data on how effectively these status conditions cripple the enemy.",
+    :RewardString => "10 Hollowed Souls (Repeatable)"
+  }
+
+  Quest4 = {
+    :ID => "4",
+    :Name => "Bounty: The Hoarder",
+    :QuestGiver => "Bounty Board",
+    :Stage1 => "Hold 15 active Relics at the same time.",
+    :Location1 => "The Underground",
+    :QuestDescription => "Synergy is power. Amass a collection of 15 relics in a single run to prove your resourcefulness.",
+    :RewardString => "15 Hollowed Souls (Repeatable)"
+  }
+
+  # ==========================================
+  # ONE-TIME MILESTONES & CHAINED QUESTS
+  # ==========================================
+
+  Quest5 = {
+    :ID => "5",
     :Name => "Bounty: Survivor",
     :QuestGiver => "Bounty Board",
     :Stage1 => "Reach Floor 20 in a single run.",
@@ -29,107 +57,25 @@ module QuestModule
     :QuestDescription => "Prove your endurance. Make it to Floor 20 in a single continuous extraction run.",
     :RewardString => "1 Vitality Root Artifact"
   }
-  
-  # Here's an example of not defining the quest giver and reward text
-  Quest4 = {
-    :ID => "4",
-    :Name => "A new beginning",
-    :QuestGiver => "nil",
-    :Stage1 => "Turning over a new leaf... literally!",
-    :Stage2 => "Help your neighbours.",
-    :Location1 => "Milky Way",
-    :Location2 => "nil",
-    :QuestDescription => "You crash landed on an alien planet. There are other humans here and they look hungry...",
-    :RewardString => "nil"
-  }
-  
-  # Other random examples you can look at if you want to fill out the UI and check out the page scrolling
-  Quest5 = {
-    :ID => "5",
-    :Name => "All of my friends",
-    :QuestGiver => "Barry",
-    :Stage1 => "Meet your friends near Acuity Lake.",
-    :QuestDescription => "Barry told me that he saw something cool at Acuity Lake and that I should go see. I hope it's not another trick.",
-    :RewardString => "You win nothing for giving in to peer pressure."
-  }
-  
+
   Quest6 = {
     :ID => "6",
-    :Name => "The journey begins",
-    :QuestGiver => "Professor Oak",
-    :Stage1 => "Deliver the parcel to the Pokémon Mart in Viridian City.",
-    :Stage2 => "Return to the Professor.",
-    :Location1 => "Viridian City",
-    :Location2 => "nil",
-    :QuestDescription => "The Professor has entrusted me with an important delivery for the Viridian City Pokémon Mart. This is my first task, best not mess it up!",
-    :RewardString => "nil"
+    :Name => "Apex Predator I",
+    :QuestGiver => "Bounty Board",
+    :Stage1 => "Defeat 10 VIP/Boss Trainers.",
+    :Location1 => "The Underground",
+    :QuestDescription => "Establish your dominance in the Underground by hunting down high-value targets.",
+    :RewardString => "1 Wisdom Crystal Artifact"
   }
-  
+
   Quest7 = {
     :ID => "7",
-    :Name => "Close encounters of the... first kind?",
-    :QuestGiver => "nil",
-    :Stage1 => "Make contact with the strange creatures.",
-    :Location1 => "Rock Tunnel",
-    :QuestDescription => "A sudden burst of light, and then...! What are you?",
-    :RewardString => "A possible probing."
-  }
-  
-  Quest8 = {
-    :ID => "8",
-    :Name => "These boots were made for walking",
-    :QuestGiver => "Musician #1",
-    :Stage1 => "Listen to the musician's, uhh, music.",
-    :Stage2 => "Find the source of the power outage.",
-    :Location1 => "nil",
-    :Location2 => "Celadon City Sewers",
-    :QuestDescription => "A musician was feeling down because he thinks no one likes his music. I should help him drum up some business."
-  }
-  
-  Quest9 = {
-    :ID => "9",
-    :Name => "Got any grapes?",
-    :QuestGiver => "Duck",
-    :Stage1 => "Listen to The Duck Song.",
-    :Stage2 => "Try not to sing it all day.",
-    :Location1 => "YouTube",
-    :QuestDescription => "Let's try to revive old memes by listening to this funny song about a duck wanting grapes.",
-    :RewardString => "A loss of braincells. Hurray!"
-  }
-  
-  Quest10 = {
-    :ID => "10",
-    :Name => "Singing in the rain",
-    :QuestGiver => "Some old dude",
-    :Stage1 => "I've run out of things to write.",
-    :Stage2 => "If you're reading this, I hope you have a great day!",
-    :Location1 => "Somewhere prone to rain?",
-    :QuestDescription => "Whatever you want it to be.",
-    :RewardString => "Wet clothes."
-  }
-  
-  Quest11 = {
-    :ID => "11",
-    :Name => "When is this list going to end?",
-    :QuestGiver => "Me",
-    :Stage1 => "When IS this list going to end?",
-    :Stage2 => "123",
-    :Stage3 => "456",
-    :Stage4 => "789",
-    :QuestDescription => "I'm losing my sanity.",
-    :RewardString => "nil"
-  }
-  
-  Quest12 = {
-    :ID => "12",
-    :Name => "The laaast melon",
-    :QuestGiver => "Some stupid dodo",
-    :Stage1 => "Fight for the last of the food.",
-    :Stage2 => "Don't die.",
-    :Location1 => "A volcano/cliff thing?",
-    :Location2 => "Good advice for life.",
-    :QuestDescription => "Tea and biscuits, anyone?",
-    :RewardString => "Food, glorious food!"
+    :Name => "Apex Predator II",
+    :QuestGiver => "Bounty Board",
+    :Stage1 => "Defeat 100 VIP/Boss Trainers.",
+    :Location1 => "The Underground",
+    :QuestDescription => "You've proven you can survive. Now prove you can conquer. Hunt them all.",
+    :RewardString => "3 Wisdom Crystal Artifacts"
   }
 
 end
