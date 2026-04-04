@@ -75,13 +75,13 @@ module AnimationMerger
     end
 
     base_anims = load_data(base_file)
-
-    if !base_anims || !base_anims.is_a?(Array)
+    # Essentials v21 PBAnimations inherits from Array and stores actual animations in @array
+    if !base_anims || !base_anims.respond_to?(:array) || !base_anims.array.is_a?(Array)
       pbMessage(_INTL("Base file format is invalid!"))
       return
     end
 
-    base_array = base_anims
+    base_array = base_anims.array
     total_added = 0
     total_overwritten = 0
 
@@ -94,8 +94,8 @@ module AnimationMerger
       overwrites = []
       reversed_packs.each do |pack|
         custom_anims = load_data(pack[:path])
-        next if !custom_anims || !custom_anims.is_a?(Array)
-        custom_anims.each do |custom_anim|
+        next if !custom_anims || !custom_anims.respond_to?(:array) || !custom_anims.array.is_a?(Array)
+        custom_anims.array.each do |custom_anim|
           next if !custom_anim || !custom_anim.name || custom_anim.name.empty?
           has_cels = custom_anim.any? { |frame| frame && frame.length > 0 }
           has_timings = custom_anim.timing && custom_anim.timing.length > 0
@@ -126,9 +126,9 @@ module AnimationMerger
 
     reversed_packs.each do |pack|
       custom_anims = load_data(pack[:path])
-      next if !custom_anims || !custom_anims.is_a?(Array)
+      next if !custom_anims || !custom_anims.respond_to?(:array) || !custom_anims.array.is_a?(Array)
 
-      custom_array = custom_anims
+      custom_array = custom_anims.array
       custom_array.each do |custom_anim|
         next if !custom_anim || !custom_anim.name || custom_anim.name.empty?
 
