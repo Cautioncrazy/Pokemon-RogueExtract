@@ -165,18 +165,10 @@ def pbDynamicTrainerBattle(is_vip = false)
     map_id = $game_map.map_id
     python_version = (map_id * 100) + floor
 
-    found_keys = GameData::Trainer::DATA.keys.select do |k|
+    found_key = GameData::Trainer::DATA.keys.find do |k|
       k[2] == python_version && (is_vip ? k[1].start_with?("Boss ") : !k[1].start_with?("Boss "))
     end
-
-    $PokemonGlobal.assigned_dynamic_trainers ||= []
-    available_keys = found_keys.reject { |k| $PokemonGlobal.assigned_dynamic_trainers.include?(k) }
-    available_keys = found_keys if available_keys.empty? && !found_keys.empty?
-
-    found_key = available_keys.sample
-
     if found_key
-      $PokemonGlobal.assigned_dynamic_trainers.push(found_key)
       chosen_trainer = [found_key[0], found_key[1], python_version]
     else
       pool = is_vip ? RoguelikeExtraction::DYNAMIC_VIPS : RoguelikeExtraction::DYNAMIC_TRAINERS

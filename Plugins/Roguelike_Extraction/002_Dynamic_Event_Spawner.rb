@@ -99,24 +99,14 @@ module RoguelikeExtraction
           # The Python script uniquely encodes map_id and floor into the Version parameter
           python_version = (map_id * 100) + floor
 
-          # Find ALL generated trainers that have this specific payload version!
+          # Find ANY generated trainer that has this specific payload version!
           # We differentiate Bosses from regular trainers by checking if the name starts with "Boss"
-          found_keys = GameData::Trainer::DATA.keys.select do |k|
+          found_key = GameData::Trainer::DATA.keys.find do |k|
             k[2] == python_version && (is_vip ? k[1].start_with?("Boss ") : !k[1].start_with?("Boss "))
           end
 
-          # Initialize tracker for assigned trainers on this floor to avoid duplicates
-          $PokemonGlobal.assigned_dynamic_trainers ||= []
-
-          # Filter out already assigned trainers if possible
-          available_keys = found_keys.reject { |k| $PokemonGlobal.assigned_dynamic_trainers.include?(k) }
-          available_keys = found_keys if available_keys.empty? && !found_keys.empty?
-
-          found_key = available_keys.sample
-
           if found_key
             # The python script generated a trainer explicitly for this floor
-            $PokemonGlobal.assigned_dynamic_trainers.push(found_key)
             chosen_trainer = [found_key[0], found_key[1], python_version]
           else
             # Failsafe fallback to the hardcoded pools if the Python script wasn't run
