@@ -140,6 +140,16 @@ We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to a
   - **Fortune Coin:** Aliases `Battle#pbGainMoney` to multiply end-of-battle payouts by `1 + (0.25 * stacks)`.
   - **Wisdom Crystal:** Aliases `Battle::ItemEffects.triggerExpGainModifier` to multiply all earned EXP by `1 + (0.15 * stacks)`.
   - **Vitality Root:** Hooks into `EventHandlers.add(:on_end_battle)` to heal all conscious, non-cursed party members by `5% * stacks` of their Max HP after a successful battle.
+
+### 12. Extraction Bounties (Quest System)
+- **Plugin Integration:** The project utilizes the "Modern Quest System + UI" plugin (Resource 709).
+- **Data Configuration:** Quest data is defined natively within `Plugins/MQS/004_Quest_Data.rb` via the `QuestModule`. We use specific Stage descriptions to act as long-term goals without necessarily relying on multi-stage progression.
+- **Progression Logic:** The quests (Bounties) track their numerical goals through native `$game_variables`:
+  - **Slayer:** Hooks into `pbSetAndStartDynamicTrainer` in `006_Dynamic_Spawns_And_Scaling.rb` to track defeated `is_vip` trainers using `$game_variables[101]`.
+  - **Gatherer:** Hooks into the end of `pbMiningGame` (`pbGiveItems` in `006_Minigame_Mining.rb`) to track mined `:HOLLOWED_SOUL` using `$game_variables[102]`.
+  - **Survivor:** Hooks into `pbAdvanceRaid` in `003_Raid_Tracker.rb` to check the `$PokemonGlobal.current_raid_floor` against the goal of Floor 20.
+- **Bounty Board UI:** Handled by `pbBountyBoard` in `Plugins/Roguelike_Extraction/010_Bounty_Board.rb`. This allows players to activate quests, conditionally based on their `$game_variables[100]` (Max Floor Reached), and natively check existing quest statuses.
+- **Automated Credits Tracking:** The script `scripts/update_credits.py` must be maintained and ran when a new plugin is added. It parses the `meta.txt` files across the `Plugins/` directory and outputs a sorted list of authors and their installed plugins to `credits.md` at the root of the project.
 - **Battle Hooks:** Located in `002_Relic_Hooks.rb`, the system aliases native calculation modules to apply the buffs:
     - `pbCalcDamageMultipliers`: Scans for `RELIC_MUSCLE` to boost physical attack by 5% per stack.
     - `pbCalcAccuracyModifiers`: Scans for `RELIC_LENS` to boost accuracy by 5% per stack.

@@ -110,6 +110,18 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
     *   **Description:** Opens a custom shop UI loop allowing players to purchase Persistent Artifacts (Fortune Coin, Vitality Root, Wisdom Crystal) in exchange for the Hollowed Souls currency they've mined. Items unlock based on the player's Max Floor Reached (`$game_variables[100]`).
     *   **Usage:** Use this on an NPC in the Hub Island (e.g., a shady merchant).
 
+---
+
+### **6. Extraction Bounties (Quest System)**
+*(Located in `010_Bounty_Board.rb` & `Plugins/MQS`)*
+
+*   **`pbBountyBoard`**
+    *   **Description:** Opens the Bounty Board UI loop, allowing players to view the Quest log (`pbViewQuests`) and conditionally accept three predefined bounties (Slayer, Gatherer, Survivor) based on their highest reached floor (`$game_variables[100]`).
+    *   **Usage:** Use this on a static Board/Sign event in the Hub Island.
+
+*   **`pbViewQuests`** / **`activateQuest(:Quest1)`** / **`completeQuest(:Quest1)`**
+    *   **Description:** Standard API functions from the Modern Quest System + UI plugin. Used natively within the bounty scripts to toggle the visual quest interface and progress the states.
+
 ### pbInflictStatus
 The base engine's `pbInflictStatus` function is used for all custom statuses. It takes the same parameters.
 
