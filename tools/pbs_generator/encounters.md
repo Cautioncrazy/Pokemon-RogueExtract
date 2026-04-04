@@ -34,10 +34,10 @@ This file serves as the single source of truth for the Python PBS Generator to u
 ## Poison
 - EKANS
 - ARBOK
-- NIDORANf
+- NIDORANfE
 - NIDORINA
 - NIDOQUEEN
-- NIDORANm
+- NIDORANmA
 - NIDORINO
 - NIDOKING
 - ZUBAT

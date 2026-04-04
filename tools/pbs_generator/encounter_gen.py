@@ -21,7 +21,7 @@ def load_encounters_rules(md_filepath):
                 current_theme = stripped[3:].strip()
                 rules[current_theme] = []
             elif stripped.startswith("- ") and current_theme:
-                pokemon = stripped[2:].strip().upper()
+                pokemon = stripped[2:].strip()
                 rules[current_theme].append(pokemon)
     return rules
 
@@ -45,8 +45,8 @@ def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_f
     available_pokemon = get_species_pool_for_theme(theme, include_special_boss=False)
     md_pool = rules.get(theme, [])
     if md_pool:
-        md_upper = [p.upper() for p in md_pool]
-        available_pokemon = md_upper + [p for p in available_pokemon if p not in md_upper]
+        md_set = set(md_pool)
+        available_pokemon = md_pool + [p for p in available_pokemon if p not in md_set]
 
     # Apply optional semantic filters (e.g. bst_tier, encounter_rarity)
     if filter_category != "None" and filter_value != "None":
@@ -57,7 +57,7 @@ def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_f
         if rules:
             print(f"Warning: Theme '{theme}' had no JSON/MD pool; defaulting to random md theme.")
             theme = random.choice(list(rules.keys()))
-            available_pokemon = [p.upper() for p in rules.get(theme, [])]
+            available_pokemon = [p for p in rules.get(theme, [])]
             print(f"Defaulting to random: '{theme}'.")
 
     if not available_pokemon:

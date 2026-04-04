@@ -51,10 +51,10 @@ When designing content:
 - `0026 | RAICHU | Raichu | [ELECTRIC] | 485 | lategame | normal | final | RegionalCapable | midgame, lategame`
 - `0027 | SANDSHREW | Sandshrew | [GROUND] | 300 | earlygame | very_easy | baby_or_base | RegionalCapable | earlygame`
 - `0028 | SANDSLASH | Sandslash | [GROUND] | 450 | midgame | normal | final | RegionalCapable | midgame`
-- `0029 | NIDORANFE | Nidoran♀ | [POISON] | 275 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0029 | NIDORANfE | Nidoran♀ | [POISON] | 275 | earlygame | very_easy | baby_or_base | Standard | earlygame`
 - `0030 | NIDORINA | Nidorina | [POISON] | 365 | midgame | easy | middle | Standard | midgame`
 - `0031 | NIDOQUEEN | Nidoqueen | [POISON/GROUND] | 505 | lategame | hard | final | Standard | midgame, lategame`
-- `0032 | NIDORANMA | Nidoran♂ | [POISON] | 273 | earlygame | very_easy | baby_or_base | Standard | earlygame`
+- `0032 | NIDORANmA | Nidoran♂ | [POISON] | 273 | earlygame | very_easy | baby_or_base | Standard | earlygame`
 - `0033 | NIDORINO | Nidorino | [POISON] | 365 | midgame | easy | middle | Standard | midgame`
 - `0034 | NIDOKING | Nidoking | [POISON/GROUND] | 505 | lategame | hard | final | Standard | midgame, lategame`
 - `0035 | CLEFAIRY | Clefairy | [FAIRY] | 323 | earlygame | easy | middle | Standard | earlygame`
@@ -1765,10 +1765,10 @@ When designing content:
 - `0015 | BEEDRILL | Beedrill | BST 395 | midgame`
 - `0023 | EKANS | Ekans | BST 288 | earlygame`
 - `0024 | ARBOK | Arbok | BST 448 | midgame`
-- `0029 | NIDORANFE | Nidoran♀ | BST 275 | earlygame`
+- `0029 | NIDORANfE | Nidoran♀ | BST 275 | earlygame`
 - `0030 | NIDORINA | Nidorina | BST 365 | midgame`
 - `0031 | NIDOQUEEN | Nidoqueen | BST 505 | lategame`
-- `0032 | NIDORANMA | Nidoran♂ | BST 273 | earlygame`
+- `0032 | NIDORANmA | Nidoran♂ | BST 273 | earlygame`
 - `0033 | NIDORINO | Nidorino | BST 365 | midgame`
 - `0034 | NIDOKING | Nidoking | BST 505 | lategame`
 - `0041 | ZUBAT | Zubat | BST 245 | weak`
@@ -2736,8 +2736,8 @@ When designing content:
 - `0023 | EKANS | Ekans | BST 288`
 - `0025 | PIKACHU | Pikachu | BST 320`
 - `0027 | SANDSHREW | Sandshrew | BST 300`
-- `0029 | NIDORANFE | Nidoran♀ | BST 275`
-- `0032 | NIDORANMA | Nidoran♂ | BST 273`
+- `0029 | NIDORANfE | Nidoran♀ | BST 275`
+- `0032 | NIDORANmA | Nidoran♂ | BST 273`
 - `0035 | CLEFAIRY | Clefairy | BST 323`
 - `0037 | VULPIX | Vulpix | BST 299`
 - `0039 | JIGGLYPUFF | Jigglypuff | BST 270`

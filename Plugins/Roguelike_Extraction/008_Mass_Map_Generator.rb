@@ -245,8 +245,8 @@ def pbMassGenerateRoguelikeMaps
       if chosen_ts[:name].include?("_")
         theme_suffix = chosen_ts[:name].split("_").last.strip
       else
-        # E.g. 'Dungeon cave' -> 'cave'
-        theme_suffix = chosen_ts[:name].split(" ").last.strip
+        # E.g. 'Dungeon cave 2' -> 'cave 2'
+        theme_suffix = chosen_ts[:name].sub(/^Dungeon\s*/, "").strip
       end
       map_themes[map_id.to_s] = theme_suffix if !theme_suffix.empty?
 
@@ -400,7 +400,7 @@ def pbRefreshDungeonThemesJSON
     if ts.name.include?("_")
       theme_suffix = ts.name.split("_").last.strip
     else
-      theme_suffix = ts.name.split(" ").last.strip
+      theme_suffix = ts.name.sub(/^Dungeon\s*/, "").strip
     end
     map_themes[map_id.to_s] = theme_suffix if !theme_suffix.empty?
 
