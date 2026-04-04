@@ -533,8 +533,8 @@ def pbAdvanceRaid
   RoguelikeExtraction.advance_floor
 
   # --- BOUNTY HOOK: SURVIVOR ---
-  if $PokemonGlobal.current_raid_floor >= 20 && $PokemonGlobal && $PokemonGlobal.quests.active_quests.any? { |q| q.id == "3" }
-    completeQuest("3")
+  if $PokemonGlobal.current_raid_floor >= 20 && $PokemonGlobal && $PokemonGlobal.quests.active_quests.any? { |q| q.id == :Quest3 }
+    completeQuest(:Quest3)
     pbReceiveItem(:ARTIFACT_VITALITY, 1)
   end
   # -----------------------------

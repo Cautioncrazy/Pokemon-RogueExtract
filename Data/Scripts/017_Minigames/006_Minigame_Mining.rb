@@ -612,10 +612,10 @@ class MiningGameScene
       end
 
       # --- BOUNTY HOOK: GATHERER ---
-      if hollowed_souls_mined > 0 && $PokemonGlobal && $PokemonGlobal.quests.active_quests.any? { |q| q.id == "2" }
+      if hollowed_souls_mined > 0 && $PokemonGlobal && $PokemonGlobal.quests.active_quests.any? { |q| q.id == :Quest2 }
         $game_variables[102] += hollowed_souls_mined
         if $game_variables[102] >= 10
-          completeQuest("2")
+          completeQuest(:Quest2)
           pbReceiveItem(:ARTIFACT_FORTUNE, 1)
         end
       end
