@@ -29,6 +29,26 @@ module QuestModule
     :QuestDescription => "Prove your endurance. Make it to Floor 20 in a single continuous extraction run.",
     :RewardString => "1 Vitality Root Artifact"
   }
+
+  Quest6 = {
+    :ID => "6",
+    :Name => "Apex Predator I",
+    :QuestGiver => "Bounty Board",
+    :Stage1 => "Defeat 15 VIP/Boss Trainers.",
+    :Location1 => "The Underground",
+    :QuestDescription => "Take down 15 VIP/Boss trainers total to unlock the next tier of this bounty.",
+    :RewardString => "1 Master Ball"
+  }
+
+  Quest7 = {
+    :ID => "7",
+    :Name => "Apex Predator II",
+    :QuestGiver => "Bounty Board",
+    :Stage1 => "Defeat 30 VIP/Boss Trainers.",
+    :Location1 => "The Underground",
+    :QuestDescription => "Continue thinning the herd. Take down 30 VIP/Boss trainers total.",
+    :RewardString => "3 Master Balls"
+  }
   
   # Here's an example of not defining the quest giver and reward text
   Quest4 = {

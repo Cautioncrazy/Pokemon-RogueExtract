@@ -386,7 +386,21 @@ class Interpreter
         $game_variables[101] += 1
         if $game_variables[101] >= 5
           completeQuest(:Quest1)
-          pbReceiveItem(:ITEM_HOLLOWED_SOUL, 5)
+          # We don't give the reward here, the player claims it at the board
+        end
+      end
+      # --- BOUNTY HOOK: APEX PREDATOR I ---
+      if is_vip && $PokemonGlobal && $PokemonGlobal.quests.active_quests.any? { |q| q.id == :Quest6 }
+        $game_variables[106] += 1
+        if $game_variables[106] >= 15
+          completeQuest(:Quest6)
+        end
+      end
+      # --- BOUNTY HOOK: APEX PREDATOR II ---
+      if is_vip && $PokemonGlobal && $PokemonGlobal.quests.active_quests.any? { |q| q.id == :Quest7 }
+        $game_variables[106] += 1
+        if $game_variables[106] >= 30
+          completeQuest(:Quest7)
         end
       end
       # ---------------------------
