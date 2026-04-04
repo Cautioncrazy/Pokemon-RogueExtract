@@ -16,7 +16,7 @@ def _pokemon_index_json_path():
 
 
 def _normalize_species_id(species_id):
-    return str(species_id).strip().upper()
+    return str(species_id).strip()
 
 
 @lru_cache(maxsize=1)

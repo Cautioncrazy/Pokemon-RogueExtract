@@ -167,7 +167,7 @@ def parse_base_stats(stats_str):
     return vals[:6]
 
 def normalize_species_key(species_id):
-    return species_id.strip().upper()
+    return species_id.strip()
 
 def display_species_key(species_id):
     return species_id.replace("_", " ")
@@ -242,7 +242,7 @@ def parse_evolutions(evo_str):
 
     i = 0
     while i < len(tokens):
-        target = tokens[i].strip().upper()
+        target = tokens[i].strip()
         method = tokens[i + 1].strip() if i + 1 < len(tokens) else None
         param = tokens[i + 2].strip() if i + 2 < len(tokens) else None
 
