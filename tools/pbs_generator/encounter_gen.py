@@ -7,6 +7,12 @@ from tools.pbs_generator.theme_data import get_species_pool_for_theme, filter_sp
 def _default_pbs_dir():
     return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "PBS"))
 
+
+def _species_fold(s):
+    """ASCII-safe case key for deduping species ids (preserves NIDORANfE / NIDORANmA casing in outputs)."""
+    return (s or "").strip().casefold()
+
+
 def load_encounters_rules(md_filepath):
     """Parses encounters.md to return a dictionary of {Theme: [Pokemon list]}"""
     rules = {}
@@ -21,7 +27,7 @@ def load_encounters_rules(md_filepath):
                 current_theme = stripped[3:].strip()
                 rules[current_theme] = []
             elif stripped.startswith("- ") and current_theme:
-                pokemon = stripped[2:].strip().upper()
+                pokemon = stripped[2:].strip()
                 rules[current_theme].append(pokemon)
     return rules
 
@@ -45,8 +51,10 @@ def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_f
     available_pokemon = get_species_pool_for_theme(theme, include_special_boss=False)
     md_pool = rules.get(theme, [])
     if md_pool:
-        md_upper = [p.upper() for p in md_pool]
-        available_pokemon = md_upper + [p for p in available_pokemon if p not in md_upper]
+        md_keys = {_species_fold(p) for p in md_pool}
+        available_pokemon = list(md_pool) + [
+            p for p in available_pokemon if _species_fold(p) not in md_keys
+        ]
 
     # Apply optional semantic filters (e.g. bst_tier, encounter_rarity)
     if filter_category != "None" and filter_value != "None":
@@ -57,7 +65,7 @@ def generate_encounters(map_id, version, floor_number, theme, pbs_dir=None, md_f
         if rules:
             print(f"Warning: Theme '{theme}' had no JSON/MD pool; defaulting to random md theme.")
             theme = random.choice(list(rules.keys()))
-            available_pokemon = [p.upper() for p in rules.get(theme, [])]
+            available_pokemon = list(rules.get(theme, []))
             print(f"Defaulting to random: '{theme}'.")
 
     if not available_pokemon:

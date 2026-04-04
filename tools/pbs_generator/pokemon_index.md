@@ -2736,7 +2736,7 @@ When designing content:
 - `0023 | EKANS | Ekans | BST 288`
 - `0025 | PIKACHU | Pikachu | BST 320`
 - `0027 | SANDSHREW | Sandshrew | BST 300`
-- `0029 | NIDORAMfE | Nidoran♀ | BST 275`
+- `0029 | NIDORANfE | Nidoran♀ | BST 275`
 - `0032 | NIDORANmA | Nidoran♂ | BST 273`
 - `0035 | CLEFAIRY | Clefairy | BST 323`
 - `0037 | VULPIX | Vulpix | BST 299`
