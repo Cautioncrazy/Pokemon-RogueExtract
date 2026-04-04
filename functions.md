@@ -116,7 +116,7 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
 *(Located in `010_Bounty_Board.rb` & `Plugins/MQS`)*
 
 *   **`pbBountyBoard`**
-    *   **Description:** Opens the Bounty Board UI loop, allowing players to view the Quest log (`pbViewQuests`) and conditionally accept three predefined bounties (Slayer, Gatherer, Survivor) based on their highest reached floor (`$game_variables[100]`).
+    *   **Description:** Opens the Bounty Board UI loop, allowing players to view the Quest log (`pbViewQuests`), accept bounties, and turn them in for rewards. Handles repeatable quests by resetting them upon turn-in, and tiered chains (Apex Predator) by automatically unlocking the next tier.
     *   **Usage:** Use this on a static Board/Sign event in the Hub Island.
 
 *   **`pbViewQuests`** / **`activateQuest(:Quest1)`** / **`completeQuest(:Quest1)`**

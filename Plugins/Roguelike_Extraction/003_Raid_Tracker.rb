@@ -535,7 +535,7 @@ def pbAdvanceRaid
   # --- BOUNTY HOOK: SURVIVOR ---
   if $PokemonGlobal.current_raid_floor >= 20 && $PokemonGlobal && $PokemonGlobal.quests.active_quests.any? { |q| q.id == :Quest3 }
     completeQuest(:Quest3)
-    pbReceiveItem(:ARTIFACT_VITALITY, 1)
+    # We don't give the reward here, the player claims it at the board
   end
   # -----------------------------
 end

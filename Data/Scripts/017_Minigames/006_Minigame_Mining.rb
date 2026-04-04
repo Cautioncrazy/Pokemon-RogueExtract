@@ -616,7 +616,7 @@ class MiningGameScene
         $game_variables[102] += hollowed_souls_mined
         if $game_variables[102] >= 10
           completeQuest(:Quest2)
-          pbReceiveItem(:ARTIFACT_FORTUNE, 1)
+          # We don't give the reward here, the player claims it at the board
         end
       end
       # -----------------------------
