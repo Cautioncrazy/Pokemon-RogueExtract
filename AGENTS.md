@@ -111,14 +111,21 @@ We use a custom Python tool suite located in `tools/pbs_generator/` to automate 
      - **Overwrite Existing Data**: If checked, the tool actively finds and deletes matching PBS sections before rewriting them. **Important**: When overwrite is active, dynamic trainers are generated with deterministic names (e.g., `Boss M1_F5`) instead of random names (e.g., `Boss Alice`) to ensure the PBS parser can accurately locate and delete the specific previous procedural entry.
 - **Role**: As the agent, you are responsible for maintaining and expanding these Python tools alongside the standard Ruby scripts, ensuring the custom parser remains intact and never falls back to standard `configparser` or `json` libraries.
 
-### 8. Core Engine Scripts & Mandatory Research
+### 8. External Utilities & Tools
+- **Pokemon Factory Mobile Generator**: `tools/Pokemon_Factory_Mobile_Generator.html`
+  - A mobile-first, responsive, single-file HTML/CSS/JS utility.
+  - Generates the proper Ruby Hash syntax required by Zik's "Pokémon Factory" plugin for dynamic, on-the-fly Pokémon creation.
+  - Supports inputs for stats, up to 4 moves, shiny status, custom IVs/Nature, and advanced plugin features like `hue_change` and `sprite_override`.
+  - Includes a live sprite preview that utilizes PokeAPI/Showdown sprites and CSS `hue-rotate` filters to visualize the `hue_change` parameter before applying it in-game.
+
+### 9. Core Engine Scripts & Mandatory Research
 - **Documentation**: See `scripts.md`, `functions.md`, and all other `.md` files in the repository root. **Before starting a task or writing a script that hooks into the engine**, you must proactively scan and research these `.md` files. They contain the specific guidelines, context, and rules you need to execute properly.
 - **Directory Path**: The core engine scripts are located at `Data/Scripts/`.
 - **Never Guess UI Symbols**: When adding commands to standard Pokémon Essentials UI (like the Debug Menu, PC menus, or Party screen), never assume the internal registry symbol based on the in-game display name (e.g., "Other editors..." does not mean `:other_menu`). **You must explicitly search the decompiled scripts** (using `grep -ri "MenuHandlers.add" Data/Scripts/` or similar commands) to find the correct, hardcoded system symbol (e.g., `:editors_menu`).
 - **Foundation First**: These extracted scripts are the foundation stones of the game. Whenever you are tasked with modifying core battle logic, map generation, UI elements, or item handling, you **must** prioritize referencing the native architecture found within this directory to ensure complete compatibility.
 - **Structural Integrity & RGSS Syntax**: It is your responsibility to reference these files to maintain structural integrity and adhere to the proper RGSS syntax and standard practices established in Pokémon Essentials v21.1.
 
-### 9. Animation Merging Tool
+### 10. Animation Merging Tool
 We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to automatically merge multiple community-made animation packs into the base `Data/PkmnAnimations.rxdata` file, ensuring the engine's default fallback animations are preserved.
 - **Directory Scanning:** The script uses `Dir.glob` to scan the `Plugins/` directory and all its subdirectories for any file named `PkmnAnimations.rxdata`.
 - **In-Game UI Priority Selection:** Accessible via the Debug menu > Other editors, the tool presents a UI loop to the user, allowing them to rank the priority of the found animation packs from Highest (1) to Lowest.
@@ -126,12 +133,12 @@ We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to a
 - **Conflict Resolution:** If a custom pack contains an animation with the exact same name as one in the base array, it overwrites it. If it does not, the custom animation is appended to the end of the array. Applying the highest priority pack last ensures its animations permanently overwrite any lower-priority conflicts, while leaving untouched vanilla animations perfectly intact.
 - Any engine performance plugins should live in the new hotfix plugin folder (`Plugins/Caution's 21.1 Hotfixes`), and reference the new readme.md in that directory.
 
-### 10. Global Relic System (Risk of Rain Style)
+### 11. Global Relic System (Risk of Rain Style)
 - **Concept:** Players collect passive, stackable items ("Relics") during their run. These apply global buffs/modifiers to the entire party.
 - **Data Structure:** Relics are implemented directly in `PBS/items.txt` in the standard Items pocket (`Pocket = 1`) to ensure native bag stacking. They use `SellPrice = 0` and `Flags = KeyItem` so they cannot be sold. To strictly prevent tossing (even in Debug mode), `PokemonBag_Scene#pbChooseNumber` and `pbConfirm` are aliased in `003_Relic_Spawner.rb` to actively block players from discarding these items.
 - **Battle UI HUD:** The system hooks into `Battle::Scene` (`001_Relic_HUD.rb`). It creates a top-center, invisible-background HUD overlay during battles. It automatically scans the player's Bag for defined Relics and renders the corresponding item icon (`Graphics/Items/relic_name.png`) alongside a multiplier text counter (e.g., "x3").
 
-### 11. Persistent Artifacts & Mining Spawner
+### 12. Persistent Artifacts & Mining Spawner
 - **Concept:** Players mine a custom Key Item currency ("Hollowed Soul") via the standard DPt Mining Minigame, which dynamically spawns on procedural floors. These souls are spent at a Hub Shop for "Persistent Artifacts"—stackable Key Items that provide permanent, global buffs for future runs.
 - **Mining Integration:** `:HOLLOWED_SOUL` is injected into the standard mining loot pool (`MiningGameScene::ITEMS`) with a custom 2x2 grid shape and moderate spawn probability.
 - **Dynamic Floor Spawner (`pbSpawnFloorMiningSpots`):** Scans the map during generation (or load) for passable tiles directly adjacent to impassable walls. It constructs a temporary, invisible `RPG::Event` (using the "Shiny" graphic if available) that triggers `pbMiningGame` upon interaction, then erases itself.
@@ -141,7 +148,7 @@ We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to a
   - **Wisdom Crystal:** Aliases `Battle::ItemEffects.triggerExpGainModifier` to multiply all earned EXP by `1 + (0.15 * stacks)`.
   - **Vitality Root:** Hooks into `EventHandlers.add(:on_end_battle)` to heal all conscious, non-cursed party members by `5% * stacks` of their Max HP after a successful battle.
 
-### 12. Extraction Bounties (Quest System)
+### 13. Extraction Bounties (Quest System)
 - **Plugin Integration:** The project utilizes the "Modern Quest System + UI" plugin (Resource 709).
 - **Data Configuration:** Quest data is defined natively within `Plugins/MQS/004_Quest_Data.rb` via the `QuestModule`. We use specific Stage descriptions to act as long-term goals without necessarily relying on multi-stage progression.
 - **Progression Logic:** The quests (Bounties) track their numerical goals through native `$game_variables`:

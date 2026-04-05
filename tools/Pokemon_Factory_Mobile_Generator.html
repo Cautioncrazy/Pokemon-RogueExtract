@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon Factory Generator</title>
+  <style>
+    :root {
+      --bg-color: #121212;
+      --surface-color: #1e1e1e;
+      --primary-color: #bb86fc;
+      --text-color: #e0e0e0;
+      --input-bg: #2c2c2c;
+      --border-color: #333;
+    }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-top: 0;
+      color: var(--primary-color);
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--surface-color);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Sprite Preview */
+    .preview-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 120px;
+      margin-bottom: 16px;
+      background: var(--input-bg);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .preview-container img {
+      max-height: 100%;
+      image-rendering: pixelated;
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--input-bg);
+      color: var(--text-color);
+      font-size: 1rem;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+
+    /* Checkboxes & Sliders */
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding: 8px 0;
+    }
+
+    .toggle-group label {
+      margin-bottom: 0;
+    }
+
+    input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      accent-color: var(--primary-color);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      margin-top: 8px;
+      accent-color: var(--primary-color);
+    }
+
+    /* Grid for IVs */
+    .iv-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      display: none; /* hidden by default */
+    }
+
+    /* Output */
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      height: 200px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #000;
+      color: #0f0;
+      font-family: monospace;
+      font-size: 0.9rem;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--primary-color);
+      color: #000;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+
+    button:active {
+      opacity: 0.8;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Pokémon Factory</h1>
+
+  <div class="card">
+    <div class="preview-container">
+      <img id="sprite-preview" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="Sprite Preview">
+    </div>
+
+    <div class="form-group">
+      <label for="species">Species (e.g. :EEVEE or EEVEE)</label>
+      <input type="text" id="species" value=":BULBASAUR" placeholder=":EEVEE">
+    </div>
+
+    <div class="form-group">
+      <label for="nickname">Nickname</label>
+      <input type="text" id="nickname" placeholder="Leave blank for none">
+    </div>
+
+    <div class="form-group">
+      <label for="level">Level</label>
+      <input type="number" id="level" value="5" min="1" max="100">
+    </div>
+
+    <div class="form-group">
+      <label for="item">Held Item</label>
+      <input type="text" id="item" placeholder=":LEFTOVERS">
+    </div>
+
+    <div class="form-group">
+      <label for="poke_ball">Poké Ball</label>
+      <input type="text" id="poke_ball" value=":POKEBALL">
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Appearance & Extras</h2>
+
+    <div class="toggle-group">
+      <label for="shiny">Shiny</label>
+      <input type="checkbox" id="shiny">
+    </div>
+
+    <div class="form-group">
+      <label for="hue_change">Hue Change (0-360): <span id="hue-val">0</span></label>
+      <input type="range" id="hue_change" min="0" max="360" value="0">
+    </div>
+
+    <div class="form-group">
+      <label for="sprite_override">Sprite Override (Path)</label>
+      <input type="text" id="sprite_override" placeholder="Graphics/Battlers/custom">
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Stats</h2>
+    <div class="form-group">
+      <label for="nature">Nature</label>
+      <select id="nature">
+        <option value="">(None)</option>
+        <option value=":HARDY">Hardy</option>
+        <option value=":LONELY">Lonely</option>
+        <option value=":BRAVE">Brave</option>
+        <option value=":ADAMANT">Adamant</option>
+        <option value=":NAUGHTY">Naughty</option>
+        <option value=":BOLD">Bold</option>
+        <option value=":DOCILE">Docile</option>
+        <option value=":RELAXED">Relaxed</option>
+        <option value=":IMPISH">Impish</option>
+        <option value=":LAX">Lax</option>
+        <option value=":TIMID">Timid</option>
+        <option value=":HASTY">Hasty</option>
+        <option value=":SERIOUS">Serious</option>
+        <option value=":JOLLY">Jolly</option>
+        <option value=":NAIVE">Naive</option>
+        <option value=":MODEST">Modest</option>
+        <option value=":MILD">Mild</option>
+        <option value=":QUIET">Quiet</option>
+        <option value=":BASHFUL">Bashful</option>
+        <option value=":RASH">Rash</option>
+        <option value=":CALM">Calm</option>
+        <option value=":GENTLE">Gentle</option>
+        <option value=":SASSY">Sassy</option>
+        <option value=":CAREFUL">Careful</option>
+        <option value=":QUIRKY">Quirky</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="ivs_type">IVs</label>
+      <select id="ivs_type">
+        <option value=":random">Random</option>
+        <option value=":perfect">Perfect</option>
+        <option value="custom">Custom</option>
+      </select>
+    </div>
+
+    <div class="iv-grid" id="iv-grid">
+      <div class="form-group"><label>HP</label><input type="number" id="iv_hp" min="0" max="31" value="31"></div>
+      <div class="form-group"><label>Atk</label><input type="number" id="iv_atk" min="0" max="31" value="31"></div>
+      <div class="form-group"><label>Def</label><input type="number" id="iv_def" min="0" max="31" value="31"></div>
+      <div class="form-group"><label>SpA</label><input type="number" id="iv_spa" min="0" max="31" value="31"></div>
+      <div class="form-group"><label>SpD</label><input type="number" id="iv_spd" min="0" max="31" value="31"></div>
+      <div class="form-group"><label>Spe</label><input type="number" id="iv_spe" min="0" max="31" value="31"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Moves</h2>
+    <div class="form-group"><input type="text" id="move1" placeholder=":TACKLE"></div>
+    <div class="form-group"><input type="text" id="move2" placeholder="Move 2"></div>
+    <div class="form-group"><input type="text" id="move3" placeholder="Move 3"></div>
+    <div class="form-group"><input type="text" id="move4" placeholder="Move 4"></div>
+  </div>
+
+  <div class="card">
+    <h2>Generated Ruby Hash</h2>
+    <textarea id="output" readonly></textarea>
+    <button id="copy-btn">Copy to Clipboard</button>
+  </div>
+</div>
+
+<script>
+  // Elements
+  const els = {
+    species: document.getElementById('species'),
+    nickname: document.getElementById('nickname'),
+    level: document.getElementById('level'),
+    item: document.getElementById('item'),
+    poke_ball: document.getElementById('poke_ball'),
+    shiny: document.getElementById('shiny'),
+    hue_change: document.getElementById('hue_change'),
+    hue_val: document.getElementById('hue-val'),
+    sprite_override: document.getElementById('sprite_override'),
+    nature: document.getElementById('nature'),
+    ivs_type: document.getElementById('ivs_type'),
+    iv_grid: document.getElementById('iv-grid'),
+    iv_hp: document.getElementById('iv_hp'),
+    iv_atk: document.getElementById('iv_atk'),
+    iv_def: document.getElementById('iv_def'),
+    iv_spa: document.getElementById('iv_spa'),
+    iv_spd: document.getElementById('iv_spd'),
+    iv_spe: document.getElementById('iv_spe'),
+    move1: document.getElementById('move1'),
+    move2: document.getElementById('move2'),
+    move3: document.getElementById('move3'),
+    move4: document.getElementById('move4'),
+    output: document.getElementById('output'),
+    preview: document.getElementById('sprite-preview')
+  };
+
+  // State mapping for pokeapi species names
+  const speciesMap = {
+    'mr.mime': 'mr-mime',
+    'mime jr.': 'mime-jr',
+    'mr.rime': 'mr-rime',
+    'type: null': 'type-null',
+    'tapu koko': 'tapu-koko',
+    'tapu lele': 'tapu-lele',
+    'tapu bulu': 'tapu-bulu',
+    'tapu fini': 'tapu-fini',
+    'farfetch\'d': 'farfetchd',
+    'sirfetch\'d': 'sirfetchd',
+    'flabébé': 'flabebe',
+    'nidoranf': 'nidoran-f',
+    'nidoranm': 'nidoran-m',
+    'nidoranma': 'nidoran-m',
+    'nidoranfe': 'nidoran-f'
+  };
+
+  // Listeners
+  const allInputs = document.querySelectorAll('input, select');
+  allInputs.forEach(input => input.addEventListener('input', updateAll));
+
+  els.ivs_type.addEventListener('change', () => {
+    els.iv_grid.style.display = els.ivs_type.value === 'custom' ? 'grid' : 'none';
+  });
+
+  document.getElementById('copy-btn').addEventListener('click', () => {
+    els.output.select();
+    document.execCommand('copy');
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = "Copied!";
+    setTimeout(() => btn.textContent = "Copy to Clipboard", 2000);
+  });
+
+  let spriteTimeout;
+
+  function formatSymbol(str) {
+    if (!str) return '';
+    str = str.trim();
+    if (str.length === 0) return '';
+    if (!str.startsWith(':') && !str.includes('"') && !str.includes("'")) {
+       return ':' + str.toUpperCase();
+    }
+    return str;
+  }
+
+  function updateSprite() {
+    let rawSpecies = els.species.value.trim().toLowerCase().replace(/^:/, '');
+    if (!rawSpecies) return;
+
+    if (speciesMap[rawSpecies]) {
+      rawSpecies = speciesMap[rawSpecies];
+    }
+
+    // For nidorans, cleanup for showdown
+    if(rawSpecies.includes('nidoran') && rawSpecies.length > 8) {
+        if(rawSpecies.includes('m')) rawSpecies = 'nidoranm';
+        if(rawSpecies.includes('f')) rawSpecies = 'nidoranf';
+    }
+
+    const isShiny = els.shiny.checked;
+    const path = isShiny ? 'gen5-shiny' : 'gen5';
+
+    // Showdown allows direct naming which is much easier
+    els.preview.src = `https://play.pokemonshowdown.com/sprites/${path}/${rawSpecies}.png`;
+
+    // Fallback error handler
+    els.preview.onerror = function() {
+      this.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png";
+    };
+  }
+
+  function updateAll() {
+    // Update Hue display and apply filter
+    els.hue_val.textContent = els.hue_change.value;
+    els.preview.style.filter = `hue-rotate(${els.hue_change.value}deg)`;
+
+    // Debounce sprite update to not spam network
+    clearTimeout(spriteTimeout);
+    spriteTimeout = setTimeout(updateSprite, 300);
+
+    // Build Hash
+    let lines = [];
+    lines.push(`pkmn_data = {`);
+
+    const species = formatSymbol(els.species.value);
+    if(species) lines.push(`  species: ${species},`);
+
+    if(els.level.value) lines.push(`  level: ${els.level.value},`);
+
+    if(els.nickname.value.trim()) lines.push(`  nickname: "${els.nickname.value.trim()}",`);
+
+    const item = formatSymbol(els.item.value);
+    if(item) lines.push(`  item: ${item},`);
+
+    const pokeball = formatSymbol(els.poke_ball.value);
+    if(pokeball) lines.push(`  poke_ball: ${pokeball},`);
+
+    if(els.shiny.checked) lines.push(`  shiny: true,`);
+
+    if(els.hue_change.value != "0") lines.push(`  hue_change: ${els.hue_change.value},`);
+
+    if(els.sprite_override.value.trim()) lines.push(`  sprite_override: "${els.sprite_override.value.trim()}",`);
+
+    if(els.nature.value) lines.push(`  nature: ${els.nature.value},`);
+
+    if(els.ivs_type.value === 'custom') {
+      lines.push(`  ivs: { hp: ${els.iv_hp.value}, attack: ${els.iv_atk.value}, def: ${els.iv_def.value}, spa: ${els.iv_spa.value}, spd: ${els.iv_spd.value}, spe: ${els.iv_spe.value} },`);
+    } else if (els.ivs_type.value) {
+      lines.push(`  ivs: ${els.ivs_type.value},`);
+    }
+
+    let moves = [els.move1.value, els.move2.value, els.move3.value, els.move4.value]
+      .map(formatSymbol)
+      .filter(m => m !== '');
+
+    if(moves.length > 0) {
+      lines.push(`  moves: [${moves.join(', ')}],`);
+    }
+
+    // remove trailing comma from last element
+    if(lines.length > 1) {
+      lines[lines.length - 1] = lines[lines.length - 1].replace(/,$/, '');
+    }
+
+    lines.push(`}`);
+    lines.push(`pkmn = PokemonFactory.create(pkmn_data)`);
+    lines.push(`pbAddPokemonWithNickname(pkmn)`);
+
+    els.output.value = lines.join('\n');
+  }
+
+  // Init
+  updateAll();
+  updateSprite();
+</script>
+</body>
+</html>
