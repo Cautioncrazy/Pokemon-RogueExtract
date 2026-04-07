@@ -47,7 +47,7 @@
       position: sticky;
       top: 16px;
       z-index: 100;
-      padding-bottom: 50px;
+      padding-bottom: 50px; 
     }
 
     .header-buttons {
@@ -213,7 +213,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      display: none;
+      display: none; 
     }
 
     /* Output */
@@ -231,8 +231,14 @@
       resize: vertical;
     }
 
+    .split-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
     button.primary-btn {
-      width: 100%;
+      flex: 1;
       padding: 16px;
       border: none;
       border-radius: 8px;
@@ -241,11 +247,15 @@
       font-size: 1.1rem;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 16px;
     }
 
     button.primary-btn:active {
       opacity: 0.8;
+    }
+
+    #push-btn {
+      background-color: #cf6679;
+      color: #fff;
     }
   </style>
 </head>
@@ -263,7 +273,20 @@
       <img id="sprite-preview" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="Sprite Preview">
     </div>
 
+    <div class="form-group" style="margin-bottom: 16px;">
+      <label for="export_mode">Export Format</label>
+      <select id="export_mode">
+        <option value="gacha">Gacha / Boss Database (Push to Ruby)</option>
+        <option value="event">RPG Maker Event (Copy to Clipboard)</option>
+      </select>
+    </div>
+
     <div class="form-group" style="margin-bottom: 0;">
+      <label for="factory_id" id="factory_id_label">Factory ID</label>
+      <input type="text" id="factory_id" value="bulbasaur_data" placeholder="e.g. eevee_data">
+    </div>
+
+    <div class="form-group" style="margin-top: 16px; margin-bottom: 0;">
       <label for="species">Species</label>
       <div class="autocomplete-wrapper">
         <input type="text" id="species" value="Bulbasaur" placeholder="e.g. Eevee or Bulbasaur">
@@ -295,7 +318,7 @@
         </div>
       </div>
     </div>
-
+    
     <button id="collapse-btn" title="Collapse/Expand">▲</button>
   </div>
 
@@ -397,30 +420,43 @@
   <div class="card">
     <h2>Generated Ruby Hash</h2>
     <textarea id="output" readonly></textarea>
-    <button class="primary-btn" id="copy-btn">Copy to Clipboard</button>
+    
+    <div class="split-buttons">
+      <button class="primary-btn" id="copy-btn">Copy to Clipboard</button>
+      <button class="primary-btn" id="push-btn">Push to Ruby</button>
+    </div>
+    <p id="file-status" style="text-align: center; font-size: 0.85rem; color: #aaa; margin-top: 8px;">Target: None Selected</p>
   </div>
 
   <!-- Data Management Section -->
   <div class="card">
     <h2>Data Management</h2>
-    <p style="font-size: 0.85rem; color: #aaa; text-align: center; margin-top:0;">Upload .txt or .md files to expand autocomplete pools.</p>
+    <p style="font-size: 0.85rem; color: #aaa; text-align: center; margin-top:0; margin-bottom: 12px;">Upload PBS files/folders to expand autocomplete pools.</p>
+    
+    <div class="form-group">
+      <label>Select PBS File(s)</label>
+      <input type="file" id="file_upload" accept=".txt,.md,.csv,.pbs" multiple>
+    </div>
 
     <div class="form-group">
-      <label for="import_target">Data Type to Update</label>
+      <label>Or Select PBS Folder (Desktop)</label>
+      <input type="file" id="folder_upload" webkitdirectory directory multiple>
+    </div>
+
+    <div class="form-group">
+      <label for="import_target">Data Target</label>
       <select id="import_target">
-        <option value="species">Species Pool</option>
-        <option value="moves">Moves Pool</option>
-        <option value="items">Items Pool</option>
-        <option value="types">Types Pool</option>
-        <option value="nicknames">Nicknames Pool</option>
+        <option value="auto">Auto-Detect by Filename</option>
+        <option value="species">Force: Species Pool</option>
+        <option value="moves">Force: Moves Pool</option>
+        <option value="items">Force: Items Pool</option>
+        <option value="types">Force: Types Pool</option>
+        <option value="nicknames">Force: Nicknames Pool</option>
       </select>
     </div>
 
-    <div class="form-group">
-      <input type="file" id="file_upload" accept=".txt,.md,.csv,.pbs">
-    </div>
-    <button class="btn-action" id="import-btn" style="width: 100%;">Import File Data</button>
-    <p id="import-status" style="color: var(--secondary-color); text-align: center; font-size: 0.9rem;"></p>
+    <button class="btn-action" id="import-btn" style="width: 100%;">Process & Import Data</button>
+    <p id="import-status" style="color: var(--secondary-color); text-align: center; font-size: 0.9rem; line-height: 1.4;"></p>
   </div>
 </div>
 
@@ -430,7 +466,7 @@
   let itemsData = ["Leftovers", "Life Orb", "Choice Band", "Choice Specs", "Choice Scarf", "Focus Sash", "Black Sludge", "Assault Vest", "Heavy-Duty Boots", "Rocky Helmet", "Eviolite", "Sitrus Berry", "Lum Berry", "Master Ball", "Ultra Ball", "Great Ball", "Poke Ball", "Premier Ball", "Quick Ball", "Dusk Ball"];
   let movesData = ["Tackle", "Thunderbolt", "Ice Beam", "Flamethrower", "Earthquake", "Protect", "Substitute", "Swords Dance", "Dragon Dance", "Calm Mind", "Toxic", "Sludge Bomb", "Shadow Ball", "Dark Pulse", "Flash Cannon", "Aura Sphere", "Close Combat", "Brave Bird", "Roost", "Recover", "Volt Switch", "U-turn", "Scald", "Hydro Pump", "Surf", "Giga Drain", "Leaf Storm", "Moonblast", "Play Rough", "Stone Edge", "Rock Slide", "Stealth Rock", "Spikes", "Defog", "Rapid Spin", "Sucker Punch", "Vital Throw", "Bulk Up", "Detect"];
   let speciesData = ["Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle", "Wartortle", "Blastoise", "Caterpie", "Metapod", "Butterfree", "Weedle", "Kakuna", "Beedrill", "Pidgey", "Pidgeotto", "Pidgeot", "Rattata", "Raticate", "Spearow", "Fearow", "Ekans", "Arbok", "Pikachu", "Raichu", "Sandshrew", "Sandslash", "NidoranF", "Nidorina", "Nidoqueen", "NidoranM", "Nidorino", "Nidoking", "Clefairy", "Clefable", "Vulpix", "Ninetales", "Jigglypuff", "Wigglytuff", "Zubat", "Golbat", "Oddish", "Gloom", "Vileplume", "Paras", "Parasect", "Venonat", "Venomoth", "Diglett", "Dugtrio", "Meowth", "Persian", "Psyduck", "Golduck", "Mankey", "Primeape", "Growlithe", "Arcanine", "Poliwag", "Poliwhirl", "Poliwrath", "Abra", "Kadabra", "Alakazam", "Machop", "Machoke", "Machamp", "Bellsprout", "Weepinbell", "Victreebel", "Tentacool", "Tentacruel", "Geodude", "Graveler", "Golem", "Ponyta", "Rapidash", "Slowpoke", "Slowbro", "Magnemite", "Magneton", "Farfetch'd", "Doduo", "Dodrio", "Seel", "Dewgong", "Grimer", "Muk", "Shellder", "Cloyster", "Gastly", "Haunter", "Gengar", "Onix", "Drowzee", "Hypno", "Krabby", "Kingler", "Voltorb", "Electrode", "Exeggcute", "Exeggutor", "Cubone", "Marowak", "Hitmonlee", "Hitmonchan", "Lickitung", "Koffing", "Weezing", "Rhyhorn", "Rhydon", "Chansey", "Tangela", "Kangaskhan", "Horsea", "Seadra", "Goldeen", "Seaking", "Staryu", "Starmie", "Mr. Mime", "Scyther", "Jynx", "Electabuzz", "Magmar", "Pinsir", "Tauros", "Magikarp", "Gyarados", "Lapras", "Ditto", "Eevee", "Vaporeon", "Jolteon", "Flareon", "Porygon", "Omanyte", "Omastar", "Kabuto", "Kabutops", "Aerodactyl", "Snorlax", "Articuno", "Zapdos", "Moltres", "Dratini", "Dragonair", "Dragonite", "Mewtwo", "Mew"];
-
+  
   // Nicknames Array (Structured)
   let nicknamesData = [
     { name: "Spike", gender: "male", theme: "edgy", types: ["Dark", "Poison", "Steel", "Rock"] },
@@ -465,8 +501,8 @@
     inp.addEventListener("input", function(e) {
       let a, b, i, val = this.value;
       closeAllLists();
-
-      let searchVal = val.replace(/^:/, '');
+      
+      let searchVal = val.replace(/^:/, ''); 
       if (isCommaSeparated) {
         let parts = searchVal.split(',');
         searchVal = parts[parts.length - 1].trim();
@@ -487,10 +523,10 @@
           b.innerHTML = "<strong>" + arr[i].substr(0, searchVal.length) + "</strong>";
           b.innerHTML += arr[i].substr(searchVal.length);
           b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-
+          
           b.addEventListener("click", function(e) {
             let selectedVal = this.getElementsByTagName("input")[0].value;
-
+            
             if (isCommaSeparated) {
               let parts = inp.value.split(',');
               parts.pop();
@@ -499,13 +535,13 @@
             } else {
               inp.value = selectedVal;
             }
-
+            
             closeAllLists();
             updateAll();
           });
           a.appendChild(b);
           count++;
-          if (count >= 15) break;
+          if (count >= 15) break; 
         }
       }
     });
@@ -513,18 +549,18 @@
     inp.addEventListener("keydown", function(e) {
       let x = document.getElementById(this.id + "autocomplete-list");
       if (x) x = x.getElementsByTagName("div");
-      if (e.keyCode == 40) {
+      if (e.keyCode == 40) { 
         currentFocus++;
         addActive(x);
-      } else if (e.keyCode == 38) {
+      } else if (e.keyCode == 38) { 
         currentFocus--;
         addActive(x);
-      } else if (e.keyCode == 13) {
+      } else if (e.keyCode == 13) { 
         e.preventDefault();
         if (currentFocus > -1) {
           if (x) x[currentFocus].click();
         } else if (x && x.length === 1) {
-          x[0].click();
+          x[0].click(); 
         }
       }
     });
@@ -549,13 +585,16 @@
       }
     }
     document.addEventListener("click", function (e) { closeAllLists(e.target); });
-
+    
     // Add main event listener back for live updates
     inp.addEventListener('input', updateAll);
   }
 
   // --- ELEMENTS & SETUP ---
   const els = {
+    export_mode: document.getElementById('export_mode'),
+    factory_id: document.getElementById('factory_id'),
+    factory_id_label: document.getElementById('factory_id_label'),
     species: document.getElementById('species'),
     nickname: document.getElementById('nickname'),
     level: document.getElementById('level'),
@@ -614,6 +653,14 @@
   const allInputs = document.querySelectorAll('input:not([type="file"]), select');
   allInputs.forEach(input => input.addEventListener('input', updateAll));
 
+  els.export_mode.addEventListener('change', () => {
+    if (els.export_mode.value === 'gacha') {
+      els.factory_id_label.textContent = "Factory ID (e.g. :pignite_data)";
+    } else {
+      els.factory_id_label.textContent = "Variable Name (e.g. pignite_data)";
+    }
+  });
+
   els.ivs_type.addEventListener('change', () => {
     els.iv_grid.style.display = els.ivs_type.value === 'custom' ? 'grid' : 'none';
   });
@@ -626,6 +673,102 @@
     setTimeout(() => btn.textContent = "Copy to Clipboard", 2000);
   });
 
+  // --- PUSH TO RUBY FILE LOGIC ---
+  let rubyFileHandle = null;
+
+  document.getElementById('push-btn').addEventListener('click', async () => {
+    const statusText = document.getElementById('file-status');
+    const newHash = document.getElementById('output').value;
+    
+    // Automatically indent the hash so it matches the module scope
+    const indentedHash = newHash.split('\n').map(line => '  ' + line).join('\n');
+
+    try {
+      // Feature detection for File System Access API
+      if (!window.showOpenFilePicker) {
+         alert("Your browser does not support silent file overwriting. Falling back to standard download.");
+         const moduleWrapped = `module ZBox\n${indentedHash}\nend\n`;
+         const blob = new Blob([moduleWrapped], { type: "text/plain" });
+         const url = URL.createObjectURL(blob);
+         const a = document.createElement("a");
+         a.href = url;
+         a.download = "PokemonFactory_Appended.rb";
+         a.click();
+         URL.revokeObjectURL(url);
+         return;
+      }
+
+      // 1. Request file handle if we don't have one
+      if (!rubyFileHandle) {
+        const [handle] = await window.showOpenFilePicker({
+          types: [{ description: 'Ruby File', accept: {'text/plain': ['.rb', '.txt']} }],
+          multiple: false
+        });
+        rubyFileHandle = handle;
+      }
+
+      // 2. Request read/write permissions
+      if ((await rubyFileHandle.queryPermission({ mode: 'readwrite' })) !== 'granted') {
+        if ((await rubyFileHandle.requestPermission({ mode: 'readwrite' })) !== 'granted') {
+          throw new Error("Permission to write file was denied.");
+        }
+      }
+
+      // 3. Read existing file content
+      const file = await rubyFileHandle.getFile();
+      let content = await file.text();
+      content = content.trim();
+
+      // 4. Inject inside module ZBox
+      if (!content.includes('module ZBox')) {
+          // If the module doesn't exist, create it and wrap the hash
+          if (content.length === 0) {
+              content = `module ZBox\n${indentedHash}\nend\n`;
+          } else {
+              content = `${content}\n\nmodule ZBox\n${indentedHash}\nend\n`;
+          }
+      } else {
+          // If the module exists, find the last 'end' keyword in the file and insert before it
+          const lastEndMatch = content.match(/\bend\s*$/);
+          
+          if (lastEndMatch) {
+              const beforeEnd = content.substring(0, lastEndMatch.index).trimRight();
+              content = `${beforeEnd}\n\n${indentedHash}\n\nend\n`;
+          } else {
+              // Fallback just in case regex doesn't catch it at the very EOF
+              const lastEndIndex = content.lastIndexOf('end');
+              if (lastEndIndex !== -1) {
+                  const beforeEnd = content.substring(0, lastEndIndex).trimRight();
+                  const afterEnd = content.substring(lastEndIndex);
+                  content = `${beforeEnd}\n\n${indentedHash}\n\n${afterEnd}\n`;
+              } else {
+                  content += `\n\nmodule ZBox\n${indentedHash}\nend\n`;
+              }
+          }
+      }
+
+      // 5. Write back to the exact same file (Silent Overwrite)
+      const writable = await rubyFileHandle.createWritable();
+      await writable.write(content);
+      await writable.close();
+
+      // Update UI Status
+      statusText.textContent = `Target: ${file.name} (Appended & Saved!)`;
+      statusText.style.color = "var(--secondary-color)";
+      setTimeout(() => {
+          statusText.textContent = `Target: ${file.name}`;
+          statusText.style.color = "#aaa";
+      }, 3000);
+
+    } catch (err) {
+      console.error(err);
+      if (err.name !== 'AbortError') {
+        statusText.textContent = `Error: ${err.message}`;
+        statusText.style.color = "red";
+      }
+    }
+  });
+
   // --- RANDOMIZER LOGIC ---
   function getRandomItem(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
@@ -633,9 +776,14 @@
 
   document.getElementById('randomize-btn').addEventListener('click', () => {
     // Basic fields
-    document.getElementById('species').value = getRandomItem(speciesData);
+    let randSpecies = getRandomItem(speciesData);
+    document.getElementById('species').value = randSpecies;
+    
+    // Automatically generate a variable name based on the species
+    els.factory_id.value = `${randSpecies.toLowerCase().replace(/[^a-z0-9_]/g, '')}_data`;
+    
     els.level.value = Math.floor(Math.random() * 95) + 5; // Level 5-100
-
+    
     // Appearance & Types
     els.shiny.checked = Math.random() > 0.9; // 10% chance shiny
     els.hue_change.value = Math.random() > 0.5 ? Math.floor(Math.random() * 360) : 0;
@@ -668,7 +816,7 @@
     // BUG FIX: Must use getElementById because autocomplete replaces the node
     // Increased to 60% chance for an item
     document.getElementById('item').value = Math.random() > 0.4 ? getRandomItem(itemsData) : "";
-
+    
     // Poke Ball
     const commonBalls = ["Poke Ball", "Great Ball", "Ultra Ball", "Premier Ball", "Dusk Ball"];
     document.getElementById('poke_ball').value = getRandomItem(commonBalls);
@@ -692,90 +840,129 @@
     updateAll();
   });
 
-  // --- FILE UPLOAD LOGIC ---
-  document.getElementById('import-btn').addEventListener('click', () => {
+  // --- FILE UPLOAD LOGIC (BATCH PROCESSING) ---
+  document.getElementById('import-btn').addEventListener('click', async () => {
     const fileInput = document.getElementById('file_upload');
-    const target = document.getElementById('import_target').value;
+    const folderInput = document.getElementById('folder_upload');
+    const manualTarget = document.getElementById('import_target').value;
     const statusText = document.getElementById('import-status');
+    
+    // Combine files from both inputs
+    let files = [...fileInput.files, ...folderInput.files];
 
-    if (!fileInput.files.length) {
-      statusText.textContent = "Please select a file first.";
+    if (files.length === 0) {
+      statusText.textContent = "Please select files or a folder first.";
       statusText.style.color = "red";
       return;
     }
 
-    const file = fileInput.files[0];
-    const reader = new FileReader();
+    statusText.textContent = "Processing files...";
+    statusText.style.color = "var(--text-color)";
 
-    reader.onload = function(e) {
-      const text = e.target.result;
-      let parsedItems = [];
+    let totalAdded = { species: 0, moves: 0, items: 0, types: 0, nicknames: 0 };
 
-      // Check if this looks like an Essentials v21 PBS file (INI format)
-      const isPBS = text.includes("Name =") || text.includes("Name=");
+    for (let file of files) {
+      let target = manualTarget;
+      let fname = file.name.toLowerCase();
 
-      if (isPBS && target !== 'nicknames') {
-        // Smart PBS Parser
-        const lines = text.split(/\r?\n/);
-        for (let line of lines) {
-          let trimmed = line.trim();
-          // Look strictly for the 'Name' key to avoid grabbing 'NamePlural' or 'Pokedex'
-          if (trimmed.startsWith("Name")) {
-            let parts = trimmed.split("=");
-            if (parts.length >= 2 && parts[0].trim() === "Name") {
-              let nameVal = parts.slice(1).join("=").trim();
-              if (nameVal) parsedItems.push(nameVal);
+      // Auto-Detect Logic based on standard PBS filenames
+      if (manualTarget === 'auto') {
+        if (fname === 'pokemon.txt' || fname === 'pokemon_forms.txt') target = 'species';
+        else if (fname === 'moves.txt') target = 'moves';
+        else if (fname === 'items.txt') target = 'items';
+        else if (fname === 'types.txt') target = 'types';
+        else if (fname.includes('nickname')) target = 'nicknames';
+        else continue; // Skip irrelevant files in the folder silently
+      }
+
+      if (target === 'auto') continue; // Failsafe
+
+      try {
+        const text = await file.text();
+        let parsedItems = [];
+        
+        // Strict PBS Parser: Check extension to enforce Key=Value parsing
+        const isPBSFormat = file.name.endsWith('.txt') || file.name.endsWith('.pbs');
+
+        if (isPBSFormat && target !== 'nicknames') {
+          const lines = text.split(/\r?\n/);
+          for (let line of lines) {
+            let trimmed = line.trim();
+            // Strict match for standard PBS Names or Form Names to avoid picking up stats
+            if ((trimmed.startsWith("Name") && !trimmed.startsWith("NamePlural")) || trimmed.startsWith("FormName")) {
+              let parts = trimmed.split("=");
+              if (parts.length >= 2) {
+                let key = parts[0].trim();
+                // Double verify it is exactly the key we want
+                if (key === "Name" || key === "FormName") {
+                  let nameVal = parts.slice(1).join("=").trim();
+                  if (nameVal) parsedItems.push(nameVal);
+                }
+              }
             }
           }
+        } else {
+          // Fallback parsing strictly for CSVs, MDs, or Nickname pools
+          parsedItems = text.split(/[\n,]+/).map(i => i.replace(/['"\r]/g, '').trim()).filter(i => i !== "");
         }
-      } else {
-        // Fallback for simple comma or newline separated lists (like nicknames.md)
-        parsedItems = text.split(/[\n,]+/).map(i => i.replace(/['"\r]/g, '').trim()).filter(i => i !== "");
+
+        // Apply to the specific arrays and track UNIQUE additions
+        if (target === 'species') {
+          let initLen = speciesData.length;
+          speciesData = [...new Set([...speciesData, ...parsedItems])];
+          totalAdded.species += (speciesData.length - initLen);
+        } else if (target === 'moves') {
+          let initLen = movesData.length;
+          movesData = [...new Set([...movesData, ...parsedItems])];
+          totalAdded.moves += (movesData.length - initLen);
+        } else if (target === 'items') {
+          let initLen = itemsData.length;
+          itemsData = [...new Set([...itemsData, ...parsedItems])];
+          totalAdded.items += (itemsData.length - initLen);
+        } else if (target === 'types') {
+          let initLen = typesData.length;
+          typesData = [...new Set([...typesData, ...parsedItems])];
+          totalAdded.types += (typesData.length - initLen);
+        } else if (target === 'nicknames') {
+          let lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
+          let newNicks = lines.map(line => {
+            let parts = line.split(',').map(p => p.replace(/['"\r]/g, '').trim()).filter(p => p !== "");
+            if (parts.length === 1) {
+              return { name: parts[0], gender: "unisex", theme: "custom", types: [] };
+            } else {
+              return { name: parts[0], gender: "unisex", theme: "custom", types: parts.slice(1) };
+            }
+          });
+          nicknamesData = [...nicknamesData, ...newNicks];
+          totalAdded.nicknames += newNicks.length;
+        }
+      } catch (err) {
+        console.error(`Error processing file ${file.name}:`, err);
       }
+    }
 
-      if(parsedItems.length === 0) {
-        statusText.textContent = "No readable data found in file.";
-        statusText.style.color = "red";
-        return;
-      }
+    // Refresh the autocomplete inputs after all data is injected
+    initAutocompletes();
+    
+    // Construct dynamic success message explicitly calling out UNIQUE items added
+    let addedMsgs = [];
+    if (totalAdded.species > 0) addedMsgs.push(`${totalAdded.species} Species`);
+    if (totalAdded.moves > 0) addedMsgs.push(`${totalAdded.moves} Moves`);
+    if (totalAdded.items > 0) addedMsgs.push(`${totalAdded.items} Items`);
+    if (totalAdded.types > 0) addedMsgs.push(`${totalAdded.types} Types`);
+    if (totalAdded.nicknames > 0) addedMsgs.push(`${totalAdded.nicknames} Nicknames`);
 
-      if (target === 'species') {
-        speciesData = [...new Set([...speciesData, ...parsedItems])];
-      } else if (target === 'moves') {
-        movesData = [...new Set([...movesData, ...parsedItems])];
-      } else if (target === 'items') {
-        itemsData = [...new Set([...itemsData, ...parsedItems])];
-      } else if (target === 'types') {
-        typesData = [...new Set([...typesData, ...parsedItems])];
-      } else if (target === 'nicknames') {
-        // Map raw strings to the structured object for nicknames
-        // Allow optional type filtering by uploading CSV format: "Name, Type1, Type2"
-        let lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
-        let newNicks = lines.map(line => {
-          let parts = line.split(',').map(p => p.replace(/['"\r]/g, '').trim()).filter(p => p !== "");
-          if (parts.length === 1) {
-            return { name: parts[0], gender: "unisex", theme: "custom", types: [] };
-          } else {
-            return { name: parts[0], gender: "unisex", theme: "custom", types: parts.slice(1) };
-          }
-        });
-        nicknamesData = [...nicknamesData, ...newNicks];
-      }
-
-      // Reinitialize autocompletes with new data
-      initAutocompletes();
-
-      statusText.textContent = `Successfully imported ${parsedItems.length} items into ${target} pool!`;
+    if (addedMsgs.length > 0) {
+      statusText.innerHTML = `Import Complete! Unique new additions:<br><span style="color: #fff; font-weight: bold;">${addedMsgs.join(', ')}</span><br><span style="font-size: 0.8em; color: #888;">(Pre-existing duplicates were ignored)</span>`;
       statusText.style.color = "var(--secondary-color)";
-      fileInput.value = ""; // clear input
-    };
-
-    reader.onerror = function() {
-      statusText.textContent = "Error reading file.";
+    } else {
+      statusText.textContent = "No valid new data found. (Files skipped or all items were duplicates)";
       statusText.style.color = "red";
-    };
+    }
 
-    reader.readAsText(file);
+    // Clear inputs
+    fileInput.value = "";
+    folderInput.value = "";
   });
 
   // --- HASH GENERATION & PREVIEW LOGIC ---
@@ -795,7 +982,7 @@
   function updateSprite() {
     let speciesInput = document.getElementById('species');
     if(!speciesInput) return;
-
+    
     let rawSpecies = speciesInput.value.trim().toLowerCase().replace(/^:/, '');
     if (!rawSpecies) return;
 
@@ -825,8 +1012,19 @@
     clearTimeout(spriteTimeout);
     spriteTimeout = setTimeout(updateSprite, 300);
 
+    let mode = els.export_mode.value;
     let lines = [];
-    lines.push(`pkmn_data = {`);
+    
+    let varName = document.getElementById('factory_id').value.trim().replace(/^:/, '');
+    // Clean spaces and invalid chars just to be safe
+    varName = varName.replace(/[^a-zA-Z0-9_]/g, '');
+    if (!varName) varName = "pkmn_data";
+    
+    if (mode === 'gacha') {
+        lines.push(`PokemonFactory.register(:${varName}, {`);
+    } else {
+        lines.push(`${varName} = {`);
+    }
 
     const species = formatSymbol(document.getElementById('species').value);
     if(species) lines.push(`  species: ${species},`);
@@ -842,8 +1040,8 @@
     if(pokeball) lines.push(`  poke_ball: ${pokeball},`);
 
     if(els.shiny.checked) lines.push(`  shiny: true,`);
-
-    // BUG FIX: Fetch types using getElementById to avoid detached DOM node reference
+    
+    // Fetch types using getElementById to avoid detached DOM node reference
     let typesInput = document.getElementById('types').value;
     if(typesInput.trim()) {
       let typeArray = typesInput.split(',')
@@ -867,23 +1065,28 @@
     }
 
     let moves = [
-      document.getElementById('move1').value,
-      document.getElementById('move2').value,
-      document.getElementById('move3').value,
+      document.getElementById('move1').value, 
+      document.getElementById('move2').value, 
+      document.getElementById('move3').value, 
       document.getElementById('move4').value
     ].map(formatSymbol).filter(m => m !== '');
 
     if(moves.length > 0) {
-      lines.push(`  moves: [${moves.join(', ')}],`);
+      lines.push(`  moves: [${moves.join(', ')}]`);
     }
 
-    if(lines.length > 1) {
-      lines[lines.length - 1] = lines[lines.length - 1].replace(/,$/, '');
+    // Remove trailing comma from the last line (before the bracket) if it exists
+    if(lines.length > 1 && lines[lines.length - 1].endsWith(',')) {
+      lines[lines.length - 1] = lines[lines.length - 1].slice(0, -1);
     }
 
-    lines.push(`}`);
-    lines.push(`pkmn = PokemonFactory.create(pkmn_data)`);
-    lines.push(`pbAddPokemonWithNickname(pkmn)`);
+    if (mode === 'gacha') {
+        lines.push(`})`);
+    } else {
+        lines.push(`}`);
+        lines.push(`pkmn = PokemonFactory.create(${varName})`);
+        lines.push(`pbAddPokemonWithNickname(pkmn)`);
+    }
 
     els.output.value = lines.join('\n');
   }

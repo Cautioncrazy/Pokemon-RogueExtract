@@ -39,4 +39,44 @@ module ZBox
     :evs        => :TANK_SPECIAL,
     :nickname   => "Verdant Core"
   })
+
+
+PokemonFactory.register(:wartortle_gacha, {
+  :species      => :WARTORTLE,
+  :level        => 60,
+  :nickname     => "Sparky",
+  :item         => :ULTRABALL,
+  :poke_ball    => :PREMIERBALL,
+  :types        => [:ELECTRIC, :BUG],
+  :hue_change   => 182,
+  :nature       => :TIMID,
+  :ivs          => :PERFECT,
+  :first_moves  => [:SUBSTITUTE, :ICEBEAM, :AURASPHERE, :HYDROPUMP]
+})
+
+  pignite_data = {
+    species: :PIGNITE,
+    level: 19,
+    nickname: "Pebbles",
+    item: :TM39,
+    poke_ball: :GREATBALL,
+    types: [:WATER, :FIGHTING],
+    hue_change: 189,
+    nature: :LAX,
+    ivs: :perfect,
+    moves: [:WATERSHURIKEN, :DIZZYPUNCH]
+  }
+
+  PokemonFactory.register(:psyduck_data, {
+    species: :PSYDUCK,
+    level: 74,
+    nickname: "Sparky",
+    poke_ball: :GREATBALL,
+    types: [:ICE],
+    hue_change: 116,
+    nature: :DOCILE,
+    ivs: :random,
+    moves: [:ICEBEAM, :MIST]
+  })
+
 end

@@ -1,0 +1,23 @@
+PokemonFactory.register(:pikachu_gacha, {
+  :species      => :PIKACHU,
+  :level        => 86,
+  :nickname     => "Smaug",
+  :poke_ball    => :DUSKBALL,
+  :types        => [:POISON],
+  :hue_change   => 214,
+  :nature       => :NAUGHTY,
+  :ivs          => :PERFECT,
+  :first_moves  => [:TAILGLOW, :POISONTAIL]
+})
+
+PokemonFactory.register(:machamp_gacha, {
+  :species      => :MACHAMP,
+  :level        => 78,
+  :nickname     => "Shadow",
+  :item         => :GREATBALL,
+  :poke_ball    => :POKEBALL,
+  :hue_change   => 55,
+  :nature       => :BOLD,
+  :ivs          => :RANDOM,
+  :first_moves  => [:SUCKERPUNCH, :SURF, :SWORDSDANCE]
+})
