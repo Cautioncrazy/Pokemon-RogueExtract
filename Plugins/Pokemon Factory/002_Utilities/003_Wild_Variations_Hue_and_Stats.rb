@@ -11,7 +11,7 @@ EventHandlers.add(:on_wild_pokemon_created, :zbox_wild_pokemon_mods,
       if !pkmn.super_shiny? && (!pkmn.respond_to?(:zbox_hue_value) || !pkmn.zbox_hue_value)
         range = (Settings::VARIATION_COLOR * 2) + 1
         random_hue = rand(range) - Settings::VARIATION_COLOR
-    
+
         # Se asigna el valor al Pokémon.
         # The value is assigned to the Pokémon.
         pkmn.zbox_hue_value = random_hue
@@ -30,12 +30,12 @@ EventHandlers.add(:on_wild_pokemon_created, :zbox_wild_pokemon_mods,
       # Iterates over each battle statistic.
       GameData::Stat.each_main do |s|
         random_mod = rand(range) - Settings::VARIATION_STATS
-        
+
         # Se añade la modificación al hash.
         # The modification is added to the hash.
         stat_additions[s.id] = random_mod
       end
-      
+
       # Se asigna el hash completo al Pokémon.
       # The complete hash is assigned to the Pokémon.
       pkmn.zbox_stat_additions = stat_additions

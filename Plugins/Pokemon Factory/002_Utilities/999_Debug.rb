@@ -2,32 +2,32 @@ if $DEBUG
   #==============================================================================
   # Muestra en la consola las modificaciones de HUE y Stats de los Pokémon
   # salvajes al inicio de la batalla.
-  # Displays on the console the HUE and Stats modifications of wild Pokémon 
+  # Displays on the console the HUE and Stats modifications of wild Pokémon
   # at the start of the battle.
   #==============================================================================
   class Battle
-    alias_method :zbox_debug_on_battlers_entering, :pbOnAllBattlersEnteringBattle  
+    alias_method :zbox_debug_on_battlers_entering, :pbOnAllBattlersEnteringBattle
     def pbOnAllBattlersEnteringBattle
       zbox_debug_on_battlers_entering
-    
+
       @battlers.each do |b|
         next if !b || !b.wild?
-        
+
         pkmn = b.pokemon
-        
+
         debug_message = "--- Wild Pokémon Mods for #{pkmn.name} (Index: #{b.index}) ---"
-        
+
         if pkmn.respond_to?(:zbox_hue_value) && pkmn.zbox_hue_value
           debug_message += "\nHue Change: #{pkmn.zbox_hue_value}"
         end
-      
+
         if pkmn.respond_to?(:zbox_stat_additions) && pkmn.zbox_stat_additions
           stats_str = pkmn.zbox_stat_additions.map { |stat, val|
             formatted_val = val >= 0 ? "+#{val}" : val
             "#{stat}: #{formatted_val}"
           }.join(", ")
           debug_message += "\nStat Additions: { #{stats_str} }"
-        end 
+        end
         puts debug_message
         puts "----------------------------------------------------"
       end
@@ -195,9 +195,9 @@ if $DEBUG
         pbMessage(_INTL("No hay eventos de la Pokémon Factory registrados."))
         next
       end
-      
+
       loop do
-        commands = ZBox::FACTORY_EVENT_REGISTRY.keys      
+        commands = ZBox::FACTORY_EVENT_REGISTRY.keys
         cmd = pbMessage(_INTL("Elige un evento de la Factory para ejecutar."), commands, -1)
         break if cmd < 0
 
@@ -206,7 +206,7 @@ if $DEBUG
 
         message = _INTL("Descripción: {1}", event_data[:desc])
         message += "\n" + _INTL("¿Ejecutar este evento?")
-        
+
         if pbConfirmMessage(message)
           pbMessage(_INTL("Ejecutando {1}...", selected_event_name))
           ZBox.send(event_data[:method])
@@ -216,7 +216,7 @@ if $DEBUG
     }
   })
 
-=begin  
+=begin
   ZBox.register_factory_event(
     "Abyssal Guardian (Corviknight)",
     :give_abyssal_guardian,
@@ -359,9 +359,9 @@ if $DEBUG
         pbMessage(_INTL("There are no Pokémon Factory events registered."))
         next
       end
-      
+
       loop do
-        commands = ZBox::FACTORY_EVENT_REGISTRY.keys      
+        commands = ZBox::FACTORY_EVENT_REGISTRY.keys
         cmd = pbMessage(_INTL("Choose a Factory event to run."), commands, -1)
         break if cmd < 0
 
@@ -370,7 +370,7 @@ if $DEBUG
 
         message = _INTL("Description: {1}", event_data[:desc])
         message += "\n" + _INTL("Execute this event?")
-        
+
         if pbConfirmMessage(message)
           pbMessage(_INTL("Running {1}...", selected_event_name))
           ZBox.send(event_data[:method])
@@ -379,6 +379,6 @@ if $DEBUG
       end
     }
   })
-=end  
-  
+=end
+
 end

@@ -5,7 +5,7 @@
 #=============================================================================
 
 if PluginManager.installed?("[DBK] Enhanced Battle UI")
-  class Battle::Scene 
+  class Battle::Scene
     alias_method :zbox_updateMoveInfoWindow, :pbUpdateMoveInfoWindow
     def pbUpdateMoveInfoWindow(battler, specialAction, cw)
       @enhancedUIOverlay.clear
@@ -41,7 +41,7 @@ if PluginManager.installed?("[DBK] Enhanced Battle UI")
           type = move.type
           category = move.calcCategory
         end
-      when "CategoryDependsOnHigherDamagePoisonTarget", 
+      when "CategoryDependsOnHigherDamagePoisonTarget",
            "CategoryDependsOnHigherDamageIgnoreTargetAbility"
         move.pbOnStartUse(battler, [battler.pbDirectOpposing])
         category = move.calcCategory
@@ -170,7 +170,7 @@ if PluginManager.installed?("[DBK] Enhanced Battle UI")
       )
       textPos.push([bonus[0], xpos + 8, ypos + 132, :left, bonus[1], bonus[2], :outline]) if bonus
       pbDrawTextPositions(@enhancedUIOverlay, textPos)
-      drawTextEx(@enhancedUIOverlay, xpos + 8, ypos + 74, Graphics.width - 12, 2, 
+      drawTextEx(@enhancedUIOverlay, xpos + 8, ypos + 74, Graphics.width - 12, 2,
         move.description, BASE_LIGHT, SHADOW_LIGHT)
     end
 
@@ -216,7 +216,7 @@ if PluginManager.installed?("[DBK] Enhanced Battle UI")
         @sprites["info_icon#{b.index}"].x = iconX
         @sprites["info_icon#{b.index}"].y = iconY
         @sprites["info_icon#{b.index}"].visible = (b.index == battler.index)
-      end            
+      end
       #---------------------------------------------------------------------------
       # Owner
       if !battler.wild?
@@ -263,7 +263,6 @@ if PluginManager.installed?("[DBK] Enhanced Battle UI")
       pbDrawTextPositions(@enhancedUIOverlay, textPos)
       pbAddTypesDisplay(xpos, ypos, battler, poke)
       pbAddEffectsDisplay(xpos, ypos, panelX, effects, idxEffect)
-    end      
+    end
   end
 end
-

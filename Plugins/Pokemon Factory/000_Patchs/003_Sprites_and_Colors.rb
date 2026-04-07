@@ -54,9 +54,9 @@ module PaletteSwapCacheManager
 
   def self.get(original_path, palette_name, tolerance = 0.1)
     return nil if original_path.nil? || palette_name.nil?
-    
+
     cache_key = [original_path, palette_name]
-    
+
     # --- Devuelve el resultado cacheado al instante ---
     # --- Returns the cached result instantly ---
     if $zbox_palette_swap_cache.key?(cache_key)
@@ -81,11 +81,11 @@ module PaletteSwapCacheManager
     rescue
       return nil
     end
-    
+
     # Se aplica el paletteswap al bitmap completo.
     # The paletteswap is applied to the entire bitmap.
     original_bmp.paletteswap(palette_name, tolerance)
-    
+
     # Se guarda el resultado en la caché y se devuelve una copia.
     # The result is saved in the cache and a copy is returned.
     $zbox_palette_swap_cache[cache_key] = original_bmp
@@ -103,11 +103,11 @@ class Bitmap
     # Crea un nuevo objeto Bitmap vacío del mismo tamaño.
     # Creates a new empty Bitmap object of the same size.
     new_bitmap = Bitmap.new(self.width, self.height)
-    
+
     # Copia el contenido del bitmap actual al nuevo.
     # Copies the content of the current bitmap to the new one.
     new_bitmap.blt(0, 0, self, self.rect)
-    
+
     # Devuelve el nuevo bitmap duplicado.
     # Returns the new duplicated bitmap.
     return new_bitmap
@@ -121,13 +121,13 @@ class Bitmap
         (0...self.width).each do |x|
           pixel = self.get_pixel(x, y)
           next if pixel.alpha == 0
-          
+
           # Convert RGB to HSL
           r, g, b = pixel.red / 255.0, pixel.green / 255.0, pixel.blue / 255.0
           max = [r, g, b].max
           min = [r, g, b].min
           h = s = l = (max + min) / 2.0
-          
+
           if max == min
             h = s = 0 # Achromatic
           else
@@ -140,12 +140,12 @@ class Bitmap
             end
             h /= 6.0
           end
-          
+
           # Apply the HUE change
           h += hue_shift / 360.0
           h -= 1.0 while h >= 1.0
           h += 1.0 while h < 0.0
-          
+
           # Convert HSL back to RGB
           if s == 0
             r = g = b = l
@@ -156,21 +156,21 @@ class Bitmap
             g = h.hue_to_rgb(p, q)
             b = (h - 1.0/3.0).hue_to_rgb(p, q)
           end
-          
+
           self.set_pixel(x, y, Color.new(r * 255, g * 255, b * 255, pixel.alpha))
         end
       end
     end
   end
-  
+
   def paletteswap(palette_name, tolerance = 0.1, translation_map = nil)
     return if disposed? || palette_name.nil? || palette_name.empty?
-    
+
     if translation_map.nil?
       directory = "Graphics/Plugins/Pokemon Factory/Palettes/"
       filename = palette_name
       palette_bmp = RPG::Cache.load_bitmap(directory, filename) rescue return
-      
+
       exact_map = {}
       palette_colors = []
       palette_bmp.width.times do |x|
@@ -198,11 +198,11 @@ class Bitmap
           translation_map[pixel_key] = exact_map[pixel_key]
           next
         end
-        
+
         pixel_r = (pixel_key >> 16) & 0xFF
         pixel_g = (pixel_key >> 8) & 0xFF
         pixel_b = pixel_key & 0xFF
-        
+
         found_color = nil
         palette_colors.each do |original_color, new_color|
           target_r, target_g, target_b = original_color.red.to_i, original_color.green.to_i, original_color.blue.to_i
@@ -229,22 +229,22 @@ class Bitmap
     end
   end
 
-  
+
   def export(filename)
     require 'zlib'
-    
+
     File.open(filename, "wb") do |file|
-      file.write [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A].pack('C*')     
+      file.write [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A].pack('C*')
       ihdr = [self.width, self.height, 8, 6, 0, 0, 0].pack('N2C5')
       file.write [ihdr.size].pack('N')
       file.write 'IHDR'
       file.write ihdr
       file.write [Zlib.crc32('IHDR' + ihdr)].pack('N')
-      
+
       if self.respond_to?(:to_rgba_bytes)
         raw_data = self.to_rgba_bytes
         scanlines = raw_data.unpack("a#{self.width * 4}" * self.height)
-      else 
+      else
         scanlines = []
         self.height.times do |y|
           scanline = ""
@@ -255,14 +255,14 @@ class Bitmap
           scanlines << scanline
         end
       end
-      
-      pixel_data = scanlines.map { |line| "\0" + line }.join     
+
+      pixel_data = scanlines.map { |line| "\0" + line }.join
       compressed_data = Zlib::Deflate.deflate(pixel_data, Zlib::BEST_COMPRESSION)
-      
+
       file.write [compressed_data.size].pack('N')
       file.write 'IDAT'
       file.write compressed_data
-      file.write [Zlib.crc32('IDAT' + compressed_data)].pack('N') 
+      file.write [Zlib.crc32('IDAT' + compressed_data)].pack('N')
       file.write [0].pack('N')
       file.write 'IEND'
       file.write [Zlib.crc32('IEND')].pack('N')
@@ -340,13 +340,13 @@ class PokemonSprite < Sprite
   def setPokemonBitmap(pokemon, back = false)
     @_iconbitmap&.dispose
     @_iconbitmap = nil
-    @pkmn = pokemon 
+    @pkmn = pokemon
 
     if !pokemon
       self.bitmap = nil
       return
     end
-    
+
     original_bitmap_wrapper = (pokemon) ? GameData::Species.sprite_bitmap_from_pokemon(pokemon, back) : nil
     @_iconbitmap = original_bitmap_wrapper ? original_bitmap_wrapper.copy : nil
 
@@ -359,21 +359,21 @@ class PokemonSprite < Sprite
       end
 
       @_iconbitmap.hue_change(hue) if hue != 0
-      
+
       if pokemon&.respond_to?(:zbox_palette_swap) && pokemon.zbox_palette_swap
         @_iconbitmap.paletteswap(pokemon.zbox_palette_swap)
       end
     end
-    
+
     self.bitmap = (@_iconbitmap) ? @_iconbitmap.bitmap : nil
     self.color = Color.new(0, 0, 0, 0)
-    
+
     if self.respond_to?(:make_grey_if_fainted=)
       self.make_grey_if_fainted = pokemon.fainted?
     end
-    
+
     changeOrigin
-    
+
     if self.respond_to?(:animated?) && animated?
       @_iconbitmap.setPokemon(@pkmn, back)
       @_iconbitmap.update_pokemon_sprite
@@ -382,14 +382,14 @@ class PokemonSprite < Sprite
   end
 
   alias_method :zbox_setPokemonBitmapSpecies, :setPokemonBitmapSpecies
-  
+
   def setPokemonBitmapSpecies(pokemon, species, back = false)
     zbox_setPokemonBitmapSpecies(pokemon, species, back)
 
     if @_iconbitmap
       @_iconbitmap = @_iconbitmap.copy
     end
-    
+
     if @_iconbitmap && pokemon
       hue = 0
       if pokemon.respond_to?(:zbox_hue_value) && pokemon.zbox_hue_value
@@ -398,7 +398,7 @@ class PokemonSprite < Sprite
         hue = pokemon.zbox_get_super_shiny_hue
       end
       @_iconbitmap.hue_change(hue) if hue != 0
-      
+
       if pokemon.respond_to?(:zbox_palette_swap) && pokemon.zbox_palette_swap
         @_iconbitmap.paletteswap(pokemon.zbox_palette_swap)
       end
@@ -422,23 +422,23 @@ class PokemonIconSprite < Sprite
       @current_frame = 0
       return
     end
-    
+
     hue = 0
     if @pokemon.respond_to?(:zbox_hue_value) && @pokemon.zbox_hue_value
       hue = @pokemon.zbox_hue_value
     elsif @pokemon.super_shiny?
       hue = @pokemon.zbox_get_super_shiny_hue
     end
-    
+
     filename = GameData::Species.icon_filename_from_pokemon(value)
-    
+
     @animBitmap = AnimatedBitmap.new(filename, hue)
 
     if @pokemon.respond_to?(:zbox_palette_swap) && @pokemon.zbox_palette_swap
       @animBitmap = @animBitmap.copy
       @animBitmap.paletteswap(@pokemon.zbox_palette_swap)
     end
-    
+
     self.bitmap = @animBitmap.bitmap
     self.src_rect.width  = @animBitmap.height
     self.src_rect.height = @animBitmap.height
@@ -449,7 +449,7 @@ class PokemonIconSprite < Sprite
       self.make_grey_if_fainted = pokemon.fainted?
     end
 
-    changeOrigin    
+    changeOrigin
   end
 end
 
@@ -462,18 +462,18 @@ class PokemonBoxIcon < IconSprite
       temp_pkmn.define_singleton_method(:species) { @pokemon.zbox_sprite_override }
       pkmn_for_filename = temp_pkmn
     end
-    
+
     filename = GameData::Species.icon_filename_from_pokemon(pkmn_for_filename)
-    
+
     hue = 0
     if @pokemon.respond_to?(:zbox_hue_value) && @pokemon.zbox_hue_value
       hue = @pokemon.zbox_hue_value
     elsif @pokemon.super_shiny?
       hue = @pokemon.zbox_get_super_shiny_hue
     end
-    
+
     animBitmap = AnimatedBitmap.new(filename, hue)
-    
+
     if @pokemon.respond_to?(:zbox_palette_swap) && @pokemon.zbox_palette_swap
       animBitmap = animBitmap.copy
       animBitmap.paletteswap(@pokemon.zbox_palette_swap)
@@ -482,10 +482,10 @@ class PokemonBoxIcon < IconSprite
     if self.respond_to?(:make_grey_if_fainted=)
       self.make_grey_if_fainted = @pokemon.fainted?
     end
-    
+
     self.bitmap = animBitmap.bitmap
     self.src_rect = Rect.new(0, 0, self.bitmap.height, self.bitmap.height)
-    
+
     @animBitmap = animBitmap if self.instance_variable_defined?(:@animBitmap)
   end
 end
@@ -508,7 +508,7 @@ class Battle::Scene::BattlerSprite < RPG::Sprite
     if @_iconBitmap.respond_to?(:copy)
       @_iconBitmap = @_iconBitmap.copy
     else
-      @_iconBitmap = @_iconBitmap.clone 
+      @_iconBitmap = @_iconBitmap.clone
     end
 
     hue = 0
@@ -517,7 +517,7 @@ class Battle::Scene::BattlerSprite < RPG::Sprite
     elsif pkmn.super_shiny?
       hue = pkmn.zbox_get_super_shiny_hue
     end
-    
+
     @_iconBitmap.hue_change(hue) if hue != 0
 
     if pkmn.respond_to?(:zbox_palette_swap) && pkmn.zbox_palette_swap

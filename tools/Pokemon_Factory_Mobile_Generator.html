@@ -47,7 +47,7 @@
       position: sticky;
       top: 16px;
       z-index: 100;
-      padding-bottom: 50px; 
+      padding-bottom: 50px;
     }
 
     .header-buttons {
@@ -213,7 +213,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      display: none; 
+      display: none;
     }
 
     /* Output */
@@ -295,7 +295,7 @@
         </div>
       </div>
     </div>
-    
+
     <button id="collapse-btn" title="Collapse/Expand">▲</button>
   </div>
 
@@ -404,7 +404,7 @@
   <div class="card">
     <h2>Data Management</h2>
     <p style="font-size: 0.85rem; color: #aaa; text-align: center; margin-top:0;">Upload .txt or .md files to expand autocomplete pools.</p>
-    
+
     <div class="form-group">
       <label for="import_target">Data Type to Update</label>
       <select id="import_target">
@@ -430,7 +430,7 @@
   let itemsData = ["Leftovers", "Life Orb", "Choice Band", "Choice Specs", "Choice Scarf", "Focus Sash", "Black Sludge", "Assault Vest", "Heavy-Duty Boots", "Rocky Helmet", "Eviolite", "Sitrus Berry", "Lum Berry", "Master Ball", "Ultra Ball", "Great Ball", "Poke Ball", "Premier Ball", "Quick Ball", "Dusk Ball"];
   let movesData = ["Tackle", "Thunderbolt", "Ice Beam", "Flamethrower", "Earthquake", "Protect", "Substitute", "Swords Dance", "Dragon Dance", "Calm Mind", "Toxic", "Sludge Bomb", "Shadow Ball", "Dark Pulse", "Flash Cannon", "Aura Sphere", "Close Combat", "Brave Bird", "Roost", "Recover", "Volt Switch", "U-turn", "Scald", "Hydro Pump", "Surf", "Giga Drain", "Leaf Storm", "Moonblast", "Play Rough", "Stone Edge", "Rock Slide", "Stealth Rock", "Spikes", "Defog", "Rapid Spin", "Sucker Punch", "Vital Throw", "Bulk Up", "Detect"];
   let speciesData = ["Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle", "Wartortle", "Blastoise", "Caterpie", "Metapod", "Butterfree", "Weedle", "Kakuna", "Beedrill", "Pidgey", "Pidgeotto", "Pidgeot", "Rattata", "Raticate", "Spearow", "Fearow", "Ekans", "Arbok", "Pikachu", "Raichu", "Sandshrew", "Sandslash", "NidoranF", "Nidorina", "Nidoqueen", "NidoranM", "Nidorino", "Nidoking", "Clefairy", "Clefable", "Vulpix", "Ninetales", "Jigglypuff", "Wigglytuff", "Zubat", "Golbat", "Oddish", "Gloom", "Vileplume", "Paras", "Parasect", "Venonat", "Venomoth", "Diglett", "Dugtrio", "Meowth", "Persian", "Psyduck", "Golduck", "Mankey", "Primeape", "Growlithe", "Arcanine", "Poliwag", "Poliwhirl", "Poliwrath", "Abra", "Kadabra", "Alakazam", "Machop", "Machoke", "Machamp", "Bellsprout", "Weepinbell", "Victreebel", "Tentacool", "Tentacruel", "Geodude", "Graveler", "Golem", "Ponyta", "Rapidash", "Slowpoke", "Slowbro", "Magnemite", "Magneton", "Farfetch'd", "Doduo", "Dodrio", "Seel", "Dewgong", "Grimer", "Muk", "Shellder", "Cloyster", "Gastly", "Haunter", "Gengar", "Onix", "Drowzee", "Hypno", "Krabby", "Kingler", "Voltorb", "Electrode", "Exeggcute", "Exeggutor", "Cubone", "Marowak", "Hitmonlee", "Hitmonchan", "Lickitung", "Koffing", "Weezing", "Rhyhorn", "Rhydon", "Chansey", "Tangela", "Kangaskhan", "Horsea", "Seadra", "Goldeen", "Seaking", "Staryu", "Starmie", "Mr. Mime", "Scyther", "Jynx", "Electabuzz", "Magmar", "Pinsir", "Tauros", "Magikarp", "Gyarados", "Lapras", "Ditto", "Eevee", "Vaporeon", "Jolteon", "Flareon", "Porygon", "Omanyte", "Omastar", "Kabuto", "Kabutops", "Aerodactyl", "Snorlax", "Articuno", "Zapdos", "Moltres", "Dratini", "Dragonair", "Dragonite", "Mewtwo", "Mew"];
-  
+
   // Nicknames Array (Structured)
   let nicknamesData = [
     { name: "Spike", gender: "male", theme: "edgy", types: ["Dark", "Poison", "Steel", "Rock"] },
@@ -465,8 +465,8 @@
     inp.addEventListener("input", function(e) {
       let a, b, i, val = this.value;
       closeAllLists();
-      
-      let searchVal = val.replace(/^:/, ''); 
+
+      let searchVal = val.replace(/^:/, '');
       if (isCommaSeparated) {
         let parts = searchVal.split(',');
         searchVal = parts[parts.length - 1].trim();
@@ -487,10 +487,10 @@
           b.innerHTML = "<strong>" + arr[i].substr(0, searchVal.length) + "</strong>";
           b.innerHTML += arr[i].substr(searchVal.length);
           b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-          
+
           b.addEventListener("click", function(e) {
             let selectedVal = this.getElementsByTagName("input")[0].value;
-            
+
             if (isCommaSeparated) {
               let parts = inp.value.split(',');
               parts.pop();
@@ -499,13 +499,13 @@
             } else {
               inp.value = selectedVal;
             }
-            
+
             closeAllLists();
             updateAll();
           });
           a.appendChild(b);
           count++;
-          if (count >= 15) break; 
+          if (count >= 15) break;
         }
       }
     });
@@ -513,18 +513,18 @@
     inp.addEventListener("keydown", function(e) {
       let x = document.getElementById(this.id + "autocomplete-list");
       if (x) x = x.getElementsByTagName("div");
-      if (e.keyCode == 40) { 
+      if (e.keyCode == 40) {
         currentFocus++;
         addActive(x);
-      } else if (e.keyCode == 38) { 
+      } else if (e.keyCode == 38) {
         currentFocus--;
         addActive(x);
-      } else if (e.keyCode == 13) { 
+      } else if (e.keyCode == 13) {
         e.preventDefault();
         if (currentFocus > -1) {
           if (x) x[currentFocus].click();
         } else if (x && x.length === 1) {
-          x[0].click(); 
+          x[0].click();
         }
       }
     });
@@ -549,7 +549,7 @@
       }
     }
     document.addEventListener("click", function (e) { closeAllLists(e.target); });
-    
+
     // Add main event listener back for live updates
     inp.addEventListener('input', updateAll);
   }
@@ -635,7 +635,7 @@
     // Basic fields
     document.getElementById('species').value = getRandomItem(speciesData);
     els.level.value = Math.floor(Math.random() * 95) + 5; // Level 5-100
-    
+
     // Appearance & Types
     els.shiny.checked = Math.random() > 0.9; // 10% chance shiny
     els.hue_change.value = Math.random() > 0.5 ? Math.floor(Math.random() * 360) : 0;
@@ -668,7 +668,7 @@
     // BUG FIX: Must use getElementById because autocomplete replaces the node
     // Increased to 60% chance for an item
     document.getElementById('item').value = Math.random() > 0.4 ? getRandomItem(itemsData) : "";
-    
+
     // Poke Ball
     const commonBalls = ["Poke Ball", "Great Ball", "Ultra Ball", "Premier Ball", "Dusk Ball"];
     document.getElementById('poke_ball').value = getRandomItem(commonBalls);
@@ -697,7 +697,7 @@
     const fileInput = document.getElementById('file_upload');
     const target = document.getElementById('import_target').value;
     const statusText = document.getElementById('import-status');
-    
+
     if (!fileInput.files.length) {
       statusText.textContent = "Please select a file first.";
       statusText.style.color = "red";
@@ -710,7 +710,7 @@
     reader.onload = function(e) {
       const text = e.target.result;
       let parsedItems = [];
-      
+
       // Check if this looks like an Essentials v21 PBS file (INI format)
       const isPBS = text.includes("Name =") || text.includes("Name=");
 
@@ -732,7 +732,7 @@
         // Fallback for simple comma or newline separated lists (like nicknames.md)
         parsedItems = text.split(/[\n,]+/).map(i => i.replace(/['"\r]/g, '').trim()).filter(i => i !== "");
       }
-      
+
       if(parsedItems.length === 0) {
         statusText.textContent = "No readable data found in file.";
         statusText.style.color = "red";
@@ -764,7 +764,7 @@
 
       // Reinitialize autocompletes with new data
       initAutocompletes();
-      
+
       statusText.textContent = `Successfully imported ${parsedItems.length} items into ${target} pool!`;
       statusText.style.color = "var(--secondary-color)";
       fileInput.value = ""; // clear input
@@ -795,7 +795,7 @@
   function updateSprite() {
     let speciesInput = document.getElementById('species');
     if(!speciesInput) return;
-    
+
     let rawSpecies = speciesInput.value.trim().toLowerCase().replace(/^:/, '');
     if (!rawSpecies) return;
 
@@ -842,7 +842,7 @@
     if(pokeball) lines.push(`  poke_ball: ${pokeball},`);
 
     if(els.shiny.checked) lines.push(`  shiny: true,`);
-    
+
     // BUG FIX: Fetch types using getElementById to avoid detached DOM node reference
     let typesInput = document.getElementById('types').value;
     if(typesInput.trim()) {
@@ -867,9 +867,9 @@
     }
 
     let moves = [
-      document.getElementById('move1').value, 
-      document.getElementById('move2').value, 
-      document.getElementById('move3').value, 
+      document.getElementById('move1').value,
+      document.getElementById('move2').value,
+      document.getElementById('move3').value,
       document.getElementById('move4').value
     ].map(formatSymbol).filter(m => m !== '');
 

@@ -19,7 +19,7 @@ class Pokemon
 
     ZBOX_PKMN_MOVE_MAP.each do |simple_key, method_name|
       next unless method_defined?(method_name) || private_method_defined?(method_name)
-      
+
       alias_method "zbox_original_pkmn_move_#{simple_key}", method_name
 
       define_method(method_name) do |*args|
@@ -69,18 +69,18 @@ class Battle::Move
 
   # Se define un mapa para traducir nuestras claves a los métodos de cálculo de batalla.
   # A map is defined to translate our keys to the battle calculation methods.
-  ZBOX_BATTLE_MAP = {         
+  ZBOX_BATTLE_MAP = {
     :power    => :pbBaseDamage,
     :accuracy => :pbBaseAccuracy,
     :type     => :pbBaseType,
-    :priority => :pbPriority,    
+    :priority => :pbPriority,
     :name     => :name,
     :total_pp => :total_pp
   }
 
   ZBOX_BATTLE_MAP.each do |simple_key, method_name|
     next unless method_defined?(method_name) || private_method_defined?(method_name)
-    
+
     alias_method "zbox_original_battle_#{simple_key}", method_name
 
     define_method(method_name) do |*args|
@@ -88,7 +88,7 @@ class Battle::Move
       # The first argument that is a Battler object is found.
       user = args.find { |arg| arg.is_a?(Battle::Battler) }
       user ||= @battle.battlers.find { |b| b && b.moves.include?(self) }
-      
+
       if user && user.pokemon&.respond_to?(:zbox_move_mods) && user.pokemon.zbox_move_mods&.key?(@id)
         mods = user.pokemon.zbox_move_mods[@id]
         if mods.key?(simple_key)
@@ -121,7 +121,7 @@ class Battle::Move
     # Se busca al usuario del movimiento en el campo de batalla.
     user = @battle.battlers.find { |b| b && b.moves.include?(self) }
     return nil unless user && user.pokemon
-    
+
     user_pkmn = user.pokemon
     # Se comprueba si el Pokémon tiene modificaciones para este movimiento.
     # Checks if the Pokémon has any modifications for this move.
@@ -156,7 +156,7 @@ class Battle::Move
     custom_category = zbox_get_custom_category
     return custom_category == 2 unless custom_category.nil?
     return zbox_original_statusMove?
-  end  
+  end
 end
 
 #==============================================================================
@@ -171,7 +171,7 @@ module ZBox
     end
 
     def execute_per_target(user, target, battle, move)
-      
+
       if @effects[:stat_changes_target]
         show_anim_raise = true
         show_anim_lower = true
@@ -200,7 +200,7 @@ module ZBox
       # --- Apply State/Effect to Target ---
       if @effects[:apply_status_to_target]
         effects_to_apply = [@effects[:apply_status_to_target]].flatten(1)
-        
+
         effects_to_apply.each do |effect_data|
           status, chance = effect_data
           chance ||= 100
@@ -245,7 +245,7 @@ module ZBox
       # --- Disable Target's Last Move ---
       if @effects[:disable_target_last_move]
         duration = @effects[:disable_target_last_move].is_a?(Numeric) ? @effects[:disable_target_last_move] : 4
-        
+
         if target.lastRegularMoveUsed && target.effects[PBEffects::Disable] == 0
           can_disable = false
           target.eachMove do |m|
@@ -253,7 +253,7 @@ module ZBox
             can_disable = (m.pp > 0 || m.total_pp == 0)
             break
           end
-          
+
           if can_disable
             target.effects[PBEffects::Disable]     = duration
             target.effects[PBEffects::DisableMove] = target.lastRegularMoveUsed
@@ -263,7 +263,7 @@ module ZBox
           end
         end
       end
-      
+
       # --- Suprimir la Habilidad del Objetivo ---
       # --- Suppress Target's Ability ---
       if @effects[:suppress_target_ability]
@@ -274,13 +274,13 @@ module ZBox
           target.pbOnLosingAbility(target.ability, true)
         end
       end
-      
+
       # --- Cambiar la Habilidad del Objetivo ---
       # --- Change Target's Ability ---
       if @effects[:change_target_ability]
         new_ability_id = @effects[:change_target_ability]
         new_ability = GameData::Ability.try_get(new_ability_id)
-        
+
         if new_ability && !target.unstoppableAbility? && target.ability_id != new_ability_id
           battle.pbShowAbilitySplash(target, true, false)
           old_abil = target.ability
@@ -357,10 +357,10 @@ module ZBox
       # --- Change the Climate ---
       if @effects[:change_weather]
         weather, duration = @effects[:change_weather]
-        duration ||= 5  
+        duration ||= 5
         if battle.field.weather != weather
           battle.pbStartWeather(user, weather, true)
-          if battle.field.weatherDuration > 0 
+          if battle.field.weatherDuration > 0
             new_duration = duration
             if user.itemActive?
               new_duration = Battle::ItemEffects.triggerWeatherExtender(user.item, weather, new_duration, user, battle)
@@ -369,15 +369,15 @@ module ZBox
           end
         end
       end
-      
+
       # --- Cambiar el Terreno ---
       # --- Changing the Terrain ---
       if @effects[:change_terrain]
         terrain, duration = @effects[:change_terrain]
-        duration ||= 5       
+        duration ||= 5
         if battle.field.terrain != terrain
           battle.pbStartTerrain(user, terrain, true)
-          if battle.field.terrainDuration > 0 
+          if battle.field.terrainDuration > 0
             new_duration = duration
             if user.itemActive?
               new_duration = Battle::ItemEffects.triggerTerrainExtender(user.item, terrain, new_duration, user, battle)
@@ -386,17 +386,17 @@ module ZBox
           end
         end
       end
-      
+
       # --- Añadir Entry Hazards al Lado del Oponente ---
       # --- Add Entry Hazards to Opponent's Side ---
       if @effects[:add_hazards_to_target_side]
         hazards_data = [@effects[:add_hazards_to_target_side]].flatten
         target_side = user.pbOpposingSide
-      
+
         hazards_data.each do |data|
         hazard = data.is_a?(Hash) ? data[:hazard] : data
         message = data.is_a?(Hash) ? data[:message] : nil
-        
+
         case hazard
         when :STEALTHROCK
           if !target_side.effects[PBEffects::StealthRock]
@@ -428,13 +428,13 @@ module ZBox
           end
         end
       end
-        
+
       # --- Añadir Efectos de Lado al Lado del Usuario ---
       # --- Add Side-by-Side Effects for User ---
       if @effects[:add_side_effect_to_user]
           effects_data = [@effects[:add_side_effect_to_user]].flatten
           user_side = user.pbOwnSide
-          
+
           effects_data.each do |data|
             effect = data.is_a?(Hash) ? data[:effect] : data
             # Se obtiene la duración del hash, o se usa 5 por defecto.
@@ -442,7 +442,7 @@ module ZBox
             duration = data.is_a?(Hash) ? data[:duration] : 5
             duration ||= 5
             message = data.is_a?(Hash) ? data[:message] : nil
-          
+
             case effect
             when :TAILWIND
               if user_side.effects[PBEffects::Tailwind] == 0
@@ -501,7 +501,7 @@ module ZBox
           amount = @effects[:recoil_user]
           hp_to_lose = (amount < 2) ? (user.totalhp * amount).round : amount
           hp_to_lose = [hp_to_lose, user.hp - 1].min if hp_to_lose >= user.hp
-          
+
           if hp_to_lose > 0
             battle.scene.pbDamageAnimation(user)
             user.pbReduceHP(hp_to_lose, false)
@@ -510,7 +510,7 @@ module ZBox
           end
         end
       end
-      
+
       # --- Curar al Usuario ---
       # --- Cure the User ---
       if @effects[:heal_user]
@@ -521,7 +521,7 @@ module ZBox
           battle.pbDisplay(_INTL("¡Los PS de {1} han sido restaurados!", user.pbThis(true)))
         end
       end
-      
+
       user.pbFaint if user.fainted?
     end
   end
@@ -531,14 +531,14 @@ class Battle::Move
   alias_method :zbox_factory_initialize, :initialize
   def initialize(battle, move)
     zbox_factory_initialize(battle, move)
-    
+
     user = battle.battlers.find { |b| b && b.pokemon.moves.include?(move) }
     return unless user && user.pokemon
-    
+
     user_pkmn = user.pokemon
     if user_pkmn.respond_to?(:zbox_move_mods) && user_pkmn.zbox_move_mods&.key?(@id)
       mods = user_pkmn.zbox_move_mods[@id]
-      
+
       if mods.key?(:name)
         @name = mods[:name]
       end
@@ -549,10 +549,10 @@ class Battle::Move
           @target = new_target.id
         end
       end
-      
+
       if mods.key?(:status_effect) && mods[:status_effect].is_a?(Hash) && mods[:status_effect][:fixed_damage_target]
         fixed_damage_amount = mods[:status_effect][:fixed_damage_target]
-        
+
         # Se redefine el método de cálculo de daño para esta instancia.
         # The damage calculation method is redefined for this instance.
         define_singleton_method(:pbCalcDamage) do |user, target, numTargets = 1|
@@ -566,14 +566,14 @@ class Battle::Move
 
         define_singleton_method(:pbOnStartUse) do |user, targets|
           effect_hash = mods[:status_effect]
-          
+
           # Mensaje para movimientos dirigidos a un objetivo
           # Message for goal-directed movements
           if effect_hash[:message] && !@zbox_message_shown
             @battle.pbDisplay(_INTL(effect_hash[:message], user.pbThis))
             @zbox_message_shown = true
           end
-          
+
           #NOTA: Realmente no hay diferencia entre uno y otro.
           #NOTE: There is really no difference between the two.
 
@@ -583,13 +583,13 @@ class Battle::Move
             @battle.pbDisplay(_INTL(effect_hash[:message_user], user.pbThis))
           end
         end
-        
+
         # Redefine pbEffectGeneral para los efectos que solo ocurren una vez (sobre el usuario).
         # Redefine pbEffectGeneral for effects that only occur once (on the user).
         define_singleton_method(:pbEffectGeneral) do |user|
           interpreter.execute(user, @battle, self)
         end
-        
+
         # Redefine pbEffectAgainstTarget para los efectos que se aplican a cada objetivo.
         # Redefine pbEffectAgainstTarget for the effects that are applied to each target.
         define_singleton_method(:pbEffectAgainstTarget) do |user, target|

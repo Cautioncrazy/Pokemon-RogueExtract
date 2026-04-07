@@ -6,7 +6,7 @@
 # already has one customized by the Factory.
 #==============================================================================
 
-class Battle  
+class Battle
   if method_defined?(:zbox_pbStorePokemon)
     alias_method :pbStorePokemon, :zbox_pbStorePokemon
   end
@@ -16,7 +16,7 @@ class Battle
     # Nickname the Pokémon (unless it's a Shadow Pokémon)
     if !pkmn.shadowPokemon?
       pokemon_name = pkmn.instance_variable_get(:@name)
-      
+
       if pokemon_name.nil? || pokemon_name.empty?
         return zbox_pbStorePokemon(pkmn)
       end
@@ -25,7 +25,7 @@ class Battle
         return zbox_pbStorePokemon(pkmn)
       end
     end
-    
+
     # Store the Pokémon
     if pbPlayer.party_full? && (@sendToBoxes == 0 || @sendToBoxes == 2)   # Ask/must add to party
       cmds = [_INTL("Añadir al equipo"),

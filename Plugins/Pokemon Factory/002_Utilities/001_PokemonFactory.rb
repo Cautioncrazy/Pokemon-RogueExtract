@@ -21,7 +21,7 @@ module ZBox
 
   module EggFactory
     def self.create(config_hash)
-    
+
       # Procesar las variantes PRIMERO para determinar la configuración final.
       # Process the variants FIRST to determine the final configuration.
       final_config = config_hash
@@ -35,31 +35,31 @@ module ZBox
           final_config = config_hash.merge(variant_config)
         end
       end
-    
+
       # Extraer la especie del hash de configuración final.
       # Extract the species from the final configuration hash.
       species = final_config[:species]
       # Si no se encuentra una especie (lo que sería un error de configuración), se aborta de forma segura.
       # If no species is found (which would be a configuration error), it aborts safely.
       return nil unless species
-    
+
       # Se extrae el valor de steps_to_hatch del hash. Si no se proporciona, se usará el valor por defecto del motor.
       # Extracts the steps_to_hatch value from the hash. If not provided, the engine's default value will be used.
       custom_steps = final_config[:steps_to_hatch]
-    
+
       # Se genera el huevo. pbGenerateEgg establecerá los pasos por defecto.
       # The egg is generated. pbGenerateEgg will set the default steps.
       egg_added = pbGenerateEgg(species, final_config[:obtain_text])
       return nil unless egg_added
-    
+
       # Se obtiene una referencia al huevo.
       # A reference to the egg is obtained.
       egg = $player.last_party
-    
+
       # Si se proporcionó un número de pasos personalizado, se sobrescribe el valor por defecto que puso pbGenerateEgg.
       # If a custom number of steps was provided, it overwrites the default value set by pbGenerateEgg.
       egg.steps_to_hatch = custom_steps if custom_steps
-    
+
       # Aplicar el resto de las personalizaciones.
       # Se excluyen las claves que ya han sido manejadas por pbGenerateEgg o por nosotros.
       # Apply the rest of the customizations.
@@ -68,12 +68,12 @@ module ZBox
         [:species, :obtain_text, :steps_to_hatch, :variants].include?(k)
       end
       PokemonFactory.apply_attributes(egg, custom_config)
-    
+
       pbMessage(_INTL("¡{1} obtuvo un huevo!", $player.name) + "\\me[Pkmn get]\\wtnp[80]")
       return egg
     end
   end
-  
+
 
   #==============================================================================
   # ** Pokémon Factory **
@@ -85,7 +85,7 @@ module ZBox
 
   module PokemonFactory
     # --- Mapa interno para traducir claves de estadísticas ---
-    # --- Internal map to translate stat keys ---   
+    # --- Internal map to translate stat keys ---
     STAT_MAP = {
       :HP              => :HP,
       :ATTACK          => :ATTACK,
@@ -102,15 +102,26 @@ module ZBox
       :SPE             => :SPEED
     }
 
+      # --- Registro Global de Datos / Global Data Registry ---
+      @data = {}
+
+      def self.data
+        @data
+      end
+
+      def self.register(key, hash)
+        @data[key] = hash
+      end
+
     # --- Presets de IVs y EVs ---
-    # --- IV and EV Presets --- 
+    # --- IV and EV Presets ---
     IV_PRESETS = {
       :PERFECT     => { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
       :SPECIAL     => { hp: 31, attack: 0, defense: 31, spatk: 31, spdef: 31, speed: 31 },
       :TRICK_ROOM  => { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 0 },
       :ZERO        => { hp: 0, attack: 0, defense: 0, spatk: 0, spdef: 0, speed: 0 }
     }
-    
+
     EV_PRESETS = {
       :SWEEPER_PHYSICAL => { attack: 252, speed: 252, hp: 4 },
       :SWEEPER_SPECIAL  => { spatk: 252, speed: 252, hp: 4 },
@@ -122,12 +133,12 @@ module ZBox
 
       # El método principal de la fábrica. / The main factory method.
       def create(config_hash)
-        
+
         if config_hash[:variants]
           # Si se proporciona la clave :variants, se procesa primero.
           # If the :variants key is provided, it is processed first.
           variant_config = process_variants(config_hash[:variants])
-          
+
           # Si se elige una variante válida, su hash de configuración se fusiona
           # con el hash original. Las claves de la variante tienen prioridad.
           # If a valid variant is chosen, its configuration hash is merged
@@ -141,7 +152,7 @@ module ZBox
 
         # Obtiene la especie del hash. Usa :RATTATA como un valor por defecto seguro para evitar errores si no se especifica una especie.
         # Fetches the species from the hash. Uses :RATTATA as a safe default to prevent errors if no species is specified.
-        species = config_hash.fetch(:species, :RATTATA) 
+        species = config_hash.fetch(:species, :RATTATA)
         # Obtiene el nivel del hash. Usa 5 como un nivel por defecto razonable.
         # Fetches the level from the hash. Uses 5 as a reasonable default level.
         level = config_hash.fetch(:level, 5)
@@ -149,7 +160,7 @@ module ZBox
         # Creates the Pokémon object instance with the determined species and level.
         pkmn = Pokemon.new(species, level)
 
-        
+
         if config_hash[:reset_moves] == false
           pkmn.moves.clear
         end
@@ -161,17 +172,17 @@ module ZBox
             STAT_MAP[k.to_s.upcase.to_sym] || k.to_s.upcase.to_sym
           end
         end
-        
+
         if config_hash[:types]
           pkmn.zbox_type_mods = config_hash[:types].map { |type| GameData::Type.get(type).id }
         end
-        
+
         apply_type_mods(pkmn, config_hash[:types]) if config_hash[:types]
-        
+
         # --- Recálculo Inicial de Estadísticas ---
         # --- Initial Stat Recalculation ---
         pkmn.calc_stats
-        
+
         # --- Procesamiento del Resto de Atributos ---
         # --- Processing Remaining Attributes ---
         config_hash.each do |key, value|
@@ -180,7 +191,7 @@ module ZBox
           # Skip keys that have already been processed
           when :species, :level, :base_stats, :types
             next
-            
+
           # Atributos Simples
           # Simple Attributes
           when :nickname then pkmn.name = value
@@ -194,7 +205,7 @@ module ZBox
             pkmn.zbox_hp_type_mod = value
 
           when :move_pool then
-            process_move_pool(pkmn, value)  
+            process_move_pool(pkmn, value)
 
           when :ability then pkmn.ability = value
           when :ability_index then pkmn.ability_index = value
@@ -216,7 +227,7 @@ module ZBox
           when :hp then pkmn.hp = value
           when :status then pkmn.status = value
           when :status_count then pkmn.statusCount = value # Para el sueño / For sleep
-            
+
           # Atributos Complejos
           # Complex Attributes
           when :moves then value.each { |move| pkmn.learn_move(move) }
@@ -246,7 +257,7 @@ module ZBox
 
           when :ribbons then value.each { |ribbon| pkmn.giveRibbon(ribbon) }
           when :markings then pkmn.markings = value
-            
+
           # Propiedades del Entrenador Original
           # Original Trainer Properties
           when :owner_name then pkmn.owner.name = value
@@ -258,18 +269,18 @@ module ZBox
             elsif value.is_a?(Integer)
               pkmn.owner.id = value
             end
-          
+
           # Propiedades de Obtención
           # Obtention Properties
           when :obtain_level then pkmn.obtain_level = value
           when :obtain_map then pkmn.obtain_map = value
           when :obtain_text then pkmn.obtain_text = value
           when :obtain_method then pkmn.obtain_method = value
-            
+
           # Estadísticas de Concurso
           # Contest Stats
           when :contest_stats then value.each { |stat, val| pkmn.send("#{stat}=", val) }
-            
+
           # Restricciones
           # Restrictions
           when :discardable
@@ -284,21 +295,21 @@ module ZBox
               else
               end
             end
-            
+
           # Pokémon Especiales
           # Special Pokémon
           when :pokerus then pkmn.givePokerus(value)
           when :shadow then pkmn.makeShadow if value
           when :fused then pkmn.fused = value
-          when :cry then pkmn.zbox_cry_mod = value  
+          when :cry then pkmn.zbox_cry_mod = value
           when :can_evolve then pkmn.zbox_can_evolve = value
           when :add_stats
             pkmn.zbox_stat_additions = value.transform_keys do |k|
               STAT_MAP[k.to_s.upcase.to_sym] || k.to_s.upcase.to_sym
-            end  
+            end
           when :hidden_power then pkmn.zbox_hp_type_mod = value
           when :move_pool then process_move_pool(pkmn, value)
-          when :sprite_override then pkmn.zbox_sprite_override = value  
+          when :sprite_override then pkmn.zbox_sprite_override = value
           when :hue_change then pkmn.zbox_hue_value = value
           when :palette_swap then pkmn.zbox_palette_swap = value
           when :type_chart_mods then pkmn.zbox_type_chart_mods = value
@@ -317,10 +328,10 @@ module ZBox
                   new_move.pp = total_pp_custom
                 end
               end
-            end  
+            end
           end
         end
-        
+
         # --- Recálculo Final ---
         # --- Final Recalculation ---
         pkmn.calc_stats
@@ -338,15 +349,15 @@ module ZBox
             next original_stats.merge(mods)
           end
         end
-        
+
         apply_type_mods(pkmn, config_hash[:types]) if config_hash[:types]
-        
+
         config_hash.each do |key, value|
           case key
 
           when :species, :level, :base_stats, :types
             next
-            
+
 
           when :nickname then pkmn.name = value
           when :shiny then pkmn.shiny = value
@@ -365,11 +376,11 @@ module ZBox
           when :time_egg_hatched then pkmn.timeEggHatched = value
           when :personal_id then pkmn.personalID = value
           when :time_received then pkmn.timeReceived = value
-          
+
           when :hp then pkmn.hp = value
           when :status then pkmn.status = value
           when :status_count then pkmn.statusCount = value
-            
+
           when :moves then value.each { |move| pkmn.learn_move(move) }
           when :first_moves then value.each { |move| pkmn.add_first_move(move) }
           when :ivs
@@ -390,7 +401,7 @@ module ZBox
             end
           when :ribbons then value.each { |ribbon| pkmn.giveRibbon(ribbon) }
           when :markings then pkmn.markings = value
-            
+
 
           when :owner_name then pkmn.owner.name = value
           when :owner_gender then pkmn.owner.gender = value
@@ -401,41 +412,41 @@ module ZBox
             elsif value.is_a?(Integer)
               pkmn.owner.id = value
             end
-          
+
           when :obtain_level then pkmn.obtain_level = value
           when :obtain_map then pkmn.obtain_map = value
           when :obtain_text then pkmn.obtain_text = value
           when :obtain_method then pkmn.obtain_method = value
-            
+
           when :contest_stats
             value.each { |stat, val| pkmn.send("#{stat}=", val) }
-            
+
           when :discardable
             Array(value).each do |restriction|
               method_name = "cannot_#{restriction}="
               pkmn.send(method_name, true) if pkmn.respond_to?(method_name)
             end
-            
+
           when :pokerus then pkmn.givePokerus(value)
           when :shadow then pkmn.makeShadow if value
           when :fused then pkmn.fused = value
-          when :cry then pkmn.zbox_cry_mod = value  
+          when :cry then pkmn.zbox_cry_mod = value
           when :can_evolve then pkmn.zbox_can_evolve = value
           when :add_stats
             pkmn.zbox_stat_additions = value.transform_keys do |k|
               STAT_MAP[k.to_s.upcase.to_sym] || k.to_s.upcase.to_sym
-            end  
+            end
           when :hidden_power then pkmn.zbox_hp_type_mod = value
           when :move_pool then process_move_pool(pkmn, value)
-          when :sprite_override then pkmn.zbox_sprite_override = value  
+          when :sprite_override then pkmn.zbox_sprite_override = value
           when :hue_change then pkmn.zbox_hue_value = value
           when :palette_swap then pkmn.zbox_palette_swap = value
           when :type_chart_mods
             pkmn.zbox_type_chart_mods ||= {}
-            pkmn.zbox_type_chart_mods.merge!(value)  
+            pkmn.zbox_type_chart_mods.merge!(value)
           when :type_chart_adds
             pkmn.zbox_type_chart_adds ||= {}
-            pkmn.zbox_type_chart_adds.merge!(value)  
+            pkmn.zbox_type_chart_adds.merge!(value)
           when :custom_moves
             pkmn.zbox_move_mods ||= {}
             value.each do |move_mod|
@@ -450,11 +461,11 @@ module ZBox
                   new_move.pp = total_pp_custom
                 end
               end
-            end   
+            end
           end
         end
-        
-        
+
+
         pkmn.calc_stats
 
         return pkmn
@@ -475,16 +486,16 @@ module ZBox
           # If there is a condition, it is executed. The variant is valid only if the condition returns true.
           next variant[:condition].call
         end
-        
+
         return nil if valid_variants.empty?
-        
+
         # Realizar el sorteo ponderado con la lógica nativa.
         # Perform the weighted draw with native logic.
         total_weight = valid_variants.sum { |variant| variant[:weight] || 0 }
         return nil if total_weight <= 0
-        
+
         roll = rand(total_weight)
-        
+
         chosen_variant = nil
         valid_variants.each do |variant|
           roll -= variant[:weight]
@@ -493,11 +504,11 @@ module ZBox
             break
           end
         end
-        
+
         # Si por algún error no se eligió ninguna, se elige la última válida como salvaguarda.
         # If for some reason none was chosen, the last valid one is chosen as a safeguard.
         chosen_variant ||= valid_variants.last
-        
+
         # Devolver el hash de configuración de la variante elegida.
         # Return the configuration hash of the chosen variant.
         return chosen_variant[:config]
@@ -507,33 +518,33 @@ module ZBox
       # --- Method to process the Move Pool ---
       def process_move_pool(pkmn, pool_config)
         return unless pool_config.is_a?(Hash) && pool_config[:moves].is_a?(Array)
-        
+
         learn_count = pool_config[:learn_count] || 1
         num_to_learn = learn_count.is_a?(Range) ? rand(learn_count) : learn_count
-        
+
         return if num_to_learn <= 0
-        
+
         available_moves = pool_config[:moves].clone
         chosen_moves = []
-        
+
         num_to_learn.times do
           break if available_moves.empty?
-          
+
           # Se calcula el peso total de los movimientos restantes en CADA iteración.
           # The total weight of the remaining moves is calculated in EACH iteration.
           total_weight = available_moves.sum { |move_data| move_data[1] }
           break if total_weight <= 0
-          
+
           # Se genera un número aleatorio dentro del rango del peso actual.
           # A random number is generated within the range of the current weight.
           roll = rand(total_weight)
-          
+
           # Se itera para encontrar el movimiento elegido.
           # Iterate to find the chosen move.
           available_moves.each_with_index do |move_data, i|
             move_id, weight = move_data
             roll -= weight
-            
+
             if roll < 0
               chosen_moves << move_id
               available_moves.delete_at(i)
@@ -541,16 +552,15 @@ module ZBox
             end
           end
         end
-        
+
         chosen_moves.each { |move| pkmn.learn_move(move) }
       end
-      
+
       # --- Método para cambiar los tipos ---
       # --- Method to change types ---
       def apply_type_mods(pkmn, types_array)
         pkmn.zbox_type_mods = types_array.map { |type| GameData::Type.get(type).id }
-      end     
+      end
     end
   end
 end
-

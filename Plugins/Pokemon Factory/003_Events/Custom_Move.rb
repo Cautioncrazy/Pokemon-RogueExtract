@@ -24,7 +24,7 @@
 #==============================================================================
 # Opciones para target:
 # Options for target:
-# :NearFoe          (Un oponente cercano, a elegir) 
+# :NearFoe          (Un oponente cercano, a elegir)
 # :AllNearFoes      (Todos los oponentes cercanos)
 # :Foe              (Un oponente cualquiera, incluso lejano)
 # :AllFoes          (Todos los oponentes)
@@ -40,46 +40,46 @@
 #==============================================================================
 # Opciones para change_weather:
 # Options for change_weather:
-# :Sun	            Día Soleado	    
-# :Rain	            Lluvia     
-# :Sandstorm	      Tormenta Arena   
-# :Hail	            Granizo	        
-# :HarshSun	        Sol Abrasador   
-# :HeavyRain	      Diluvio	        
-# :StrongWinds	    Vientos Fuertes	
-# :ShadowSky	      Cielo Sombrío	    
-# :None	            Ninguno	        
+# :Sun	            Día Soleado
+# :Rain	            Lluvia
+# :Sandstorm	      Tormenta Arena
+# :Hail	            Granizo
+# :HarshSun	        Sol Abrasador
+# :HeavyRain	      Diluvio
+# :StrongWinds	    Vientos Fuertes
+# :ShadowSky	      Cielo Sombrío
+# :None	            Ninguno
 #==============================================================================
 # Opciones para change_terrain:
 # Options for change_terrain:
-# :Electric	        Campo Eléctrico	
-# :Grassy	          Campo de Hierba	
-# :Misty	          Campo de Niebla	
-# :Psychic	        Campo Psíquico	
-# :None	            Ninguno		
+# :Electric	        Campo Eléctrico
+# :Grassy	          Campo de Hierba
+# :Misty	          Campo de Niebla
+# :Psychic	        Campo Psíquico
+# :None	            Ninguno
 #==============================================================================
 # Opciones para add_hazards_to_target_side:
 # Options for add_hazards_to_target_side:
-# :STEALTHROCK	    Trampa Rocas	
-# :SPIKES	          Púas	
-# :TOXICSPIKES	    Púas Tóxicas	
-# :STICKYWEB	      Red Pegajosa	
+# :STEALTHROCK	    Trampa Rocas
+# :SPIKES	          Púas
+# :TOXICSPIKES	    Púas Tóxicas
+# :STICKYWEB	      Red Pegajosa
 #==============================================================================
 # Opciones para add_side_effect_to_user:
 # Options for add_side_effect_to_user:
-# :TAILWIND	        Viento Afín	
+# :TAILWIND	        Viento Afín
 # :REFLECT	        Reflejo
 # :LIGHTSCREEN    	Pantalla de Luz
-# :AURORAVEIL	      Velo Aurora	 
+# :AURORAVEIL	      Velo Aurora
 # :SAFEGUARD	      Velo Sagrado
 # :MIST	   	        Neblina
 #==============================================================================
 # NOTA SOBRE heal_user:, heal_target:, fixed_damage_target: y recoil_user:
 # NOTE ABOUT heal_user:, heal_target:, fixed_damage_target: and recoil_user:
 #
-# Si el valor que proporcionas es menor que 2 (ej. 0.5, 0.25), 
+# Si el valor que proporcionas es menor que 2 (ej. 0.5, 0.25),
 # el sistema lo tratará como un porcentaje del HP máximo.
-# Si el valor es 2 o mayor (ej. 50, 100), 
+# Si el valor es 2 o mayor (ej. 50, 100),
 # el sistema lo tratará como una cantidad fija de HP.
 #
 # If the value you provide is less than 2 (e.g., 0.5, 0.25),
@@ -93,11 +93,11 @@ module ZBox
     # Ejemplo de custom_moves:
     # Example of custom_moves:
     #==============================================================================
- 
+
     # Se puede llamar mediante un evento con: ZBox.give_anomalous_tyranitar
     # Can be called from an event with: ZBox.give_anomalous_tyranitar
-    def self.give_anomalous_tyranitar  
-      
+    def self.give_anomalous_tyranitar
+
       titan_data = {
         species: :TYRANITAR,
         level: 85,
@@ -107,7 +107,7 @@ module ZBox
         item: :ASSAULTVEST,
         ivs: :perfect,
         base_stats: { atk: 204, spa: 4, spe: 121 },
-        
+
         # --- Movimientos personalizados ---
         # --- Custom moves ---
         custom_moves: [
@@ -115,66 +115,66 @@ module ZBox
           # A "Crunch" that becomes a priority attack and has its own name.
           {
             move: :CRUNCH,
-            
+
             # Nombre personalizado.
             # Personalized name
-            name: "Mordisco Abisal",  
-            
+            name: "Mordisco Abisal",
+
             # Descripción personalizada.
             # Custom description.
-            description: "Tritura de manera sorpresiva con afilados colmillos. Puede bajar la defensa.",  
-            
+            description: "Tritura de manera sorpresiva con afilados colmillos. Puede bajar la defensa.",
+
             # Originalmente tiene 15
             # Originally it has 15
-            total_pp: 10, 
-            
-            # Potencia ligeramente aumentada. 
+            total_pp: 10,
+
+            # Potencia ligeramente aumentada.
             # Slightly increased power.
-            power: 90,    
-            
-            # Actúa como un Ataque Rápido. 
+            power: 90,
+
+            # Actúa como un Ataque Rápido.
             # Acts like Quick Attack.
-            priority: 1   
+            priority: 1
           },
-          
+
           # Un "Roca Afilada" que nunca falla.
           # A "Stone Edge" that never misses.
           {
             move: :STONEEDGE,
-            
-            # 0 o 101 significa que siempre acierta. 
+
+            # 0 o 101 significa que siempre acierta.
             # 0 or 101 means it always hits.
-            accuracy: 0,        
-           
+            accuracy: 0,
+
             power: 100
           },
-          
-          # Un "Terremoto" de tipo Siniestro 
-          # A Dark-type "Earthquake" 
+
+          # Un "Terremoto" de tipo Siniestro
+          # A Dark-type "Earthquake"
           {
             move: :EARTHQUAKE,
 
-            # Cambia su tipo a Siniestro. 
+            # Cambia su tipo a Siniestro.
             # Changes its type to Dark.
-            type: :DARK,       
-            
+            type: :DARK,
+
             power: 100,
           },
-          
+
           # Un "Rayo Hielo" físico para usar su alto Ataque.
           # A physical "Ice Beam" to use its high Attack.
           {
             move: :ICEBEAM,
-            
-            # Ahora usa el Ataque Físico. 
+
+            # Ahora usa el Ataque Físico.
             # Now uses Physical Attack.
-            category: :PHYSICAL, 
-            
+            category: :PHYSICAL,
+
             power: 90,
           }
         ]
       }
-      
+
       pkmn = PokemonFactory.create(titan_data)
       pbAddPokemonWithNickname(pkmn)
     end
@@ -183,11 +183,11 @@ module ZBox
     # Ejemplo de custom_moves: con moves:
     # Example of custom moves: with moves:
     #==============================================================================
-    
+
     # Se puede llamar mediante un evento con: ZBox.give_pikachu_of_ash
     # Can be called from an event with: ZBox.give_pikachu_of_ash
-    def self.give_pikachu_of_ash  
-      
+    def self.give_pikachu_of_ash
+
       pikachu_data = {
         species: :PIKACHU,
         level: 88,
@@ -197,11 +197,11 @@ module ZBox
         evs: :sweeper_special,
         happiness: 255,
         owner_name: "Ash",
-        
+
         # Se define el moveset sin el movimiento personalizado.
         # The moveset is defined without the custom move.
         moves: [:QUICKATTACK, :IRONTAIL, :ELECTROWEB],
-        
+
         # --- Movimiento personalizado ---
         # --- Custom move ---
         custom_moves: [
@@ -210,18 +210,18 @@ module ZBox
             name: "Atactrueno",
             description: "El Impactrueno más poderoso del mundo.",
             power: 110,
-            accuracy: 0, 
+            accuracy: 0,
             total_pp: 15,
           }
         ]
       }
-      
+
       pkmn = PokemonFactory.create(pikachu_data)
       pbAddPokemonWithNickname(pkmn)
     end
 
     #==============================================================================
-    # Ejemplo de status_effect: 
+    # Ejemplo de status_effect:
     # Example of status_effect:
     #==============================================================================
 
@@ -230,8 +230,8 @@ module ZBox
 
     # Se puede llamar mediante un evento con: ZBox.give_berserker_dragonite
     # Can be called from an event with: ZBox.give_berserker_dragonite
-    def self.give_berserker_dragonite  
-      
+    def self.give_berserker_dragonite
+
       dragonite_data = {
         species: :DRAGONITE,
         level: 100,
@@ -240,29 +240,29 @@ module ZBox
         ivs: :perfect,
         evs: :sweeper_physical,
         moves: [:DRAGONCLAW, :EXTREMESPEED, :ROOST],
-        
+
         custom_moves: [
           {
             move: :DRAGONDANCE,
             name: "Ira Dragón",
             description: "Danza salvaje que sube mucho el Ataque y la Velocidad, pero baja las defensas.",
-            
-            
+
+
             status_effect: {
               # Mensaje que saldrá cuando use el movimiento. {1} es quien usa el movimiento
               # Message that will appear when you use the movement. {1} is the one who uses the movement
               message: "¡La furia de {1} se desata!",
-              
-              
+
+
               stat_changes: [
                 [:ATTACK, 3],
                 [:SPEED, 2],
-                [:DEFENSE, -2],         
+                [:DEFENSE, -2],
                 [:SPECIAL_DEFENSE, -2]
               ],
 
-            # apply_status_to_user: [:STATUS, PROBABILITY] 
-              apply_status_to_user: [:CONFUSION, 30]   
+            # apply_status_to_user: [:STATUS, PROBABILITY]
+              apply_status_to_user: [:CONFUSION, 30]
 
             # Multiple Status
             # apply_status_to_user: [ [:CONFUSION, 30], [:PARALYSIS, 30] ]
@@ -271,7 +271,7 @@ module ZBox
           }
         ]
       }
-      
+
       pkmn = ZBox::PokemonFactory.create(dragonite_data)
       WildBattle.start(pkmn)
     end
@@ -281,40 +281,40 @@ module ZBox
     # --- Moves that affect the opponent ---
 
     # Se puede llamar mediante un evento con: ZBox.give_spooky_gengar
-    # Can be called from an event with: ZBox.give_spooky_gengar   
+    # Can be called from an event with: ZBox.give_spooky_gengar
     def self.give_spooky_gengar
       gengar_data = {
         species: :GENGAR,
         level: 100,
         moves: [:SHADOWBALL, :SLUDGEBOMB, :THUNDERBOLT],
-        
+
         custom_moves: [
           {
-            move: :SCARYFACE, 
+            move: :SCARYFACE,
             name: "Mirada Espectral",
             description: "Una mirada aterradora que baja las defensas. Puede paralizar y confundir.",
             type: :GHOST,
-            
+
             # Objetivos a los que el movimiento afectará.:AllFoes es a todos los oponentes.
             # Targets that the move will affect.":AllFoes" refers to all opponents.
             target: :AllFoes,
-            
+
             status_effect: {
               message: "¡{1} lanza una mirada aterradora!",
 
               stat_changes_target: [
-                [:DEFENSE, -2],         
+                [:DEFENSE, -2],
                 [:SPECIAL_DEFENSE, -2]
               ],
               apply_status_to_target: [
-                [:PARALYSIS, 30], 
-                [:CONFUSION, 30]  
+                [:PARALYSIS, 30],
+                [:CONFUSION, 30]
               ]
             }
           }
         ]
       }
-      
+
       pkmn = ZBox::PokemonFactory.create(gengar_data)
       pbAddPokemon(pkmn)
     end
@@ -337,7 +337,7 @@ module ZBox
               # Realmente no hay diferecia con message:
               # There's really no difference with message:
               message_user: "¡{1} expulsa una nube de ceniza que intensifica el sol!",
-            
+
               # change_weather: [:WEATHER, DURATION]
               change_weather: [:Sun, 8]
             }
@@ -365,7 +365,7 @@ module ZBox
             status_effect: {
               message_user: "¡La mente de {1} se expandió, alterando el campo de batalla!",
               stat_changes: [[:SPECIAL_ATTACK, 1]],
-              
+
             # change_terrain: [:TERRAIN, DURATION]
               change_terrain: [:Psychic, 10]
             }
@@ -392,7 +392,7 @@ module ZBox
             description: "Teje una compleja red de trampas venenosas y pegajosas.",
             status_effect: {
               message: "¡{1} ha tejido un nido de trampas en el campo rival!",
-              
+
               # Pueden ser múltiples efectos
               # There can be multiple effects
               add_hazards_to_target_side: [
@@ -416,7 +416,7 @@ module ZBox
       alcremie_data = {
         species: :ALCREMIE,
         level: 100,
-    
+
         custom_moves: [
           {
             move: :DECORATE,
@@ -425,7 +425,7 @@ module ZBox
             target: :UserAndAllies,
             status_effect: {
               message_user: "¡{1} cubrió a su equipo con un glaseado protector!",
-             
+
               add_side_effect_to_user: [
                 { effect: :REFLECT,     duration: 8, message: "¡Una barrera física protege a {1}!" },
                 { effect: :LIGHTSCREEN, duration: 6, message: "¡Una barrera especial protege a {1}!" },
@@ -435,14 +435,14 @@ module ZBox
           }
         ]
       }
-  
+
       pkmn = ZBox::PokemonFactory.create(alcremie_data)
       pbAddPokemon(pkmn)
     end
 
     # --- Movimiento que cura al usuario o genera daño de retroceso ---
     # --- Move that heals the user or deals recoil damage ---
-    
+
     # Se puede llamar mediante un evento con: ZBox.give_sacrifice_gardevoir
     # Can be called from an event with: ZBox.give_sacrifice_gardevoir
     def self.give_sacrifice_gardevoir
@@ -465,7 +465,7 @@ module ZBox
               # Cura el 100% del HP máximo.
               # Heals 100% of maximum HP.
               heal_user: 1
-              
+
             }
           }
         ]
@@ -476,7 +476,7 @@ module ZBox
 
     # --- Movimiento que cura a un objetivo ---
     # --- Movement that heals a target ---
-    
+
     # Se puede llamar mediante un evento con: ZBox.give_healer_chansey
     # Can be called from an event with: ZBox.give_healer_chansey
     def self.give_healer_chansey
@@ -491,7 +491,7 @@ module ZBox
             description: "Emite una onda calmante que restaura los PS de un aliado.",
             status_effect: {
               message: "¡{1} emite una onda sanadora!",
-              
+
               # Cura al objetivo un 25% de su HP máximo.
               # Heals the target for 25% of their maximum HP.
               heal_target: 0.25
@@ -517,16 +517,16 @@ module ZBox
             move: :EMBER,
             name: "Flama Dragón",
             description: "Lanza una onda de choque que siempre inflige 40 PS de daño.",
-            type: :DRAGON,           
+            type: :DRAGON,
             category: :SPECIAL,
 
             # La potencia es irrelevante, es para que salga como ???
             # The power is irrelevant, it's so it comes out like ???
             power: 1,
-        
+
             status_effect: {
               message: "¡{1} lanza una onda de choque furiosa!",
-              
+
               # Inflige 40 puntos de daño fijo al objetivo.
               # Inflicts 40 fixed damage to the target.
               fixed_damage_target: 40
@@ -548,7 +548,7 @@ module ZBox
       sableye_data = {
         species: :SABLEYE,
         level: 100,
-    
+
         custom_moves: [
           {
             move: :CONFUSERAY,
@@ -556,7 +556,7 @@ module ZBox
             description: "Un conjuro terrible que anula las capacidades del oponente.",
             type: :DARK,
             target: :NearFoe,
-        
+
             status_effect: {
               message: "¡{1} lanza un maleficio terrible sobre el oponente!",
               # Suprime la habilidad.
@@ -566,7 +566,7 @@ module ZBox
               # Cambia la habilidad a otra.
               # Change the ability to another one.
             # change_target_ability: :INTIMIDATE,
-          
+
               # Desactiva el último movimiento por "x" turnos.
               # Deactivates the last move for "x" turns.
             # disable_target_last_move: 10,
@@ -581,11 +581,8 @@ module ZBox
           }
         ]
       }
-  
+
       pkmn = ZBox::PokemonFactory.create(sableye_data)
       pbAddPokemon(pkmn)
     end
-end   
-
-
-
+end

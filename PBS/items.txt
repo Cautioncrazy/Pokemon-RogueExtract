@@ -7313,3 +7313,27 @@ Price = 0
 Flags = KeyItem
 Description = A jagged shard of glass that sharpens the mind. Increases all EXP gained by the party by 15%.
 #-------------------------------
+[DATACORE_COMMON]
+Name = Common Data Core
+NamePlural = Common Data Cores
+Pocket = 1
+Price = 0
+Flags = KeyItem
+Description = A basic data core used to synthesize common starter Pokémon in the Hub.
+#-------------------------------
+[DATACORE_RARE]
+Name = Rare Data Core
+NamePlural = Rare Data Cores
+Pocket = 1
+Price = 0
+Flags = KeyItem
+Description = An uncommon data core used to synthesize rare starter Pokémon in the Hub.
+#-------------------------------
+[DATACORE_EPIC]
+Name = Epic Data Core
+NamePlural = Epic Data Cores
+Pocket = 1
+Price = 0
+Flags = KeyItem
+Description = A pristine data core used to synthesize epic starter Pokémon in the Hub.
+#-------------------------------

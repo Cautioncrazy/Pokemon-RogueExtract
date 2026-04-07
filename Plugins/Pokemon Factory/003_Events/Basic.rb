@@ -9,9 +9,9 @@ module ZBox
   # Basic example.
   #==============================================================================
 
-  # Se puede llamar mediante un evento con: ZBox.give_eevee 
+  # Se puede llamar mediante un evento con: ZBox.give_eevee
   # Can be called from an event with: ZBox.give_eevee
-  def self.give_eevee  
+  def self.give_eevee
     eevee_data = {
       species: :EEVEE,
       level: 10,
@@ -26,5 +26,5 @@ module ZBox
 
     pkmn = PokemonFactory.create(eevee_data)
     pbAddPokemonWithNickname(pkmn)
-  end     
-end    
+  end
+end

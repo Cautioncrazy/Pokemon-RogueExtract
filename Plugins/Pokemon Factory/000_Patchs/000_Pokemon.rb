@@ -20,29 +20,29 @@ class Pokemon
   attr_accessor :zbox_hue_value
   attr_accessor :zbox_palette_swap
 
-  
+
   # --- Parche para Estadísticas Base ---
   # --- Patch for Base Stats ---
   alias_method :zbox_original_baseStats, :baseStats
   def baseStats
     # 1. Se obtienen las estadísticas originales de la especie actual.
     stats = zbox_original_baseStats
-    
+
     # 2. Se aplican los modificadores aditivos (persistentes).
     if @zbox_stat_additions
       @zbox_stat_additions.each do |stat, value|
         stats[stat] += value if stats[stat]
       end
     end
-    
+
     # 3. Se aplican los overrides (no persistentes, específicos de la especie).
     if @zbox_stat_mods
       stats = stats.merge(@zbox_stat_mods)
     end
-    
+
     return stats
   end
-  
+
   # --- Parche para Tipos ---
   # --- Patch for Types ---
   alias_method :zbox_original_types, :types
@@ -64,7 +64,7 @@ class Pokemon
     if @zbox_can_evolve == false
       return nil
     end
-    
+
     # Se pasa el bloque de código al método original usando `&block`.
     # The code block is passed to the original method using `&block`.
     return zbox_original_check_evolution_internal(*args, &block)
@@ -104,7 +104,7 @@ def pbHiddenPower(pkmn)
     # If it has it, the forced type is returned and the rest is ignored.
     return [GameData::Type.get(pkmn.zbox_hp_type_mod).id, 60]
   end
-  
+
   # Si no hay modificación, se llama a la función original que guardamos.
   # If there is no modification, the original function we saved is called.
   return zbox_original_pbHiddenPower(pkmn)
@@ -132,12 +132,12 @@ module GameData
           # If it has it, the filename is returned WITHOUT the "Audio/SE/" path.
           # This is the format the rest of the engine expects.
           cry_filename = pkmn.zbox_cry_mod.sub("Audio/SE/", "")
-          
+
           # Se comprueba si el archivo personalizado existe. Si no, se pasa al original.
           # Check if the custom file exists. If not, it passes to the original.
           return cry_filename if pbResolveAudioSE(cry_filename)
         end
-        
+
         # Si no hay modificación, se llama al método original.
         # If there is no modification, the original method is called.
         return zbox_original_cry_filename_from_pokemon(pkmn, suffix)

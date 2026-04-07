@@ -159,6 +159,20 @@ We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to a
   - **Repeatable Quests:** If a bounty (like Slayer) is completed, turning it in removes it from the completed log, dispenses the reward, and automatically re-activates it so the player can immediately farm it again.
   - **Tiered Milestone Chaining:** If a chained bounty (like Apex Predator I) is completed, turning it in dispenses the reward and automatically activates the next tier in the chain (Apex Predator II).
 - **Start Menu UI Overrides:** In `Plugins/Roguelike_Extraction/011_Menu_Overrides.rb`, the standard "Quit Game" option is completely unregistered from the Pause Menu to prevent soft-resetting/save-scumming during a raid. A new "Bounties" option is injected to easily open the Quest UI anywhere.
+
+### 13. Alpha Boss Battles (DBK UI Extension)
+- **Concept:** Extends DBK's Wild Boss system by implementing a multi-bar HP system with custom UI iconography and visual auras to represent powerful Alpha Bosses.
+- **Implementation (`Plugins/Roguelike_Extraction/Alpha_DBK_Extension.rb`):**
+  - **Visuals:** Uses an aliasing approach in `Battle::Scene` and `Sprite_Battler` to generate a pulsating red silhouette aura directly behind the Alpha Pokémon's sprite during combat.
+  - **HP Multi-bar UI:** Overrides the DBK boss health bar rendering logic to create a "fighting game" style tier system based on the boss's current percentage. Colors are determined by the tier sequence: `[Orange, Purple, Cyan, Blue, Green, Yellow, Red]`. The full bar turns the solid color of the current tier instead of depleting a color gradient.
+  - **UI Iconography:** Programmatically draws a vibrant red "A" icon with a black shadow next to the Alpha's HP bar/name utilizing standard fonts.
+
+### 14. Data Core Gacha (Pokémon Factory Hub System)
+- **Concept:** A scalable custom hub scene that allows players to spend specific tier currencies (`DATACORE_COMMON`, `DATACORE_RARE`, `DATACORE_EPIC`) to roll RNG and generate customized starter Pokémon using the integrated Pokémon Factory plugin.
+- **Implementation (`Plugins/Roguelike_Extraction/Gacha_Hub_System.rb`):**
+  - **Gacha Pool Integration:** Hooks directly into `PokemonFactory.data` (which is populated by custom event hashes in `YOUR_EVENTS.rb`) to pull a randomized list of highly customized Pokémon configurations.
+  - **Scene UI & Generation:** A lightweight, text-based UI scene handles the currency transaction. Upon spending a Data Core, it rolls RNG, uses `PokemonFactory.create(data)` to generate the custom Pokémon with unique moves/stats/hues, and directly deposits the newly rolled starter into the first 3 boxes of the PC for future deployments.
+
 - **Automated Credits Tracking:** The script `scripts/update_credits.py` must be maintained and ran when a new plugin is added. It parses the `meta.txt` files across the `Plugins/` directory and outputs a sorted list of authors and their installed plugins to `credits.md` at the root of the project.
 - **Battle Hooks:** Located in `002_Relic_Hooks.rb`, the system aliases native calculation modules to apply the buffs:
     - `pbCalcDamageMultipliers`: Scans for `RELIC_MUSCLE` to boost physical attack by 5% per stack.

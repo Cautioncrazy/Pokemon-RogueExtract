@@ -6,11 +6,11 @@ if PluginManager.installed?("Voltseon's Overworld Encounters")
 
   def pbChangeEventSprite(event, pkmn, water = false)
     shiny = pkmn.shiny?
-    
+
     fname = pbOWSpriteFilename(pkmn.species, pkmn.form, pkmn.gender, shiny, pkmn.shadow, water)
     fname = pbOWSpriteFilename(pkmn.species, 0, pkmn.gender, shiny, pkmn.shadow, water) if pkmn.species == :MINIOR
     raise "Following Pokémon sprites were not found." if nil_or_empty?(fname)
-    
+
     fname.gsub!("Graphics/Characters/", "")
     event.character_name = fname
 
@@ -65,7 +65,7 @@ if PluginManager.installed?("Voltseon's Overworld Encounters")
       pkmn.level = (pkmn.level + rand(-2..2)).clamp(2, GameData::GrowthRate.max_level)
       pkmn.calc_stats
       pkmn.reset_moves
-      
+
       # =================================================================================
       # FACTORY PATHS
       # =================================================================================
@@ -99,9 +99,9 @@ if PluginManager.installed?("Voltseon's Overworld Encounters")
         pkmn.calc_stats
       end
       # =================================================================================
-      # 
+      #
       # =================================================================================
-      
+
       r_event = Rf.create_event do |e|
         e.name = water ? "OverworldPkmn_Swim" : "OverworldPkmn"
         e.name = e.name + " Reflection" if VOESettings::REFLECTION_MAP_IDS.include?($game_map.map_id)
@@ -141,14 +141,14 @@ if PluginManager.installed?("Voltseon's Overworld Encounters")
 
       spriteset = $scene.spriteset($game_map.map_id)
       dist = (((event.x - $game_player.x).abs + (event.y - $game_player.y).abs) / 4).floor
-      
+
       if pkmn.shiny?
         pbSEPlay(VOESettings::SHINY_SOUND, [75, 65, 55, 40, 27, 22, 15][dist], 100) if dist <= 6 && dist >= 0
         spriteset&.addUserAnimation(VOESettings::SHINY_ANIMATION, event.x, event.y, true, 1)
       end
-      
+
       pbChangeEventSprite(event, pkmn, water)
-      
+
       event.direction = rand(1..4) * 2
       event.through = false
       spriteset&.addUserAnimation(VOESettings::SPAWN_ANIMATION, event.x, event.y, true, 1)

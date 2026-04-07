@@ -2,7 +2,7 @@
 #
 #===============================================================================
 class PokemonPokedexInfo_Scene
-  alias_method :zbox_start_scene, :pbStartScene  
+  alias_method :zbox_start_scene, :pbStartScene
   def pbStartScene(dexlist, index, region, page = 1)
     @hue = 0
     zbox_start_scene(dexlist, index, region, page)
@@ -30,7 +30,7 @@ class PokemonPokedexInfo_Scene
         @sprites["huepanel"].oy = @sprites["huepanel"].bitmap.height / 2
       end
       @sprites["huepanel"].x = 256
-      @sprites["huepanel"].y = 192 
+      @sprites["huepanel"].y = 192
       @sprites["huepanel"].visible = false
       @sprites["huetext"].z = @sprites["huepanel"].z + 1
     end
@@ -41,37 +41,37 @@ class PokemonPokedexInfo_Scene
     if !defined?(Settings::VARIATION_COLOR_WILDPOKEMON) || !Settings::VARIATION_COLOR_WILDPOKEMON
       return zbox_pbUpdateDummyPokemon
     end
-    
+
     @species = @dexlist[@index][:species]
     @gender, @form = $player.pokedex.last_form_seen(@species)[0..1]
     @shiny ||= false
-    
+
     metrics_data = GameData::SpeciesMetrics.get_species_form(@species, @form)
     species_id = metrics_data.id
-    
+
     [@sprites["infosprite"], @sprites["formfront"], @sprites["formback"]].compact.each do |sprite|
       is_back_sprite = (sprite == @sprites["formback"])
-      
+
       # Se carga el bitmap base (normal o shiny).
       # The base bitmap (normal or shiny) is loaded.
       sprite.setSpeciesBitmap(@species, @gender, @form, @shiny, false, is_back_sprite)
-      
+
       # Se accede al wrapper interno y se crea una copia.
       # The internal wrapper is accessed and a copy is created.
       internal_wrapper = sprite.instance_variable_get(:@_iconbitmap)
       next if !internal_wrapper
       copied_wrapper = internal_wrapper.copy
-      
+
       # Se aplican las modificaciones de HUE a la copia.
       # The HUE modifications are applied to the copy.
       copied_wrapper.hue_change(@hue) if @hue != 0
-      
+
       # Se reemplaza el wrapper interno y se actualiza el bitmap visible.
       # The internal wrapper is replaced and the visible bitmap is updated.
       sprite.instance_variable_set(:@_iconbitmap, copied_wrapper)
       sprite.bitmap = copied_wrapper.bitmap
     end
-    
+
     if PluginManager.installed?("[DBK] Animated Pokémon System")
       # Se asignan los valores de constricción y se llama a pbSetDisplay.
       # The constraint values ​​are assigned and pbSetDisplay is called.
@@ -100,11 +100,11 @@ class PokemonPokedexInfo_Scene
         @sprites["formback"].zoom_y = 1.0
       end
     end
-    
+
     if @sprites["formicon"]
       icon_sprite = @sprites["formicon"]
       icon_sprite.pbSetParams(@species, @gender, @form, @shiny)
-      
+
       internal_anim_bitmap = icon_sprite.instance_variable_get(:@animBitmap)
       if internal_anim_bitmap
         copied_anim_bitmap = internal_anim_bitmap.copy
@@ -112,7 +112,7 @@ class PokemonPokedexInfo_Scene
         icon_sprite.instance_variable_set(:@animBitmap, copied_anim_bitmap)
         icon_sprite.bitmap = copied_anim_bitmap.bitmap
         icon_sprite.src_rect.width  = copied_anim_bitmap.height
-        icon_sprite.src_rect.height = copied_anim_bitmap.height       
+        icon_sprite.src_rect.height = copied_anim_bitmap.height
         icon_sprite.update
       end
     end
@@ -145,7 +145,7 @@ class PokemonPokedexInfo_Scene
       Input.update
       pbUpdate
       dorefresh = false
-      
+
       if Input.trigger?(Input::ACTION)
         pbSEStop
         Pokemon.play_cry(@species, @form) if @page == 1
@@ -154,11 +154,11 @@ class PokemonPokedexInfo_Scene
         break
       elsif Input.trigger?(Input::USE)
         case @page
-        when 1   
+        when 1
           pbPlayDecisionSE
           @show_battled_count = !@show_battled_count
           dorefresh = true
-        when 3   
+        when 3
           pbPlayDecisionSE
           pbChooseFormAndHue
           dorefresh = true
@@ -226,12 +226,12 @@ class PokemonPokedexInfo_Scene
       end
     end
     oldindex = -1
-    
+
     @sprites["huetext"].visible = true
     @sprites["huepanel"].visible = true
-    
+
     dorefresh = true
-    
+
     loop do
       if dorefresh
         @sprites["infosprite"].setSpeciesBitmap(@species, @gender, @form, @shiny)
@@ -240,14 +240,14 @@ class PokemonPokedexInfo_Scene
         @sprites["formicon"]&.pbSetParams(@species, @gender, @form, @shiny)
         pbUpdateDummyPokemon
         drawPage(@page)
-        
+
         show_form_arrows = @available.length > 1
         @sprites["uparrow"].visible   = show_form_arrows && (index > 0)
         @sprites["downarrow"].visible = show_form_arrows && (index < @available.length - 1)
-        
+
         @sprites["leftarrow"].visible = (@hue > -Settings::VARIATION_COLOR)
         @sprites["rightarrow"].visible = (@hue < Settings::VARIATION_COLOR)
-        
+
         overlay = @sprites["huetext"].bitmap
         overlay.clear
         label_text = _INTL("Tono")
@@ -262,30 +262,30 @@ class PokemonPokedexInfo_Scene
         pbDrawTextPositions(overlay, text_positions)
         dorefresh = false
       end
-      
+
       Graphics.update
       Input.update
       pbUpdate
-      
-      if Input.trigger?(Input::UP) && @available.length > 1 
+
+      if Input.trigger?(Input::UP) && @available.length > 1
         pbPlayCursorSE
         index = (index + @available.length - 1) % @available.length
       elsif Input.trigger?(Input::DOWN) && @available.length > 1
         pbPlayCursorSE
         index = (index + 1) % @available.length
-       elsif Input.repeat?(Input::LEFT) 
+       elsif Input.repeat?(Input::LEFT)
         if @hue > -Settings::VARIATION_COLOR
-          pbPlayCursorSE if Input.trigger?(Input::LEFT) 
+          pbPlayCursorSE if Input.trigger?(Input::LEFT)
           @hue -= 1
           dorefresh = true
         end
-      elsif Input.repeat?(Input::RIGHT) 
+      elsif Input.repeat?(Input::RIGHT)
         if @hue < Settings::VARIATION_COLOR
-          pbPlayCursorSE if Input.trigger?(Input::RIGHT) 
+          pbPlayCursorSE if Input.trigger?(Input::RIGHT)
           @hue += 1
           dorefresh = true
         end
-      elsif Input.trigger?(Input::SPECIAL) 
+      elsif Input.trigger?(Input::SPECIAL)
         pbPlayDecisionSE
         @shiny = !@shiny
         dorefresh = true
@@ -293,14 +293,14 @@ class PokemonPokedexInfo_Scene
         pbPlayCancelSE
         break
       end
-      
+
       if oldindex != index
         $player.pokedex.set_last_form_seen(@species, @available[index][1], @available[index][2])
         dorefresh = true
         oldindex = index
       end
     end
-    
+
     @shiny = original_shiny
     @hue = original_hue
 
@@ -315,13 +315,11 @@ class PokemonPokedexInfo_Scene
 
   def pbGetMaxPages
     max_pages = 3
-    
+
     if PluginManager.installed?("[MUI] Pokedex Data Page")
-      max_pages += 1 
+      max_pages += 1
     end
-    
+
     return max_pages
   end
 end
-
-

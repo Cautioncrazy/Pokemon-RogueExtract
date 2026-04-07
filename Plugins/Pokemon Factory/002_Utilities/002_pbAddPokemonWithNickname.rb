@@ -33,7 +33,7 @@ def pbAddPokemonWithNickname(pkmn, level = 1, see_form = true)
     end
   end
   if $player.party_full?
-    # Credits: dptierra  
+    # Credits: dptierra
     cmds = [_INTL("Añadir al equipo"),
           _INTL("Enviarlo al PC"),
           _INTL("Ver los datos de {1}", pkmn.name),
@@ -53,10 +53,10 @@ def pbAddPokemonWithNickname(pkmn, level = 1, see_form = true)
 
         send_pkmn = $player.party[party_index]
         $player.party[party_index] = pkmn
-      
+
         stored_box = $PokemonStorage.pbStoreCaught(send_pkmn)
         box_name   = $PokemonStorage[stored_box].name
-      
+
         pbMessage(_INTL("¡\\c[5]{1}\\c[0] se ha enviado a la Caja \"{2}\"!", send_pkmn.name, box_name))
         pbMessage(_INTL("¡\\c[5]{1}\\c[0] fue añadido al equipo!", pkmn.name))
         break
