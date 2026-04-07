@@ -1,0 +1,9 @@
+﻿Name       = Pokemon Factory
+Version    = 2.1.0
+Essentials = 21.1
+Credits    = Zik
+Optional   = [DBK] Enhanced Battle UI
+Optional   = [DBK] Animated Pokémon System
+Optional   = Following Pokemon EX
+Optional   = Visible Overworld Wild Encounters
+Optional   = Voltseon's Overworld Encounters
