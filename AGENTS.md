@@ -174,7 +174,15 @@ We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to a
   - **Scene UI & Generation:** A lightweight, text-based UI scene handles the currency transaction. Upon spending a Data Core, it rolls RNG, uses `PokemonFactory.create(data)` to generate the custom Pokémon with unique moves/stats/hues.
   - **Custom Hatch Animation Hook:** If the rolled data hash contains an `:egg_type` parameter (e.g., `:COMMON`, `:EPIC`), the system triggers the custom standalone method `pbDataCoreHatchAnimation(pkmn, rarity_symbol)`. This mimics the native egg hatching sequence but loads a specific custom egg graphic (`Graphics/Pokemon/Eggs/#{rarity_symbol}.png`), overriding standard engine methods non-destructively, skipping Pokedex and nickname logic. It then deposits the newly rolled starter into the first 3 boxes of the PC for future deployments.
 
-### 15. Dynamic Graphic Persistence
+### 15. Factory Boss Spawning
+- **Concept:** Integrates custom Pokémon from the Pokémon Factory into the roguelike loop as dynamic, wild boss encounters on the map, keeping them separate from the standard player Gacha pool.
+- **Implementation:**
+  - **Gacha Pool Exclusion (`Gacha_Hub_System.rb`):** The `pbDataCoreRoll` function filters out any Pokémon Factory keys starting with `"boss_"` to ensure players do not hatch Bosses from the Data Core Gacha.
+  - **Map Generation (`008_Mass_Map_Generator.rb`):** Injects a procedural event named `"boss_pkmn"` (Event Touch Trigger) on the map alongside regular trainers and VIPs.
+  - **Overworld Graphics (`002_Dynamic_Event_Spawner.rb`):** When the spawner detects a `"boss_pkmn"` event, it selects a random `"boss_"` key from the Factory, assigns it to `$PokemonGlobal.instance_variable_get(:@raid_event_bosses)`, and dynamically applies its overworld sprite (`boss_data[:sprite_override]` or species name) and `hue_change`.
+  - **Battle Logic (`006_Dynamic_Spawns_And_Scaling.rb`):** Interacting with the event triggers `pbDynamicBossPokemon`, which pulls the assigned boss from the Factory, instantiates the Pokémon, and starts a `cannotRun` wild battle. On victory, Self Switch "A" is activated to erase the event.
+
+### 16. Dynamic Graphic Persistence
 - **Concept:** Solves an engine visual bug where dynamic overworld graphics for Bosses and Trainers disappear and turn invisible after battles or map transfers (`$game_map.refresh` resets event pages in RAM, losing dynamically assigned graphics).
 - **Implementation (`Plugins/Roguelike_Extraction/009_Dynamic_Graphic_Persistence.rb`):**
   - Aliases `Game_Event#refresh` to non-destructively intercept map reloads.

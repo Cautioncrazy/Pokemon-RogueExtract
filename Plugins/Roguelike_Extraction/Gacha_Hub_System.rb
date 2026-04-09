@@ -207,7 +207,12 @@ def pbGachaRoll(currency = GACHA_CURRENCY)
   if pbConfirmMessage(_INTL("Spend 1 {1} to synthesize a Data Core Pokémon?", GameData::Item.get(currency).name))
 
     if defined?(ZBox::PokemonFactory) && !ZBox::PokemonFactory.data.empty?
-      chosen_key = ZBox::PokemonFactory.data.keys.sample
+      valid_keys = ZBox::PokemonFactory.data.keys.reject { |k| k.to_s.downcase.start_with?("boss_") }
+      if valid_keys.empty?
+        pbMessage(_INTL("No Data Core signatures available. (Gacha Pool empty)"))
+        return false
+      end
+      chosen_key = valid_keys.sample
       chosen_data = ZBox::PokemonFactory.data[chosen_key]
       
       # SAFELY EXTRACT EGG TYPE BEFORE CREATION

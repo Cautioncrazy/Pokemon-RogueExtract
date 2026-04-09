@@ -213,6 +213,32 @@ class Interpreter
     pbSetAndStartDynamicTrainer(possible_types, nil, victory_switch)
   end
 
+  def pbDynamicBossPokemon
+    event_id = pbMapInterpreter.get_character(0).id
+    if $PokemonGlobal.instance_variable_defined?(:@raid_event_bosses) &&
+       $PokemonGlobal.instance_variable_get(:@raid_event_bosses)[event_id]
+      chosen_key = $PokemonGlobal.instance_variable_get(:@raid_event_bosses)[event_id]
+    else
+      boss_keys = ZBox::PokemonFactory.data.keys.select { |k| k.to_s.downcase.start_with?("boss_") }
+      return false if boss_keys.empty?
+      chosen_key = boss_keys.sample
+    end
+
+    boss_data = ZBox::PokemonFactory.data[chosen_key]
+    pkmn = ZBox::PokemonFactory.create(boss_data)
+    pkmn.play_cry
+    pbWait(20)
+
+    setBattleRule("cannotRun")
+    outcome = WildBattle.start(pkmn)
+
+    if outcome == 1 || outcome == 4
+      pbSetSelfSwitch(event_id, "A", true)
+      return true
+    end
+    return false
+  end
+
   # An all-in-one function to dynamically set and start a trainer encounter.
   # Intelligently handles being placed in a Parallel Process: it will update
   # its graphic immediately on map load, then convert itself into an Action Button

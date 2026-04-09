@@ -262,6 +262,10 @@ def pbMassGenerateRoguelikeMaps
       map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "pbDynamicTrainer(\"A\")", true, true)
       current_event_id += 1
 
+      # 1 Boss Pokemon
+      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "pbDynamicBossPokemon", true, true)
+      current_event_id += 1
+
       # 1 Extract NPC
       map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "pbEarlyExtractPrompt", false, false)
       current_event_id += 1
