@@ -400,38 +400,3 @@ BattleBack = city
 
 #---------Python Generated------
 
-#-------------------------------
-[078]   # Shadow Depths
-Name = Shadow Depths
-Dungeon = true
-BattleBack = forest
-Environment = Forest
-BGM = bgm2,100,100
-#-------------------------------
-[079]   # Verdant Ruins
-Name = Verdant Ruins
-Dungeon = true
-BattleBack = forest
-Environment = Forest
-BGM = bgm1,100,100
-#-------------------------------
-[080]   # Forgotten Grotto
-Name = Forgotten Grotto
-Dungeon = true
-BattleBack = 2
-Environment = None
-BGM = bgm6,100,100
-#-------------------------------
-[081]   # Mystic Cave
-Name = Mystic Cave
-Dungeon = true
-BattleBack = forest
-Environment = Forest
-BGM = bgm3,100,100
-#-------------------------------
-[082]   # Ancient Ruins
-Name = Ancient Ruins
-Dungeon = true
-BattleBack = forest
-Environment = Forest
-BGM = bgm3,100,100
