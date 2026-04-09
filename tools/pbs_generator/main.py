@@ -2,7 +2,7 @@ import sys
 import os
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                              QLabel, QLineEdit, QPushButton, QComboBox, QSpinBox,
-                             QTextEdit, QFrame, QGridLayout, QCheckBox, QProgressBar)
+                             QTextEdit, QFrame, QGridLayout, QCheckBox, QProgressBar, QScrollArea)
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
 from PyQt6.QtGui import QFont, QColor, QPalette
 
@@ -438,7 +438,13 @@ class PBSGeneratorApp(QMainWindow):
         """)
         control_layout.addWidget(self.total_progress_bar, 16, 0, 1, 2)
 
-        main_layout.addWidget(control_panel)
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setWidget(control_panel)
+        scroll_area.setFrameShape(QFrame.Shape.NoFrame)
+        scroll_area.setStyleSheet("background-color: transparent;")
+
+        main_layout.addWidget(scroll_area)
 
         # Log Output Console
         self.log_console = QTextEdit()
