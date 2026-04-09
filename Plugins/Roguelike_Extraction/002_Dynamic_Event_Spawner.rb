@@ -87,7 +87,31 @@ module RoguelikeExtraction
     $game_map.events.values.each do |event|
       name = event.name.downcase
 
-      if name.include?("vip") || name.include?("trainer") || name.include?("chest") || name == "extract" || name == "trader" || name == "printer"
+      if name.include?("vip") || name.include?("trainer") || name.include?("chest") || name == "extract" || name == "trader" || name == "printer" || name == "boss_pkmn"
+
+        if name == "boss_pkmn"
+          $PokemonGlobal.instance_variable_set(:@raid_event_bosses, {}) if !$PokemonGlobal.instance_variable_defined?(:@raid_event_bosses) || $PokemonGlobal.instance_variable_get(:@raid_event_bosses).nil?
+
+          boss_keys = ZBox::PokemonFactory.data.keys.select { |k| k.to_s.downcase.start_with?("boss_") }
+          if !boss_keys.empty?
+            chosen_key = boss_keys.sample
+            $PokemonGlobal.instance_variable_get(:@raid_event_bosses)[event.id] = chosen_key
+            boss_data = ZBox::PokemonFactory.data[chosen_key]
+
+            graphic_name = boss_data[:sprite_override] ? boss_data[:sprite_override] : boss_data[:species].to_s
+            graphic_hue = boss_data[:hue_change] ? boss_data[:hue_change] : 0
+
+            rpg_event = event.instance_variable_get(:@event)
+            if rpg_event && rpg_event.pages
+              rpg_event.pages.each do |page|
+                if page.graphic
+                  page.graphic.character_name = graphic_name
+                  page.graphic.character_hue = graphic_hue
+                end
+              end
+            end
+          end
+        end
 
         # Pre-calculate Trainer/VIP and apply graphics immediately
         if name.include?("vip") || name.include?("trainer")
