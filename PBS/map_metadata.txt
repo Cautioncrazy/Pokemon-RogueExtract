@@ -400,3 +400,40 @@ BattleBack = city
 
 #---------Python Generated------
 
+#-------------------------------
+[078]   # Shadow Ruins
+Name = Shadow Ruins
+Dungeon = true
+BattleBack = forest
+Environment = Forest
+BGM = bgm3,100,100
+#-------------------------------
+[079]   # Mystic Depths
+Name = Mystic Depths
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+BGM = bgm4,100,100
+#-------------------------------
+[080]   # Mystic Hollow
+Name = Mystic Hollow
+Dungeon = true
+BattleBack = cave1
+Environment = Cave
+BGM = bgm3,100,100
+#-------------------------------
+[081]   # Mystic Depths
+Name = Mystic Depths
+Dungeon = true
+BattleBack = cave1
+Environment = Cave
+BGM = bgm5,100,100
+#-------------------------------
+[082]   # Silent Ruins
+Name = Silent Ruins
+Dungeon = true
+BattleBack = snow
+BattleBase = grassICE
+Environment = Snow
+BGM = bgm4,100,100
