@@ -178,9 +178,8 @@ We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to a
 - **Concept:** Solves an engine visual bug where dynamic overworld graphics for Bosses and Trainers disappear and turn invisible after battles or map transfers (`$game_map.refresh` resets event pages in RAM, losing dynamically assigned graphics).
 - **Implementation (`Plugins/Roguelike_Extraction/009_Dynamic_Graphic_Persistence.rb`):**
   - Aliases `Game_Event#refresh` to non-destructively intercept map reloads.
-  - Checks if the event's Victory Switch (Self Switch "A") is OFF.
-  - If undefeated, reads the persistently cached trainer data in `$PokemonGlobal.instance_variable_get(:@dynamic_trainers)` for `[$game_map.map_id, @id]`.
-  - Dynamically restores `@character_name = "trainer_#{chosen_type.to_s}"` and `@character_hue = 0`, ensuring the correct sprite persists.
+  - Reads the persistently cached trainer data in `$PokemonGlobal.instance_variable_get(:@dynamic_trainers)` for `[$game_map.map_id, @id]`.
+  - Dynamically restores `@character_name = "trainer_#{chosen_type.to_s}"` and `@character_hue = 0`, ensuring the correct sprite persists even after the event has been defeated.
 
 - **Automated Credits Tracking:** The script `scripts/update_credits.py` must be maintained and ran when a new plugin is added. It parses the `meta.txt` files across the `Plugins/` directory and outputs a sorted list of authors and their installed plugins to `credits.md` at the root of the project.
 - **Battle Hooks:** Located in `002_Relic_Hooks.rb`, the system aliases native calculation modules to apply the buffs:
