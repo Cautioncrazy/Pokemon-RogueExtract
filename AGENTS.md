@@ -174,6 +174,14 @@ We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to a
   - **Scene UI & Generation:** A lightweight, text-based UI scene handles the currency transaction. Upon spending a Data Core, it rolls RNG, uses `PokemonFactory.create(data)` to generate the custom Pokémon with unique moves/stats/hues.
   - **Custom Hatch Animation Hook:** If the rolled data hash contains an `:egg_type` parameter (e.g., `:COMMON`, `:EPIC`), the system triggers the custom standalone method `pbDataCoreHatchAnimation(pkmn, rarity_symbol)`. This mimics the native egg hatching sequence but loads a specific custom egg graphic (`Graphics/Pokemon/Eggs/#{rarity_symbol}.png`), overriding standard engine methods non-destructively, skipping Pokedex and nickname logic. It then deposits the newly rolled starter into the first 3 boxes of the PC for future deployments.
 
+### 15. Dynamic Graphic Persistence
+- **Concept:** Solves an engine visual bug where dynamic overworld graphics for Bosses and Trainers disappear and turn invisible after battles or map transfers (`$game_map.refresh` resets event pages in RAM, losing dynamically assigned graphics).
+- **Implementation (`Plugins/Roguelike_Extraction/009_Dynamic_Graphic_Persistence.rb`):**
+  - Aliases `Game_Event#refresh` to non-destructively intercept map reloads.
+  - Checks if the event's Victory Switch (Self Switch "A") is OFF.
+  - If undefeated, reads the persistently cached trainer data in `$PokemonGlobal.instance_variable_get(:@dynamic_trainers)` for `[$game_map.map_id, @id]`.
+  - Dynamically restores `@character_name = "trainer_#{chosen_type.to_s}"` and `@character_hue = 0`, ensuring the correct sprite persists.
+
 - **Automated Credits Tracking:** The script `scripts/update_credits.py` must be maintained and ran when a new plugin is added. It parses the `meta.txt` files across the `Plugins/` directory and outputs a sorted list of authors and their installed plugins to `credits.md` at the root of the project.
 - **Battle Hooks:** Located in `002_Relic_Hooks.rb`, the system aliases native calculation modules to apply the buffs:
     - `pbCalcDamageMultipliers`: Scans for `RELIC_MUSCLE` to boost physical attack by 5% per stack.
