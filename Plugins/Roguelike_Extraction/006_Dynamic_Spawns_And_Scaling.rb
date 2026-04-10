@@ -213,32 +213,6 @@ class Interpreter
     pbSetAndStartDynamicTrainer(possible_types, nil, victory_switch)
   end
 
-  def pbDynamicBossPokemon
-    event_id = pbMapInterpreter.get_character(0).id
-    if $PokemonGlobal.instance_variable_defined?(:@raid_event_bosses) &&
-       $PokemonGlobal.instance_variable_get(:@raid_event_bosses)[event_id]
-      chosen_key = $PokemonGlobal.instance_variable_get(:@raid_event_bosses)[event_id]
-    else
-      boss_keys = ZBox::PokemonFactory.data.keys.select { |k| k.to_s.downcase.start_with?("boss_") }
-      return false if boss_keys.empty?
-      chosen_key = boss_keys.sample
-    end
-
-    boss_data = ZBox::PokemonFactory.data[chosen_key]
-    pkmn = ZBox::PokemonFactory.create(boss_data)
-    pkmn.play_cry
-    pbWait(20)
-
-    setBattleRule("cannotRun")
-    outcome = WildBattle.start(pkmn)
-
-    if outcome == 1 || outcome == 4
-      pbSetSelfSwitch(event_id, "A", true)
-      return true
-    end
-    return false
-  end
-
   # Call this in any event script block, e.g., pbFightSpecificBoss(:boss_castform_data)
 #===============================================================================
 # DBK-Compatible Boss Spawners (Native Bridge)
@@ -257,55 +231,18 @@ def pbDynamicBossPokemon
     chosen_key = boss_keys.sample
   end
 
-  return pbFightSpecificBoss(chosen_key)
+  outcome = pbFightFactoryBoss(chosen_key)
+
+  if outcome
+    pbSetSelfSwitch(event_id, "A", true)
+    return true
+  end
+  return false
 end
 
 # Triggered manually in any Event Script box: pbFightSpecificBoss(:boss_castform_data)
 def pbFightSpecificBoss(boss_key)
-  boss_data = ZBox::PokemonFactory.data[boss_key]
-  
-  if boss_data.nil?
-    pbMessage(_INTL("Error: Could not find {1} in the Factory.", boss_key.to_s))
-    return false
-  end
-
-  # 1. NATIVE BUILD (The Gauntlet Failsafe)
-  species = boss_data[:species] || :BULBASAUR
-  level = boss_data[:level] || 50
-  pkmn = Pokemon.new(species, level)
-
-  # 2. SAFE FACTORY OVERRIDES
-  pkmn.name = boss_data[:nickname] if boss_data[:nickname]
-  pkmn.item = boss_data[:item] if boss_data[:item]
-  pkmn.poke_ball = boss_data[:poke_ball] if boss_data[:poke_ball]
-  pkmn.shiny = true if boss_data[:shiny]
-  pkmn.ability = boss_data[:ability] if boss_data[:ability]
-  pkmn.nature = boss_data[:nature] if boss_data[:nature]
-
-  if boss_data[:ivs] == :perfect
-    GameData::Stat.each_main { |s| pkmn.iv[s.id] = 31 }
-  end
-
-  if boss_data[:moves] && boss_data[:moves].is_a?(Array)
-    pkmn.forget_all_moves
-    boss_data[:moves].each { |m| pkmn.learn_move(m) }
-  end
-
-  pkmn.calc_stats
-  pkmn.heal
-
-  # 3. START DBK BATTLE
-  pkmn.play_cry
-  pbWait(20)
-
-  setBattleRule("cannotRun")
-  
-  # Tell DBK this is a boss! (Crucial for Jules' health bars!)
-  setBattleRule("wildBoss") 
-
-  outcome = WildBattle.start(pkmn)
-
-  return (outcome == 1 || outcome == 4)
+  return pbFightFactoryBoss(boss_key)
 end
 
   # An all-in-one function to dynamically set and start a trainer encounter.
