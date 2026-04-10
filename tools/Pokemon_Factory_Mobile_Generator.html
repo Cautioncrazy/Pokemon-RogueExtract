@@ -42,12 +42,34 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     }
 
-    /* Sticky Card & Buttons */
+    /* Ultra-Slim Sticky Card */
     .sticky-card {
       position: sticky;
       top: 16px;
       z-index: 100;
-      padding-bottom: 50px; 
+      padding: 12px 16px; 
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); 
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-sprite {
+      width: 64px;
+      height: 64px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .header-sprite img {
+      max-height: 100%;
+      max-width: 100%;
+      image-rendering: pixelated;
     }
 
     .header-buttons {
@@ -70,55 +92,6 @@
 
     .btn-action:active {
       opacity: 0.8;
-    }
-
-    #collapse-btn {
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-      width: 32px;
-      height: 32px;
-      padding: 0;
-      margin: 0;
-      border-radius: 50%;
-      background-color: var(--input-bg);
-      color: var(--primary-color);
-      border: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 14px;
-      transition: transform 0.3s ease;
-    }
-
-    #collapse-btn.rotated {
-      transform: rotate(180deg);
-    }
-
-    #collapsible-section {
-      display: block;
-    }
-
-    #collapsible-section.hidden {
-      display: none;
-    }
-
-    /* Sprite Preview */
-    .preview-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 120px;
-      margin-bottom: 16px;
-      background: var(--input-bg);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .preview-container img {
-      max-height: 100%;
-      image-rendering: pixelated;
     }
 
     /* Form Fields */
@@ -220,7 +193,7 @@
     textarea {
       width: 100%;
       box-sizing: border-box;
-      height: 220px;
+      height: 240px;
       padding: 12px;
       border-radius: 8px;
       border: 1px solid var(--border-color);
@@ -269,11 +242,22 @@
   </div>
 
   <div class="card sticky-card" id="main-card">
-    <div class="preview-container">
-      <img id="sprite-preview" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="Sprite Preview">
+    <div class="header-row">
+      <div class="header-sprite">
+        <img id="sprite-preview" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="Sprite Preview">
+      </div>
+      <div class="form-group" style="flex: 1; margin-bottom: 0;">
+        <label for="species" style="margin-bottom: 4px;">Species</label>
+        <div class="autocomplete-wrapper">
+          <input type="text" id="species" value="Bulbasaur" placeholder="e.g. Bulbasaur">
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="form-group" style="margin-bottom: 16px;">
+  <div class="card">
+    <h2>General Info</h2>
+    <div class="form-group">
       <label for="export_mode">Export Format</label>
       <select id="export_mode">
         <option value="gacha">Gacha / Boss Database (Push to Ruby)</option>
@@ -281,45 +265,34 @@
       </select>
     </div>
 
-    <div class="form-group" style="margin-bottom: 0;">
-      <label for="factory_id" id="factory_id_label">Factory ID</label>
+    <div class="form-group">
+      <label for="factory_id" id="factory_id_label">Factory ID (Database Key)</label>
       <input type="text" id="factory_id" value="bulbasaur_data" placeholder="e.g. eevee_data">
     </div>
 
-    <div class="form-group" style="margin-top: 16px; margin-bottom: 0;">
-      <label for="species">Species</label>
+    <div class="form-group">
+      <label for="nickname">Nickname</label>
+      <input type="text" id="nickname" placeholder="Leave blank for none">
+    </div>
+
+    <div class="form-group">
+      <label for="level">Level</label>
+      <input type="number" id="level" value="5" min="1" max="100">
+    </div>
+
+    <div class="form-group">
+      <label for="item">Held Item</label>
       <div class="autocomplete-wrapper">
-        <input type="text" id="species" value="Bulbasaur" placeholder="e.g. Eevee or Bulbasaur">
+        <input type="text" id="item" placeholder="e.g. Leftovers">
       </div>
     </div>
 
-    <div id="collapsible-section">
-      <div class="form-group" style="margin-top: 16px;">
-        <label for="nickname">Nickname</label>
-        <input type="text" id="nickname" placeholder="Leave blank for none">
-      </div>
-
-      <div class="form-group">
-        <label for="level">Level</label>
-        <input type="number" id="level" value="5" min="1" max="100">
-      </div>
-
-      <div class="form-group">
-        <label for="item">Held Item</label>
-        <div class="autocomplete-wrapper">
-          <input type="text" id="item" placeholder="e.g. Leftovers">
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="poke_ball">Poké Ball</label>
-        <div class="autocomplete-wrapper">
-          <input type="text" id="poke_ball" value="Poke Ball">
-        </div>
+    <div class="form-group">
+      <label for="poke_ball">Poké Ball</label>
+      <div class="autocomplete-wrapper">
+        <input type="text" id="poke_ball" value="Poke Ball">
       </div>
     </div>
-    
-    <button id="collapse-btn" title="Collapse/Expand">▲</button>
   </div>
 
   <div class="card">
@@ -328,6 +301,18 @@
     <div class="toggle-group">
       <label for="shiny">Shiny</label>
       <input type="checkbox" id="shiny">
+    </div>
+
+    <div class="form-group">
+      <label for="egg_type">Egg Rarity (Data Core Animation)</label>
+      <select id="egg_type">
+        <option value="">(None)</option>
+        <option value=":COMMON">Common</option>
+        <option value=":RARE">Rare</option>
+        <option value=":EPIC">Epic</option>
+        <option value=":MYTHICAL">Mythical</option>
+        <option value=":LEGENDARY">Legendary</option>
+      </select>
     </div>
 
     <div class="form-group">
@@ -349,7 +334,15 @@
   </div>
 
   <div class="card">
-    <h2>Stats</h2>
+    <h2>Stats & Abilities</h2>
+    
+    <div class="form-group">
+      <label for="ability">Ability Override</label>
+      <div class="autocomplete-wrapper">
+        <input type="text" id="ability" placeholder="Leave blank for default ability">
+      </div>
+    </div>
+
     <div class="form-group">
       <label for="nature">Nature</label>
       <select id="nature">
@@ -428,7 +421,6 @@
     <p id="file-status" style="text-align: center; font-size: 0.85rem; color: #aaa; margin-top: 8px;">Target: None Selected</p>
   </div>
 
-  <!-- Data Management Section -->
   <div class="card">
     <h2>Data Management</h2>
     <p style="font-size: 0.85rem; color: #aaa; text-align: center; margin-top:0; margin-bottom: 12px;">Upload PBS files/folders to expand autocomplete pools.</p>
@@ -451,6 +443,7 @@
         <option value="moves">Force: Moves Pool</option>
         <option value="items">Force: Items Pool</option>
         <option value="types">Force: Types Pool</option>
+        <option value="abilities">Force: Abilities Pool</option>
         <option value="nicknames">Force: Nicknames Pool</option>
       </select>
     </div>
@@ -466,6 +459,7 @@
   let itemsData = ["Leftovers", "Life Orb", "Choice Band", "Choice Specs", "Choice Scarf", "Focus Sash", "Black Sludge", "Assault Vest", "Heavy-Duty Boots", "Rocky Helmet", "Eviolite", "Sitrus Berry", "Lum Berry", "Master Ball", "Ultra Ball", "Great Ball", "Poke Ball", "Premier Ball", "Quick Ball", "Dusk Ball"];
   let movesData = ["Tackle", "Thunderbolt", "Ice Beam", "Flamethrower", "Earthquake", "Protect", "Substitute", "Swords Dance", "Dragon Dance", "Calm Mind", "Toxic", "Sludge Bomb", "Shadow Ball", "Dark Pulse", "Flash Cannon", "Aura Sphere", "Close Combat", "Brave Bird", "Roost", "Recover", "Volt Switch", "U-turn", "Scald", "Hydro Pump", "Surf", "Giga Drain", "Leaf Storm", "Moonblast", "Play Rough", "Stone Edge", "Rock Slide", "Stealth Rock", "Spikes", "Defog", "Rapid Spin", "Sucker Punch", "Vital Throw", "Bulk Up", "Detect"];
   let speciesData = ["Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle", "Wartortle", "Blastoise", "Caterpie", "Metapod", "Butterfree", "Weedle", "Kakuna", "Beedrill", "Pidgey", "Pidgeotto", "Pidgeot", "Rattata", "Raticate", "Spearow", "Fearow", "Ekans", "Arbok", "Pikachu", "Raichu", "Sandshrew", "Sandslash", "NidoranF", "Nidorina", "Nidoqueen", "NidoranM", "Nidorino", "Nidoking", "Clefairy", "Clefable", "Vulpix", "Ninetales", "Jigglypuff", "Wigglytuff", "Zubat", "Golbat", "Oddish", "Gloom", "Vileplume", "Paras", "Parasect", "Venonat", "Venomoth", "Diglett", "Dugtrio", "Meowth", "Persian", "Psyduck", "Golduck", "Mankey", "Primeape", "Growlithe", "Arcanine", "Poliwag", "Poliwhirl", "Poliwrath", "Abra", "Kadabra", "Alakazam", "Machop", "Machoke", "Machamp", "Bellsprout", "Weepinbell", "Victreebel", "Tentacool", "Tentacruel", "Geodude", "Graveler", "Golem", "Ponyta", "Rapidash", "Slowpoke", "Slowbro", "Magnemite", "Magneton", "Farfetch'd", "Doduo", "Dodrio", "Seel", "Dewgong", "Grimer", "Muk", "Shellder", "Cloyster", "Gastly", "Haunter", "Gengar", "Onix", "Drowzee", "Hypno", "Krabby", "Kingler", "Voltorb", "Electrode", "Exeggcute", "Exeggutor", "Cubone", "Marowak", "Hitmonlee", "Hitmonchan", "Lickitung", "Koffing", "Weezing", "Rhyhorn", "Rhydon", "Chansey", "Tangela", "Kangaskhan", "Horsea", "Seadra", "Goldeen", "Seaking", "Staryu", "Starmie", "Mr. Mime", "Scyther", "Jynx", "Electabuzz", "Magmar", "Pinsir", "Tauros", "Magikarp", "Gyarados", "Lapras", "Ditto", "Eevee", "Vaporeon", "Jolteon", "Flareon", "Porygon", "Omanyte", "Omastar", "Kabuto", "Kabutops", "Aerodactyl", "Snorlax", "Articuno", "Zapdos", "Moltres", "Dratini", "Dragonair", "Dragonite", "Mewtwo", "Mew"];
+  let abilitiesData = ["Overgrow", "Blaze", "Torrent", "Swarm", "Keen Eye", "Run Away", "Intimidate", "Static", "Sand Veil", "Synchronize", "Levitate", "Chlorophyll", "Trace", "Huge Power", "Poison Point", "Inner Focus", "Guts", "Clear Body", "Natural Cure", "Serene Grace", "Swift Swim", "Thick Fat", "Flash Fire", "Water Absorb", "Sturdy", "Drizzle", "Speed Boost"];
   
   // Nicknames Array (Structured)
   let nicknamesData = [
@@ -493,7 +487,6 @@
   // --- AUTOCOMPLETE LOGIC ---
   function autocomplete(inp, arr, isCommaSeparated = false) {
     let currentFocus;
-    // Remove old listeners by cloning
     let newInp = inp.cloneNode(true);
     inp.parentNode.replaceChild(newInp, inp);
     inp = newInp;
@@ -586,7 +579,6 @@
     }
     document.addEventListener("click", function (e) { closeAllLists(e.target); });
     
-    // Add main event listener back for live updates
     inp.addEventListener('input', updateAll);
   }
 
@@ -601,10 +593,12 @@
     item: document.getElementById('item'),
     poke_ball: document.getElementById('poke_ball'),
     shiny: document.getElementById('shiny'),
+    egg_type: document.getElementById('egg_type'),
     types: document.getElementById('types'),
     hue_change: document.getElementById('hue_change'),
     hue_val: document.getElementById('hue-val'),
     sprite_override: document.getElementById('sprite_override'),
+    ability: document.getElementById('ability'),
     nature: document.getElementById('nature'),
     ivs_type: document.getElementById('ivs_type'),
     iv_grid: document.getElementById('iv-grid'),
@@ -627,6 +621,7 @@
     autocomplete(document.getElementById('item'), itemsData);
     autocomplete(document.getElementById('poke_ball'), itemsData);
     autocomplete(document.getElementById('types'), typesData, true);
+    autocomplete(document.getElementById('ability'), abilitiesData);
     autocomplete(document.getElementById('move1'), movesData);
     autocomplete(document.getElementById('move2'), movesData);
     autocomplete(document.getElementById('move3'), movesData);
@@ -634,7 +629,6 @@
   }
   initAutocompletes();
 
-  // State mapping for pokeapi species names
   const speciesMap = {
     'mr.mime': 'mr-mime', 'mime jr.': 'mime-jr', 'mr.rime': 'mr-rime', 'type: null': 'type-null',
     'tapu koko': 'tapu-koko', 'tapu lele': 'tapu-lele', 'tapu bulu': 'tapu-bulu', 'tapu fini': 'tapu-fini',
@@ -642,23 +636,16 @@
     'nidoranf': 'nidoran-f', 'nidoranm': 'nidoran-m'
   };
 
-  // UI Toggles
-  const collapseBtn = document.getElementById('collapse-btn');
-  const collapsibleSection = document.getElementById('collapsible-section');
-  collapseBtn.addEventListener('click', () => {
-    collapsibleSection.classList.toggle('hidden');
-    collapseBtn.classList.toggle('rotated');
-  });
-
   const allInputs = document.querySelectorAll('input:not([type="file"]), select');
   allInputs.forEach(input => input.addEventListener('input', updateAll));
 
   els.export_mode.addEventListener('change', () => {
     if (els.export_mode.value === 'gacha') {
-      els.factory_id_label.textContent = "Factory ID (e.g. :pignite_data)";
+      els.factory_id_label.textContent = "Factory ID (Database Key)";
     } else {
       els.factory_id_label.textContent = "Variable Name (e.g. pignite_data)";
     }
+    updateAll();
   });
 
   els.ivs_type.addEventListener('change', () => {
@@ -680,25 +667,20 @@
     const statusText = document.getElementById('file-status');
     const newHash = document.getElementById('output').value;
     
-    // Automatically indent the hash so it matches the module scope
     const indentedHash = newHash.split('\n').map(line => '  ' + line).join('\n');
 
     try {
-      // Feature detection for File System Access API
       if (!window.showOpenFilePicker) {
-         alert("Your browser does not support silent file overwriting. Falling back to standard download.");
          const moduleWrapped = `module ZBox\n${indentedHash}\nend\n`;
-         const blob = new Blob([moduleWrapped], { type: "text/plain" });
-         const url = URL.createObjectURL(blob);
-         const a = document.createElement("a");
-         a.href = url;
-         a.download = "PokemonFactory_Appended.rb";
-         a.click();
-         URL.revokeObjectURL(url);
+         els.output.value = moduleWrapped;
+         els.output.select();
+         document.execCommand('copy');
+         
+         statusText.innerHTML = "File writes blocked here. Wrapped in Module & <b>Copied to Clipboard!</b>";
+         statusText.style.color = "var(--primary-color)";
          return;
       }
 
-      // 1. Request file handle if we don't have one
       if (!rubyFileHandle) {
         const [handle] = await window.showOpenFilePicker({
           types: [{ description: 'Ruby File', accept: {'text/plain': ['.rb', '.txt']} }],
@@ -707,35 +689,28 @@
         rubyFileHandle = handle;
       }
 
-      // 2. Request read/write permissions
       if ((await rubyFileHandle.queryPermission({ mode: 'readwrite' })) !== 'granted') {
         if ((await rubyFileHandle.requestPermission({ mode: 'readwrite' })) !== 'granted') {
           throw new Error("Permission to write file was denied.");
         }
       }
 
-      // 3. Read existing file content
       const file = await rubyFileHandle.getFile();
       let content = await file.text();
       content = content.trim();
 
-      // 4. Inject inside module ZBox
       if (!content.includes('module ZBox')) {
-          // If the module doesn't exist, create it and wrap the hash
           if (content.length === 0) {
               content = `module ZBox\n${indentedHash}\nend\n`;
           } else {
               content = `${content}\n\nmodule ZBox\n${indentedHash}\nend\n`;
           }
       } else {
-          // If the module exists, find the last 'end' keyword in the file and insert before it
           const lastEndMatch = content.match(/\bend\s*$/);
-          
           if (lastEndMatch) {
               const beforeEnd = content.substring(0, lastEndMatch.index).trimRight();
               content = `${beforeEnd}\n\n${indentedHash}\n\nend\n`;
           } else {
-              // Fallback just in case regex doesn't catch it at the very EOF
               const lastEndIndex = content.lastIndexOf('end');
               if (lastEndIndex !== -1) {
                   const beforeEnd = content.substring(0, lastEndIndex).trimRight();
@@ -747,12 +722,10 @@
           }
       }
 
-      // 5. Write back to the exact same file (Silent Overwrite)
       const writable = await rubyFileHandle.createWritable();
       await writable.write(content);
       await writable.close();
 
-      // Update UI Status
       statusText.textContent = `Target: ${file.name} (Appended & Saved!)`;
       statusText.style.color = "var(--secondary-color)";
       setTimeout(() => {
@@ -775,21 +748,23 @@
   }
 
   document.getElementById('randomize-btn').addEventListener('click', () => {
-    // Basic fields
     let randSpecies = getRandomItem(speciesData);
     document.getElementById('species').value = randSpecies;
     
-    // Automatically generate a variable name based on the species
-    els.factory_id.value = `${randSpecies.toLowerCase().replace(/[^a-z0-9_]/g, '')}_data`;
+    els.factory_id.value = `:${randSpecies.toLowerCase().replace(/[^a-z0-9_]/g, '')}_data`;
+    els.level.value = Math.floor(Math.random() * 95) + 5; 
     
-    els.level.value = Math.floor(Math.random() * 95) + 5; // Level 5-100
-    
-    // Appearance & Types
-    els.shiny.checked = Math.random() > 0.9; // 10% chance shiny
+    els.shiny.checked = Math.random() > 0.9; 
     els.hue_change.value = Math.random() > 0.5 ? Math.floor(Math.random() * 360) : 0;
     els.sprite_override.value = "";
 
-    // Random Types (40% chance to assign 1-2 custom types)
+    let eggRoll = Math.random();
+    if (eggRoll < 0.40) els.egg_type.value = ":COMMON";
+    else if (eggRoll < 0.70) els.egg_type.value = ":RARE";
+    else if (eggRoll < 0.85) els.egg_type.value = ":EPIC";
+    else if (eggRoll < 0.95) els.egg_type.value = ":MYTHICAL";
+    else els.egg_type.value = ":LEGENDARY";
+
     let selectedTypes = [];
     if (Math.random() > 0.6) {
       let numTypes = Math.random() > 0.5 ? 1 : 2;
@@ -804,7 +779,6 @@
       document.getElementById('types').value = "";
     }
 
-    // Pick random nickname (Filter by type if custom types exist)
     let validNicks = nicknamesData;
     if (selectedTypes.length > 0) {
       let matchedNicks = nicknamesData.filter(n => n.types && n.types.some(t => selectedTypes.includes(t)));
@@ -813,30 +787,26 @@
     let randNick = getRandomItem(validNicks);
     els.nickname.value = randNick ? randNick.name : "";
 
-    // BUG FIX: Must use getElementById because autocomplete replaces the node
-    // Increased to 60% chance for an item
     document.getElementById('item').value = Math.random() > 0.4 ? getRandomItem(itemsData) : "";
     
-    // Poke Ball
     const commonBalls = ["Poke Ball", "Great Ball", "Ultra Ball", "Premier Ball", "Dusk Ball"];
     document.getElementById('poke_ball').value = getRandomItem(commonBalls);
 
-    // Nature
+    // 30% chance to assign a random Ability
+    document.getElementById('ability').value = Math.random() > 0.7 ? getRandomItem(abilitiesData) : "";
+
     const natureOptions = Array.from(els.nature.options).map(o => o.value).filter(v => v !== "");
     els.nature.value = getRandomItem(natureOptions);
 
-    // IVs
     els.ivs_type.value = Math.random() > 0.5 ? ":random" : ":perfect";
     els.iv_grid.style.display = 'none';
 
-    // Moves (1 to 4 random moves)
     let moveCount = Math.floor(Math.random() * 4) + 1;
     document.getElementById('move1').value = moveCount >= 1 ? getRandomItem(movesData) : "";
     document.getElementById('move2').value = moveCount >= 2 ? getRandomItem(movesData) : "";
     document.getElementById('move3').value = moveCount >= 3 ? getRandomItem(movesData) : "";
     document.getElementById('move4').value = moveCount >= 4 ? getRandomItem(movesData) : "";
 
-    // Trigger update
     updateAll();
   });
 
@@ -847,7 +817,6 @@
     const manualTarget = document.getElementById('import_target').value;
     const statusText = document.getElementById('import-status');
     
-    // Combine files from both inputs
     let files = [...fileInput.files, ...folderInput.files];
 
     if (files.length === 0) {
@@ -859,41 +828,38 @@
     statusText.textContent = "Processing files...";
     statusText.style.color = "var(--text-color)";
 
-    let totalAdded = { species: 0, moves: 0, items: 0, types: 0, nicknames: 0 };
+    let totalAdded = { species: 0, moves: 0, items: 0, types: 0, abilities: 0, nicknames: 0 };
 
     for (let file of files) {
       let target = manualTarget;
       let fname = file.name.toLowerCase();
 
-      // Auto-Detect Logic based on standard PBS filenames
       if (manualTarget === 'auto') {
         if (fname === 'pokemon.txt' || fname === 'pokemon_forms.txt') target = 'species';
         else if (fname === 'moves.txt') target = 'moves';
         else if (fname === 'items.txt') target = 'items';
         else if (fname === 'types.txt') target = 'types';
+        else if (fname === 'abilities.txt') target = 'abilities';
         else if (fname.includes('nickname')) target = 'nicknames';
-        else continue; // Skip irrelevant files in the folder silently
+        else continue; 
       }
 
-      if (target === 'auto') continue; // Failsafe
+      if (target === 'auto') continue; 
 
       try {
         const text = await file.text();
         let parsedItems = [];
         
-        // Strict PBS Parser: Check extension to enforce Key=Value parsing
         const isPBSFormat = file.name.endsWith('.txt') || file.name.endsWith('.pbs');
 
         if (isPBSFormat && target !== 'nicknames') {
           const lines = text.split(/\r?\n/);
           for (let line of lines) {
             let trimmed = line.trim();
-            // Strict match for standard PBS Names or Form Names to avoid picking up stats
             if ((trimmed.startsWith("Name") && !trimmed.startsWith("NamePlural")) || trimmed.startsWith("FormName")) {
               let parts = trimmed.split("=");
               if (parts.length >= 2) {
                 let key = parts[0].trim();
-                // Double verify it is exactly the key we want
                 if (key === "Name" || key === "FormName") {
                   let nameVal = parts.slice(1).join("=").trim();
                   if (nameVal) parsedItems.push(nameVal);
@@ -902,11 +868,9 @@
             }
           }
         } else {
-          // Fallback parsing strictly for CSVs, MDs, or Nickname pools
           parsedItems = text.split(/[\n,]+/).map(i => i.replace(/['"\r]/g, '').trim()).filter(i => i !== "");
         }
 
-        // Apply to the specific arrays and track UNIQUE additions
         if (target === 'species') {
           let initLen = speciesData.length;
           speciesData = [...new Set([...speciesData, ...parsedItems])];
@@ -923,6 +887,10 @@
           let initLen = typesData.length;
           typesData = [...new Set([...typesData, ...parsedItems])];
           totalAdded.types += (typesData.length - initLen);
+        } else if (target === 'abilities') {
+          let initLen = abilitiesData.length;
+          abilitiesData = [...new Set([...abilitiesData, ...parsedItems])];
+          totalAdded.abilities += (abilitiesData.length - initLen);
         } else if (target === 'nicknames') {
           let lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
           let newNicks = lines.map(line => {
@@ -941,15 +909,14 @@
       }
     }
 
-    // Refresh the autocomplete inputs after all data is injected
     initAutocompletes();
     
-    // Construct dynamic success message explicitly calling out UNIQUE items added
     let addedMsgs = [];
     if (totalAdded.species > 0) addedMsgs.push(`${totalAdded.species} Species`);
     if (totalAdded.moves > 0) addedMsgs.push(`${totalAdded.moves} Moves`);
     if (totalAdded.items > 0) addedMsgs.push(`${totalAdded.items} Items`);
     if (totalAdded.types > 0) addedMsgs.push(`${totalAdded.types} Types`);
+    if (totalAdded.abilities > 0) addedMsgs.push(`${totalAdded.abilities} Abilities`);
     if (totalAdded.nicknames > 0) addedMsgs.push(`${totalAdded.nicknames} Nicknames`);
 
     if (addedMsgs.length > 0) {
@@ -960,7 +927,6 @@
       statusText.style.color = "red";
     }
 
-    // Clear inputs
     fileInput.value = "";
     folderInput.value = "";
   });
@@ -1016,7 +982,6 @@
     let lines = [];
     
     let varName = document.getElementById('factory_id').value.trim().replace(/^:/, '');
-    // Clean spaces and invalid chars just to be safe
     varName = varName.replace(/[^a-zA-Z0-9_]/g, '');
     if (!varName) varName = "pkmn_data";
     
@@ -1041,7 +1006,8 @@
 
     if(els.shiny.checked) lines.push(`  shiny: true,`);
     
-    // Fetch types using getElementById to avoid detached DOM node reference
+    if(els.egg_type.value) lines.push(`  egg_type: ${els.egg_type.value},`);
+
     let typesInput = document.getElementById('types').value;
     if(typesInput.trim()) {
       let typeArray = typesInput.split(',')
@@ -1055,6 +1021,9 @@
     if(els.hue_change.value != "0") lines.push(`  hue_change: ${els.hue_change.value},`);
 
     if(els.sprite_override.value.trim()) lines.push(`  sprite_override: "${els.sprite_override.value.trim()}",`);
+
+    const ability = formatSymbol(document.getElementById('ability').value);
+    if(ability) lines.push(`  ability: ${ability},`);
 
     if(els.nature.value) lines.push(`  nature: ${els.nature.value},`);
 
@@ -1075,7 +1044,6 @@
       lines.push(`  moves: [${moves.join(', ')}]`);
     }
 
-    // Remove trailing comma from the last line (before the bracket) if it exists
     if(lines.length > 1 && lines[lines.length - 1].endsWith(',')) {
       lines[lines.length - 1] = lines[lines.length - 1].slice(0, -1);
     }
