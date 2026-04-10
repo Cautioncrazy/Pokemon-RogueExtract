@@ -79,4 +79,20 @@ PokemonFactory.register(:wartortle_gacha, {
     moves: [:ICEBEAM, :MIST]
   })
 
+  PokemonFactory.register(:boss_castform_data, {
+    species: :CASTFORM,
+    level: 22,
+    nickname: "Aether",
+    item: :LIFEORB,
+    poke_ball: :CHERISHBALL,
+    shiny: true,
+    egg_type: :EPIC,
+    types: [:NORMAL, :FAIRY],
+    hue_change: 280,
+    ability: :PIXILATE,
+    nature: :TIMID,
+    ivs: :perfect,
+    moves: [:BOOMBURST, :MOONBLAST, :FLAMETHROWER, :QUIVERDANCE]
+  })
+
 end
