@@ -110,14 +110,7 @@ class Battle::Scene::PokemonDataBox < Sprite
     end
   end
 
-  # For vanilla style databoxes (if DBK style isn't being used or active)
-  alias alpha_dbk_refresh_name refresh_name
-  def refresh_name
-    alpha_dbk_refresh_name
-    # draw_plugin_elements isn't natively called in vanilla databox refresh,
-    # so we call it here if we aren't using a DBK style
-    draw_plugin_elements if @battler && @battler.isAlphaBoss? && !defined?(@style)
-  end
+
 end
 
 #-------------------------------------------------------------------------------
