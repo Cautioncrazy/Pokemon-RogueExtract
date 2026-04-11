@@ -55,6 +55,7 @@ def pbFightFactoryBoss(boss_key)
   pbWait(0)
 
   setBattleRule("cannotRun")
+  setBattleRule("databoxStyle", [:Long, "{1}"])
 
   outcome = WildBattle.start(pkmn)
 
