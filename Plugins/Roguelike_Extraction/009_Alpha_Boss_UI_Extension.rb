@@ -5,20 +5,17 @@
 # Define Alpha Boss check
 class Battle::Battler
   def isAlphaBoss?
-    return false if !isRaidBoss? && !hasBossImmunity?
-    return true if @pokemon&.immunities&.include?(:ALPHA)
-    # Default to alpha if DBK boosted HP is > 1
-    return true if @pokemon && @pokemon.hp_boost > 1
-    return false
+    return isRaidBoss?
   end
 end
 
 class Battle::Scene::PokemonDataBox < Sprite
 
+  # Dynamic HP bar tiers cycle from red -> orange -> purple
   ALPHA_HP_TIERS = [
-    Color.new(255, 0, 0),     # 0: Red (Last bar)
-    Color.new(255, 128, 0),   # 1: Orange (Middle bar)
-    Color.new(160, 32, 240)   # 2: Purple (Top bar)
+    Color.new(255, 0, 0),     # 0: Red
+    Color.new(255, 128, 0),   # 1: Orange
+    Color.new(160, 32, 240)   # 2: Purple
   ]
 
   alias alpha_dbk_refresh_hp refresh_hp
@@ -34,8 +31,9 @@ class Battle::Scene::PokemonDataBox < Sprite
       @alphaHpOverlay.bitmap = Bitmap.new(@hpBarBitmap.width, @hpBarBitmap.height / 3)
     end
 
-    # Enforce exactly 3 tiers for Alpha Bosses
-    tier_count = 3
+    # Enforce tiers for Alpha Bosses using DBK's hp_boost
+    tier_count = (@battler.pokemon.respond_to?(:hp_boost) ? @battler.pokemon.hp_boost : (@battler.pokemon.respond_to?(:hp_level) ? [@battler.pokemon.hp_level, 1].max : 1))
+    tier_count = 1 if tier_count < 1
 
     pct = self.hp.to_f / @battler.totalhp.to_f
     current_tier = (pct * tier_count).ceil
@@ -47,8 +45,9 @@ class Battle::Scene::PokemonDataBox < Sprite
     w = @hpBarBitmap.width.to_f * tier_pct
     w = 1 if w < 1 && self.hp > 0
     w = ((w / 2.0).round) * 2
+    w = @hpBarBitmap.width if w > @hpBarBitmap.width
 
-    bar_color = ALPHA_HP_TIERS[current_tier - 1]
+    bar_color = ALPHA_HP_TIERS[(current_tier - 1) % ALPHA_HP_TIERS.length]
 
     @alphaHpOverlay.x = @hpBar.x
     @alphaHpOverlay.y = @hpBar.y
@@ -56,7 +55,7 @@ class Battle::Scene::PokemonDataBox < Sprite
 
     # Draw "Under" bar color (the next tier down) if we are above the last tier
     if current_tier > 1
-      under_color = ALPHA_HP_TIERS[current_tier - 2]
+      under_color = ALPHA_HP_TIERS[(current_tier - 2) % ALPHA_HP_TIERS.length]
       @alphaHpOverlay.bitmap.fill_rect(0, 0, @hpBarBitmap.width, @hpBarBitmap.height / 3, under_color)
     end
 
@@ -82,7 +81,7 @@ class Battle::Scene::PokemonDataBox < Sprite
     if @alphaHpOverlay
       @alphaHpOverlay.visible = val
       @alphaHpOverlay.visible = false if !@battler&.isAlphaBoss?
-      @hpBar.visible = !@alphaHpOverlay.visible
+      @hpBar.visible = !@alphaHpOverlay.visible if @battler && @battler.isAlphaBoss?
     end
   end
 
@@ -95,13 +94,29 @@ class Battle::Scene::PokemonDataBox < Sprite
     alpha_dbk_draw_plugin_elements if self.respond_to?(:alpha_dbk_draw_plugin_elements)
 
     if @battler && @battler.isAlphaBoss?
-      namePos = @displayPos[:name]
+      # Fallback to standard DBK Databox position if available, else hardcode based on standard vanilla width.
+      namePos = nil
+      if defined?(@displayPos) && @displayPos && @displayPos[:name]
+        namePos = @displayPos[:name].clone
+      else
+        namePos = [@battler.index.even? ? 16 : 14, 12, false]
+      end
+
       # Draw "A" icon next to the Alpha's name (standard font, vibrant red, pitch black shadow)
       textpos = [
-        ["A", namePos[0] + self.bitmap.text_size(@battler.name).width + 2, namePos[1], namePos[2], Color.new(255, 0, 0), Color.new(0, 0, 0)]
+        ["A", namePos[0] + self.bitmap.text_size(@battler.name).width + 8, namePos[1], namePos[2], Color.new(255, 0, 0), Color.new(0, 0, 0)]
       ]
       pbDrawTextPositions(self.bitmap, textpos)
     end
+  end
+
+  # For vanilla style databoxes (if DBK style isn't being used or active)
+  alias alpha_dbk_refresh_name refresh_name
+  def refresh_name
+    alpha_dbk_refresh_name
+    # draw_plugin_elements isn't natively called in vanilla databox refresh,
+    # so we call it here if we aren't using a DBK style
+    draw_plugin_elements if @battler && @battler.isAlphaBoss? && !defined?(@style)
   end
 end
 

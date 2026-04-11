@@ -138,3 +138,24 @@ if target.pbCanInflictStatus?(:BLEEDING, user, false, self)
   target.pbInflictStatus(:BLEEDING, 0, _INTL("{1} began to bleed!", target.pbThis), user)
 end
 ```
+
+---
+
+### **7. Deluxe Battle Kit (DBK) API**
+
+*   **`setBattleRule(*args)`**
+    *   **Description:** Used before a battle to define rules such as `"autoBattle"`, `"towerBattle"`, `"noBag"`, `"inverseBattle"`, `"battleIntroText"`, `"databoxStyle"`, `"battleBGM"`, `"wildMegaEvolution"`, `"raidStyleCapture"`, etc. DBK greatly expands this to include mid-battle scripting (`"midbattleScript"`).
+    *   **Usage:** `setBattleRule("databoxStyle", :Long)` or `setBattleRule("wildMegaEvolution")` before calling `WildBattle.start` or `TrainerBattle.start`.
+*   **`pbCanUseLauncher?(idxBattler)`**
+    *   **Description:** Returns `true` if the trainer who owns the battler at the entered index is capable of using the Wonder Launcher.
+*   **`pbToggleLauncher(idxBattler, toggle = nil)`**
+    *   **Description:** Toggles the ability to use the Wonder Launcher for the specified trainer.
+*   **`pbIncreaseLauncherPoints(idxBattler, points, showBar = false)`**
+    *   **Description:** Increases the LP of the specified trainer.
+*   **`pbReduceLauncherPoints(idxBattler, item, showBar = false)`**
+    *   **Description:** Reduces the LP of the specified trainer by the cost of the item.
+*   **`pbSetLauncherItems(idxSide, idxTrainer)`**
+    *   **Description:** Replaces a trainer's inventory with the Wonder Launcher inventory.
+*   **`pbDynamicBossPokemon` / `pbFightSpecificBoss` / `pbFightFactoryBoss`**
+    *   **Description:** Custom helper functions integrated with DBK's Wild Boss feature. They initialize a Pokémon Factory configuration, instantiate a boss encounter, explicitly push the `:RAIDBOSS` flag into its `immunities` array, and appropriately set its `hp_level` before initiating `WildBattle.start`.
+    *   **Usage:** Used to trigger encounters with customized Boss Pokémon (e.g., dynamically spawned Factory bosses).

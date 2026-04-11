@@ -227,3 +227,7 @@ To add a new custom status for a different type, simply define it in `010_Status
 **UI Icon Hardcoding:**
 The default Essentials logic assumes the `Fainted`, `Pokérus`, and `Badly Poisoned` icons are always appended to the very bottom of the `Graphics/UI/statuses.png` and `Graphics/UI/Battle/icon_statuses.png` sheets. Because we are appending numerous custom types directly to the bottom of the graphic, this logic was overridden.
 The files `Data/Scripts/016_UI/005_UI_Party.rb`, `006_UI_Summary.rb`, and `Data/Scripts/011_Battle/004_Scene/006_Battle_Scene_Objects.rb` have been explicitly updated to look for `Fainted` at position `5`, `Pokérus` at position `6`, and `Bad Poison` at position `5`. This allows appending an infinite amount of custom statuses vertically without having to manually shuffle Fainted/Pokerus to the new bottom position.
+
+## Plugin Architecture & References
+
+* **Deluxe Battle Kit (DBK):** The file `docs/DBK_API_REFERENCE.md` is our absolute source of truth for all Deluxe Battle Kit logic. You must keep its specific hooks (like `:RAIDBOSS` immunities, `isAlphaBoss?`, and UI aliases) in your active context for all future battle-engine tasks. Do not hallucinate vanilla Essentials rules for boss triggers.
