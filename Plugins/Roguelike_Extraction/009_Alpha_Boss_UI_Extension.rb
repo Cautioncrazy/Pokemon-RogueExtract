@@ -16,13 +16,9 @@ end
 class Battle::Scene::PokemonDataBox < Sprite
 
   ALPHA_HP_TIERS = [
-    Color.new(255, 128, 0),   # 0: Orange
-    Color.new(160, 32, 240),  # 1: Purple
-    Color.new(0, 255, 255),   # 2: Cyan
-    Color.new(0, 0, 255),     # 3: Blue
-    Color.new(0, 255, 0),     # 4: Green
-    Color.new(255, 255, 0),   # 5: Yellow
-    Color.new(255, 0, 0)      # 6: Red
+    Color.new(255, 0, 0),     # 0: Red (Last bar)
+    Color.new(255, 128, 0),   # 1: Orange (Middle bar)
+    Color.new(160, 32, 240)   # 2: Purple (Top bar)
   ]
 
   alias alpha_dbk_refresh_hp refresh_hp
@@ -31,15 +27,15 @@ class Battle::Scene::PokemonDataBox < Sprite
 
     return if !@battler || !@battler.pokemon || !@battler.isAlphaBoss?
 
-    # Generate a colored rect overlay on top of the HP Bar.
+    # Generate colored rect overlays on top of the HP Bar.
     unless @alphaHpOverlay
       @alphaHpOverlay = Sprite.new(@viewport)
       @alphaHpOverlay.z = @hpBar.z + 1
       @alphaHpOverlay.bitmap = Bitmap.new(@hpBarBitmap.width, @hpBarBitmap.height / 3)
     end
 
-    hp_boost = @battler.pokemon.hp_boost
-    tier_count = hp_boost
+    # Enforce exactly 3 tiers for Alpha Bosses
+    tier_count = 3
 
     pct = self.hp.to_f / @battler.totalhp.to_f
     current_tier = (pct * tier_count).ceil
@@ -52,14 +48,19 @@ class Battle::Scene::PokemonDataBox < Sprite
     w = 1 if w < 1 && self.hp > 0
     w = ((w / 2.0).round) * 2
 
-    color_idx = ALPHA_HP_TIERS.length - current_tier
-    color_idx = 0 if color_idx < 0
-    color_idx = ALPHA_HP_TIERS.length - 1 if color_idx >= ALPHA_HP_TIERS.length
-    bar_color = ALPHA_HP_TIERS[color_idx]
+    bar_color = ALPHA_HP_TIERS[current_tier - 1]
 
     @alphaHpOverlay.x = @hpBar.x
     @alphaHpOverlay.y = @hpBar.y
     @alphaHpOverlay.bitmap.clear
+
+    # Draw "Under" bar color (the next tier down) if we are above the last tier
+    if current_tier > 1
+      under_color = ALPHA_HP_TIERS[current_tier - 2]
+      @alphaHpOverlay.bitmap.fill_rect(0, 0, @hpBarBitmap.width, @hpBarBitmap.height / 3, under_color)
+    end
+
+    # Draw "Active" depleting bar color
     @alphaHpOverlay.bitmap.fill_rect(0, 0, w, @hpBarBitmap.height / 3, bar_color)
     @alphaHpOverlay.visible = true
 
