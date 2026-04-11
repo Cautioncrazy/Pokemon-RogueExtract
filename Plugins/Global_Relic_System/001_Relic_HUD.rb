@@ -48,7 +48,7 @@ class Battle::Scene
     # One combined Quantity Text wrapper
     text_sprite = BitmapSprite.new(Graphics.width, Graphics.height, @viewport)
     pbSetSmallFont(text_sprite.bitmap)
-    text_sprite.z = 251
+    text_sprite.z = 99999
     @relic_hud_sprites["relic_text_all"] = text_sprite
 
     all_text_pos = []
@@ -64,7 +64,7 @@ class Battle::Scene
       icon_sprite.setBitmap("Graphics/Items/#{relic_id.to_s.downcase}")
       icon_sprite.zoom_x = 0.5
       icon_sprite.zoom_y = 0.5
-      icon_sprite.z = 250
+      icon_sprite.z = 99998
       @relic_hud_sprites["relic_icon_#{i}"] = icon_sprite
 
       # Closer text positioning

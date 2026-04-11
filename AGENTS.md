@@ -161,12 +161,12 @@ We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to a
 - **Start Menu UI Overrides:** In `Plugins/Roguelike_Extraction/011_Menu_Overrides.rb`, the standard "Quit Game" option is completely unregistered from the Pause Menu to prevent soft-resetting/save-scumming during a raid. A new "Bounties" option is injected to easily open the Quest UI anywhere.
 
 ### 13. Alpha Boss Battles (DBK UI Extension)
-- **Concept:** Extends DBK's Wild Boss system by implementing a multi-bar HP system with custom UI iconography and visual auras to represent powerful Alpha Bosses.
-- **Implementation (`Plugins/Roguelike_Extraction/009_Alpha_Boss_UI_Extension.rb`):**
+- **Concept:** Extends DBK's Wild Boss system by implementing a multi-bar HP system with custom UI iconography and animated scrolling pattern overlays to represent powerful Alpha Bosses.
+- **Implementation (`Plugins/Roguelike_Extraction/012_Alpha_Boss_Visuals.rb`):**
   - **Trigger Hooks:** Actively checks DBK's native `isRaidBoss?` parameter (which validates the presence of the `:RAIDBOSS` immunity flag inside `pkmn.immunities`) to determine if a battler should receive the UI overlay, completely avoiding engine sanity-check failures.
-  - **Visuals:** Uses an aliasing approach in `Battle::Scene` and `Sprite_Battler` to generate a pulsating red silhouette aura directly behind the Alpha Pokémon's sprite during combat.
-  - **HP Multi-bar UI:** Overrides the DBK boss health bar rendering logic to create a 3-tier "fighting game" style bar system (`[Tier 2: Purple, Tier 1: Orange, Tier 0: Red]`) based on the boss's current percentage. The bar draws the background color of the next tier underneath the actively depleting color of the current tier.
-  - **UI Iconography:** Programmatically draws a vibrant red "A" icon with a black shadow next to the Alpha's HP bar/name utilizing standard fonts.
+  - **Visuals:** Mimics DBK's shadow pattern logic in `Sprite` and `PokemonSprite` to generate an animated scrolling pattern overlay (`alpha_pattern.png`) directly on the Alpha Pokémon's sprite during combat. It scrolls `:up` and `:right`.
+  - **HP Multi-bar UI:** Overrides the DBK boss health bar rendering logic (`refresh_hp` in `Battle::Scene::PokemonDataBox`) to create a multi-tier "fighting game" style bar system. It calculates the active tier dynamically based on the boss's native `hp_boost` or `hp_level` (capped at 6). It uses `blt` to draw a 6-slice `info_hp.png` graphic, layering the "Under-Bar" at full width beneath the "Active Bar" which scales with the current tier's HP percentage.
+  - **UI Iconography:** Aliases DBK's `draw_style_icons` or `draw_special_form_icon` to draw a dedicated `alpha.png` icon next to the HP bar, mirroring the native approach used for Mega Evolution or Primal Reversion indicators.
 
 ### 14. Data Core Gacha (Pokémon Factory Hub System)
 - **Concept:** A scalable custom hub scene that allows players to spend specific tier currencies (`DATACORE_COMMON`, `DATACORE_RARE`, `DATACORE_EPIC`) to roll RNG and generate customized starter Pokémon using the integrated Pokémon Factory plugin.
