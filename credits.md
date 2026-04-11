@@ -1,51 +1,40 @@
-## Benitex
-* Automatic Level Scaling
+# Mod & Plugin Credits
 
-## Caruban
-* Generation 9 Pack
+### [DBK] Enhanced Battle UI
+* **Authors:** Lucidious89
 
-## CautionCrazy
-* Caution's 21.1 Hotfixes
-* Caution's Animation Manager
-* Global Relic System
-* Random HM/TM Selector
-* Random Item Selector
-* Roguelike Extraction - Core Systems
+### Automatic Level Scaling
+* **Authors:** Benitex, Joltik, Umbreon
 
-## derFischae
-* Modern Quest System + UI
+### Caution's 21.1 Hotfixes
+* **Authors:** CautionCrazy, Jules
 
-## Golisopod User
-* Level Caps EX
+### Caution's Animation Manager
+* **Authors:** CautionCrazy, Jules
 
-## Joltik
-* Automatic Level Scaling
+### Deluxe Battle Kit
+* **Authors:** Lucidious89
 
-## Jules
-* Caution's 21.1 Hotfixes
-* Caution's Animation Manager
-* Global Relic System
-* Roguelike Extraction - Core Systems
+### Generation 9 Pack
+* **Authors:** Caruban
 
-## Lucidious89
-* Deluxe Battle Kit
-* [DBK] Enhanced Battle UI
+### Global Relic System
+* **Authors:** CautionCrazy, Jules
 
-## Marin
-* Modern Quest System + UI
+### Level Caps EX
+* **Authors:** Golisopod User, Nonneve
 
-## mej71
-* Modern Quest System + UI
+### Modern Quest System + UI
+* **Authors:** derFischae, Marin, mej71, ThatHerts, ThatWelshOne_
 
-## Nonneve
-* Level Caps EX
+### Random HM/TM Selector
+* **Authors:** CautionCrazy
 
-## ThatHerts
-* Modern Quest System + UI
+### Random Item Selector
+* **Authors:** CautionCrazy
 
-## ThatWelshOne_
-* Modern Quest System + UI
-* Random Pokemon Selector
+### Random Pokemon Selector
+* **Authors:** ThatWelshOne_
 
-## Umbreon
-* Automatic Level Scaling
+### Roguelike Extraction - Core Systems
+* **Authors:** CautionCrazy, Jules
