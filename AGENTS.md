@@ -162,9 +162,10 @@ We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to a
 
 ### 13. Alpha Boss Battles (DBK UI Extension)
 - **Concept:** Extends DBK's Wild Boss system by implementing a multi-bar HP system with custom UI iconography and visual auras to represent powerful Alpha Bosses.
-- **Implementation (`Plugins/Roguelike_Extraction/Alpha_DBK_Extension.rb`):**
+- **Implementation (`Plugins/Roguelike_Extraction/009_Alpha_Boss_UI_Extension.rb`):**
+  - **Trigger Hooks:** Actively checks DBK's native `isRaidBoss?` parameter (which validates the presence of the `:RAIDBOSS` immunity flag inside `pkmn.immunities`) to determine if a battler should receive the UI overlay, completely avoiding engine sanity-check failures.
   - **Visuals:** Uses an aliasing approach in `Battle::Scene` and `Sprite_Battler` to generate a pulsating red silhouette aura directly behind the Alpha Pokémon's sprite during combat.
-  - **HP Multi-bar UI:** Overrides the DBK boss health bar rendering logic to create a "fighting game" style tier system based on the boss's current percentage. Colors are determined by the tier sequence: `[Orange, Purple, Cyan, Blue, Green, Yellow, Red]`. The full bar turns the solid color of the current tier instead of depleting a color gradient.
+  - **HP Multi-bar UI:** Overrides the DBK boss health bar rendering logic to create a 3-tier "fighting game" style bar system (`[Tier 2: Purple, Tier 1: Orange, Tier 0: Red]`) based on the boss's current percentage. The bar draws the background color of the next tier underneath the actively depleting color of the current tier.
   - **UI Iconography:** Programmatically draws a vibrant red "A" icon with a black shadow next to the Alpha's HP bar/name utilizing standard fonts.
 
 ### 14. Data Core Gacha (Pokémon Factory Hub System)
