@@ -52,7 +52,7 @@ def pbFightFactoryBoss(boss_key)
 
   # 4. START ENCOUNTER
   pkmn.play_cry
-  pbWait(20)
+  pbWait(0)
 
   setBattleRule("cannotRun")
 
