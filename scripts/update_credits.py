@@ -1,56 +1,53 @@
-import os
 import re
 from collections import defaultdict
 
-def extract_credits():
-    plugins_dir = 'Plugins'
-    author_plugins = defaultdict(list)
+def parse_and_group_credits(input_file):
+    # This dictionary maps Plugin Name -> List of Authors
+    plugin_credits = defaultdict(list)
+    current_author = None
+    
+    with open(input_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            
+            # Identify the Author (Assumes standard markdown headers like ## Author Name)
+            # Adjust the `.startswith()` depending on how your credits.md is formatted
+            if line.startswith('## ') or line.startswith('### '):
+                current_author = line.lstrip('# ').strip()
+                
+            # Identify the Plugin/Mod (Assumes markdown bullet points like * Plugin Name)
+            elif line.startswith('- ') or line.startswith('* '):
+                if current_author:
+                    plugin_name = line.lstrip('- *').strip()
+                    
+                    # Prevent duplicate author entries for the same plugin
+                    if current_author not in plugin_credits[plugin_name]:
+                        plugin_credits[plugin_name].append(current_author)
 
-    # regex to find Name and Credits
-    name_pattern = re.compile(r'^Name\s*=\s*(.+)', re.IGNORECASE)
-    credits_pattern = re.compile(r'^Credits\s*=\s*(.+)', re.IGNORECASE)
+    return plugin_credits
 
-    if not os.path.exists(plugins_dir):
-        print(f"{plugins_dir} not found.")
-        return
+def export_clean_credits(plugin_credits, output_file):
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write("# Mod & Plugin Credits\n\n")
+        
+        # Sort plugins alphabetically for a clean list
+        for plugin in sorted(plugin_credits.keys()):
+            f.write(f"### {plugin}\n")
+            
+            # Sort authors alphabetically within that plugin
+            authors = sorted(plugin_credits[plugin])
+            f.write(f"* **Authors:** {', '.join(authors)}\n\n")
 
-    for item in os.listdir(plugins_dir):
-        plugin_path = os.path.join(plugins_dir, item)
-        if os.path.isdir(plugin_path):
-            meta_file = os.path.join(plugin_path, 'meta.txt')
-            if os.path.exists(meta_file):
-                plugin_name = ""
-                credits_list = []
-
-                with open(meta_file, 'r', encoding='utf-8') as f:
-                    for line in f:
-                        name_match = name_pattern.match(line)
-                        if name_match:
-                            plugin_name = name_match.group(1).strip()
-
-                        credit_match = credits_pattern.match(line)
-                        if credit_match:
-                            credits_raw = credit_match.group(1).strip()
-                            # Split by commas and strip whitespace
-                            credits_list = [c.strip() for c in credits_raw.split(',')]
-                            # Specifically map ThatWelshOne_ to the explicit alias ThatHerts requested by user if present
-                            # Or just add ThatHerts if missing and it's the MQS plugin
-                            if plugin_name == "Modern Quest System + UI":
-                                if "ThatHerts" not in credits_list:
-                                    credits_list.append("ThatHerts")
-
-                if plugin_name and credits_list:
-                    for author in credits_list:
-                        author_plugins[author].append(plugin_name)
-
-    # Write to credits.md
-    with open('credits.md', 'w', encoding='utf-8') as f:
-        # Sort authors alphabetically
-        for author in sorted(author_plugins.keys(), key=lambda x: x.lower()):
-            f.write(f"## {author}\n")
-            for plugin in sorted(author_plugins[author]):
-                f.write(f"* {plugin}\n")
-            f.write("\n")
-
-if __name__ == '__main__':
-    extract_credits()
+if __name__ == "__main__":
+    input_md = 'credits.md'
+    output_md = 'grouped_credits.md'  # Or overwrite credits.md directly if preferred
+    
+    print("Parsing credits...")
+    parsed_data = parse_and_group_credits(input_md)
+    
+    print("Exporting grouped credits...")
+    export_clean_credits(parsed_data, output_md)
+    
+    print(f"Success! Grouped {len(parsed_data)} unique plugins.")
