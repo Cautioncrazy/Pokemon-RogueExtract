@@ -28,19 +28,19 @@ class Battle
 
     # Store the Pokémon
     if pbPlayer.party_full? && (@sendToBoxes == 0 || @sendToBoxes == 2)   # Ask/must add to party
-      cmds = [_INTL("Añadir al equipo"),
-              _INTL("Enviarlo al PC"),
-              _INTL("Ver los datos de {1}", pkmn.name),
-              _INTL("Comprobar equipo")]
+      cmds = [_INTL("Add to your party"),
+              _INTL("Send to a Box"),
+              _INTL("See the summary of {1}", pkmn.name),
+              _INTL("Check party")]
       cmds.delete_at(1) if @sendToBoxes == 2
       loop do
-        cmd = pbShowCommands(_INTL("¿Qué quieres hacer con {1}?", pkmn.name), cmds, 99)
+        cmd = pbShowCommands(_INTL("What do you want to do with {1}?", pkmn.name), cmds, 99)
         next if cmd == 99 && @sendToBoxes == 2   # Can't cancel if must add to party
         break if cmd == 99   # Cancelling = send to a Box
         cmd += 1 if cmd >= 1 && @sendToBoxes == 2
         case cmd
         when 0   # Add to your party
-          pbDisplay(_INTL("Elige un Pokémon de tu equipo para reemplazarlo."))
+          pbDisplay(_INTL("Choose a Pokémon in your party to replace."))
           party_index = -1
           @scene.pbPartyScreen(0, (@sendToBoxes != 2), 1) do |idxParty, _partyScene|
             party_index = idxParty
@@ -59,7 +59,7 @@ class Battle
           stored_box = @peer.pbStorePokemon(pbPlayer, send_pkmn)
           pbPlayer.party.delete_at(party_index)
           box_name = @peer.pbBoxName(stored_box)
-          pbDisplayPaused(_INTL("Has enviado a {1} a la Caja \"{2}\".", send_pkmn.name, box_name))
+          pbDisplayPaused(_INTL("You sent {1} to Box \"{2}\".", send_pkmn.name, box_name))
           # Rearrange all remembered properties of party Pokémon
           (party_index...party_size).each do |idx|
             if idx < party_size - 1
@@ -91,12 +91,12 @@ class Battle
     # Store as normal (add to party if there's space, or send to a Box if not)
     stored_box = @peer.pbStorePokemon(pbPlayer, pkmn)
     if stored_box < 0
-      pbDisplayPaused(_INTL("{1} se ha añadido a tu equipo.", pkmn.name))
+      pbDisplayPaused(_INTL("{1} has been added to your party.", pkmn.name))
       @initialItems[0][pbPlayer.party.length - 1] = pkmn.item_id if @initialItems
       return
     end
     # Messages saying the Pokémon was stored in a PC box
     box_name = @peer.pbBoxName(stored_box)
-    pbDisplayPaused(_INTL("¡{1} se ha enviado a la Caja \"{2}\"!", pkmn.name, box_name))
+    pbDisplayPaused(_INTL("¡{1} has been sent to Box \"{2}\"!", pkmn.name, box_name))
   end
 end
