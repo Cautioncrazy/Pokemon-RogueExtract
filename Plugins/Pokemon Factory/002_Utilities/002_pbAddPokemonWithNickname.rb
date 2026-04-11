@@ -10,13 +10,13 @@
 def pbAddPokemonWithNickname(pkmn, level = 1, see_form = true)
   return false if !pkmn
   if pbBoxesFull?
-    pbMessage(_INTL("¡No hay espacio para más Pokémon!") + "\1")
-    pbMessage(_INTL("¡Las Cajas del PC están llenas y no tienen más espacio!"))
+    pbMessage(_INTL("¡There is no space for more Pokémon!") + "\1")
+    pbMessage(_INTL("¡The PC Boxes are full and have no more space!"))
     return false
   end
   pkmn = Pokemon.new(pkmn, level) if !pkmn.is_a?(Pokemon)
   species_name = pkmn.speciesName
-  pbMessage(_INTL("¡\\c[2]{1}\\c[0] obtuvo a \\c[5]{2}\\c[0] ({3})!", $player.name, pkmn.name, pkmn.speciesName) + "\\me[Pkmn get]\\wtnp[80]")
+  pbMessage(_INTL("¡\\c[2]{1}\\c[0] obtained \\c[5]{2}\\c[0] ({3})!", $player.name, pkmn.name, pkmn.speciesName) + "\\me[Pkmn get]\\wtnp[80]")
   was_owned = $player.owned?(pkmn.species)
   $player.pokedex.set_seen(pkmn.species)
   $player.pokedex.set_owned(pkmn.species)
@@ -34,18 +34,18 @@ def pbAddPokemonWithNickname(pkmn, level = 1, see_form = true)
   end
   if $player.party_full?
     # Credits: dptierra
-    cmds = [_INTL("Añadir al equipo"),
-          _INTL("Enviarlo al PC"),
-          _INTL("Ver los datos de {1}", pkmn.name),
-          _INTL("Comprobar equipo")]
+    cmds = [_INTL("Add to your party"),
+          _INTL("Send to a Box"),
+          _INTL("See the summary of {1}", pkmn.name),
+          _INTL("Check party")]
     cmd = -1
     loop do
-      cmd = pbMessage(_INTL("¿Qué quieres hacer con \\c[5]{1}\\c[0]?", pkmn.name), cmds, -1)
+      cmd = pbMessage(_INTL("What do you want to do with \\c[5]{1}\\c[0]?", pkmn.name), cmds, -1)
       break if cmd == -1  # Cancelling = send to a Box
 
       case cmd
       when 0
-        pbMessage(_INTL("Elige un Pokémon de tu equipo para reemplazarlo."))
+        pbMessage(_INTL("Choose a Pokémon in your party to replace."))
         pbChoosePokemon(1, 2)
         next if $game_variables[1] == -1
         party_index = pbGet(1)
@@ -57,13 +57,13 @@ def pbAddPokemonWithNickname(pkmn, level = 1, see_form = true)
         stored_box = $PokemonStorage.pbStoreCaught(send_pkmn)
         box_name   = $PokemonStorage[stored_box].name
 
-        pbMessage(_INTL("¡\\c[5]{1}\\c[0] se ha enviado a la Caja \"{2}\"!", send_pkmn.name, box_name))
-        pbMessage(_INTL("¡\\c[5]{1}\\c[0] fue añadido al equipo!", pkmn.name))
+        pbMessage(_INTL("¡\\c[5]{1}\\c[0] has been sent to Box \"{2}\"!", send_pkmn.name, box_name))
+        pbMessage(_INTL("¡\\c[5]{1}\\c[0] was added to your party!", pkmn.name))
         break
       when 1
         stored_box = $PokemonStorage.pbStoreCaught(pkmn)
         box_name   = $PokemonStorage[stored_box].name
-        pbMessage(_INTL("¡\\c[5]{1}\\c[0] se ha enviado a la Caja \"{2}\"!", pkmn.name, box_name))
+        pbMessage(_INTL("¡\\c[5]{1}\\c[0] has been sent to Box \"{2}\"!", pkmn.name, box_name))
         break
       when 2   # See X's summary
       pbFadeOutIn do
@@ -78,10 +78,10 @@ def pbAddPokemonWithNickname(pkmn, level = 1, see_form = true)
     if cmd == -1
       stored_box = $PokemonStorage.pbStoreCaught(pkmn)
       box_name   = $PokemonStorage[stored_box].name
-      pbMessage(_INTL("¡\\c[5]{1}\\c[0] se ha enviado a la Caja \"{2}\"!", pkmn.name, box_name))
+      pbMessage(_INTL("¡\\c[5]{1}\\c[0] has been sent to Box \"{2}\"!", pkmn.name, box_name))
     end
   else
-    pbMessage(_INTL("¡\\c[5]{1}\\c[0] se unió al equipo!", pkmn.name))
+    pbMessage(_INTL("¡\\c[5]{1}\\c[0] joined the party!", pkmn.name))
     $player.party[$player.party.length] = pkmn
   end
   return true
