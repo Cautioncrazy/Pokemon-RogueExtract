@@ -27,63 +27,79 @@ end
 # System 2 & 3: The Drawing Module
 #===============================================================================
 module AlphaBossUIDrawer
+  def calculate_alpha_boss_tiers
+    boost = @battler.pokemon.hp_boost.to_i
+    level = @battler.pokemon.hp_level.to_i
+    level = 1 if level <= 0 # Prevent division by zero
+
+    # Clamped to 6 max tiers since our graphic only has 6 slices
+    total_tiers = (boost > 0) ? (boost / level).clamp(1, 6) : 1
+
+    hp_per_tier = @battler.totalhp.to_f / total_tiers
+
+    # Determine current tier (0-indexed. 0 is the final life)
+    current_tier = (@battler.hp > 0) ? ((@battler.hp - 1) / hp_per_tier).to_i : 0
+
+    return current_tier, total_tiers, hp_per_tier
+  end
+
   def draw_alpha_boss_ui
     return unless @battler && @battler.opposes? && @battler.isAlphaBoss?
+    return unless @hpBarBitmap && !@hpBarBitmap.disposed?
 
-    # Determine Tiers
-    tier_count = (@battler.level / 20).to_i + 1
-    if @battler.pokemon.respond_to?(:hp_level) && @battler.pokemon.hp_level.is_a?(Numeric) && @battler.pokemon.hp_level > 1
-      tier_count = @battler.pokemon.hp_level
-    end
-    tier_count = [tier_count, 6].min
+    current_tier, total_tiers, hp_per_tier = calculate_alpha_boss_tiers
 
-    pct = self.hp.to_f / @battler.totalhp.to_f
-    current_tier = (pct * tier_count).ceil
-    current_tier = 1 if current_tier < 1
+    # Calculate HP remaining STRICTLY within the current tier
+    hp_in_current_tier = @battler.hp - (current_tier * hp_per_tier)
+    tier_hp_pct = hp_in_current_tier.to_f / hp_per_tier
 
-    # 1. Hijack the Active Bar color
-    # We use DBK's native 3-tier colors cyclically: Green (0), Yellow (1), Red (2).
-    active_color_index = (6 - current_tier) % 3
+    max_width = @hpBarBitmap.width
+    bar_height = @hpBarBitmap.height / 6
 
-    # Scale width relative to the current tier's chunk of HP
-    tier_pct = (pct - ((current_tier - 1).to_f / tier_count)) * tier_count
-    w = @hpBarBitmap.bitmap.width * tier_pct
-    w = 1 if w < 1 && pct > 0
-    w = ((w / 2.0).round) * 2 # Snap to 2 pixels
+    # The width of the active bar (will NEVER exceed max_width)
+    fill_width = (max_width * tier_hp_pct).round
+    fill_width = 1 if fill_width < 1 && @battler.hp > 0
+    fill_width = ((fill_width / 2.0).round) * 2 # Snap to 2 pixels if needed by UI
     
-    @hpBar.src_rect.width = w
-    @hpBar.src_rect.y = active_color_index * (@hpBarBitmap.height / 3)
+    tier_to_index = { 0 => 2, 1 => 3, 2 => 4, 3 => 5, 4 => 5, 5 => 5 }
+    active_index = tier_to_index[current_tier] || 5
 
+    @hpBar.src_rect.width = fill_width
+    @hpBar.src_rect.y = active_index * bar_height
+
+    # Dynamic Redraw: If the tier crosses a boundary during animation, force a background redraw
+    if @current_alpha_tier && @current_alpha_tier != current_tier && !@drawing_alpha_bg
+      @current_alpha_tier = current_tier
+      @drawing_alpha_bg = true
+      self.refresh if self.respond_to?(:refresh)
+      @drawing_alpha_bg = false
+    else
+      @current_alpha_tier = current_tier
+    end
   end
 
   def draw_alpha_background
     return unless @battler && @battler.opposes? && @battler.isAlphaBoss?
+    return unless @hpBarBitmap && !@hpBarBitmap.disposed?
 
-    tier_count = (@battler.level / 20).to_i + 1
-    if @battler.pokemon.respond_to?(:hp_level) && @battler.pokemon.hp_level.is_a?(Numeric) && @battler.pokemon.hp_level > 1
-      tier_count = @battler.pokemon.hp_level
-    end
-    tier_count = [tier_count, 6].min
+    current_tier, total_tiers, hp_per_tier = calculate_alpha_boss_tiers
 
-    pct = self.hp.to_f / @battler.totalhp.to_f
-    current_tier = (pct * tier_count).ceil
-    current_tier = 1 if current_tier < 1
+    tier_to_index = { 0 => 2, 1 => 3, 2 => 4, 3 => 5, 4 => 5, 5 => 5 }
+    under_index = tier_to_index[current_tier - 1] || 0
 
-    # 2. Hijack the Background color (Under-Bar)
-    # We draw the lower tier directly onto self.bitmap BEFORE the databox background is drawn.
-    # The databox graphic has an empty/black cutout for the HP bar. By drawing underneath it,
-    # the native databox PNG shapes perfectly clamp the under tier color!
-    if current_tier > 1
-      under_color_index = (6 - (current_tier - 1)) % 3
-      slice_height = @hpBarBitmap.height / 3
-      src_rect_under = Rect.new(0, under_color_index * slice_height, @hpBarBitmap.bitmap.width, slice_height)
+    max_width = @hpBarBitmap.width
+    bar_height = @hpBarBitmap.height / 6
+
+    if current_tier > 0
+      under_y_offset = under_index * bar_height
+      under_rect = Rect.new(0, under_y_offset, max_width, bar_height)
 
       # Determine relative position of HP bar on the databox
       hp_x = @hpBar.x - self.x
       hp_y = @hpBar.y - self.y
 
       # Draw the lower-tier block. The slanted cutout of the databox image will mask it when drawn over.
-      self.bitmap.blt(hp_x, hp_y, @hpBarBitmap.bitmap, src_rect_under)
+      self.bitmap.blt(hp_x, hp_y, @hpBarBitmap.bitmap, under_rect)
     end
   end
 
