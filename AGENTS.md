@@ -232,4 +232,19 @@ The files `Data/Scripts/016_UI/005_UI_Party.rb`, `006_UI_Summary.rb`, and `Data/
 
 ## Plugin Architecture & References
 
+## 🛑 Behavioral & Execution Guidelines (JULES.md)
+
+Before beginning any code generation or modification, you MUST read and internalize the guidelines established in `JULES.md`. 
+
+While `AGENTS.md` and our API references dictate the **architecture** and **rules** of our Pokémon Essentials/DBK environment, `JULES.md` dictates exactly **how you are allowed to operate** within it. 
+
+**Core Directives to Remember:**
+1. **Behavior Override:** The constraints in `JULES.md` supersede your default LLM tendencies to over-engineer, over-explain, or proactively refactor unrelated code. 
+2. **Surgical Precision:** When modifying existing Ruby scripts or UI elements, you are strictly forbidden from altering adjacent logic, comments, or formatting unless specifically instructed. 
+3. **Stop & Ask:** If you are unsure about a specific DBK or other plugin methods, variables, or UI coordinates, DO NOT hallucinate a fallback. Stop the execution and ask for clarification.
+
+Your success is measured by outputting the absolute minimum amount of code required to achieve the exact goal requested, with zero collateral changes to the surrounding codebase.
+
+
 * **Deluxe Battle Kit (DBK):** The file `docs/DBK_API_REFERENCE.md` is our absolute source of truth for all Deluxe Battle Kit logic. You must keep its specific hooks (like `:RAIDBOSS` immunities, `isAlphaBoss?`, and UI aliases) in your active context for all future battle-engine tasks. Do not hallucinate vanilla Essentials rules for boss triggers.
+
