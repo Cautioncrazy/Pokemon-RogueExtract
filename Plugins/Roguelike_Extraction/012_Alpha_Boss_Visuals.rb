@@ -27,32 +27,8 @@ end
 # System 2 & 3: The Drawing Module
 #===============================================================================
 module AlphaBossUIDrawer
-  def init_alpha_overlay
-    # Create the Under-Bar on the exact same viewport so it inherits DBK's slanted mask
-    if !@underHpBar
-      @underHpBar = Sprite.new(@hpBar.viewport)
-      @underHpBar.bitmap = Bitmap.new(@hpBar.bitmap.width, @hpBar.bitmap.height)
-    end
-    if !@infoHpBitmapAlpha
-      @infoHpBitmapAlpha = AnimatedBitmap.new("Graphics/Plugins/Enhanced Battle UI/info_hp")
-    end
-  end
-
   def draw_alpha_boss_ui
     return unless @battler && @battler.opposes? && @battler.isAlphaBoss?
-
-    init_alpha_overlay
-    
-    # Lock the Under-Bar exactly behind the active bar
-    @underHpBar.x = @hpBar.x
-    @underHpBar.y = @hpBar.y
-    @underHpBar.z = @hpBar.z - 1
-    @underHpBar.visible = true
-
-    w_max = @hpBar.bitmap.width
-    h_max = @hpBar.bitmap.height
-    slice_height = @infoHpBitmapAlpha.height / 6
-    dest_rect_full = Rect.new(0, 0, w_max, h_max)
 
     # Determine Tiers
     tier_count = (@battler.level / 20).to_i + 1
@@ -65,37 +41,53 @@ module AlphaBossUIDrawer
     current_tier = (pct * tier_count).ceil
     current_tier = 1 if current_tier < 1
 
-    # 1. Draw Under-Bar (Always 100% width, never shrinks)
-    @underHpBar.bitmap.clear
-    if current_tier > 1
-      under_index = [[6 - (current_tier - 1), 0].max, 5].min
-      src_rect_under = Rect.new(0, under_index * slice_height, @infoHpBitmapAlpha.bitmap.width, slice_height)
-      @underHpBar.bitmap.stretch_blt(dest_rect_full, @infoHpBitmapAlpha.bitmap, src_rect_under)
-    end
+    # 1. Hijack the Active Bar color
+    # We use DBK's native 3-tier colors cyclically: Green (0), Yellow (1), Red (2).
+    active_color_index = (6 - current_tier) % 3
 
-    # 2. Draw Active-Bar directly onto the vanilla DBK canvas!
-    # By drawing it full width, we preserve the gradient. DBK's engine will shrink the src_rect automatically.
-    @hpBar.bitmap.clear
-    active_index = [[6 - current_tier, 0].max, 5].min
-    src_rect_active = Rect.new(0, active_index * slice_height, @infoHpBitmapAlpha.bitmap.width, slice_height)
-    @hpBar.bitmap.stretch_blt(dest_rect_full, @infoHpBitmapAlpha.bitmap, src_rect_active)
+    # Scale width relative to the current tier's chunk of HP
+    tier_pct = (pct - ((current_tier - 1).to_f / tier_count)) * tier_count
+    w = @hpBarBitmap.bitmap.width * tier_pct
+    w = 1 if w < 1 && pct > 0
+    w = ((w / 2.0).round) * 2 # Snap to 2 pixels
     
-    @hpBar.visible = true
+    @hpBar.src_rect.width = w
+    @hpBar.src_rect.y = active_color_index * (@hpBarBitmap.height / 3)
+
+  end
+
+  def draw_alpha_background
+    return unless @battler && @battler.opposes? && @battler.isAlphaBoss?
+
+    tier_count = (@battler.level / 20).to_i + 1
+    if @battler.pokemon.respond_to?(:hp_level) && @battler.pokemon.hp_level.is_a?(Numeric) && @battler.pokemon.hp_level > 1
+      tier_count = @battler.pokemon.hp_level
+    end
+    tier_count = [tier_count, 6].min
+
+    pct = self.hp.to_f / @battler.totalhp.to_f
+    current_tier = (pct * tier_count).ceil
+    current_tier = 1 if current_tier < 1
+
+    # 2. Hijack the Background color (Under-Bar)
+    # We draw the lower tier directly onto self.bitmap BEFORE the databox background is drawn.
+    # The databox graphic has an empty/black cutout for the HP bar. By drawing underneath it,
+    # the native databox PNG shapes perfectly clamp the under tier color!
+    if current_tier > 1
+      under_color_index = (6 - (current_tier - 1)) % 3
+      slice_height = @hpBarBitmap.height / 3
+      src_rect_under = Rect.new(0, under_color_index * slice_height, @hpBarBitmap.bitmap.width, slice_height)
+
+      # Determine relative position of HP bar on the databox
+      hp_x = @hpBar.x - self.x
+      hp_y = @hpBar.y - self.y
+
+      # Draw the lower-tier block. The slanted cutout of the databox image will mask it when drawn over.
+      self.bitmap.blt(hp_x, hp_y, @hpBarBitmap.bitmap, src_rect_under)
+    end
   end
 
   def sync_alpha_overlay
-    if @underHpBar && !@underHpBar.disposed?
-      if @battler && @battler.opposes? && @battler.isAlphaBoss?
-        @underHpBar.x = @hpBar.x
-        @underHpBar.y = @hpBar.y
-        @underHpBar.z = @hpBar.z - 1
-        @underHpBar.visible = self.visible
-        @underHpBar.opacity = self.opacity
-        @underHpBar.color = self.color
-      else
-        @underHpBar.visible = false
-      end
-    end
   end
 
   def draw_alpha_style_icons
@@ -114,14 +106,18 @@ module AlphaBossUIDrawer
   end
 
   def dispose_alpha_overlay
-    @underHpBar.dispose if @underHpBar
-    @infoHpBitmapAlpha.dispose if @infoHpBitmapAlpha
   end
 end
 
 # 1. Inject into the Standard Databox
 class Battle::Scene::PokemonDataBox < Sprite
   include AlphaBossUIDrawer
+
+  alias alpha_dbk_draw_background draw_background
+  def draw_background
+    draw_alpha_background
+    alpha_dbk_draw_background
+  end
   
   alias alpha_dbk_refresh_hp refresh_hp
   def refresh_hp
@@ -161,6 +157,12 @@ if defined?(Battle::Scene::BossDataBox)
   class Battle::Scene::BossDataBox
     include AlphaBossUIDrawer
     
+    alias alpha_dbk_boss_draw_background draw_background
+    def draw_background
+      draw_alpha_background
+      alpha_dbk_boss_draw_background
+    end
+
     alias alpha_dbk_boss_refresh_hp refresh_hp
     def refresh_hp
       alpha_dbk_boss_refresh_hp
