@@ -225,6 +225,7 @@ module ZBox
           # Atributos de Estado
           # Status Attributes
           when :hp then pkmn.hp = value
+          when :hp_boost then pkmn.hp_level = value
           when :status then pkmn.status = value
           when :status_count then pkmn.statusCount = value # Para el sueño / For sleep
 
@@ -378,6 +379,7 @@ module ZBox
           when :time_received then pkmn.timeReceived = value
 
           when :hp then pkmn.hp = value
+          when :hp_boost then pkmn.hp_level = value
           when :status then pkmn.status = value
           when :status_count then pkmn.statusCount = value
 
