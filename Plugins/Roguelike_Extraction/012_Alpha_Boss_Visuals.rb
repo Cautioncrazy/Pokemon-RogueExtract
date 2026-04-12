@@ -30,12 +30,10 @@ module AlphaBossUIDrawer
   ALPHA_TIER_COLORS = [2, 3, 4, 5, 1, 0]
 
   def calculate_alpha_boss_tiers
-    boost = @battler.pokemon.hp_boost.to_i
     level = @battler.pokemon.hp_level.to_i
-    level = 1 if level <= 0 # Prevent division by zero
 
-    # Clamped to 6 max tiers since our graphic only has 6 slices
-    total_tiers = (boost > 0) ? (boost / level).clamp(1, 6) : 1
+    # Simply use hp_level, clamped to 6 max tiers since our graphic only has 6 slices
+    total_tiers = (level > 0) ? level.clamp(1, 6) : 1
 
     hp_per_tier = @battler.totalhp.to_f / total_tiers
 
