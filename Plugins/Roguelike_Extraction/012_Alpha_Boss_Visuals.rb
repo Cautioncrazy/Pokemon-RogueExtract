@@ -56,8 +56,8 @@ module AlphaBossUIDrawer
 
     # Determine Tiers
     tier_count = (@battler.level / 20).to_i + 1
-    if @battler.pokemon.respond_to?(:hp_boost) && @battler.pokemon.hp_boost.is_a?(Numeric) && @battler.pokemon.hp_boost > 1
-      tier_count = @battler.pokemon.hp_boost
+    if @battler.pokemon.respond_to?(:hp_level) && @battler.pokemon.hp_level.is_a?(Numeric) && @battler.pokemon.hp_level > 1
+      tier_count = @battler.pokemon.hp_level
     end
     tier_count = [tier_count, 6].min
 
