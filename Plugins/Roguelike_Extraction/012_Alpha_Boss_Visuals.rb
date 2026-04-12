@@ -27,6 +27,8 @@ end
 # System 2 & 3: The Drawing Module
 #===============================================================================
 module AlphaBossUIDrawer
+  ALPHA_TIER_COLORS = [2, 3, 4, 5, 1, 0]
+
   def calculate_alpha_boss_tiers
     boost = @battler.pokemon.hp_boost.to_i
     level = @battler.pokemon.hp_level.to_i
@@ -37,20 +39,23 @@ module AlphaBossUIDrawer
 
     hp_per_tier = @battler.totalhp.to_f / total_tiers
 
-    # Determine current tier (0-indexed. 0 is the final life)
-    current_tier = (@battler.hp > 0) ? ((@battler.hp - 1) / hp_per_tier).to_i : 0
+    # Use self.hp (visual tweened HP) instead of @battler.hp to prevent chunking
+    current_visual_hp = self.hp
 
-    return current_tier, total_tiers, hp_per_tier
+    # Determine current tier (0-indexed. 0 is the final life)
+    current_tier = (current_visual_hp > 0) ? ((current_visual_hp - 1) / hp_per_tier).to_i : 0
+
+    return current_tier, total_tiers, hp_per_tier, current_visual_hp
   end
 
   def draw_alpha_boss_ui
     return unless @battler && @battler.opposes? && @battler.isAlphaBoss?
     return unless @hpBarBitmap && !@hpBarBitmap.disposed?
 
-    current_tier, total_tiers, hp_per_tier = calculate_alpha_boss_tiers
+    current_tier, total_tiers, hp_per_tier, current_visual_hp = calculate_alpha_boss_tiers
 
     # Calculate HP remaining STRICTLY within the current tier
-    hp_in_current_tier = @battler.hp - (current_tier * hp_per_tier)
+    hp_in_current_tier = current_visual_hp - (current_tier * hp_per_tier)
     tier_hp_pct = hp_in_current_tier.to_f / hp_per_tier
 
     max_width = @hpBarBitmap.width
@@ -58,11 +63,10 @@ module AlphaBossUIDrawer
 
     # The width of the active bar (will NEVER exceed max_width)
     fill_width = (max_width * tier_hp_pct).round
-    fill_width = 1 if fill_width < 1 && @battler.hp > 0
+    fill_width = 1 if fill_width < 1 && current_visual_hp > 0
     fill_width = ((fill_width / 2.0).round) * 2 # Snap to 2 pixels if needed by UI
     
-    tier_to_index = { 0 => 2, 1 => 3, 2 => 4, 3 => 5, 4 => 5, 5 => 5 }
-    active_index = tier_to_index[current_tier] || 5
+    active_index = ALPHA_TIER_COLORS[current_tier] || ALPHA_TIER_COLORS.last
 
     @hpBar.src_rect.width = fill_width
     @hpBar.src_rect.y = active_index * bar_height
@@ -82,15 +86,13 @@ module AlphaBossUIDrawer
     return unless @battler && @battler.opposes? && @battler.isAlphaBoss?
     return unless @hpBarBitmap && !@hpBarBitmap.disposed?
 
-    current_tier, total_tiers, hp_per_tier = calculate_alpha_boss_tiers
-
-    tier_to_index = { 0 => 2, 1 => 3, 2 => 4, 3 => 5, 4 => 5, 5 => 5 }
-    under_index = tier_to_index[current_tier - 1] || 0
+    current_tier, total_tiers, hp_per_tier, current_visual_hp = calculate_alpha_boss_tiers
 
     max_width = @hpBarBitmap.width
     bar_height = @hpBarBitmap.height / 6
 
     if current_tier > 0
+      under_index = ALPHA_TIER_COLORS[current_tier - 1]
       under_y_offset = under_index * bar_height
       under_rect = Rect.new(0, under_y_offset, max_width, bar_height)
 
