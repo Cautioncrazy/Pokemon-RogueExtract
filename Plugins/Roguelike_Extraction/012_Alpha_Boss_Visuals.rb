@@ -27,7 +27,17 @@ end
 # System 2 & 3: The Drawing Module
 #===============================================================================
 module AlphaBossUIDrawer
-  ALPHA_TIER_COLORS = [2, 1, 0, 3, 4, 5]
+  #=============================================================================
+  # USER CONFIGURATION: MAP YOUR COLORS
+  # Open your hp_info.png or custom 6-slice graphic. Look at the colors from
+  # TOP to BOTTOM.
+  #
+  # Top slice = 0
+  # Bottom slice = 5
+  #
+  # Array Order: [Tier 0 (Final Life), Tier 1, Tier 2, Tier 3, Tier 4, Tier 5]
+  #=============================================================================
+  ALPHA_TIER_COLORS = [5, 4, 3, 2, 1, 0]
 
   def calculate_alpha_boss_tiers
     boost = @battler.pokemon.hp_boost.to_i
@@ -67,6 +77,7 @@ module AlphaBossUIDrawer
     active_index = ALPHA_TIER_COLORS[current_tier] || ALPHA_TIER_COLORS.last
 
     @hpBar.src_rect.width = fill_width
+    @hpBar.src_rect.height = bar_height
     @hpBar.src_rect.y = active_index * bar_height
 
     # Dynamic Redraw: If the tier crosses a boundary during animation, force a background redraw
@@ -113,7 +124,6 @@ module AlphaBossUIDrawer
   end
 
   def sync_alpha_overlay
-    force_alpha_hp_height
     if @underBar && @hpBar
       @underBar.x = @hpBar.x
       @underBar.y = @hpBar.y
@@ -171,7 +181,20 @@ class Battle::Scene::PokemonDataBox < Sprite
     def animateHP(*args)
       alpha_dbk_animateHP(*args)
       force_alpha_hp_height
+      draw_alpha_boss_ui
     end
+  end
+
+  alias alpha_dbk_opacity_set opacity= unless method_defined?(:alpha_dbk_opacity_set)
+  def opacity=(value)
+    alpha_dbk_opacity_set(value)
+    sync_alpha_overlay
+  end
+
+  alias alpha_dbk_visible_set visible= unless method_defined?(:alpha_dbk_visible_set)
+  def visible=(value)
+    alpha_dbk_visible_set(value)
+    sync_alpha_overlay
   end
 
   alias alpha_dbk_dispose dispose
@@ -223,7 +246,20 @@ if defined?(Battle::Scene::BossDataBox)
       def animateHP(*args)
         alpha_dbk_boss_animateHP(*args)
         force_alpha_hp_height
+        draw_alpha_boss_ui
       end
+    end
+
+    alias alpha_dbk_boss_opacity_set opacity= unless method_defined?(:alpha_dbk_boss_opacity_set)
+    def opacity=(value)
+      alpha_dbk_boss_opacity_set(value)
+      sync_alpha_overlay
+    end
+
+    alias alpha_dbk_boss_visible_set visible= unless method_defined?(:alpha_dbk_boss_visible_set)
+    def visible=(value)
+      alpha_dbk_boss_visible_set(value)
+      sync_alpha_overlay
     end
 
     alias alpha_dbk_boss_dispose dispose
