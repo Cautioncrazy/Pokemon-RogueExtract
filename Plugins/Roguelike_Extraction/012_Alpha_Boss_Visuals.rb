@@ -27,6 +27,16 @@ end
 # System 2 & 3: The Drawing Module
 #===============================================================================
 module AlphaBossUIDrawer
+  #=============================================================================
+  # USER CONFIGURATION: MAP YOUR COLORS
+  # Open your hp_info.png or custom 6-slice graphic. Look at the colors from
+  # TOP to BOTTOM.
+  #
+  # Top slice = 0
+  # Bottom slice = 5
+  #
+  # Array Order: [Tier 0 (Final Life), Tier 1, Tier 2, Tier 3, Tier 4, Tier 5]
+  #=============================================================================
   ALPHA_TIER_COLORS = [5, 4, 3, 2, 1, 0]
 
   def calculate_alpha_boss_tiers
@@ -57,7 +67,7 @@ module AlphaBossUIDrawer
     tier_hp_pct = hp_in_current_tier.to_f / hp_per_tier
 
     max_width = @hpBarBitmap.width
-    bar_height = @hpBarBitmap.bitmap.height / 6
+    bar_height = (@hpBarBitmap.bitmap.height / 6).to_i
 
     # The width of the active bar (will NEVER exceed max_width)
     fill_width = (max_width * tier_hp_pct).round
@@ -87,7 +97,7 @@ module AlphaBossUIDrawer
     current_tier, total_tiers, hp_per_tier, current_visual_hp = calculate_alpha_boss_tiers
 
     max_width = @hpBarBitmap.width
-    bar_height = @hpBarBitmap.bitmap.height / 6
+    bar_height = (@hpBarBitmap.bitmap.height / 6).to_i
 
     if current_tier > 0
       under_index = ALPHA_TIER_COLORS[current_tier - 1]
@@ -102,7 +112,18 @@ module AlphaBossUIDrawer
     end
   end
 
+  def force_alpha_hp_height
+    return unless @battler && @battler.opposes? && @battler.isAlphaBoss?
+    return unless @hpBarBitmap && !@hpBarBitmap.disposed?
+
+    bar_height = (@hpBarBitmap.bitmap.height / 6).to_i
+
+    @hpBar.src_rect.height = bar_height if @hpBar
+    @underBar.src_rect.height = bar_height if @underBar
+  end
+
   def sync_alpha_overlay
+    force_alpha_hp_height
     if @underBar && @hpBar
       @underBar.x = @hpBar.x
       @underBar.y = @hpBar.y
@@ -155,6 +176,14 @@ class Battle::Scene::PokemonDataBox < Sprite
     sync_alpha_overlay
   end
 
+  if method_defined?(:animateHP)
+    alias alpha_dbk_animateHP animateHP
+    def animateHP(*args)
+      alpha_dbk_animateHP(*args)
+      force_alpha_hp_height
+    end
+  end
+
   alias alpha_dbk_dispose dispose
   def dispose
     alpha_dbk_dispose
@@ -197,6 +226,14 @@ if defined?(Battle::Scene::BossDataBox)
     def update
       alpha_dbk_boss_update
       sync_alpha_overlay
+    end
+
+    if method_defined?(:animateHP)
+      alias alpha_dbk_boss_animateHP animateHP
+      def animateHP(*args)
+        alpha_dbk_boss_animateHP(*args)
+        force_alpha_hp_height
+      end
     end
 
     alias alpha_dbk_boss_dispose dispose
