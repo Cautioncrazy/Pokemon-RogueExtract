@@ -27,17 +27,7 @@ end
 # System 2 & 3: The Drawing Module
 #===============================================================================
 module AlphaBossUIDrawer
-  #=============================================================================
-  # USER CONFIGURATION: MAP YOUR COLORS
-  # Open your hp_info.png or custom 6-slice graphic. Look at the colors from
-  # TOP to BOTTOM.
-  #
-  # Top slice = 0
-  # Bottom slice = 5
-  #
-  # Array Order: [Tier 0 (Final Life), Tier 1, Tier 2, Tier 3, Tier 4, Tier 5]
-  #=============================================================================
-  ALPHA_TIER_COLORS = [5, 4, 3, 2, 1, 0]
+  ALPHA_TIER_COLORS = [2, 1, 0, 3, 4, 5]
 
   def calculate_alpha_boss_tiers
     boost = @battler.pokemon.hp_boost.to_i
