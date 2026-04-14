@@ -57,7 +57,7 @@ module AlphaBossUIDrawer
     tier_hp_pct = hp_in_current_tier.to_f / hp_per_tier
 
     max_width = @hpBarBitmap.width
-    bar_height = @hpBarBitmap.height / 6
+    bar_height = @hpBarBitmap.bitmap.height / 6
 
     # The width of the active bar (will NEVER exceed max_width)
     fill_width = (max_width * tier_hp_pct).round
@@ -87,7 +87,7 @@ module AlphaBossUIDrawer
     current_tier, total_tiers, hp_per_tier, current_visual_hp = calculate_alpha_boss_tiers
 
     max_width = @hpBarBitmap.width
-    bar_height = @hpBarBitmap.height / 6
+    bar_height = @hpBarBitmap.bitmap.height / 6
 
     if current_tier > 0
       under_index = ALPHA_TIER_COLORS[current_tier - 1]
@@ -108,6 +108,8 @@ module AlphaBossUIDrawer
       @underBar.y = @hpBar.y
       @underBar.z = @hpBar.z - 1 # Must be strictly behind the active HP bar
       @underBar.visible = @hpBar.visible
+      @underBar.opacity = self.opacity
+      @underBar.color = self.color if self.respond_to?(:color)
     end
   end
 
