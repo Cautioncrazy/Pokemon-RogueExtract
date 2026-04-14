@@ -248,3 +248,4 @@ Your success is measured by outputting the absolute minimum amount of code requi
 
 * **Deluxe Battle Kit (DBK):** The file `docs/DBK_API_REFERENCE.md` is our absolute source of truth for all Deluxe Battle Kit logic. You must keep its specific hooks (like `:RAIDBOSS` immunities, `isAlphaBoss?`, and UI aliases) in your active context for all future battle-engine tasks. Do not hallucinate vanilla Essentials rules for boss triggers.
 
+- **Important Note on Compiled Binaries:** Do not commit or push changes to `Data/PluginScripts.rxdata`. This is a compiled artifact that changes dynamically during runtime/compilation and will cause Git merge conflicts.

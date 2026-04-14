@@ -128,7 +128,15 @@ module AlphaBossUIDrawer
       @underBar.x = @hpBar.x
       @underBar.y = @hpBar.y
       @underBar.z = @hpBar.z - 1 # Must be strictly behind the active HP bar
-      @underBar.visible = @hpBar.visible
+
+      # Determine if we are on the final life (Tier 0). If so, hide the under-bar.
+      current_tier, _, _, _ = calculate_alpha_boss_tiers
+      if current_tier > 0
+        @underBar.visible = @hpBar.visible
+      else
+        @underBar.visible = false
+      end
+
       @underBar.opacity = self.opacity
       @underBar.color = self.color if self.respond_to?(:color)
     end
@@ -185,13 +193,17 @@ class Battle::Scene::PokemonDataBox < Sprite
     end
   end
 
-  alias alpha_dbk_opacity_set opacity= unless method_defined?(:alpha_dbk_opacity_set)
+  unless method_defined?(:alpha_dbk_opacity_set)
+    alias alpha_dbk_opacity_set opacity=
+  end
   def opacity=(value)
     alpha_dbk_opacity_set(value)
     sync_alpha_overlay
   end
 
-  alias alpha_dbk_visible_set visible= unless method_defined?(:alpha_dbk_visible_set)
+  unless method_defined?(:alpha_dbk_visible_set)
+    alias alpha_dbk_visible_set visible=
+  end
   def visible=(value)
     alpha_dbk_visible_set(value)
     sync_alpha_overlay
@@ -250,13 +262,17 @@ if defined?(Battle::Scene::BossDataBox)
       end
     end
 
-    alias alpha_dbk_boss_opacity_set opacity= unless method_defined?(:alpha_dbk_boss_opacity_set)
+    unless method_defined?(:alpha_dbk_boss_opacity_set)
+      alias alpha_dbk_boss_opacity_set opacity=
+    end
     def opacity=(value)
       alpha_dbk_boss_opacity_set(value)
       sync_alpha_overlay
     end
 
-    alias alpha_dbk_boss_visible_set visible= unless method_defined?(:alpha_dbk_boss_visible_set)
+    unless method_defined?(:alpha_dbk_boss_visible_set)
+      alias alpha_dbk_boss_visible_set visible=
+    end
     def visible=(value)
       alpha_dbk_boss_visible_set(value)
       sync_alpha_overlay
