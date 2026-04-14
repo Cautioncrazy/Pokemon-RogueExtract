@@ -100,6 +100,8 @@ module AlphaBossUIDrawer
         @underBar.bitmap = @hpBarBitmap.bitmap
       end
       @underBar.src_rect = under_rect if @underBar
+    else
+      @underBar.visible = false if @underBar && !@underBar.disposed?
     end
   end
 
@@ -114,14 +116,22 @@ module AlphaBossUIDrawer
   end
 
   def sync_alpha_overlay
-    force_alpha_hp_height
-    if @underBar && @hpBar
+    force_alpha_hp_height # The crucial failsafe
+    if @underBar && @hpBar && !@hpBar.disposed?
       @underBar.x = @hpBar.x
       @underBar.y = @hpBar.y
-      @underBar.z = @hpBar.z - 1 # Must be strictly behind the active HP bar
-      @underBar.visible = @hpBar.visible
+      @underBar.z = @hpBar.z - 1
+
+      # Constantly sync opacity and color to match DBK's battle UI fading
       @underBar.opacity = self.opacity
       @underBar.color = self.color if self.respond_to?(:color)
+
+      # Failsafe: Hide entirely if it's the final life, dead, or the UI is hidden
+      if @current_alpha_tier == 0 || self.hp <= 0 || !@hpBar.visible || !self.visible
+        @underBar.visible = false
+      else
+        @underBar.visible = true
+      end
     end
   end
 
