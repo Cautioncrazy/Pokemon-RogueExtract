@@ -27,7 +27,7 @@ end
 # System 2 & 3: The Drawing Module
 #===============================================================================
 module AlphaBossUIDrawer
-  ALPHA_TIER_COLORS = [2, 1, 0, 3, 4, 5]
+  ALPHA_TIER_COLORS = [5, 4, 3, 2, 1, 0]
 
   def calculate_alpha_boss_tiers
     boost = @battler.pokemon.hp_boost.to_i
@@ -68,6 +68,7 @@ module AlphaBossUIDrawer
 
     @hpBar.src_rect.width = fill_width
     @hpBar.src_rect.y = active_index * bar_height
+    @hpBar.src_rect.height = bar_height
 
     # Dynamic Redraw: If the tier crosses a boundary during animation, force a background redraw
     if @current_alpha_tier && @current_alpha_tier != current_tier && !@drawing_alpha_bg
@@ -174,6 +175,18 @@ class Battle::Scene::PokemonDataBox < Sprite
     end
   end
 
+  alias alpha_dbk_opacity_set opacity=
+  def opacity=(value)
+    alpha_dbk_opacity_set(value)
+    @underBar.opacity = value if @underBar
+  end
+
+  alias alpha_dbk_visible_set visible=
+  def visible=(value)
+    alpha_dbk_visible_set(value)
+    @underBar.visible = (value && @hpBar && @hpBar.visible) if @underBar
+  end
+
   alias alpha_dbk_dispose dispose
   def dispose
     alpha_dbk_dispose
@@ -224,6 +237,18 @@ if defined?(Battle::Scene::BossDataBox)
         alpha_dbk_boss_animateHP(*args)
         force_alpha_hp_height
       end
+    end
+
+    alias alpha_dbk_boss_opacity_set opacity=
+    def opacity=(value)
+      alpha_dbk_boss_opacity_set(value)
+      @underBar.opacity = value if @underBar
+    end
+
+    alias alpha_dbk_boss_visible_set visible=
+    def visible=(value)
+      alpha_dbk_boss_visible_set(value)
+      @underBar.visible = (value && @hpBar && @hpBar.visible) if @underBar
     end
 
     alias alpha_dbk_boss_dispose dispose
