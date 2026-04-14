@@ -98,6 +98,7 @@ module AlphaBossUIDrawer
       if !@underBar && @hpBar
         @underBar = Sprite.new(@hpBar.viewport)
         @underBar.bitmap = @hpBarBitmap.bitmap
+        @underBar.visible = false # Kill the 1-frame creation flash
       end
       @underBar.src_rect = under_rect if @underBar
     else
