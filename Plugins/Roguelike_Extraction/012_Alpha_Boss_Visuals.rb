@@ -27,13 +27,13 @@ end
 # System 2 & 3: The Drawing Module
 #===============================================================================
 module AlphaBossUIDrawer
-  ALPHA_TIER_COLORS = [2, 3, 4, 5, 1, 0]
+  ALPHA_TIER_COLORS = [5, 4, 3, 2, 1, 0]
 
   def calculate_alpha_boss_tiers
-    level = @battler.pokemon.hp_level.to_i
+    boost = @battler.pokemon.hp_boost.to_i
 
-    # Simply use hp_level, clamped to 6 max tiers since our graphic only has 6 slices
-    total_tiers = (level > 0) ? level.clamp(1, 6) : 1
+    # Simply use hp_boost, clamped to 6 max tiers since our graphic only has 6 slices
+    total_tiers = (boost > 0) ? boost.clamp(1, 6) : 1
 
     hp_per_tier = @battler.totalhp.to_f / total_tiers
 
@@ -94,16 +94,21 @@ module AlphaBossUIDrawer
       under_y_offset = under_index * bar_height
       under_rect = Rect.new(0, under_y_offset, max_width, bar_height)
 
-      # Determine relative position of HP bar on the databox
-      hp_x = @hpBar.x - self.x
-      hp_y = @hpBar.y - self.y
-
-      # Draw the lower-tier block. The slanted cutout of the databox image will mask it when drawn over.
-      self.bitmap.blt(hp_x, hp_y, @hpBarBitmap.bitmap, under_rect)
+      if !@underBar && @hpBar
+        @underBar = Sprite.new(@hpBar.viewport)
+        @underBar.bitmap = @hpBarBitmap.bitmap
+      end
+      @underBar.src_rect = under_rect if @underBar
     end
   end
 
   def sync_alpha_overlay
+    if @underBar && @hpBar
+      @underBar.x = @hpBar.x
+      @underBar.y = @hpBar.y
+      @underBar.z = @hpBar.z - 1 # Must be strictly behind the active HP bar
+      @underBar.visible = @hpBar.visible
+    end
   end
 
   def draw_alpha_style_icons
@@ -122,6 +127,7 @@ module AlphaBossUIDrawer
   end
 
   def dispose_alpha_overlay
+    @underBar.dispose if @underBar && !@underBar.disposed?
   end
 end
 

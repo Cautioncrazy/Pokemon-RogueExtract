@@ -42,8 +42,8 @@ class Battle::Scene
     total_width = (owned_relics.length * (icon_width + icon_padding)) - icon_padding
 
     # Calculate starting X to center the HUD at the top of the screen
-    start_x = (Graphics.width - total_width) / 2
-    start_y = 4
+    start_x = 20
+    start_y = 180
 
     # One combined Quantity Text wrapper
     text_sprite = BitmapSprite.new(Graphics.width, Graphics.height, @viewport)
