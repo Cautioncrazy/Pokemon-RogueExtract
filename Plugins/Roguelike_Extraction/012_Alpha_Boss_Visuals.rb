@@ -122,12 +122,16 @@ module AlphaBossUIDrawer
       @underBar.y = @hpBar.y
       @underBar.z = @hpBar.z - 1
 
+      # Intro Delay Timer: Prevent awkward popping during the battle start slide-in
+      @alpha_intro_timer ||= 0
+      @alpha_intro_timer += 1
+
       # Constantly sync opacity and color to match DBK's battle UI fading
       @underBar.opacity = self.opacity
       @underBar.color = self.color if self.respond_to?(:color)
 
-      # Failsafe: Hide entirely if it's the final life, dead, or the UI is hidden
-      if @current_alpha_tier == 0 || self.hp <= 0 || !@hpBar.visible || !self.visible
+      # Failsafe: Hide entirely if it's the final life, dead, the UI is hidden, OR it's too early
+      if @current_alpha_tier == 0 || self.hp <= 0 || !@hpBar.visible || !self.visible || @alpha_intro_timer < 50
         @underBar.visible = false
       else
         @underBar.visible = true
