@@ -96,4 +96,19 @@ PokemonFactory.register(:wartortle_gacha, {
     moves: [:BOOMBURST, :MOONBLAST, :FLAMETHROWER, :QUIVERDANCE]
   })
 
+  PokemonFactory.register(:boss_pinsir_data, {
+    species: :PINSIR,
+    level: 82,
+    nickname: "Sparky",
+    item: :CHOICESCARF,
+    poke_ball: :POKEBALL,
+    egg_type: :LEGENDARY,
+    ability: :CHLOROPHYLL,
+    nature: :LAX,
+    gender: :MALE,
+    hp_level: 3,
+    ivs: :perfect,
+    moves: [:EARTHQUAKE, :CLOSECOMBAT, :RECOVER]
+  })
+
 end
