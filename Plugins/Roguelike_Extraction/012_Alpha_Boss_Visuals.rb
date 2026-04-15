@@ -125,7 +125,7 @@ module AlphaBossUIDrawer
       # Timer finished! Instantiate the under-bar safely after the UI settles.
       @underBar = Sprite.new(@hpBar.viewport)
       @underBar.bitmap = @hpBarBitmap.bitmap
-      
+
       # Force an immediate src_rect update so it doesn't render wrong on frame 1
       max_width = @hpBarBitmap.width
       bar_height = (@hpBarBitmap.bitmap.height / 6).to_i
@@ -138,7 +138,7 @@ module AlphaBossUIDrawer
       @underBar.x = @hpBar.x
       @underBar.y = @hpBar.y
       @underBar.z = @hpBar.z - 1
-      
+
       @underBar.opacity = self.opacity
       @underBar.color = self.color if self.respond_to?(:color)
 
@@ -291,58 +291,48 @@ if defined?(Battle::Scene::BossDataBox)
 end
 
 #===============================================================================
-# System 4: Standalone Animated Sprite Overlay (No DBK Dependencies)
+# System 4: Native Pattern Masking (Crash-Free Lazy Evaluation)
 #===============================================================================
+
 class Sprite
   attr_accessor :alpha_pattern_type
+end
 
-  def apply_alpha_pattern(pokemon)
-    path = Settings::DELUXE_GRAPHICS_PATH
-    return if !pbResolveBitmap(path + "alpha_pattern")
-    if pokemon && pokemon.isAlphaBoss?
-      self.pattern.dispose if self.pattern && !self.pattern.disposed?
-      self.pattern = Bitmap.new(path + "alpha_pattern")
-      self.pattern_opacity = 150
-      self.alpha_pattern_type = :alpha
-    else
-      self.pattern.dispose if self.pattern && !self.pattern.disposed?
-      self.pattern = nil
-      self.alpha_pattern_type = nil
-    end
+class Battle::Scene::BattlerSprite < RPG::Sprite
+
+  # Safely guarded update alias to prevent alias hell
+  unless method_defined?(:alpha_pattern_safe_update)
+    alias alpha_pattern_safe_update update
   end
 
-  def set_alpha_pattern(pokemon)
-    if pokemon && pokemon.isAlphaBoss?
-      apply_alpha_pattern(pokemon)
+  def update
+    alpha_pattern_safe_update
+    return if !@_iconBitmap || !@pkmn
+
+    if @pkmn.isAlphaBoss?
+      # Lazy application of the native pattern (achieves perfect silhouette masking)
+      if self.alpha_pattern_type != :alpha
+        path = Settings::DELUXE_GRAPHICS_PATH + "alpha_pattern"
+        if pbResolveBitmap(path)
+          self.pattern.dispose if self.pattern && !self.pattern.disposed?
+          self.pattern = Bitmap.new(path)
+          self.pattern_opacity = 150
+          self.alpha_pattern_type = :alpha
+        end
+      end
+
+      # Native pattern scrolling animation
+      if (System.uptime / 0.05).to_i % 2 == 0
+        self.pattern_scroll_x += 1 if self.respond_to?(:pattern_scroll_x)
+        self.pattern_scroll_y -= 1 if self.respond_to?(:pattern_scroll_y)
+      end
     else
-      if self.respond_to?(:pattern_type) && self.pattern_type == :shadow
-        # Retain shadow pattern if present
-      else
+      # Cleanup if no longer an Alpha Boss
+      if self.alpha_pattern_type == :alpha
         self.pattern.dispose if self.pattern && !self.pattern.disposed?
         self.pattern = nil
         self.alpha_pattern_type = nil
       end
     end
-  end
-
-  # 1. Safely guarded update alias
-  unless method_defined?(:alpha_standalone_update)
-    alias alpha_standalone_update update
-  end
-end
-
-class Battle::Scene::BattlerSprite < RPG::Sprite
-  alias alpha_vanilla_setPokemonBitmap setPokemonBitmap
-  def setPokemonBitmap(*args)
-    alpha_vanilla_setPokemonBitmap(*args)
-    pokemon = args[0]
-    self.set_alpha_pattern(pokemon) if pokemon && pokemon.isAlphaBoss?
-  end
-
-  alias alpha_update update
-  def update
-    alpha_update
-    return if !@_iconBitmap
-    self.update_alpha_pattern
   end
 end
