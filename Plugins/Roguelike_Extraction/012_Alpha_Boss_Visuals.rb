@@ -95,11 +95,7 @@ module AlphaBossUIDrawer
       under_y_offset = under_index * bar_height
       under_rect = Rect.new(0, under_y_offset, max_width, bar_height)
 
-      if !@underBar && @hpBar
-        @underBar = Sprite.new(@hpBar.viewport)
-        @underBar.bitmap = @hpBarBitmap.bitmap
-        @underBar.visible = false # Kill the 1-frame creation flash
-      end
+      # ONLY apply the rect if the sprite has been created by the timer
       @underBar.src_rect = under_rect if @underBar
     else
       @underBar.visible = false if @underBar && !@underBar.disposed?
@@ -118,21 +114,36 @@ module AlphaBossUIDrawer
 
   def sync_alpha_overlay
     force_alpha_hp_height # The crucial failsafe
+
+    # 1. Delayed Creation Logic ("Dial-in" delay)
+    @alpha_creation_timer ||= 0
+    creation_delay = 1200 # <-- Adjust this to match DBK's slide-in duration
+
+    if @alpha_creation_timer < creation_delay
+      @alpha_creation_timer += 1
+    elsif !@underBar && @hpBar && !@hpBar.disposed? && @current_alpha_tier && @current_alpha_tier > 0
+      # Timer finished! Instantiate the under-bar safely after the UI settles.
+      @underBar = Sprite.new(@hpBar.viewport)
+      @underBar.bitmap = @hpBarBitmap.bitmap
+      
+      # Force an immediate src_rect update so it doesn't render wrong on frame 1
+      max_width = @hpBarBitmap.width
+      bar_height = (@hpBarBitmap.bitmap.height / 6).to_i
+      under_index = ALPHA_TIER_COLORS[@current_alpha_tier - 1]
+      @underBar.src_rect = Rect.new(0, under_index * bar_height, max_width, bar_height)
+    end
+
+    # 2. Continuous Syncing Logic (Only runs after creation)
     if @underBar && @hpBar && !@hpBar.disposed?
       @underBar.x = @hpBar.x
       @underBar.y = @hpBar.y
       @underBar.z = @hpBar.z - 1
-
-      # Intro Delay Timer: Prevent awkward popping during the battle start slide-in
-      @alpha_intro_timer ||= 0
-      @alpha_intro_timer += 1
-
-      # Constantly sync opacity and color to match DBK's battle UI fading
+      
       @underBar.opacity = self.opacity
       @underBar.color = self.color if self.respond_to?(:color)
 
-      # Failsafe: Hide entirely if it's the final life, dead, the UI is hidden, OR it's too early
-      if @current_alpha_tier == 0 || self.hp <= 0 || !@hpBar.visible || !self.visible || @alpha_intro_timer < 50
+      # Failsafe: Hide entirely if it's the final life, dead, or the main UI is hidden
+      if @current_alpha_tier == 0 || self.hp <= 0 || !@hpBar.visible || !self.visible
         @underBar.visible = false
       else
         @underBar.visible = true
@@ -199,7 +210,10 @@ class Battle::Scene::PokemonDataBox < Sprite
   alias alpha_dbk_visible_set visible=
   def visible=(value)
     alpha_dbk_visible_set(value)
-    @underBar.visible = (value && @hpBar && @hpBar.visible) if @underBar
+    if @underBar
+      # Only force hide if main UI hides; let sync handle the reveal
+      @underBar.visible = false if !value || !@hpBar || !@hpBar.visible
+    end
   end
 
   alias alpha_dbk_dispose dispose
@@ -263,7 +277,9 @@ if defined?(Battle::Scene::BossDataBox)
     alias alpha_dbk_boss_visible_set visible=
     def visible=(value)
       alpha_dbk_boss_visible_set(value)
-      @underBar.visible = (value && @hpBar && @hpBar.visible) if @underBar
+      if @underBar
+        @underBar.visible = false if !value || !@hpBar || !@hpBar.visible
+      end
     end
 
     alias alpha_dbk_boss_dispose dispose

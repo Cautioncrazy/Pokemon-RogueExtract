@@ -83,7 +83,7 @@ PokemonFactory.register(:wartortle_gacha, {
     species: :CASTFORM,
     level: 22,
     nickname: "Aether",
-    hp_level: 4,
+    hp_level: 6,
     item: :LIFEORB,
     poke_ball: :CHERISHBALL,
     shiny: true,
