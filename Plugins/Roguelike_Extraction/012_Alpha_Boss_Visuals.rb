@@ -238,12 +238,29 @@ class Battle::Scene::PokemonDataBox < Sprite
 end
 
 class Battle::Scene::BattlerSprite < RPG::Sprite
+  # 1. Safely alias the bitmap setup
   unless method_defined?(:alpha_vanilla_setPokemonBitmap)
     alias alpha_vanilla_setPokemonBitmap setPokemonBitmap
   end
-  def setPokemonBitmap(pkmn, back = false)
-    alpha_vanilla_setPokemonBitmap(pkmn, back)
-    self.set_plugin_pattern(pkmn) if self.respond_to?(:set_plugin_pattern)
+  def setPokemonBitmap(*args)
+    alpha_vanilla_setPokemonBitmap(*args)
+    pokemon = args[0]
+
+    # Trigger DBK's native pattern hook just in case it missed it
+    self.set_plugin_pattern(pokemon) if self.respond_to?(:set_plugin_pattern)
+
+    # Explicitly trigger our Alpha pattern
+    self.set_alpha_pattern(pokemon) if pokemon && pokemon.isAlphaBoss?
+  end
+
+  # 2. Safely alias the update loop
+  unless method_defined?(:alpha_update)
+    alias alpha_update update
+  end
+  def update
+    alpha_update
+    return if !@_iconBitmap
+    self.update_alpha_pattern
   end
 end
 
