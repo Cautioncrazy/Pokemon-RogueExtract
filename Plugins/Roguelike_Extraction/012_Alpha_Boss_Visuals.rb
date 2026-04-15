@@ -294,65 +294,45 @@ end
 # System 4: Native Pattern Masking (Crash-Free Lazy Evaluation)
 #===============================================================================
 
+class Sprite
+  attr_accessor :alpha_pattern_type
+end
+
 class Battle::Scene::BattlerSprite < RPG::Sprite
-  
-  # 1. Safely guarded update alias
-  unless method_defined?(:alpha_standalone_update)
-    alias alpha_standalone_update update
+
+  # Safely guarded update alias to prevent alias hell
+  unless method_defined?(:alpha_pattern_safe_update)
+    alias alpha_pattern_safe_update update
   end
-  
+
   def update
-    alpha_standalone_update
+    alpha_pattern_safe_update
     return if !@_iconBitmap || !@pkmn
 
     if @pkmn.isAlphaBoss?
-      # Instantiate the standalone aura lazily
-      if !@alpha_aura_sprite
+      # Lazy application of the native pattern (achieves perfect silhouette masking)
+      if self.alpha_pattern_type != :alpha
         path = Settings::DELUXE_GRAPHICS_PATH + "alpha_pattern"
         if pbResolveBitmap(path)
-          @alpha_aura_sprite = Sprite.new(self.viewport)
-          @alpha_aura_sprite.bitmap = Bitmap.new(path)
-          @alpha_aura_sprite.opacity = 150
-          @alpha_aura_sprite.blend_type = 1 # Additive blending looks great for auras
+          self.pattern.dispose if self.pattern && !self.pattern.disposed?
+          self.pattern = Bitmap.new(path)
+          self.pattern_opacity = 150
+          self.alpha_pattern_type = :alpha
         end
       end
 
-      # Sync and animate the aura
-      if @alpha_aura_sprite && !@alpha_aura_sprite.disposed?
-        @alpha_aura_sprite.x = self.x
-        @alpha_aura_sprite.y = self.y
-        @alpha_aura_sprite.z = self.z + 1 # Render directly on top of the battler
-        @alpha_aura_sprite.ox = self.ox
-        @alpha_aura_sprite.oy = self.oy
-        @alpha_aura_sprite.visible = self.visible
-        @alpha_aura_sprite.color = self.color if self.respond_to?(:color)
-        @alpha_aura_sprite.tone = self.tone if self.respond_to?(:tone)
-
-        # Standalone animation scroll loop
-        if (System.uptime / 0.05).to_i % 2 == 0
-          @alpha_aura_sprite.src_rect.x += 1
-          @alpha_aura_sprite.src_rect.y -= 1
-        end
+      # Native pattern scrolling animation
+      if (System.uptime / 0.05).to_i % 2 == 0
+        self.pattern_scroll_x += 1 if self.respond_to?(:pattern_scroll_x)
+        self.pattern_scroll_y -= 1 if self.respond_to?(:pattern_scroll_y)
       end
     else
-      # If not an Alpha Boss, ensure the aura is destroyed
-      if @alpha_aura_sprite && !@alpha_aura_sprite.disposed?
-        @alpha_aura_sprite.dispose
-        @alpha_aura_sprite = nil
+      # Cleanup if no longer an Alpha Boss
+      if self.alpha_pattern_type == :alpha
+        self.pattern.dispose if self.pattern && !self.pattern.disposed?
+        self.pattern = nil
+        self.alpha_pattern_type = nil
       end
-    end
-  end
-
-  # 2. Safely guarded dispose alias to prevent memory leaks
-  unless method_defined?(:alpha_standalone_dispose)
-    alias alpha_standalone_dispose dispose
-  end
-  
-  def dispose
-    alpha_standalone_dispose
-    if @alpha_aura_sprite && !@alpha_aura_sprite.disposed?
-      @alpha_aura_sprite.dispose
-      @alpha_aura_sprite = nil
     end
   end
 end
