@@ -293,56 +293,66 @@ end
 #===============================================================================
 # System 4: Standalone Animated Sprite Overlay (No DBK Dependencies)
 #===============================================================================
-class Sprite
-  attr_accessor :alpha_pattern_type
 
-  def apply_alpha_pattern(pokemon)
-    path = Settings::DELUXE_GRAPHICS_PATH
-    return if !pbResolveBitmap(path + "alpha_pattern")
-    if pokemon && pokemon.isAlphaBoss?
-      self.pattern.dispose if self.pattern && !self.pattern.disposed?
-      self.pattern = Bitmap.new(path + "alpha_pattern")
-      self.pattern_opacity = 150
-      self.alpha_pattern_type = :alpha
-    else
-      self.pattern.dispose if self.pattern && !self.pattern.disposed?
-      self.pattern = nil
-      self.alpha_pattern_type = nil
-    end
-  end
-
-  def set_alpha_pattern(pokemon)
-    if pokemon && pokemon.isAlphaBoss?
-      apply_alpha_pattern(pokemon)
-    else
-      if self.respond_to?(:pattern_type) && self.pattern_type == :shadow
-        # Retain shadow pattern if present
-      else
-        self.pattern.dispose if self.pattern && !self.pattern.disposed?
-        self.pattern = nil
-        self.alpha_pattern_type = nil
-      end
-    end
-  end
-
+class Battle::Scene::BattlerSprite < RPG::Sprite
+  
   # 1. Safely guarded update alias
   unless method_defined?(:alpha_standalone_update)
     alias alpha_standalone_update update
   end
-end
+  
+  def update
+    alpha_standalone_update
+    return if !@_iconBitmap || !@pkmn
 
-class Battle::Scene::BattlerSprite < RPG::Sprite
-  alias alpha_vanilla_setPokemonBitmap setPokemonBitmap
-  def setPokemonBitmap(*args)
-    alpha_vanilla_setPokemonBitmap(*args)
-    pokemon = args[0]
-    self.set_alpha_pattern(pokemon) if pokemon && pokemon.isAlphaBoss?
+    if @pkmn.isAlphaBoss?
+      # Instantiate the standalone aura lazily
+      if !@alpha_aura_sprite
+        path = Settings::DELUXE_GRAPHICS_PATH + "alpha_pattern"
+        if pbResolveBitmap(path)
+          @alpha_aura_sprite = Sprite.new(self.viewport)
+          @alpha_aura_sprite.bitmap = Bitmap.new(path)
+          @alpha_aura_sprite.opacity = 150
+          @alpha_aura_sprite.blend_type = 1 # Additive blending looks great for auras
+        end
+      end
+
+      # Sync and animate the aura
+      if @alpha_aura_sprite && !@alpha_aura_sprite.disposed?
+        @alpha_aura_sprite.x = self.x
+        @alpha_aura_sprite.y = self.y
+        @alpha_aura_sprite.z = self.z + 1 # Render directly on top of the battler
+        @alpha_aura_sprite.ox = self.ox
+        @alpha_aura_sprite.oy = self.oy
+        @alpha_aura_sprite.visible = self.visible
+        @alpha_aura_sprite.color = self.color if self.respond_to?(:color)
+        @alpha_aura_sprite.tone = self.tone if self.respond_to?(:tone)
+
+        # Standalone animation scroll loop
+        if (System.uptime / 0.05).to_i % 2 == 0
+          @alpha_aura_sprite.src_rect.x += 1
+          @alpha_aura_sprite.src_rect.y -= 1
+        end
+      end
+    else
+      # If not an Alpha Boss, ensure the aura is destroyed
+      if @alpha_aura_sprite && !@alpha_aura_sprite.disposed?
+        @alpha_aura_sprite.dispose
+        @alpha_aura_sprite = nil
+      end
+    end
   end
 
-  alias alpha_update update
-  def update
-    alpha_update
-    return if !@_iconBitmap
-    self.update_alpha_pattern
+  # 2. Safely guarded dispose alias to prevent memory leaks
+  unless method_defined?(:alpha_standalone_dispose)
+    alias alpha_standalone_dispose dispose
+  end
+  
+  def dispose
+    alpha_standalone_dispose
+    if @alpha_aura_sprite && !@alpha_aura_sprite.disposed?
+      @alpha_aura_sprite.dispose
+      @alpha_aura_sprite = nil
+    end
   end
 end
