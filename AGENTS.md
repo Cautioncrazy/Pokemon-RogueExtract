@@ -186,7 +186,15 @@ We use a custom in-engine Ruby script located in `Plugins/AnimationMerger/` to a
   - **Battle Logic (`006_Dynamic_Spawns_And_Scaling.rb` & `012_DBK_Factory_Bridge.rb`):** Interacting with the event triggers `pbDynamicBossPokemon` (or `pbFightSpecificBoss` manually), which delegates to `pbFightFactoryBoss` in the bridge.
   - **DBK Wild Boss Bridge:** Native `Pokemon.new` initialization is performed before securely applying PokemonFactory data via `apply_attributes`. To interface with DBK properly (instead of using the hallucinated and invalid `setBattleRule("wildBoss")` approach), the bridge directly pushes `:RAIDBOSS` into the Pokémon's `immunities` array and maps `hp_level` so that DBK's `.isRaidBoss?` and Health Bar logic validate the generated entity.
 
-### 16. Dynamic Graphic Persistence
+### 16. Alpha Boss UI Expansion & Fading Syncs
+- **Concept:** Natively leverages DBK to replace standard boss health bars with a scalable, custom multi-slice graphic (e.g., 6 tiers) while perfectly obeying DBK's viewport masking and battle transition fading rules.
+- **Implementation (`Plugins/Roguelike_Extraction/012_Alpha_Boss_Visuals.rb`):**
+  - **Height Clamping:** DBK aggressively applies 3-slice window heights to 6-slice graphics, causing visual bleeding. The UI hook strictly clamps `@hpBar.src_rect.height` using `(@hpBarBitmap.bitmap.height / 6).to_i` inside `draw_alpha_boss_ui`.
+  - **Tier Lifecycle & Fading:** A secondary lazy-loaded sprite (`@underBar`) is drawn behind the active HP bar to indicate the next life. Aggressive aliasing of `opacity=` and `visible=` on both `PokemonDataBox` and `BossDataBox` ensures this under-bar correctly fades with the primary UI during move animations. When the boss reaches its final life (Tier 0), `@underBar.visible = false` is strictly enforced.
+  - **Slide-In Delayed Creation:** To prevent the `Sprite.new` from flashing on screen for 1 frame and awkwardly popping out of nowhere before DBK's databox slide-in animation finishes, the under-bar utilizes delayed creation. It relies on `@alpha_creation_timer` (e.g., waiting 1200 frames to match the intro delay) inside `sync_alpha_overlay` before it is instantiated and mapped to the UI coordinates.
+  - **Animated Sprite Overlays:** The Alpha boss visual pattern (`alpha_pattern`) is natively integrated into DBK's animated overlay rendering pipeline via `Sprite` aliasing of `set_plugin_pattern`, `set_plugin_icon_pattern`, and `update_plugin_pattern`. Manual aliasing of `BattlerSprite#setPokemonBitmap` and `update` is actively avoided because it conflicts with DBK's native `Shadow Pokemon.rb` system. The Alpha pattern explicitly overwrites the Shadow pattern (`:shadow`) if both are present.
+
+### 17. Dynamic Graphic Persistence
 - **Concept:** Solves an engine visual bug where dynamic overworld graphics for Bosses and Trainers disappear and turn invisible after battles or map transfers (`$game_map.refresh` resets event pages in RAM, losing dynamically assigned graphics).
 - **Implementation (`Plugins/Roguelike_Extraction/009_Dynamic_Graphic_Persistence.rb`):**
   - Aliases `Game_Event#refresh` to non-destructively intercept map reloads.

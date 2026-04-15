@@ -22,7 +22,8 @@ Do not hardcode event checks into `update` loops. Use DBK's native Mid-Battle ho
 ## 4. DBK Visual & UI Extensibility (Alias Targets)
 To extend DBK visually without overwriting core engine files, strictly alias these classes:
 * **Sprite Modifications (Auras, Scaling, Overlays):** Alias `Battle::Scene::BattlerSprite` (Target methods: `update`, `setPokemonBitmap`, `dispose`).
-* **UI & Databoxes (Icons, Custom HP Bars):** Alias `Battle::Scene::DataBox` (Target methods: `initialize`, `draw_hp`, `update`). For indicator icons, draw directly onto the `self.bitmap` offset relative to the HP bar coordinates.
+* **UI & Databoxes (Icons, Custom HP Bars):** Alias `Battle::Scene::PokemonDataBox` and `Battle::Scene::BossDataBox`. For aggressive syncing (like multi-tier boss bars), hook `update`, `refresh_hp`, `animateHP`, `opacity=`, and `visible=`.
+* **Slide-In Masking Workarounds:** DBK battle UI elements "slide in" at the start of an encounter using viewport masks. Standalone custom sprites injected into a DataBox will ignore this mask and flash on screen early. To prevent this, use a **Delayed Creation Timer** inside the `update` loop (e.g., waiting 1200 ticks) before instantiating the sprite.
 * **Animations:** DBK handles custom animations (like Terastallizing) via `Battle::Scene::Animation`. Do not bypass the animation queue.
 
 ## 5. Standard Battle Rules
