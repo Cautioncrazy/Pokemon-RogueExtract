@@ -237,31 +237,6 @@ class Battle::Scene::PokemonDataBox < Sprite
   end
 end
 
-module AlphaBossBattlerSprite
-  def update
-    super
-    return if !@_iconBitmap
-
-    # Lazy-apply the pattern to avoid setPokemonBitmap alias loops with Pokemon Factory
-    if @pkmn
-      if @pkmn.isAlphaBoss?
-        if self.alpha_pattern_type != :alpha
-          self.set_plugin_pattern(@pkmn) if self.respond_to?(:set_plugin_pattern)
-          self.set_alpha_pattern(@pkmn)
-        end
-      elsif self.alpha_pattern_type == :alpha
-        self.set_alpha_pattern(@pkmn) # Clears the alpha pattern if no longer an alpha
-      end
-    end
-
-    self.update_alpha_pattern
-  end
-end
-
-class Battle::Scene::BattlerSprite < RPG::Sprite
-  prepend AlphaBossBattlerSprite
-end
-
 # 2. Inject directly into the massive DBK Boss Databox
 if defined?(Battle::Scene::BossDataBox)
   class Battle::Scene::BossDataBox
@@ -316,7 +291,7 @@ if defined?(Battle::Scene::BossDataBox)
 end
 
 #===============================================================================
-# System 4: Animated Sprite Overlay
+# System 4: Standalone Animated Sprite Overlay (No DBK Dependencies)
 #===============================================================================
 class Sprite
   attr_accessor :alpha_pattern_type
@@ -350,12 +325,9 @@ class Sprite
     end
   end
 
-  def update_alpha_pattern
-    return if self.alpha_pattern_type != :alpha
-    if (System.uptime / 0.05).to_i % 2 == 0
-      self.pattern_scroll_x += 1 if self.respond_to?(:pattern_scroll_x)
-      self.pattern_scroll_y -= 1 if self.respond_to?(:pattern_scroll_y)
-    end
+  # 1. Safely guarded update alias
+  unless method_defined?(:alpha_standalone_update)
+    alias alpha_standalone_update update
   end
 end
 
