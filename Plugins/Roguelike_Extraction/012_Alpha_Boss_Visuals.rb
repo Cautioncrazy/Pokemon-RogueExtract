@@ -125,11 +125,7 @@ module AlphaBossUIDrawer
       # Timer finished! Instantiate the under-bar safely after the UI settles.
       @underBar = Sprite.new(@hpBar.viewport)
       @underBar.bitmap = @hpBarBitmap.bitmap
-<<<<<<< HEAD
       
-=======
-
->>>>>>> 06c298cc37d604fa9326d650ce14933cc45e1731
       # Force an immediate src_rect update so it doesn't render wrong on frame 1
       max_width = @hpBarBitmap.width
       bar_height = (@hpBarBitmap.bitmap.height / 6).to_i
@@ -142,11 +138,7 @@ module AlphaBossUIDrawer
       @underBar.x = @hpBar.x
       @underBar.y = @hpBar.y
       @underBar.z = @hpBar.z - 1
-<<<<<<< HEAD
       
-=======
-
->>>>>>> 06c298cc37d604fa9326d650ce14933cc45e1731
       @underBar.opacity = self.opacity
       @underBar.color = self.color if self.respond_to?(:color)
 
@@ -311,12 +303,10 @@ class Sprite
       self.pattern.dispose if self.pattern && !self.pattern.disposed?
       self.pattern = Bitmap.new(path + "alpha_pattern")
       self.pattern_opacity = 150
-      self.pattern_type = :alpha # Overwrite DBK's pattern_type
       self.alpha_pattern_type = :alpha
     else
       self.pattern.dispose if self.pattern && !self.pattern.disposed?
       self.pattern = nil
-      self.pattern_type = nil
       self.alpha_pattern_type = nil
     end
   end
@@ -324,14 +314,14 @@ class Sprite
   def set_alpha_pattern(pokemon)
     if pokemon && pokemon.isAlphaBoss?
       apply_alpha_pattern(pokemon)
-    elsif self.respond_to?(:pattern_type) && self.pattern_type == :shadow
-      # DBK Shadow already applied, do nothing
-      self.alpha_pattern_type = nil
     else
-      self.pattern.dispose if self.pattern && !self.pattern.disposed?
-      self.pattern = nil
-      self.pattern_type = nil
-      self.alpha_pattern_type = nil
+      if self.respond_to?(:pattern_type) && self.pattern_type == :shadow
+        # Retain shadow pattern if present
+      else
+        self.pattern.dispose if self.pattern && !self.pattern.disposed?
+        self.pattern = nil
+        self.alpha_pattern_type = nil
+      end
     end
   end
 
@@ -342,29 +332,20 @@ class Sprite
       self.pattern_scroll_y -= 1 if self.respond_to?(:pattern_scroll_y)
     end
   end
+end
 
-  # Hook into DBK's pattern system
-  if method_defined?(:set_plugin_pattern)
-    alias alpha_set_plugin_pattern set_plugin_pattern
-    def set_plugin_pattern(pokemon, override = false)
-      alpha_set_plugin_pattern(pokemon, override)
-      set_alpha_pattern(pokemon)
-    end
+class Battle::Scene::BattlerSprite < RPG::Sprite
+  alias alpha_vanilla_setPokemonBitmap setPokemonBitmap
+  def setPokemonBitmap(*args)
+    alpha_vanilla_setPokemonBitmap(*args)
+    pokemon = args[0]
+    self.set_alpha_pattern(pokemon) if pokemon && pokemon.isAlphaBoss?
   end
 
-  if method_defined?(:set_plugin_icon_pattern)
-    alias alpha_set_plugin_icon_pattern set_plugin_icon_pattern
-    def set_plugin_icon_pattern
-      alpha_set_plugin_icon_pattern
-      set_alpha_pattern(self.pokemon) if self.respond_to?(:pokemon)
-    end
-  end
-
-  if method_defined?(:update_plugin_pattern)
-    alias alpha_update_plugin_pattern update_plugin_pattern
-    def update_plugin_pattern
-      alpha_update_plugin_pattern
-      update_alpha_pattern
-    end
+  alias alpha_update update
+  def update
+    alpha_update
+    return if !@_iconBitmap
+    self.update_alpha_pattern
   end
 end
