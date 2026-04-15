@@ -238,20 +238,22 @@ class Battle::Scene::PokemonDataBox < Sprite
 end
 
 module AlphaBossBattlerSprite
-  def setPokemonBitmap(*args)
-    super(*args) # Safely calls the original method
-    pokemon = args[0]
-
-    # Trigger DBK's native pattern hook
-    self.set_plugin_pattern(pokemon) if self.respond_to?(:set_plugin_pattern)
-
-    # Explicitly trigger our Alpha pattern
-    self.set_alpha_pattern(pokemon) if pokemon && pokemon.isAlphaBoss?
-  end
-
   def update
     super
     return if !@_iconBitmap
+
+    # Lazy-apply the pattern to avoid setPokemonBitmap alias loops with Pokemon Factory
+    if @pkmn
+      if @pkmn.isAlphaBoss?
+        if self.alpha_pattern_type != :alpha
+          self.set_plugin_pattern(@pkmn) if self.respond_to?(:set_plugin_pattern)
+          self.set_alpha_pattern(@pkmn)
+        end
+      elsif self.alpha_pattern_type == :alpha
+        self.set_alpha_pattern(@pkmn) # Clears the alpha pattern if no longer an alpha
+      end
+    end
+
     self.update_alpha_pattern
   end
 end
