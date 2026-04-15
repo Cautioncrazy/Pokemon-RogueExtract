@@ -238,13 +238,12 @@ class Battle::Scene::PokemonDataBox < Sprite
 end
 
 class Battle::Scene::BattlerSprite < RPG::Sprite
-  if !method_defined?(:alpha_vanilla_setPokemonBitmap)
+  unless method_defined?(:alpha_vanilla_setPokemonBitmap)
     alias alpha_vanilla_setPokemonBitmap setPokemonBitmap
-    def setPokemonBitmap(*args)
-      alpha_vanilla_setPokemonBitmap(*args)
-      pokemon = args[0]
-      self.set_alpha_pattern(pokemon) if pokemon && pokemon.isAlphaBoss?
-    end
+  end
+  def setPokemonBitmap(pkmn, back = false)
+    alpha_vanilla_setPokemonBitmap(pkmn, back)
+    self.set_plugin_pattern(pkmn) if self.respond_to?(:set_plugin_pattern)
   end
 end
 
