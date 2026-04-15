@@ -237,6 +237,17 @@ class Battle::Scene::PokemonDataBox < Sprite
   end
 end
 
+class Battle::Scene::BattlerSprite < RPG::Sprite
+  if !method_defined?(:alpha_vanilla_setPokemonBitmap)
+    alias alpha_vanilla_setPokemonBitmap setPokemonBitmap
+    def setPokemonBitmap(*args)
+      alpha_vanilla_setPokemonBitmap(*args)
+      pokemon = args[0]
+      self.set_alpha_pattern(pokemon) if pokemon && pokemon.isAlphaBoss?
+    end
+  end
+end
+
 # 2. Inject directly into the massive DBK Boss Databox
 if defined?(Battle::Scene::BossDataBox)
   class Battle::Scene::BossDataBox
