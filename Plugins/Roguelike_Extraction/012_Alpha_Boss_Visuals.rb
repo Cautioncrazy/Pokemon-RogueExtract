@@ -237,31 +237,27 @@ class Battle::Scene::PokemonDataBox < Sprite
   end
 end
 
-class Battle::Scene::BattlerSprite < RPG::Sprite
-  # 1. Safely alias the bitmap setup
-  unless method_defined?(:alpha_vanilla_setPokemonBitmap)
-    alias alpha_vanilla_setPokemonBitmap setPokemonBitmap
-  end
+module AlphaBossBattlerSprite
   def setPokemonBitmap(*args)
-    alpha_vanilla_setPokemonBitmap(*args)
+    super(*args) # Safely calls the original method
     pokemon = args[0]
 
-    # Trigger DBK's native pattern hook just in case it missed it
+    # Trigger DBK's native pattern hook
     self.set_plugin_pattern(pokemon) if self.respond_to?(:set_plugin_pattern)
 
     # Explicitly trigger our Alpha pattern
     self.set_alpha_pattern(pokemon) if pokemon && pokemon.isAlphaBoss?
   end
 
-  # 2. Safely alias the update loop
-  unless method_defined?(:alpha_update)
-    alias alpha_update update
-  end
   def update
-    alpha_update
+    super
     return if !@_iconBitmap
     self.update_alpha_pattern
   end
+end
+
+class Battle::Scene::BattlerSprite < RPG::Sprite
+  prepend AlphaBossBattlerSprite
 end
 
 # 2. Inject directly into the massive DBK Boss Databox
