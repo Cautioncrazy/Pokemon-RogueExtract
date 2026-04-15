@@ -125,7 +125,7 @@ module AlphaBossUIDrawer
       # Timer finished! Instantiate the under-bar safely after the UI settles.
       @underBar = Sprite.new(@hpBar.viewport)
       @underBar.bitmap = @hpBarBitmap.bitmap
-      
+
       # Force an immediate src_rect update so it doesn't render wrong on frame 1
       max_width = @hpBarBitmap.width
       bar_height = (@hpBarBitmap.bitmap.height / 6).to_i
@@ -138,7 +138,7 @@ module AlphaBossUIDrawer
       @underBar.x = @hpBar.x
       @underBar.y = @hpBar.y
       @underBar.z = @hpBar.z - 1
-      
+
       @underBar.opacity = self.opacity
       @underBar.color = self.color if self.respond_to?(:color)
 
@@ -291,7 +291,7 @@ if defined?(Battle::Scene::BossDataBox)
 end
 
 #===============================================================================
-# System 4: Standalone Animated Sprite Overlay (No DBK Dependencies)
+# System 4: Native Pattern Masking (Crash-Free Lazy Evaluation)
 #===============================================================================
 
 class Battle::Scene::BattlerSprite < RPG::Sprite
