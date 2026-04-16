@@ -256,3 +256,17 @@ Your success is measured by outputting the absolute minimum amount of code requi
 
 * **Deluxe Battle Kit (DBK):** The file `docs/DBK_API_REFERENCE.md` is our absolute source of truth for all Deluxe Battle Kit logic. You must keep its specific hooks (like `:RAIDBOSS` immunities, `isAlphaBoss?`, and UI aliases) in your active context for all future battle-engine tasks. Do not hallucinate vanilla Essentials rules for boss triggers.
 
+
+## Rift Challenges Architecture
+
+The Rift Challenge system is a dynamic, high-risk/high-reward instance generated at runtime.
+
+### Hooks and Aliases
+- **Wild Encounters:** `PokemonEncounters#choose_wild_pokemon` is safely aliased to force dynamic encounters based on Rift weather pools when the player is on a Rift Map (IDs 900-999).
+- **Procedural Boss Factory:** We use `RiftChallenges.generate_dynamic_boss` to construct a hash mimicking the `PokemonFactory` data structure. We register this dynamically at runtime by assigning it directly to `ZBox::PokemonFactory.data` so `pbFightFactoryBoss` handles the Boss spawning correctly with DBK flags.
+- **Portal Spawning:** Hooks into `pbDynamicBossPokemon` in `006_Dynamic_Spawns_And_Scaling.rb` to spawn a transfer portal when any of the specific Rift switches (130-133) are active.
+- **Dynamic Bounties:** Driven by the Map Generation Manifest (`$PokemonGlobal.current_rift_manifest`) to create 100% completable objectives upon entry.
+
+### Safety Rules
+- When generating maps, the `Rift Manifest` must be explicitly populated. To avoid manifest overlapping across multiple portals, the map and manifest should be uniquely tied to the Map ID.
+- Level scaling variables (99 and 100) are explicitly manipulated by incrementing upon entering the Rift and restoring from saved global instances (`@saved_trainer_var`, `@saved_wild_var`) upon exiting. DO NOT manipulate `LevelScalingSettings::DIFFICULTIES` directly.

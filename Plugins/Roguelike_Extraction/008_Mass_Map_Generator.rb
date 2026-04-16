@@ -289,6 +289,23 @@ def pbMassGenerateRoguelikeMaps
         current_event_id += 1
       end
 
+# Rift Trigger Statues (Max 2)
+if rand(100) < 30 # 30% chance to have statues on the map
+  num_statues = rand(1..2)
+  num_statues.times do
+    switch_choices = [130, 131, 132] # Red, Green, Blue
+    switch_choices.push(133) if rand(100) < 5 # 5% chance for Yellow
+    chosen_switch = switch_choices.sample
+
+    # We just run a simple pbSet script on interaction
+    script_str = "pbSet(#{chosen_switch}, true)\npbMessage(_INTL(\"A Rift energy pulses...\"))"
+    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "statue", "Statue", 0, true, false, script_str, false, false)
+    current_event_id += 1
+  end
+end
+
+
+
       # Save the physical MapXXX.rxdata file
       filename = sprintf("Data/Map%03d.rxdata", map_id)
       File.open(filename, "wb") { |f| Marshal.dump(map, f) }
@@ -445,4 +462,86 @@ def pbRefreshDungeonThemesJSON
   end
 
   pbMessage("Successfully exported themes and encounter types for #{map_themes.length} Dungeon maps.")
+end
+
+def pbGenerateSingleRiftMap(map_id)
+  mapinfos_path = "Data/MapInfos.rxdata"
+  tilesets_path = "Data/Tilesets.rxdata"
+
+  begin
+    mapinfos = File.open(mapinfos_path, "rb") { |f| Marshal.load(f) }
+    tilesets = File.open(tilesets_path, "rb") { |f| Marshal.load(f) }
+  rescue
+    return false
+  end
+
+  dungeon_tilesets = tilesets.compact.select { |ts| ts.name && ts.name.start_with?("Dungeon") }
+  return false if dungeon_tilesets.empty?
+
+  chosen_ts = dungeon_tilesets.sample
+  width = rand(20..40)
+  height = rand(15..30)
+
+  map = RPG::Map.new(width, height)
+  map.tileset_id = chosen_ts.id
+
+  # Standard Rift Spawns
+  current_event_id = 1
+  map.events = {}
+
+  # The Exit Portal (Gated by Bounty)
+  exit_script = <<~SCRIPT
+    if RiftChallenges.check_rift_bounty_complete
+      pbMessage(_INTL("The Rift objective is complete. Extracting..."))
+      RiftChallenges.exit_rift
+    else
+      pbMessage(_INTL("The dimensional lock holds strong. Complete the objective."))
+    end
+  SCRIPT
+  map.events[current_event_id] = pbBuildProceduralEvent(10, 10, current_event_id, "exit", "ExitGraphic", 0, false, false, exit_script, false, false)
+  current_event_id += 1
+
+  # The Final Alpha Boss
+  boss_script = <<~SCRIPT
+    outcome = RiftChallenges.start_dynamic_boss_battle
+    if outcome
+      pbSetSelfSwitch(#{current_event_id}, "A", true)
+    end
+  SCRIPT
+  map.events[current_event_id] = pbBuildProceduralEvent(10, 8, current_event_id, "boss", "BossGraphic", 0, false, false, boss_script, true, false)
+  current_event_id += 1
+
+  actual_trainers = rand(2..5)
+  actual_trainers.times do
+    trainer_script = <<~SCRIPT
+      outcome = RiftChallenges.start_dynamic_trainer_battle
+      if outcome == 1
+        pbSetSelfSwitch(#{current_event_id}, "A", true)
+      end
+    SCRIPT
+    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trainer", nil, 4, false, false, trainer_script, true, false)
+    current_event_id += 1
+  end
+
+  # Save the Manifest
+  # Save the Manifest tied to the Map ID
+current_manifests = $PokemonGlobal.instance_variable_get(:@current_rift_manifest) || {}
+current_manifests[map_id] = {
+  :trainers => actual_trainers + 1, # Standard trainers + the final boss
+  :items => 0
+}
+$PokemonGlobal.instance_variable_set(:@current_rift_manifest, current_manifests)
+
+
+  filename = sprintf("Data/Map%03d.rxdata", map_id)
+  File.open(filename, "wb") { |f| Marshal.dump(map, f) }
+
+  mapinfo = RPG::MapInfo.new
+  mapinfo.name = sprintf("Procedural Rift %03d", map_id)
+  mapinfo.parent_id = 0
+  mapinfo.order = map_id
+  mapinfos[map_id] = mapinfo
+  File.open(mapinfos_path, "wb") { |f| Marshal.dump(mapinfos, f) }
+
+  return true
 end

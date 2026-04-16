@@ -231,12 +231,20 @@ def pbDynamicBossPokemon
     chosen_key = boss_keys.sample
   end
 
-  outcome = pbFightFactoryBoss(chosen_key)
+outcome = pbFightFactoryBoss(chosen_key)
 
-  if outcome
-    pbSetSelfSwitch(event_id, "A", true)
-    return true
+if outcome
+  pbSetSelfSwitch(event_id, "A", true)
+
+  # Check for Rift Portal Spawning
+  if defined?(RiftChallenges)
+    event = $game_map.events[event_id]
+    RiftChallenges.check_and_spawn_portal(event.x, event.y) if event
   end
+
+  return true
+end
+
   return false
 end
 
