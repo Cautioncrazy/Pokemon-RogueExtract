@@ -419,6 +419,13 @@ game_event = Game_Event.new($game_map.map_id, portal_event, $game_map)
 $game_map.events[new_id] = game_event
 $game_map.need_refresh = true
 
+# Tell Spriteset_Map to explicitly create a sprite for our newly injected events
+if $scene && $scene.is_a?(Scene_Map)
+  $scene.disposeSpritesets if $scene.respond_to?(:disposeSpritesets)
+  $scene.createSpritesets if $scene.respond_to?(:createSpritesets)
+end
+
+
   else
      # Fallback if map gen not loaded in context
 
