@@ -138,8 +138,11 @@ end
 module RiftChallenges
   class << self
     def generate_dynamic_trainer
-      # Determine trainer class and name
-      trainer_class = :CULTIST # Fallback or specific rift class, could also random from GameData::TrainerType
+# Determine trainer class and name
+# Get a random valid trainer type from GameData
+trainer_keys = GameData::TrainerType.keys
+trainer_class = trainer_keys.sample || :TEAMROCKET_M
+
       trainer_name = "Rift Walker"
 
       # Create custom trainer object in memory
