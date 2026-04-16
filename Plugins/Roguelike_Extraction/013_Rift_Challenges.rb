@@ -298,16 +298,19 @@ module RiftChallenges
       objective = possible_objectives.sample
       $PokemonGlobal.instance_variable_set(:@current_rift_bounty, objective)
 
-      if defined?(activateQuest)
-        quest = Quest.new(
-          :ID => "999",
-          :Name => "Rift Challenge",
-          :QuestDescription => "Objective: #{objective[:desc]} (#{objective[:amount]})",
-          :QuestGiver => "The Rift",
-          :Stage1 => "Complete the objective to unlock the exit."
-        )
-        $PokemonGlobal.quests.active_quests.push(quest) unless $PokemonGlobal.quests.active_quests.any? { |q| q.id == "999" }
-      end
+if defined?(QuestModule) && defined?(activateQuest)
+  # We dynamically inject a quest into the QuestModule hash
+  QuestModule.const_set(:Quest999, {
+    :ID => "999",
+    :Name => "Rift Challenge",
+    :QuestGiver => "The Rift",
+    :Stage1 => "Complete the objective to unlock the exit.",
+    :QuestDescription => "Objective: #{objective[:desc]} (#{objective[:amount]})",
+    :RewardString => "Survival"
+  })
+  activateQuest(:Quest999) unless $PokemonGlobal.quests.active_quests.any? { |q| q.id == :Quest999 }
+end
+
 
       pbMessage(_INTL("Rift Objective: {1} ({2}).", objective[:desc], objective[:amount]))
     end
@@ -317,7 +320,7 @@ module RiftChallenges
       return true unless objective
 
       if objective[:amount] <= 0
-        completeQuest("999") if defined?(completeQuest)
+        completeQuest(:Quest999) if defined?(completeQuest)
         return true
       end
       return false
