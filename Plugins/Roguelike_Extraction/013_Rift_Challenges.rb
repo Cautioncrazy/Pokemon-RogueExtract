@@ -417,12 +417,7 @@ portal_event.pages[0].graphic.direction = portal_dir if portal_event.pages[0] &&
 # To force the sprite to appear immediately on the current map without a refresh/transfer:
 game_event = Game_Event.new($game_map.map_id, portal_event, $game_map)
 $game_map.events[new_id] = game_event
-
-if $scene && $scene.is_a?(Scene_Map) && $scene.spriteset
-  # Dynamically add the new sprite to the viewport
-  sprite = Sprite_Character.new($scene.spriteset.viewport1, game_event)
-  $scene.spriteset.character_sprites.push(sprite)
-end
+$game_map.need_refresh = true
 
   else
      # Fallback if map gen not loaded in context
