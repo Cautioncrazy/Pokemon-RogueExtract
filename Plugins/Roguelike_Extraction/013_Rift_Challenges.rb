@@ -65,13 +65,14 @@ end
 # Rift Environment and Weather Handling
 #===============================================================================
 module RiftChallenges
-  WEATHER_TYPES = {
-    :Rain => { :weather => :Rain, :types => [:WATER, :ELECTRIC, :BUG], :tint => Tone.new(-30, -30, 20, 30) },
-    :Sunny => { :weather => :Sun, :types => [:FIRE, :GRASS, :GROUND], :tint => Tone.new(30, 20, -20, 20) },
-    :Hail => { :weather => :Hail, :types => [:ICE, :STEEL, :GHOST], :tint => Tone.new(-10, -10, 30, 10) },
-    :Sandstorm => { :weather => :Sandstorm, :types => [:ROCK, :GROUND, :STEEL], :tint => Tone.new(20, 10, -30, 20) },
-    :HeavyRain => { :weather => :HeavyRain, :types => [:WATER, :DRAGON, :DARK], :tint => Tone.new(-50, -50, 40, 50) }
-  }
+WEATHER_TYPES = {
+  :Rain => { :weather => :Rain, :types => [:WATER, :ELECTRIC, :BUG], :tint => Tone.new(-30, -30, 20, 30) },
+  :Sunny => { :weather => :Sun, :types => [:FIRE, :GRASS, :GROUND], :tint => Tone.new(30, 20, -20, 20) },
+  :Hail => { :weather => :Snow, :types => [:ICE, :STEEL, :GHOST], :tint => Tone.new(-10, -10, 30, 10) },
+  :Sandstorm => { :weather => :Sandstorm, :types => [:ROCK, :GROUND, :STEEL], :tint => Tone.new(20, 10, -30, 20) },
+  :HeavyRain => { :weather => :HeavyRain, :types => [:WATER, :DRAGON, :DARK], :tint => Tone.new(-50, -50, 40, 50) }
+}
+
 
   class << self
 def apply_rift_environment(map_id)
