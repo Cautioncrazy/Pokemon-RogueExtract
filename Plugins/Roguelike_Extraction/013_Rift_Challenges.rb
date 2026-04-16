@@ -17,7 +17,21 @@ module RiftChallenges
   TRAINER_VAR = 99
   WILD_VAR = 100
 
-  class << self
+class << self
+  # Debug helper to instantly spawn a portal in front of the player
+  def debug_spawn_portal
+    return unless $game_map
+
+    # Forcing a switch to be true just to test
+    $game_switches[SWITCH_RED] = true if $game_switches
+
+    # Spawn portal in front of the player
+    spawn_x = $game_player.x + ($game_player.direction == 6 ? 1 : $game_player.direction == 4 ? -1 : 0)
+    spawn_y = $game_player.y + ($game_player.direction == 2 ? 1 : $game_player.direction == 8 ? -1 : 0)
+
+    check_and_spawn_portal(spawn_x, spawn_y)
+  end
+
     def is_rift_map?
       return false unless $game_map
       RIFT_MAP_IDS.include?($game_map.map_id)
