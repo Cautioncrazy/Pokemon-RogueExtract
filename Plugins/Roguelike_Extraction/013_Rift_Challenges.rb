@@ -409,7 +409,8 @@ if $game_map && $game_map.events
   # Build event (using existing pbBuildProceduralEvent from Map Generator if available)
   if defined?(pbBuildProceduralEvent)
     # Graphic is "RIFT_PORTALS" instead of "PortalGraphic", direction_fix is true, stop_anim is true
-    portal_event = pbBuildProceduralEvent(spawn_x, spawn_y, new_id, "Portal", "RIFT_PORTALS", portal_dir, true, true, script_str, false, false)
+    portal_event = pbBuildProceduralEvent(spawn_x, spawn_y, new_id, "Portal", "RIFT_PORTALS", 1, true, true, script_str, false, false)
+      portal_event.pages[0].graphic.direction = portal_dir if portal_event.pages[0] && portal_event.pages[0].graphic
     # We must inject it directly into the running map
     game_event = Game_Event.new($game_map.map_id, portal_event, $game_map)
     $game_map.events[new_id] = game_event
