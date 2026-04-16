@@ -1,0 +1,391 @@
+#===============================================================================
+# Rift Challenges System
+# Dynamic High-Risk/High-Reward Encounters
+#===============================================================================
+
+module RiftChallenges
+  RIFT_MAP_IDS = (900..999).to_a
+
+  # Switches mapped as required
+  SWITCH_RED = 130
+  SWITCH_GREEN = 131
+  SWITCH_BLUE = 132
+  SWITCH_YELLOW = 133
+  ALL_SWITCHES = [SWITCH_RED, SWITCH_GREEN, SWITCH_BLUE, SWITCH_YELLOW]
+
+  # Scaling variables mapping
+  TRAINER_VAR = 99
+  WILD_VAR = 100
+
+  class << self
+    def is_rift_map?
+      return false unless $game_map
+      RIFT_MAP_IDS.include?($game_map.map_id)
+    end
+
+
+
+    def exit_rift
+      # Restore original difficulty scaling variables
+      saved_trainer = $PokemonGlobal.instance_variable_get(:@saved_trainer_var)
+      saved_wild = $PokemonGlobal.instance_variable_get(:@saved_wild_var)
+
+      pbSet(TRAINER_VAR, saved_trainer) if saved_trainer
+      pbSet(WILD_VAR, saved_wild) if saved_wild
+
+  # Turn off Rift switches
+  ALL_SWITCHES.each { |switch| $game_switches[switch] = false if $game_switches }
+
+  # Progress to the next standard floor
+  if defined?(RoguelikeExtraction)
+    RoguelikeExtraction.advance_floor
+  else
+    pbMessage(_INTL("Extraction complete."))
+  end
+end
+
+  end
+end
+
+#===============================================================================
+# Rift Environment and Weather Handling
+#===============================================================================
+module RiftChallenges
+  WEATHER_TYPES = {
+    :Rain => { :weather => :Rain, :types => [:WATER, :ELECTRIC, :BUG], :tint => Tone.new(-30, -30, 20, 30) },
+    :Sunny => { :weather => :Sun, :types => [:FIRE, :GRASS, :GROUND], :tint => Tone.new(30, 20, -20, 20) },
+    :Hail => { :weather => :Hail, :types => [:ICE, :STEEL, :GHOST], :tint => Tone.new(-10, -10, 30, 10) },
+    :Sandstorm => { :weather => :Sandstorm, :types => [:ROCK, :GROUND, :STEEL], :tint => Tone.new(20, 10, -30, 20) },
+    :HeavyRain => { :weather => :HeavyRain, :types => [:WATER, :DRAGON, :DARK], :tint => Tone.new(-50, -50, 40, 50) }
+  }
+
+  class << self
+def apply_rift_environment(map_id)
+
+
+      # Select random weather
+      weather_key = WEATHER_TYPES.keys.sample
+      data = WEATHER_TYPES[weather_key]
+
+      $game_screen.weather(data[:weather], 9, 0)
+      $game_screen.start_tone_change(data[:tint], 0)
+
+      $PokemonGlobal.instance_variable_set(:@rift_weather_types, data[:types])
+
+      pbMessage(_INTL("A strange anomalous weather has settled over the Rift..."))
+    end
+
+    def get_valid_species_for_weather
+      types = $PokemonGlobal.instance_variable_get(:@rift_weather_types) || [:NORMAL]
+      pool = []
+      GameData::Species.each do |species|
+        # Only use base forms for the pool to be safe, level scaling will evolve them later if needed
+        next if species.form != 0
+        if types.include?(species.type1) || types.include?(species.type2)
+          pool.push(species.id)
+        end
+      end
+      # Default fallback
+      pool = [:RATTATA, :PIDGEY, :ZUBAT] if pool.empty?
+      return pool
+    end
+  end
+end
+
+#===============================================================================
+# Hook into PokemonEncounters to force dynamic encounter pool based on weather
+#===============================================================================
+class PokemonEncounters
+  alias choose_wild_pokemon_rift choose_wild_pokemon
+  def choose_wild_pokemon(enc_type, chance_rolls = 1)
+    if RiftChallenges.is_rift_map?
+      pool = RiftChallenges.get_valid_species_for_weather
+      chosen_species = pool.sample
+
+      # Determine an appropriate level based on current scaling settings or area
+      # Using a baseline level of the current party max, or any available logic
+      # But standard level scaling should take over after the encounter is created.
+      # For now, let's pull a level that is roughly around the first pokemon's level
+      level = 10
+      if $player && $player.first_pokemon
+        level = $player.first_pokemon.level
+      end
+
+      return [chosen_species, level]
+    end
+
+    choose_wild_pokemon_rift(enc_type, chance_rolls)
+  end
+end
+
+#===============================================================================
+# Dynamic Trainer Generation based on Rift Environment
+#===============================================================================
+module RiftChallenges
+  class << self
+    def generate_dynamic_trainer
+      # Determine trainer class and name
+      trainer_class = :CULTIST # Fallback or specific rift class, could also random from GameData::TrainerType
+      trainer_name = "Rift Walker"
+
+      # Create custom trainer object in memory
+      trainer = NPCTrainer.new(trainer_name, trainer_class)
+
+      # Determine party size based on difficulty or randomized
+      party_size = rand(2..4)
+
+      pool = get_valid_species_for_weather
+
+      level = 10
+      if $player && $player.first_pokemon
+        level = $player.first_pokemon.level
+      end
+
+      party_size.times do
+        species = pool.sample
+        pkmn = Pokemon.new(species, level)
+        pkmn.calc_stats
+        trainer.party.push(pkmn)
+      end
+
+      return trainer
+    end
+
+def start_dynamic_trainer_battle
+  trainer = generate_dynamic_trainer
+
+  setBattleRule("canLose") if defined?(setBattleRule)
+  outcome = pbTrainerBattleCore(trainer)
+
+  if outcome == 1 || outcome == true # Victory
+    pbMessage(_INTL("The Rift energy dissipates slightly..."))
+
+    # Decrement Bounty Tracker
+    objective = $PokemonGlobal.instance_variable_get(:@current_rift_bounty)
+    if objective && objective[:type] == :trainers
+      objective[:amount] -= 1
+      objective[:amount] = 0 if objective[:amount] < 0
+      pbMessage(_INTL("Rift Objective: {1} left.", objective[:amount])) if objective[:amount] > 0
+    end
+
+  else
+    pbMessage(_INTL("You have succumbed to the Rift."))
+  end
+
+  return outcome
+end
+
+  end
+end
+
+#===============================================================================
+# Procedural Boss Factory (In-Engine)
+#===============================================================================
+module RiftChallenges
+  class << self
+    def generate_dynamic_boss
+      pool = get_valid_species_for_weather
+      boss_species = pool.sample
+
+      level = 10
+      if $player && $player.first_pokemon
+        level = $player.first_pokemon.level + 2 # Slightly higher than party level
+      end
+
+      species_data = GameData::Species.get(boss_species)
+      moves = species_data.moves.map { |m| m[1] }.uniq.last(4) # Get latest 4 moves natively learned
+      moves = [:TACKLE] if moves.empty?
+
+      # Build Boss Hash mimicking Pokemon Factory
+      boss_key = "rift_boss_#{boss_species}"
+      boss_hash = {
+        :species => boss_species,
+        :level => level,
+        :moves => moves,
+        :boss => true,
+        :hp_boost => 3 # Alpha UI tier 3
+      }
+
+# Register the procedural hash in Pokemon Factory data
+if defined?(ZBox::PokemonFactory)
+  ZBox::PokemonFactory.data[boss_key.to_sym] = boss_hash
+  return boss_key
+elsif defined?(PokemonFactory)
+  PokemonFactory.data[boss_key.to_sym] = boss_hash
+  return boss_key
+else
+  # Fallback
+  return nil
+end
+
+    end
+
+def start_dynamic_boss_battle
+  boss_key = generate_dynamic_boss
+  if boss_key && defined?(pbFightFactoryBoss)
+    outcome = pbFightFactoryBoss(boss_key)
+
+    if outcome
+      # Decrement Bounty Tracker
+      objective = $PokemonGlobal.instance_variable_get(:@current_rift_bounty)
+      if objective && objective[:type] == :trainers
+        objective[:amount] -= 1
+        objective[:amount] = 0 if objective[:amount] < 0
+        pbMessage(_INTL("Rift Objective: {1} left.", objective[:amount])) if objective[:amount] > 0
+      end
+    end
+    return outcome
+  else
+    pbMessage(_INTL("Failed to construct Rift Boss anomaly..."))
+    return false
+  end
+end
+
+  end
+end
+
+#===============================================================================
+# Rift Bounty System Hook
+#===============================================================================
+module RiftChallenges
+  class << self
+    def generate_rift_bounty(map_id)
+      manifests = $PokemonGlobal.instance_variable_get(:@current_rift_manifest)
+      return unless manifests
+      manifest = manifests[map_id]
+      return unless manifest
+
+      possible_objectives = []
+
+      if manifest[:trainers] && manifest[:trainers] > 0
+        possible_objectives.push({
+          :type => :trainers,
+          :amount => rand(1..manifest[:trainers]),
+          :desc => "Defeat trainers"
+        })
+      end
+
+      if manifest[:items] && manifest[:items] > 0
+        possible_objectives.push({
+          :type => :items,
+          :amount => rand(1..manifest[:items]),
+          :desc => "Collect items"
+        })
+      end
+
+      if possible_objectives.empty?
+        possible_objectives.push({
+          :type => :survive,
+          :amount => 1,
+          :desc => "Survive the Rift"
+        })
+      end
+
+      objective = possible_objectives.sample
+      $PokemonGlobal.instance_variable_set(:@current_rift_bounty, objective)
+
+      if defined?(activateQuest)
+        quest = Quest.new(
+          :ID => "999",
+          :Name => "Rift Challenge",
+          :QuestDescription => "Objective: #{objective[:desc]} (#{objective[:amount]})",
+          :QuestGiver => "The Rift",
+          :Stage1 => "Complete the objective to unlock the exit."
+        )
+        $PokemonGlobal.quests.active_quests.push(quest) unless $PokemonGlobal.quests.active_quests.any? { |q| q.id == "999" }
+      end
+
+      pbMessage(_INTL("Rift Objective: {1} ({2}).", objective[:desc], objective[:amount]))
+    end
+
+    def check_rift_bounty_complete
+      objective = $PokemonGlobal.instance_variable_get(:@current_rift_bounty)
+      return true unless objective
+
+      if objective[:amount] <= 0
+        completeQuest("999") if defined?(completeQuest)
+        return true
+      end
+      return false
+    end
+
+    def enter_rift(target_map_id)
+      # Save scaling variables
+      $PokemonGlobal.instance_variable_set(:@saved_trainer_var, pbGet(TRAINER_VAR))
+      $PokemonGlobal.instance_variable_set(:@saved_wild_var, pbGet(WILD_VAR))
+
+      # Increment scaling variables by +1 for the duration of the Rift
+      pbSet(TRAINER_VAR, pbGet(TRAINER_VAR) + 1)
+      pbSet(WILD_VAR, pbGet(WILD_VAR) + 1)
+
+      # We must simulate passing the correct ID so the environment and bounty read the NEW map ID, not the old boss map.
+      apply_rift_environment(target_map_id)
+      generate_rift_bounty(target_map_id)
+    end
+  end
+end
+
+#===============================================================================
+# Rift Portal Spawning Logic
+#===============================================================================
+module RiftChallenges
+  class << self
+    def check_and_spawn_portal(boss_x, boss_y)
+      # Check if any Rift switch is active
+      active_switches = ALL_SWITCHES.select { |s| $game_switches && $game_switches[s] == true }
+      return if active_switches.empty?
+
+      # Spawn up to two portals depending on how many switches are active
+      num_portals = [active_switches.length, 2].min
+
+      # Try left and right
+      positions = []
+      if $game_map.passable?(boss_x - 1, boss_y, 0)
+        positions.push([boss_x - 1, boss_y])
+      end
+      if $game_map.passable?(boss_x + 1, boss_y, 0)
+        positions.push([boss_x + 1, boss_y])
+      end
+
+      # If blocked, just spawn on top
+      if positions.empty?
+        positions.push([boss_x, boss_y])
+      end
+
+num_portals.times do |i|
+  pos = positions[i] || positions.last
+  spawn_x, spawn_y = pos[0], pos[1]
+
+  target_map = RIFT_MAP_IDS.sample
+
+  # Trigger dynamic generation
+  if defined?(pbGenerateSingleRiftMap)
+    pbGenerateSingleRiftMap(target_map)
+  end
+
+  # We spawn a temporary event to act as the portal.
+  if $game_map && $game_map.events
+    # Find highest event ID and add 1
+    new_id = ($game_map.events.keys.max || 0) + 1
+
+    # Create script string for the portal
+    script_str = "RiftChallenges.enter_rift(#{target_map})\npbTransferPlayer(#{target_map}, 10, 10)" # Defaulting to middle of a 20x20 map
+
+    # Build event (using existing pbBuildProceduralEvent from Map Generator if available)
+    if defined?(pbBuildProceduralEvent)
+      portal_event = pbBuildProceduralEvent(spawn_x, spawn_y, new_id, "Portal", "PortalGraphic", 1, true, true, script_str, false, false)
+      # We must inject it directly into the running map
+      game_event = Game_Event.new($game_map.map_id, portal_event, $game_map)
+      $game_map.events[new_id] = game_event
+    else
+       # Fallback if map gen not loaded in context
+       pbMessage(_INTL("A dimensional Rift has torn open at ({1}, {2})!", spawn_x, spawn_y))
+    end
+  end
+  pbMessage(_INTL("A dimensional Rift has torn open at ({1}, {2})!", spawn_x, spawn_y))
+end
+
+
+    end
+  end
+end
