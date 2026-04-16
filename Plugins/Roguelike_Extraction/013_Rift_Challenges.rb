@@ -92,13 +92,14 @@ def apply_rift_environment(map_id)
     def get_valid_species_for_weather
       types = $PokemonGlobal.instance_variable_get(:@rift_weather_types) || [:NORMAL]
       pool = []
-      GameData::Species.each do |species|
-        # Only use base forms for the pool to be safe, level scaling will evolve them later if needed
-        next if species.form != 0
-        if types.include?(species.type1) || types.include?(species.type2)
-          pool.push(species.id)
-        end
-      end
+GameData::Species.each do |species|
+  # Only use base forms for the pool to be safe, level scaling will evolve them later if needed
+  next if species.form != 0
+  if species.types.any? { |t| types.include?(t) }
+    pool.push(species.id)
+  end
+end
+
       # Default fallback
       pool = [:RATTATA, :PIDGEY, :ZUBAT] if pool.empty?
       return pool
