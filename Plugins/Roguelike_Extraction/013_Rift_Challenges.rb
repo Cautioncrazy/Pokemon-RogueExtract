@@ -373,29 +373,49 @@ num_portals.times do |i|
   pos = positions[i] || positions.last
   spawn_x, spawn_y = pos[0], pos[1]
 
-  target_map = RIFT_MAP_IDS.sample
+# Determine portal color based on which switch triggered it
+# active_switches is an array of IDs. We just pick the i-th one if multiple.
+active_switch = active_switches[i] || active_switches.last
 
-  # Trigger dynamic generation
-  if defined?(pbGenerateSingleRiftMap)
-    pbGenerateSingleRiftMap(target_map)
-  end
+# Map switch ID to direction for the RIFT_PORTALS graphic
+# Red: Down (2), Green: Left (4), Blue: Right (6), Yellow: Up (8)
+portal_dir = 2
+case active_switch
+when SWITCH_RED
+  portal_dir = 2
+when SWITCH_GREEN
+  portal_dir = 4
+when SWITCH_BLUE
+  portal_dir = 6
+when SWITCH_YELLOW
+  portal_dir = 8
+end
 
-  # We spawn a temporary event to act as the portal.
-  if $game_map && $game_map.events
-    # Find highest event ID and add 1
-    new_id = ($game_map.events.keys.max || 0) + 1
+target_map = RIFT_MAP_IDS.sample
 
-    # Create script string for the portal
-    script_str = "RiftChallenges.enter_rift(#{target_map})\npbTransferPlayer(#{target_map}, 10, 10)" # Defaulting to middle of a 20x20 map
+# Trigger dynamic generation
+if defined?(pbGenerateSingleRiftMap)
+  pbGenerateSingleRiftMap(target_map)
+end
 
-    # Build event (using existing pbBuildProceduralEvent from Map Generator if available)
-    if defined?(pbBuildProceduralEvent)
-      portal_event = pbBuildProceduralEvent(spawn_x, spawn_y, new_id, "Portal", "PortalGraphic", 1, true, true, script_str, false, false)
-      # We must inject it directly into the running map
-      game_event = Game_Event.new($game_map.map_id, portal_event, $game_map)
-      $game_map.events[new_id] = game_event
-    else
-       # Fallback if map gen not loaded in context
+# We spawn a temporary event to act as the portal.
+if $game_map && $game_map.events
+  # Find highest event ID and add 1
+  new_id = ($game_map.events.keys.max || 0) + 1
+
+  # Create script string for the portal
+  script_str = "RiftChallenges.enter_rift(#{target_map})\npbTransferPlayer(#{target_map}, 10, 10)" # Defaulting to middle of a 20x20 map
+
+  # Build event (using existing pbBuildProceduralEvent from Map Generator if available)
+  if defined?(pbBuildProceduralEvent)
+    # Graphic is "RIFT_PORTALS" instead of "PortalGraphic", direction_fix is true, stop_anim is true
+    portal_event = pbBuildProceduralEvent(spawn_x, spawn_y, new_id, "Portal", "RIFT_PORTALS", portal_dir, true, true, script_str, false, false)
+    # We must inject it directly into the running map
+    game_event = Game_Event.new($game_map.map_id, portal_event, $game_map)
+    $game_map.events[new_id] = game_event
+  else
+     # Fallback if map gen not loaded in context
+
        pbMessage(_INTL("A dimensional Rift has torn open at ({1}, {2})!", spawn_x, spawn_y))
     end
   end
