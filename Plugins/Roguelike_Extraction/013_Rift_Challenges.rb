@@ -409,11 +409,21 @@ if $game_map && $game_map.events
   # Build event (using existing pbBuildProceduralEvent from Map Generator if available)
   if defined?(pbBuildProceduralEvent)
     # Graphic is "RIFT_PORTALS" instead of "PortalGraphic", direction_fix is true, stop_anim is true
-    portal_event = pbBuildProceduralEvent(spawn_x, spawn_y, new_id, "Portal", "RIFT_PORTALS", 1, true, true, script_str, false, false)
-      portal_event.pages[0].graphic.direction = portal_dir if portal_event.pages[0] && portal_event.pages[0].graphic
-    # We must inject it directly into the running map
-    game_event = Game_Event.new($game_map.map_id, portal_event, $game_map)
-    $game_map.events[new_id] = game_event
+portal_event = pbBuildProceduralEvent(spawn_x, spawn_y, new_id, "Portal", "RIFT_PORTALS", 1, true, true, script_str, false, false)
+portal_event.pages[0].graphic.direction = portal_dir if portal_event.pages[0] && portal_event.pages[0].graphic
+
+# In Pokémon Essentials, appending a game_event to $game_map.events might not instantly
+# draw the sprite if the Scene_Map spriteset has already been initialized.
+# To force the sprite to appear immediately on the current map without a refresh/transfer:
+game_event = Game_Event.new($game_map.map_id, portal_event, $game_map)
+$game_map.events[new_id] = game_event
+
+if $scene && $scene.is_a?(Scene_Map) && $scene.spriteset
+  # Dynamically add the new sprite to the viewport
+  sprite = Sprite_Character.new($scene.spriteset.viewport1, game_event)
+  $scene.spriteset.character_sprites.push(sprite)
+end
+
   else
      # Fallback if map gen not loaded in context
 
