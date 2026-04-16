@@ -326,7 +326,16 @@ end
       return false
     end
 
-    def enter_rift(target_map_id)
+def transfer_to_rift(target_map_id)
+  $game_temp.player_transferring = true
+  $game_temp.player_new_map_id = target_map_id
+  $game_temp.player_new_x = 10
+  $game_temp.player_new_y = 10
+  $game_temp.player_new_direction = 2
+end
+
+def enter_rift(target_map_id)
+
       # Save scaling variables
       $PokemonGlobal.instance_variable_set(:@saved_trainer_var, pbGet(TRAINER_VAR))
       $PokemonGlobal.instance_variable_set(:@saved_wild_var, pbGet(WILD_VAR))
@@ -404,7 +413,7 @@ if $game_map && $game_map.events
   new_id = ($game_map.events.keys.max || 0) + 1
 
   # Create script string for the portal
-  script_str = "RiftChallenges.enter_rift(#{target_map})\npbTransferPlayer(#{target_map}, 10, 10)" # Defaulting to middle of a 20x20 map
+  script_str = "RiftChallenges.enter_rift(#{target_map})\nRiftChallenges.transfer_to_rift(#{target_map})" # Defaulting to middle of a 20x20 map
 
   # Build event (using existing pbBuildProceduralEvent from Map Generator if available)
   if defined?(pbBuildProceduralEvent)
