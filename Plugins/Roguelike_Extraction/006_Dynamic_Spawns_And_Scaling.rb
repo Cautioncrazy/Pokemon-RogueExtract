@@ -1,8 +1,5 @@
-#===============================================================================
-# Dynamic Event Spawns & Scaling System
-#===============================================================================
-
-module RoguelikeExtraction
+#========================================================================# Dynamic Event Spawns & Scaling System
+#=================================================================module RoguelikeExtraction
   # Defines scaling loot pools based on the player's current floor.
   # The pools strictly exclude revive items.
   # Format: { Floor_Tier => [ array_of_possible_items ] }
@@ -102,11 +99,8 @@ module RoguelikeExtraction
   end
 end
 
-#===============================================================================
-# Helper Methods for RPG Maker Events
-#===============================================================================
-
-# To be placed inside a Chest event
+#========================================================================# Helper Methods for RPG Maker Events
+#=================================================================# To be placed inside a Chest event
 def pbDynamicChestLoot
   item_data = RoguelikeExtraction.dynamic_chest_loot
   item = item_data[0]
@@ -214,11 +208,8 @@ class Interpreter
   end
 
   # Call this in any event script block, e.g., pbFightSpecificBoss(:boss_castform_data)
-#===============================================================================
-# DBK-Compatible Boss Spawners (Native Bridge)
-#===============================================================================
-
-# Triggered by procedural Map Bosses
+#========================================================================# DBK-Compatible Boss Spawners (Native Bridge)
+#=================================================================# Triggered by procedural Map Bosses
 def pbDynamicBossPokemon
   event_id = pbMapInterpreter.get_character(0).id
 
@@ -235,21 +226,15 @@ outcome = pbFightFactoryBoss(chosen_key)
 
 if outcome
   pbSetSelfSwitch(event_id, "A", true)
-<<<<<<< Updated upstream
 
-=======
 
->>>>>>> Stashed changes
   # Check for Rift Portal Spawning
   if defined?(RiftChallenges)
     event = $game_map.events[event_id]
     RiftChallenges.check_and_spawn_portal(event.x, event.y) if event
   end
-<<<<<<< Updated upstream
 
-=======
 
->>>>>>> Stashed changes
   return true
 end
 
