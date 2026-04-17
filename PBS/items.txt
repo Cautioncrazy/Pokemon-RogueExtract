@@ -7337,3 +7337,11 @@ Price = 0
 Flags = KeyItem
 Description = A pristine data core used to synthesize epic starter Pokémon in the Hub.
 #-------------------------------
+[DATACORE_LEGENDARY]
+Name = Legendary Data Core
+NamePlural = Legendary Data Cores
+Pocket = 1
+Price = 0
+Flags = KeyItem
+Description = An ultimate data core used to synthesize legendary starter Pokémon in the Hub.
+#-------------------------------
