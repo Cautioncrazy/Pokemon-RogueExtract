@@ -5,7 +5,11 @@
 
 module RiftChallenges
   RIFT_MAP_IDS = (900..999).to_a
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
   # Switches mapped as required
   SWITCH_RED = 130
   SWITCH_GREEN = 131
@@ -21,6 +25,7 @@ class << self
   # Debug helper to instantly spawn a portal in front of the player
   def debug_spawn_portal
     return unless $game_map
+<<<<<<< Updated upstream
 
     # Forcing a switch to be true just to test
     $game_switches[SWITCH_RED] = true if $game_switches
@@ -29,6 +34,16 @@ class << self
     spawn_x = $game_player.x + ($game_player.direction == 6 ? 1 : $game_player.direction == 4 ? -1 : 0)
     spawn_y = $game_player.y + ($game_player.direction == 2 ? 1 : $game_player.direction == 8 ? -1 : 0)
 
+=======
+
+    # Forcing a switch to be true just to test
+    $game_switches[SWITCH_RED] = true if $game_switches
+
+    # Spawn portal in front of the player
+    spawn_x = $game_player.x + ($game_player.direction == 6 ? 1 : $game_player.direction == 4 ? -1 : 0)
+    spawn_y = $game_player.y + ($game_player.direction == 2 ? 1 : $game_player.direction == 8 ? -1 : 0)
+
+>>>>>>> Stashed changes
     check_and_spawn_portal(spawn_x, spawn_y)
   end
 
@@ -43,6 +58,7 @@ class << self
       # Restore original difficulty scaling variables
       saved_trainer = $PokemonGlobal.instance_variable_get(:@saved_trainer_var)
       saved_wild = $PokemonGlobal.instance_variable_get(:@saved_wild_var)
+<<<<<<< Updated upstream
 
       pbSet(TRAINER_VAR, saved_trainer) if saved_trainer
       pbSet(WILD_VAR, saved_wild) if saved_wild
@@ -50,6 +66,15 @@ class << self
   # Turn off Rift switches
   ALL_SWITCHES.each { |switch| $game_switches[switch] = false if $game_switches }
 
+=======
+
+      pbSet(TRAINER_VAR, saved_trainer) if saved_trainer
+      pbSet(WILD_VAR, saved_wild) if saved_wild
+
+  # Turn off Rift switches
+  ALL_SWITCHES.each { |switch| $game_switches[switch] = false if $game_switches }
+
+>>>>>>> Stashed changes
   # Progress to the next standard floor
   if defined?(RoguelikeExtraction)
     RoguelikeExtraction.advance_floor
@@ -77,6 +102,7 @@ WEATHER_TYPES = {
   class << self
 def apply_rift_environment(map_id)
 
+<<<<<<< Updated upstream
 
       # Select random weather
       weather_key = WEATHER_TYPES.keys.sample
@@ -90,12 +116,31 @@ def apply_rift_environment(map_id)
       pbMessage(_INTL("A strange anomalous weather has settled over the Rift..."))
     end
 
+=======
+
+      # Select random weather
+      weather_key = WEATHER_TYPES.keys.sample
+      data = WEATHER_TYPES[weather_key]
+
+      $game_screen.weather(data[:weather], 9, 0)
+      $game_screen.start_tone_change(data[:tint], 0)
+
+      $PokemonGlobal.instance_variable_set(:@rift_weather_types, data[:types])
+
+      pbMessage(_INTL("A strange anomalous weather has settled over the Rift..."))
+    end
+
+>>>>>>> Stashed changes
     def get_valid_species_for_weather
       types = $PokemonGlobal.instance_variable_get(:@rift_weather_types) || [:NORMAL]
       pool = []
 GameData::Species.each do |species|
   # Only use base forms for the pool to be safe, level scaling will evolve them later if needed
+<<<<<<< Updated upstream
   next if species.form != 0
+=======
+  next if species.form != 0
+>>>>>>> Stashed changes
   if species.types.any? { |t| types.include?(t) }
     pool.push(species.id)
   end
@@ -117,7 +162,11 @@ class PokemonEncounters
     if RiftChallenges.is_rift_map?
       pool = RiftChallenges.get_valid_species_for_weather
       chosen_species = pool.sample
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
       # Determine an appropriate level based on current scaling settings or area
       # Using a baseline level of the current party max, or any available logic
       # But standard level scaling should take over after the encounter is created.
@@ -126,10 +175,17 @@ class PokemonEncounters
       if $player && $player.first_pokemon
         level = $player.first_pokemon.level
       end
+<<<<<<< Updated upstream
 
       return [chosen_species, level]
     end
 
+=======
+
+      return [chosen_species, level]
+    end
+
+>>>>>>> Stashed changes
     choose_wild_pokemon_rift(enc_type, chance_rolls)
   end
 end
@@ -146,6 +202,7 @@ trainer_keys = GameData::TrainerType.keys
 trainer_class = trainer_keys.sample || :TEAMROCKET_M
 
       trainer_name = "Rift Walker"
+<<<<<<< Updated upstream
 
       # Create custom trainer object in memory
       trainer = NPCTrainer.new(trainer_name, trainer_class)
@@ -155,17 +212,33 @@ trainer_class = trainer_keys.sample || :TEAMROCKET_M
 
       pool = get_valid_species_for_weather
 
+=======
+
+      # Create custom trainer object in memory
+      trainer = NPCTrainer.new(trainer_name, trainer_class)
+
+      # Determine party size based on difficulty or randomized
+      party_size = rand(2..4)
+
+      pool = get_valid_species_for_weather
+
+>>>>>>> Stashed changes
       level = 10
       if $player && $player.first_pokemon
         level = $player.first_pokemon.level
       end
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
       party_size.times do
         species = pool.sample
         pkmn = Pokemon.new(species, level)
         pkmn.calc_stats
         trainer.party.push(pkmn)
       end
+<<<<<<< Updated upstream
 
       return trainer
     end
@@ -180,6 +253,22 @@ outcome = TrainerBattle.start_core(trainer)
   if outcome == 1 || outcome == true # Victory
     pbMessage(_INTL("The Rift energy dissipates slightly..."))
 
+=======
+
+      return trainer
+    end
+
+def start_dynamic_trainer_battle
+  trainer = generate_dynamic_trainer
+
+  setBattleRule("canLose") if defined?(setBattleRule)
+outcome = TrainerBattle.start_core(trainer)
+
+
+  if outcome == 1 || outcome == true # Victory
+    pbMessage(_INTL("The Rift energy dissipates slightly..."))
+
+>>>>>>> Stashed changes
     # Decrement Bounty Tracker
     objective = $PokemonGlobal.instance_variable_get(:@current_rift_bounty)
     if objective && objective[:type] == :trainers
@@ -187,11 +276,19 @@ outcome = TrainerBattle.start_core(trainer)
       objective[:amount] = 0 if objective[:amount] < 0
       pbMessage(_INTL("Rift Objective: {1} left.", objective[:amount])) if objective[:amount] > 0
     end
+<<<<<<< Updated upstream
 
   else
     pbMessage(_INTL("You have succumbed to the Rift."))
   end
 
+=======
+
+  else
+    pbMessage(_INTL("You have succumbed to the Rift."))
+  end
+
+>>>>>>> Stashed changes
   return outcome
 end
 
@@ -206,16 +303,28 @@ module RiftChallenges
     def generate_dynamic_boss
       pool = get_valid_species_for_weather
       boss_species = pool.sample
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
       level = 10
       if $player && $player.first_pokemon
         level = $player.first_pokemon.level + 2 # Slightly higher than party level
       end
+<<<<<<< Updated upstream
 
       species_data = GameData::Species.get(boss_species)
       moves = species_data.moves.map { |m| m[1] }.uniq.last(4) # Get latest 4 moves natively learned
       moves = [:TACKLE] if moves.empty?
 
+=======
+
+      species_data = GameData::Species.get(boss_species)
+      moves = species_data.moves.map { |m| m[1] }.uniq.last(4) # Get latest 4 moves natively learned
+      moves = [:TACKLE] if moves.empty?
+
+>>>>>>> Stashed changes
       # Build Boss Hash mimicking Pokemon Factory
       boss_key = "rift_boss_#{boss_species}"
       boss_hash = {
@@ -225,7 +334,11 @@ module RiftChallenges
         :boss => true,
         :hp_boost => 3 # Alpha UI tier 3
       }
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
 # Register the procedural hash in Pokemon Factory data
 if defined?(ZBox::PokemonFactory)
   ZBox::PokemonFactory.data[boss_key.to_sym] = boss_hash
@@ -239,12 +352,20 @@ else
 end
 
     end
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
 def start_dynamic_boss_battle
   boss_key = generate_dynamic_boss
   if boss_key && defined?(pbFightFactoryBoss)
     outcome = pbFightFactoryBoss(boss_key)
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
     if outcome
       # Decrement Bounty Tracker
       objective = $PokemonGlobal.instance_variable_get(:@current_rift_bounty)
@@ -274,9 +395,15 @@ module RiftChallenges
       return unless manifests
       manifest = manifests[map_id]
       return unless manifest
+<<<<<<< Updated upstream
 
       possible_objectives = []
 
+=======
+
+      possible_objectives = []
+
+>>>>>>> Stashed changes
       if manifest[:trainers] && manifest[:trainers] > 0
         possible_objectives.push({
           :type => :trainers,
@@ -284,7 +411,11 @@ module RiftChallenges
           :desc => "Defeat trainers"
         })
       end
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
       if manifest[:items] && manifest[:items] > 0
         possible_objectives.push({
           :type => :items,
@@ -292,7 +423,11 @@ module RiftChallenges
           :desc => "Collect items"
         })
       end
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
       if possible_objectives.empty?
         possible_objectives.push({
           :type => :survive,
@@ -300,10 +435,17 @@ module RiftChallenges
           :desc => "Survive the Rift"
         })
       end
+<<<<<<< Updated upstream
 
       objective = possible_objectives.sample
       $PokemonGlobal.instance_variable_set(:@current_rift_bounty, objective)
 
+=======
+
+      objective = possible_objectives.sample
+      $PokemonGlobal.instance_variable_set(:@current_rift_bounty, objective)
+
+>>>>>>> Stashed changes
 if defined?(QuestModule) && defined?(activateQuest)
   # We dynamically inject a quest into the QuestModule hash
   QuestModule.const_set(:Quest999, {
@@ -317,6 +459,7 @@ if defined?(QuestModule) && defined?(activateQuest)
   activateQuest(:Quest999) unless $PokemonGlobal.quests.active_quests.any? { |q| q.id == :Quest999 }
 end
 
+<<<<<<< Updated upstream
 
       pbMessage(_INTL("Rift Objective: {1} ({2}).", objective[:desc], objective[:amount]))
     end
@@ -325,13 +468,27 @@ end
       objective = $PokemonGlobal.instance_variable_get(:@current_rift_bounty)
       return true unless objective
 
+=======
+
+      pbMessage(_INTL("Rift Objective: {1} ({2}).", objective[:desc], objective[:amount]))
+    end
+
+    def check_rift_bounty_complete
+      objective = $PokemonGlobal.instance_variable_get(:@current_rift_bounty)
+      return true unless objective
+
+>>>>>>> Stashed changes
       if objective[:amount] <= 0
         completeQuest(:Quest999) if defined?(completeQuest)
         return true
       end
       return false
     end
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
 def transfer_to_rift(target_map_id)
   $game_temp.player_transferring = true
   $game_temp.player_new_map_id = target_map_id
@@ -345,11 +502,19 @@ def enter_rift(target_map_id)
       # Save scaling variables
       $PokemonGlobal.instance_variable_set(:@saved_trainer_var, pbGet(TRAINER_VAR))
       $PokemonGlobal.instance_variable_set(:@saved_wild_var, pbGet(WILD_VAR))
+<<<<<<< Updated upstream
 
       # Increment scaling variables by +1 for the duration of the Rift
       pbSet(TRAINER_VAR, pbGet(TRAINER_VAR) + 1)
       pbSet(WILD_VAR, pbGet(WILD_VAR) + 1)
 
+=======
+
+      # Increment scaling variables by +1 for the duration of the Rift
+      pbSet(TRAINER_VAR, pbGet(TRAINER_VAR) + 1)
+      pbSet(WILD_VAR, pbGet(WILD_VAR) + 1)
+
+>>>>>>> Stashed changes
       # We must simulate passing the correct ID so the environment and bounty read the NEW map ID, not the old boss map.
       apply_rift_environment(target_map_id)
       generate_rift_bounty(target_map_id)
@@ -366,10 +531,17 @@ module RiftChallenges
       # Check if any Rift switch is active
       active_switches = ALL_SWITCHES.select { |s| $game_switches && $game_switches[s] == true }
       return if active_switches.empty?
+<<<<<<< Updated upstream
 
       # Spawn up to two portals depending on how many switches are active
       num_portals = [active_switches.length, 2].min
 
+=======
+
+      # Spawn up to two portals depending on how many switches are active
+      num_portals = [active_switches.length, 2].min
+
+>>>>>>> Stashed changes
       # Try left and right
       positions = []
       if $game_map.passable?(boss_x - 1, boss_y, 0)
@@ -378,16 +550,28 @@ module RiftChallenges
       if $game_map.passable?(boss_x + 1, boss_y, 0)
         positions.push([boss_x + 1, boss_y])
       end
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
       # If blocked, just spawn on top
       if positions.empty?
         positions.push([boss_x, boss_y])
       end
+<<<<<<< Updated upstream
 
 num_portals.times do |i|
   pos = positions[i] || positions.last
   spawn_x, spawn_y = pos[0], pos[1]
 
+=======
+
+num_portals.times do |i|
+  pos = positions[i] || positions.last
+  spawn_x, spawn_y = pos[0], pos[1]
+
+>>>>>>> Stashed changes
 # Determine portal color based on which switch triggered it
 # active_switches is an array of IDs. We just pick the i-th one if multiple.
 active_switch = active_switches[i] || active_switches.last
@@ -417,10 +601,17 @@ end
 if $game_map && $game_map.events
   # Find highest event ID and add 1
   new_id = ($game_map.events.keys.max || 0) + 1
+<<<<<<< Updated upstream
 
   # Create script string for the portal
   script_str = "RiftChallenges.enter_rift(#{target_map})\nRiftChallenges.transfer_to_rift(#{target_map})" # Defaulting to middle of a 20x20 map
 
+=======
+
+  # Create script string for the portal
+  script_str = "RiftChallenges.enter_rift(#{target_map})\nRiftChallenges.transfer_to_rift(#{target_map})" # Defaulting to middle of a 20x20 map
+
+>>>>>>> Stashed changes
   # Build event (using existing pbBuildProceduralEvent from Map Generator if available)
   if defined?(pbBuildProceduralEvent)
     # Graphic is "RIFT_PORTALS" instead of "PortalGraphic", direction_fix is true, stop_anim is true
@@ -454,3 +645,7 @@ end
     end
   end
 end
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
