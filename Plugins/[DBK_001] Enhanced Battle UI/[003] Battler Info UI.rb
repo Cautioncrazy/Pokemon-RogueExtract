@@ -29,11 +29,11 @@ class Battle::Scene
       pbUpdate(cw)
       pbUpdateInfoSprites
       break if Input.trigger?(Input::BACK)
-      if Input.trigger?(Input::LEFT)
+      if Input.trigger?(Input::L) || Input.trigger?(Input::PAGEUP)
         idx -= 1
         idx = maxSize if idx < 0
         doFullRefresh = true
-      elsif Input.trigger?(Input::RIGHT)
+      elsif Input.trigger?(Input::R) || Input.trigger?(Input::PAGEDOWN)
         idx += 1
         idx = 0 if idx > maxSize
         doFullRefresh = true

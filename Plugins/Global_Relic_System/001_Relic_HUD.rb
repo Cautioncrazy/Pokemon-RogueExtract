@@ -8,78 +8,189 @@ class Battle::Scene
   alias relic_hud_pbUpdate pbUpdate unless method_defined?(:relic_hud_pbUpdate)
   alias relic_hud_pbDisposeSprites pbDisposeSprites unless method_defined?(:relic_hud_pbDisposeSprites)
 
+  RELIC_START_X = 20
+  RELIC_START_Y = 240
+  RELICS_PER_PAGE = 24
+  RELIC_GRID_COLS = 6
+
   def initialize
     relic_hud_initialize
     @relic_hud_sprites = {}
+    @relic_page = 0
+    @owned_relics = []
   end
 
   def pbStartBattle(battle)
     relic_hud_pbStartBattle(battle)
+    pbInitRelicData
     pbCreateRelicHUD
   end
 
-  def pbCreateRelicHUD
-    # Define the list of global relics to check
+  def pbInitRelicData
     relics = []
     if defined?(RoguelikeExtraction)
       relics.concat(RoguelikeExtraction::RELICS_UNCOMMON) if defined?(RoguelikeExtraction::RELICS_UNCOMMON)
       relics.concat(RoguelikeExtraction::RELICS_RARE) if defined?(RoguelikeExtraction::RELICS_RARE)
     end
 
-    owned_relics = []
+    @owned_relics = []
     relics.each do |relic|
       qty = $bag.quantity(relic)
       if qty > 0
-        owned_relics.push({ :id => relic, :qty => qty })
+        @owned_relics.push({ :id => relic, :qty => qty })
       end
     end
+    @relic_page = 0
+  end
 
-    return if owned_relics.empty?
+  def pbCreateRelicHUD
+    return if @owned_relics.empty?
 
-    # Define standard spacing and sizing
-    icon_width = 24
-    icon_padding = 24
-    total_width = (owned_relics.length * (icon_width + icon_padding)) - icon_padding
+    icon_width = 48
+    icon_height = 36
+    padding_x = 36
+    padding_y = 4
 
-    # Calculate starting X to center the HUD at the top of the screen
-    start_x = 20
-    start_y = 180
-
-    # One combined Quantity Text wrapper
     text_sprite = BitmapSprite.new(Graphics.width, Graphics.height, @viewport)
     pbSetSmallFont(text_sprite.bitmap)
     text_sprite.z = 99999
+    text_sprite.visible = false
     @relic_hud_sprites["relic_text_all"] = text_sprite
 
     all_text_pos = []
 
-    owned_relics.each_with_index do |relic_data, i|
+    # Calculate max pages
+    max_pages = (@owned_relics.length.to_f / RELICS_PER_PAGE).ceil
+    max_pages = 1 if max_pages == 0
+
+    @owned_relics.each_with_index do |relic_data, i|
+      page = i / RELICS_PER_PAGE
+      page_idx = i % RELICS_PER_PAGE
+      row = page_idx / RELIC_GRID_COLS
+      col = page_idx % RELIC_GRID_COLS
+
+      x_pos = RELIC_START_X + (col * (icon_width + padding_x))
+      y_pos = RELIC_START_Y + (row * (icon_height + padding_y))
+
       relic_id = relic_data[:id]
       qty = relic_data[:qty]
 
-      x_pos = start_x + (i * (icon_width + icon_padding))
-
-      # Item Icon (Scaled down to 50%)
-      icon_sprite = IconSprite.new(x_pos, start_y, @viewport)
+      # Item Icon
+      icon_sprite = IconSprite.new(x_pos, y_pos, @viewport)
       icon_sprite.setBitmap("Graphics/Items/#{relic_id.to_s.downcase}")
       icon_sprite.zoom_x = 0.5
       icon_sprite.zoom_y = 0.5
       icon_sprite.z = 99998
+      icon_sprite.visible = false
       @relic_hud_sprites["relic_icon_#{i}"] = icon_sprite
 
-      # Closer text positioning
       text_x = x_pos + 26
-      text_y = start_y + 6
+      text_y = y_pos + 6
 
+      # We draw all text, but will handle pagination rendering below
       all_text_pos.push(["x#{qty}", text_x, text_y, 0, Color.new(248, 248, 248), Color.new(40, 40, 40)])
     end
 
     pbDrawTextPositions(text_sprite.bitmap, all_text_pos)
   end
 
+  def pbDrawRelicHUDText
+    # Redraws the text sprite to only show current page texts + page indicator
+    text_sprite = @relic_hud_sprites["relic_text_all"]
+    return unless text_sprite
+
+    text_sprite.bitmap.clear
+    all_text_pos = []
+
+    icon_width = 48
+    icon_height = 36
+    padding_x = 36
+    padding_y = 4
+
+    start_idx = @relic_page * RELICS_PER_PAGE
+    end_idx = start_idx + RELICS_PER_PAGE - 1
+
+    @owned_relics.each_with_index do |relic_data, i|
+      next if i < start_idx || i > end_idx
+
+      page_idx = i % RELICS_PER_PAGE
+      row = page_idx / RELIC_GRID_COLS
+      col = page_idx % RELIC_GRID_COLS
+
+      x_pos = RELIC_START_X + (col * (icon_width + padding_x))
+      y_pos = RELIC_START_Y + (row * (icon_height + padding_y))
+
+      text_x = x_pos + 26
+      text_y = y_pos + 6
+      qty = relic_data[:qty]
+      all_text_pos.push(["x#{qty}", text_x, text_y, 0, Color.new(248, 248, 248), Color.new(40, 40, 40)])
+    end
+
+    max_pages = (@owned_relics.length.to_f / RELICS_PER_PAGE).ceil
+    max_pages = 1 if max_pages == 0
+    page_text = _INTL("Page: {1}/{2}", @relic_page + 1, max_pages)
+
+    # Page indicator text coordinates - bottom right or top right? Let's put it top right relative to grid
+    page_x = Graphics.width - 64
+    page_y = RELIC_START_Y - 24
+    all_text_pos.push([page_text, page_x, page_y, 2, Color.new(248, 248, 248), Color.new(40, 40, 40)])
+
+    pbDrawTextPositions(text_sprite.bitmap, all_text_pos)
+  end
+
   def pbUpdate(*args)
     relic_hud_pbUpdate(*args)
-    @relic_hud_sprites.each_value do |sprite|
+
+    # We want to show Relic HUD ONLY if the main EBUI :battler window is active
+    # and we are not deep into a nested screen.
+    is_info_visible = defined?(@enhancedUIToggle) && @enhancedUIToggle == :battler
+    # We also check if we are in a sub-menu of the info window by looking at the visibility
+    # of the enhanced UI sprites.
+    # The user says: "If the player clicks into a specific Pokémon to view its detailed Summary screen
+    # (which temporarily hides or overlays the main EBUI Info window), the Relic HUD must hide itself."
+    # If the EBUI window is visible, @sprites["enhancedUI"].visible should be true.
+    if is_info_visible && @sprites["enhancedUI"] && @sprites["enhancedUI"].visible
+      should_show = true
+    else
+      should_show = false
+    end
+
+    if should_show
+      # Handle Pagination
+      max_pages = (@owned_relics.length.to_f / RELICS_PER_PAGE).ceil
+      max_pages = 1 if max_pages == 0
+
+      old_page = @relic_page
+      if Input.trigger?(Input::LEFT)
+        @relic_page -= 1
+        @relic_page = max_pages - 1 if @relic_page < 0
+        pbPlayCursorSE
+      elsif Input.trigger?(Input::RIGHT)
+        @relic_page += 1
+        @relic_page = 0 if @relic_page >= max_pages
+        pbPlayCursorSE
+      end
+
+      if old_page != @relic_page
+        pbDrawRelicHUDText
+      end
+    end
+
+    # Ensure text is drawn at least once if needed
+    if should_show && !@relic_hud_sprites["relic_text_all"]&.visible
+       pbDrawRelicHUDText
+    end
+
+    start_idx = @relic_page * RELICS_PER_PAGE
+    end_idx = start_idx + RELICS_PER_PAGE - 1
+
+    @relic_hud_sprites.each do |key, sprite|
+      if key.include?("relic_icon_")
+        idx = key.split("_").last.to_i
+        sprite.visible = should_show && (idx >= start_idx && idx <= end_idx)
+      elsif key == "relic_text_all"
+        sprite.visible = should_show
+      end
       sprite.update if sprite.respond_to?(:update)
     end
   end
