@@ -9,7 +9,7 @@ class Battle::Scene
   alias relic_hud_pbDisposeSprites pbDisposeSprites unless method_defined?(:relic_hud_pbDisposeSprites)
 
   RELIC_START_X = 16
-  RELIC_START_Y = 166
+  RELIC_START_Y = 96
   RELICS_PER_PAGE = 24
   RELIC_GRID_COLS = 6
 
@@ -48,8 +48,8 @@ class Battle::Scene
 
     icon_width = 24
     icon_height = 24
-    padding_x = 42
-    padding_y = 6
+    padding_x = 32
+    padding_y = 2
 
     text_sprite = BitmapSprite.new(Graphics.width, Graphics.height, @viewport)
     pbSetSmallFont(text_sprite.bitmap)
@@ -104,8 +104,8 @@ class Battle::Scene
 
     icon_width = 24
     icon_height = 24
-    padding_x = 42
-    padding_y = 6
+    padding_x = 32
+    padding_y = 2
 
     start_idx = @relic_page * RELICS_PER_PAGE
     end_idx = start_idx + RELICS_PER_PAGE - 1
@@ -132,7 +132,7 @@ class Battle::Scene
 
     # Page indicator text coordinates - bottom right or top right? Let's put it top right relative to grid
     page_x = Graphics.width - 64
-    page_y = RELIC_START_Y - 24
+    page_y = 56
     all_text_pos.push([page_text, page_x, page_y, 2, Color.new(248, 248, 248), Color.new(40, 40, 40)])
 
     pbDrawTextPositions(text_sprite.bitmap, all_text_pos)
