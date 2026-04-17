@@ -8,10 +8,19 @@ class Battle::Scene
   alias relic_hud_pbUpdate pbUpdate unless method_defined?(:relic_hud_pbUpdate)
   alias relic_hud_pbDisposeSprites pbDisposeSprites unless method_defined?(:relic_hud_pbDisposeSprites)
 
-  RELIC_START_X = 20
-  RELIC_START_Y = 240
+  RELIC_START_X = 16
+  RELIC_START_Y = 166
   RELICS_PER_PAGE = 24
   RELIC_GRID_COLS = 6
+
+  alias relic_hud_pbOpenBattlerInfo pbOpenBattlerInfo unless method_defined?(:relic_hud_pbOpenBattlerInfo)
+
+  def pbOpenBattlerInfo(battler, battlers)
+    @hide_relics_for_summary = true
+    ret = relic_hud_pbOpenBattlerInfo(battler, battlers)
+    @hide_relics_for_summary = false
+    return ret
+  end
 
   def initialize
     relic_hud_initialize
@@ -46,10 +55,10 @@ class Battle::Scene
   def pbCreateRelicHUD
     return if @owned_relics.empty?
 
-    icon_width = 48
-    icon_height = 36
-    padding_x = 36
-    padding_y = 4
+    icon_width = 24
+    icon_height = 24
+    padding_x = 42
+    padding_y = 6
 
     text_sprite = BitmapSprite.new(Graphics.width, Graphics.height, @viewport)
     pbSetSmallFont(text_sprite.bitmap)
@@ -102,10 +111,10 @@ class Battle::Scene
     text_sprite.bitmap.clear
     all_text_pos = []
 
-    icon_width = 48
-    icon_height = 36
-    padding_x = 36
-    padding_y = 4
+    icon_width = 24
+    icon_height = 24
+    padding_x = 42
+    padding_y = 6
 
     start_idx = @relic_page * RELICS_PER_PAGE
     end_idx = start_idx + RELICS_PER_PAGE - 1
@@ -141,20 +150,17 @@ class Battle::Scene
   def pbUpdate(*args)
     relic_hud_pbUpdate(*args)
 
-    # We want to show Relic HUD ONLY if the main EBUI :battler window is active
+        # We want to show Relic HUD ONLY if the main EBUI :battler window is active
     # and we are not deep into a nested screen.
     is_info_visible = defined?(@enhancedUIToggle) && @enhancedUIToggle == :battler
-    # We also check if we are in a sub-menu of the info window by looking at the visibility
-    # of the enhanced UI sprites.
-    # The user says: "If the player clicks into a specific Pokémon to view its detailed Summary screen
-    # (which temporarily hides or overlays the main EBUI Info window), the Relic HUD must hide itself."
-    # If the EBUI window is visible, @sprites["enhancedUI"].visible should be true.
-    if is_info_visible && @sprites["enhancedUI"] && @sprites["enhancedUI"].visible
+
+    # We also check if we are in a sub-menu of the info window by looking at our custom flag
+    # @hide_relics_for_summary which is set when pbOpenBattlerInfo is running.
+    if is_info_visible && !@hide_relics_for_summary && @sprites["enhancedUI"] && @sprites["enhancedUI"].visible
       should_show = true
     else
       should_show = false
     end
-
     if should_show
       # Handle Pagination
       max_pages = (@owned_relics.length.to_f / RELICS_PER_PAGE).ceil
