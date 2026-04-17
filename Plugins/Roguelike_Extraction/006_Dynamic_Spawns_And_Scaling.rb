@@ -235,13 +235,21 @@ outcome = pbFightFactoryBoss(chosen_key)
 
 if outcome
   pbSetSelfSwitch(event_id, "A", true)
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
   # Check for Rift Portal Spawning
   if defined?(RiftChallenges)
     event = $game_map.events[event_id]
     RiftChallenges.check_and_spawn_portal(event.x, event.y) if event
   end
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
   return true
 end
 

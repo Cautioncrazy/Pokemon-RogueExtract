@@ -296,7 +296,11 @@ if rand(100) < 30 # 30% chance to have statues on the map
     switch_choices = [130, 131, 132] # Red, Green, Blue
     switch_choices.push(133) if rand(100) < 5 # 5% chance for Yellow
     chosen_switch = switch_choices.sample
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
     # We just run a simple pbSet script on interaction
     script_str = "pbSet(#{chosen_switch}, true)\npbMessage(_INTL(\"A Rift energy pulses...\"))"
     map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "statue", "Statue", 0, true, false, script_str, false, false)
@@ -305,7 +309,11 @@ if rand(100) < 30 # 30% chance to have statues on the map
 end
 
 
+<<<<<<< Updated upstream
 
+=======
+
+>>>>>>> Stashed changes
       # Save the physical MapXXX.rxdata file
       filename = sprintf("Data/Map%03d.rxdata", map_id)
       File.open(filename, "wb") { |f| Marshal.dump(map, f) }
@@ -481,6 +489,7 @@ def pbGenerateSingleRiftMap(map_id)
   chosen_ts = dungeon_tilesets.sample
   width = rand(20..40)
   height = rand(15..30)
+<<<<<<< Updated upstream
 
   map = RPG::Map.new(width, height)
   map.tileset_id = chosen_ts.id
@@ -489,6 +498,16 @@ def pbGenerateSingleRiftMap(map_id)
   current_event_id = 1
   map.events = {}
 
+=======
+
+  map = RPG::Map.new(width, height)
+  map.tileset_id = chosen_ts.id
+
+  # Standard Rift Spawns
+  current_event_id = 1
+  map.events = {}
+
+>>>>>>> Stashed changes
   # The Exit Portal (Gated by Bounty)
   exit_script = <<~SCRIPT
     if RiftChallenges.check_rift_bounty_complete
@@ -508,7 +527,8 @@ def pbGenerateSingleRiftMap(map_id)
       pbSetSelfSwitch(#{current_event_id}, "A", true)
     end
   SCRIPT
-  map.events[current_event_id] = pbBuildProceduralEvent(10, 8, current_event_id, "boss", "BossGraphic", 0, false, false, boss_script, true, false)
+map.events[current_event_id] = pbBuildProceduralEvent(10, 8, current_event_id, "boss", "BossGraphic", 2, false, false, boss_script, true, false)
+
   current_event_id += 1
 
   actual_trainers = rand(2..5)
@@ -519,7 +539,8 @@ def pbGenerateSingleRiftMap(map_id)
         pbSetSelfSwitch(#{current_event_id}, "A", true)
       end
     SCRIPT
-    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trainer", nil, 4, false, false, trainer_script, true, false)
+map.events[current_event_id] = pbBuildProceduralEvent(rand(2..18), rand(2..18), current_event_id, "trainer", "TrainerGraphic", 2, false, false, trainer_script, true, false)
+
     current_event_id += 1
   end
 

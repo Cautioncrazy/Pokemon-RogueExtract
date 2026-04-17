@@ -198,35 +198,158 @@ def pbDataCoreHatchAnimation(pokemon, rarity_symbol)
   return true
 end
 
-def pbGachaRoll(currency = GACHA_CURRENCY)
-  if !$bag.has?(currency, 1)
-    pbMessage(_INTL("You do not have any {1}s to spend.", GameData::Item.get(currency).name))
+# Overhauled Procedural Gacha logic
+def generate_procedural_gacha_hash(currency)
+  pool = []
+
+  # Categorize base stat totals for scaling
+  GameData::Species.each do |s|
+    next if s.form != 0
+    bst = s.base_stats.values.sum
+    is_legendary = s.flags.include?("Legendary") || s.flags.include?("Mythical") || s.flags.include?("UltraBeast")
+
+    if currency == :DATACORE_LEGENDARY
+      pool.push(s.id) if is_legendary || bst >= 600
+    elsif currency == :DATACORE_EPIC
+      pool.push(s.id) if bst >= 500 && !is_legendary
+    elsif currency == :DATACORE_RARE
+      pool.push(s.id) if bst >= 400 && bst < 550 && !is_legendary
+    else # COMMON
+      pool.push(s.id) if bst < 450 && !is_legendary
+    end
+  end
+
+  # Fallbacks
+  pool = [:RATTATA, :PIDGEY, :ZUBAT] if pool.empty?
+
+  chosen_species = pool.sample
+  species_data = GameData::Species.get(chosen_species)
+
+  # Determine level
+  level = 5
+  level = $player.party.first.level if $player && $player.party.first
+
+  # Initialize base hash
+  hash = {
+    :species => chosen_species,
+    :level => level
+  }
+
+  # Set egg type for animation mapping
+  egg_type = :COMMON
+  egg_type = :RARE if currency == :DATACORE_RARE
+  egg_type = :EPIC if currency == :DATACORE_EPIC
+  egg_type = :LEGENDARY if currency == :DATACORE_LEGENDARY
+  hash[:egg_type] = egg_type
+
+  # Determine IVs, HA, and Egg Moves based on tier
+  ivs = {}
+  num_perfect_ivs = 0
+  ha_chance = 0
+  egg_move_chance = 0
+  num_egg_moves = 0
+
+  case currency
+  when :DATACORE_LEGENDARY
+    num_perfect_ivs = rand(5..6)
+    ha_chance = 100
+    egg_move_chance = 100
+    num_egg_moves = rand(1..2)
+  when :DATACORE_EPIC
+    num_perfect_ivs = rand(4..5)
+    ha_chance = 100
+    egg_move_chance = 50
+    num_egg_moves = 1
+  when :DATACORE_RARE
+    num_perfect_ivs = rand(2..3)
+    ha_chance = 20
+    egg_move_chance = 50
+    num_egg_moves = 1
+  else
+    num_perfect_ivs = rand(0..1)
+  end
+
+  # Assign Perfect IVs
+  stats = [:HP, :ATTACK, :DEFENSE, :SPECIAL_ATTACK, :SPECIAL_DEFENSE, :SPEED]
+  stats.sample(num_perfect_ivs).each do |stat|
+    ivs[stat] = 31
+  end
+  hash[:ivs] = ivs unless ivs.empty?
+
+  # Hidden Ability
+  if rand(100) < ha_chance && species_data.hidden_abilities && !species_data.hidden_abilities.empty?
+    # Engine HA is ability index 2
+    hash[:ability_index] = 2
+  end
+
+  # Egg Moves
+  if rand(100) < egg_move_chance && num_egg_moves > 0 && species_data.egg_moves && !species_data.egg_moves.empty?
+    chosen_egg_moves = species_data.egg_moves.sample(num_egg_moves)
+    # We mix the egg moves with standard level-up moves
+    standard_moves = species_data.moves.map { |m| m[1] }.uniq.last(4 - chosen_egg_moves.length)
+    hash[:moves] = (chosen_egg_moves + standard_moves).compact
+  end
+
+  # Alpha Boss Trigger (20% chance on Legendary)
+  if currency == :DATACORE_LEGENDARY && rand(100) < 20
+    hash[:boss] = true
+    hash[:hp_boost] = 3
+    hash[:is_alpha_boss] = true # Flag for later application
+  end
+
+  return hash
+end
+
+def pbGachaRoll(default_currency = GACHA_CURRENCY)
+  available_cores = []
+  [:DATACORE_COMMON, :DATACORE_RARE, :DATACORE_EPIC, :DATACORE_LEGENDARY].each do |core|
+    qty = $bag.quantity(core)
+    available_cores.push({:item => core, :qty => qty}) if qty > 0
+  end
+
+  if available_cores.empty?
+    pbMessage(_INTL("You do not have any Data Cores to spend."))
     return false
   end
 
+  commands = []
+  available_cores.each do |core|
+    item_name = GameData::Item.get(core[:item]).name
+    commands.push(_INTL("{1} (x{2})", item_name, core[:qty]))
+  end
+  commands.push(_INTL("Cancel"))
+
+  cmd = pbMessage(_INTL("Which Data Core would you like to use for synthesis?"), commands, -1)
+
+  return false if cmd < 0 || cmd >= available_cores.length
+
+  currency = available_cores[cmd][:item]
+
   if pbConfirmMessage(_INTL("Spend 1 {1} to synthesize a Data Core Pokémon?", GameData::Item.get(currency).name))
 
-    if defined?(ZBox::PokemonFactory) && !ZBox::PokemonFactory.data.empty?
-      valid_keys = ZBox::PokemonFactory.data.keys.reject { |k| k.to_s.downcase.start_with?("boss_") }
-      if valid_keys.empty?
-        pbMessage(_INTL("No Data Core signatures available. (Gacha Pool empty)"))
-        return false
-      end
-      chosen_key = valid_keys.sample
-      chosen_data = ZBox::PokemonFactory.data[chosen_key]
-      
-      # SAFELY EXTRACT EGG TYPE BEFORE CREATION
-      # Checks for symbols, strings, and defaults to COMMON so the animation NEVER bypasses
-      egg_type = chosen_data[:egg_type] || chosen_data["egg_type"] || chosen_data[:EGG_TYPE] || chosen_data["EGG_TYPE"] || :COMMON
-      
-      pkmn = ZBox::PokemonFactory.create(chosen_data)
-
-      # FORCE HATCH ANIMATION
-      pbDataCoreHatchAnimation(pkmn, egg_type)
-    else
-      pbMessage(_INTL("No Data Core signatures available. (Gacha Pool empty)"))
+    if !defined?(ZBox::PokemonFactory)
+      pbMessage(_INTL("Pokémon Factory is not installed."))
       return false
     end
+
+    # Dynamically build the gacha hash instead of pulling from static pool
+    chosen_data = generate_procedural_gacha_hash(currency)
+
+    egg_type = chosen_data[:egg_type] || :COMMON
+
+    # Temporarily register it so the factory can build it
+    temp_key = "gacha_roll_#{Time.now.to_i}"
+    ZBox::PokemonFactory.data[temp_key.to_sym] = chosen_data
+
+    pkmn = ZBox::PokemonFactory.create(chosen_data)
+
+    # Cleanup factory
+    ZBox::PokemonFactory.data.delete(temp_key.to_sym)
+
+    # If the 20% Boss Roll succeeded, DBK native boss immunities are applied correctly via factory hash
+
+    # FORCE HATCH ANIMATION
+    pbDataCoreHatchAnimation(pkmn, egg_type)
 
     $bag.remove(currency, 1)
 
