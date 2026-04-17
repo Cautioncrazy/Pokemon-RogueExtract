@@ -146,15 +146,29 @@ def pbBuildProceduralEvent(x, y, id, name, graphic_name, trigger, direction_fix,
     page3.condition.self_switch_valid = true
     page3.condition.self_switch_ch = "A" # Defeated
     page3.trigger = 0 # Action Button
-    page3.graphic.character_name = graphic_name if graphic_name
+
+    is_defeated_battler = name.downcase.include?("boss") || name.downcase.include?("trainer")
+
+    if is_defeated_battler
+      # Blank graphic so it disappears
+      page3.graphic.character_name = ""
+    else
+      page3.graphic.character_name = graphic_name if graphic_name
+    end
+
     page3.direction_fix = direction_fix
     page3.step_anime = stop_anim
 
     list3 = []
-    # If it's a VIP, page 3 has the extract prompt
-    if name.downcase == "vip"
-      list3.push(RPG::EventCommand.new(355, 0, ["pbDefeatedVIP"]))
+    if is_defeated_battler
+      # Purely an empty loop breaker page, no scripts needed
+    else
+      # If it's a VIP, page 3 has the extract prompt
+      if name.downcase == "vip"
+        list3.push(RPG::EventCommand.new(355, 0, ["pbDefeatedVIP"]))
+      end
     end
+
     list3.push(RPG::EventCommand.new(0, 0, []))
     page3.list = list3
     event.pages.push(page3)
@@ -505,7 +519,7 @@ map = RPG::Map.new(width, height)
       pbSetSelfSwitch(#{current_event_id}, "A", true)
     end
   SCRIPT
-  map.events[current_event_id] = pbBuildProceduralEvent(10, 8, current_event_id, "boss", "BossGraphic", 2, false, false, boss_script, true, false)
+  map.events[current_event_id] = pbBuildProceduralEvent(10, 8, current_event_id, "boss", "BossGraphic", 2, false, false, boss_script, true, true)
 
   current_event_id += 1
 
@@ -517,7 +531,7 @@ map = RPG::Map.new(width, height)
         pbSetSelfSwitch(#{current_event_id}, "A", true)
       end
     SCRIPT
-    map.events[current_event_id] = pbBuildProceduralEvent(rand(2..18), rand(2..18), current_event_id, "trainer", "TrainerGraphic", 2, false, false, trainer_script, true, false)
+    map.events[current_event_id] = pbBuildProceduralEvent(rand(2..18), rand(2..18), current_event_id, "trainer", "TrainerGraphic", 2, false, false, trainer_script, true, true)
 
     current_event_id += 1
   end
