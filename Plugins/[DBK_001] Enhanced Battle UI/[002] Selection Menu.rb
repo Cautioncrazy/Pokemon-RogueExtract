@@ -216,11 +216,11 @@ class Battle::Scene
           break
         when nil then break
         end
-      elsif Input.trigger?(Input::LEFT) && @battle.pbSideBattlerCount(idxSide) > 1
+      elsif Input.trigger?(Input::L) && @battle.pbSideBattlerCount(idxSide) > 1
         idxPoke -= 1
         idxPoke = @battle.pbSideBattlerCount(idxSide) - 1 if idxPoke < 0
         pbPlayCursorSE
-      elsif Input.trigger?(Input::RIGHT) && @battle.pbSideBattlerCount(idxSide) > 1
+      elsif Input.trigger?(Input::R) && @battle.pbSideBattlerCount(idxSide) > 1
         idxPoke += 1
         idxPoke = 0 if idxPoke > @battle.pbSideBattlerCount(idxSide) - 1
         pbPlayCursorSE
