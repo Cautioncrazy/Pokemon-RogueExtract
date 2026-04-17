@@ -300,11 +300,30 @@ def generate_procedural_gacha_hash(currency)
   return hash
 end
 
-def pbGachaRoll(currency = GACHA_CURRENCY)
-  if !$bag.has?(currency, 1)
-    pbMessage(_INTL("You do not have any {1}s to spend.", GameData::Item.get(currency).name))
+def pbGachaRoll(default_currency = GACHA_CURRENCY)
+  available_cores = []
+  [:DATACORE_COMMON, :DATACORE_RARE, :DATACORE_EPIC, :DATACORE_LEGENDARY].each do |core|
+    qty = $bag.quantity(core)
+    available_cores.push({:item => core, :qty => qty}) if qty > 0
+  end
+
+  if available_cores.empty?
+    pbMessage(_INTL("You do not have any Data Cores to spend."))
     return false
   end
+
+  commands = []
+  available_cores.each do |core|
+    item_name = GameData::Item.get(core[:item]).name
+    commands.push(_INTL("{1} (x{2})", item_name, core[:qty]))
+  end
+  commands.push(_INTL("Cancel"))
+
+  cmd = pbMessage(_INTL("Which Data Core would you like to use for synthesis?"), commands, -1)
+
+  return false if cmd < 0 || cmd >= available_cores.length
+
+  currency = available_cores[cmd][:item]
 
   if pbConfirmMessage(_INTL("Spend 1 {1} to synthesize a Data Core Pokémon?", GameData::Item.get(currency).name))
 
