@@ -9,7 +9,7 @@ alias rogue_fast_item_pbMEPlay pbMEPlay unless defined?(rogue_fast_item_pbMEPlay
 
 def pbMEPlay(me, volume = nil, pitch = nil)
   me_name = ""
-
+  
   if me.is_a?(String)
     me_name = me
   elsif me.respond_to?(:name)
@@ -17,7 +17,7 @@ def pbMEPlay(me, volume = nil, pitch = nil)
   end
 
   clean_name = me_name.downcase.gsub(/[\s_]/, "")
-
+  
   if clean_name.include?("item") || clean_name.include?("tmget")
     pbSEPlay("Rogue_Item", volume, pitch)
     return
@@ -35,17 +35,17 @@ def pbMessage(message, commands = nil, cmdIfCancel = 0, skin = nil, defaultCmd =
   if message.is_a?(String)
     # Find \me[Item get], \me[Key item get], etc. ignoring case
     if message.match(/\\me\[(.*?(item|tmget).*?)\]/i)
-
+      
       # Replace the Musical Effect tag with our Sound Effect tag
       message = message.gsub(/\\me\[(.*?(item|tmget).*?)\]/i, "\\se[Rogue_Item]")
-
+      
       # Speed up the auto-close wait time from 30 frames to 10 frames for fast looting
       message = message.gsub(/\\wtnp\[\d+\]/i, "\\wtnp[0]")
-
+      
       # Strip out any explicit "Wait for ME to finish" tags to prevent forced pauses
       message = message.gsub(/\\wtME/i, "")
     end
   end
-
+  
   rogue_fast_item_pbMessage(message, commands, cmdIfCancel, skin, defaultCmd, &block)
 end
