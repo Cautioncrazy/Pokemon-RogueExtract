@@ -397,43 +397,38 @@ Name = Tiall Region
 Outdoor = true
 MapPosition = 1,13,16
 BattleBack = city
-
-#---------Python Generated------
-
 #-------------------------------
-[078]   # Shadow Ruins
+[078]   # Procedural Map 078
 Name = Shadow Ruins
 Dungeon = true
 BattleBack = forest
 Environment = Forest
-BGM = bgm3,100,100
 #-------------------------------
-[079]   # Mystic Depths
+[079]   # Procedural Map 079
 Name = Mystic Depths
 Dungeon = true
 BattleBack = snow
 BattleBase = grassICE
 Environment = Snow
-BGM = bgm4,100,100
 #-------------------------------
-[080]   # Mystic Hollow
+[080]   # Procedural Map 080
 Name = Mystic Hollow
 Dungeon = true
 BattleBack = cave1
 Environment = Cave
-BGM = bgm3,100,100
 #-------------------------------
-[081]   # Mystic Depths
+[081]   # Procedural Map 081
 Name = Mystic Depths
 Dungeon = true
 BattleBack = cave1
 Environment = Cave
-BGM = bgm5,100,100
 #-------------------------------
-[082]   # Silent Ruins
+[082]   # Procedural Map 082
 Name = Silent Ruins
 Dungeon = true
 BattleBack = snow
 BattleBase = grassICE
 Environment = Snow
-BGM = bgm4,100,100
+#-------------------------------
+[925]   # MAP925
+Dungeon = true
