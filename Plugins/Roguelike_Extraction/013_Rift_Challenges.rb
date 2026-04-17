@@ -174,7 +174,8 @@ def start_dynamic_trainer_battle
   trainer = generate_dynamic_trainer
 
   setBattleRule("canLose") if defined?(setBattleRule)
-  outcome = pbTrainerBattleCore(trainer)
+outcome = TrainerBattle.start_core(trainer)
+
 
   if outcome == 1 || outcome == true # Victory
     pbMessage(_INTL("The Rift energy dissipates slightly..."))
