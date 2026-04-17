@@ -13,15 +13,6 @@ class Battle::Scene
   RELICS_PER_PAGE = 24
   RELIC_GRID_COLS = 6
 
-  alias relic_hud_pbOpenBattlerInfo pbOpenBattlerInfo unless method_defined?(:relic_hud_pbOpenBattlerInfo)
-
-  def pbOpenBattlerInfo(battler, battlers)
-    @hide_relics_for_summary = true
-    ret = relic_hud_pbOpenBattlerInfo(battler, battlers)
-    @hide_relics_for_summary = false
-    return ret
-  end
-
   def initialize
     relic_hud_initialize
     @relic_hud_sprites = {}
@@ -213,6 +204,20 @@ EventHandlers.add(:on_start_battle, :relic_dbk_hook, proc {
   if Battle::Scene.method_defined?(:pbGetDisplayEffects) && !Battle::Scene.method_defined?(:relic_hud_pbGetDisplayEffects)
     Battle::Scene.class_eval do
       alias relic_hud_pbGetDisplayEffects pbGetDisplayEffects
+
+    if Battle::Scene.method_defined?(:pbOpenBattlerInfo) && !Battle::Scene.method_defined?(:relic_hud_pbOpenBattlerInfo)
+      Battle::Scene.class_eval do
+        alias relic_hud_pbOpenBattlerInfo pbOpenBattlerInfo
+
+        def pbOpenBattlerInfo(battler, battlers)
+          @hide_relics_for_summary = true
+          ret = relic_hud_pbOpenBattlerInfo(battler, battlers)
+          @hide_relics_for_summary = false
+          return ret
+        end
+      end
+    end
+
 
       def pbGetDisplayEffects(battler)
         display_effects = relic_hud_pbGetDisplayEffects(battler)
