@@ -52,15 +52,6 @@ end
 
 module RoguelikeExtraction
   # Configuration for the raid progression
-  # Base sequence of maps. Floor 1 starts at index 0 (Map 78), etc.
-  # After the sequence ends, a random map from this array is chosen for Endless mode.
-  # Format: [Map ID, X, Y]
-  RAID_FLOORS = [
-    [78, 7, 10], # Floor 1
-    [79, 10, 10], # Floor 2
-    [80, 10, 10], # Floor 3
-    [81, 10, 10]  # Floor 4
-  ]
 
   # The Hub location where the player returns after an extract or blackout
   HUB_LOCATION = [77, 20, 14, 6] # Map ID 77 (where Steven is), X, Y
@@ -497,20 +488,38 @@ module RoguelikeExtraction
 
   # Internal helper to transfer the player based on the current floor
   def self.transfer_to_current_floor
-    floor_index = $PokemonGlobal.current_raid_floor - 1
+    # 1. Determine a safe, unused Map ID dynamically (starting from 500 to preserve official maps)
+    mapinfos_path = "Data/MapInfos.rxdata"
+    begin
+      mapinfos = load_data(mapinfos_path)
+    rescue
+      pbMessage(_INTL("Fatal Error: Could not load MapInfos.rxdata."))
+      return
+    end
 
-    # Endless mode logic: pick sequentially for the first 4, then randomly from the 4 maps
-    floor_data = (floor_index < RAID_FLOORS.length) ? RAID_FLOORS[floor_index] : RAID_FLOORS.sample
+    new_map_id = [500, (mapinfos.keys.max || 0) + 1].max
 
+    # 2. Generate the regular floor on-the-fly
+    if defined?(pbGenerateRegularFloor)
+      success = pbGenerateRegularFloor(new_map_id)
+      unless success
+        pbMessage(_INTL("Failed to dynamically generate Floor {1}.", $PokemonGlobal.current_raid_floor))
+        return
+      end
+    else
+      pbMessage(_INTL("Procedural Generator is not loaded! Cannot build floor."))
+      return
+    end
+
+    # 3. Transfer the player to the newly generated map
     pbFadeOutIn do
-      $game_temp.player_new_map_id = floor_data[0]
-      $game_temp.player_new_x = floor_data[1]
-      $game_temp.player_new_y = floor_data[2]
+      $game_temp.player_new_map_id = new_map_id
+      $game_temp.player_new_x = 10  # Standard entry X coordinate from pbGenerateRegularFloor
+      $game_temp.player_new_y = 10  # Standard entry Y coordinate
       $game_temp.player_new_direction = 2
       $scene.transfer_player
 
       # Spawn 3 to 5 mining spots on the newly loaded floor map
-      # Because this runs inside pbFadeOutIn after transfer_player, $game_map is the new map.
       if defined?(pbSpawnFloorMiningSpots)
         pbSpawnFloorMiningSpots(3, 5)
       end
