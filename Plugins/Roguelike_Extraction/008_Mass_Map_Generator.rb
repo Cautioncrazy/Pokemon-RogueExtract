@@ -501,36 +501,19 @@ map = RPG::Map.new(width, height)
   map.events = {}
 
   # The Exit Portal (Gated by Bounty)
-  exit_script = <<~SCRIPT
-    if RiftChallenges.check_rift_bounty_complete
-      pbMessage(_INTL("The Rift objective is complete. Extracting..."))
-      RiftChallenges.exit_rift
-    else
-      pbMessage(_INTL("The dimensional lock holds strong. Complete the objective."))
-    end
-  SCRIPT
+  exit_script = "RiftChallenges.exit_interaction"
   map.events[current_event_id] = pbBuildProceduralEvent(10, 10, current_event_id, "exit", "ExitGraphic", 0, false, false, exit_script, false, false)
   current_event_id += 1
 
   # The Final Alpha Boss
-  boss_script = <<~SCRIPT
-    outcome = RiftChallenges.start_dynamic_boss_battle
-    if outcome
-      pbSetSelfSwitch(#{current_event_id}, "A", true)
-    end
-  SCRIPT
+  boss_script = "RiftChallenges.boss_interaction(#{current_event_id})"
   map.events[current_event_id] = pbBuildProceduralEvent(10, 8, current_event_id, "boss", "BossGraphic", 2, false, false, boss_script, true, true)
 
   current_event_id += 1
 
   actual_trainers = rand(2..5)
   actual_trainers.times do
-    trainer_script = <<~SCRIPT
-      outcome = RiftChallenges.start_dynamic_trainer_battle
-      if outcome == 1
-        pbSetSelfSwitch(#{current_event_id}, "A", true)
-      end
-    SCRIPT
+    trainer_script = "RiftChallenges.trainer_interaction(#{current_event_id})"
     map.events[current_event_id] = pbBuildProceduralEvent(rand(2..18), rand(2..18), current_event_id, "trainer", "TrainerGraphic", 2, false, false, trainer_script, true, true)
 
     current_event_id += 1
