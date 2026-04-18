@@ -574,19 +574,19 @@ def pbGenerateRegularFloor(map_id)
   map.events = {}
 
   # 1 VIP
-  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "pbDynamicTrainer(\"A\")", true, true)
+  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "RoguelikeExtraction.vip_interaction", true, true)
   current_event_id += 1
 
   # 1 Boss Pokemon
-  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "pbDynamicBossPokemon", true, true)
+  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction", true, true)
   current_event_id += 1
 
   # 1 Extract NPC
-  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "pbEarlyExtractPrompt", false, false)
+  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "RoguelikeExtraction.extract_interaction", false, false)
   current_event_id += 1
 
   # 1 Trader NPC
-  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trader", "Trader", 0, false, false, "pbBlackMarketTrader", false, false)
+  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trader", "Trader", 0, false, false, "RoguelikeExtraction.trader_interaction", false, false)
   current_event_id += 1
 
   # Scaling Standard Trainers
@@ -595,13 +595,13 @@ def pbGenerateRegularFloor(map_id)
   actual_trainers = rand(1..max_trainers)
 
   actual_trainers.times do
-    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trainer", nil, 4, false, false, "pbDynamicTrainer(\"A\")", true, true)
+    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trainer", nil, 4, false, false, "RoguelikeExtraction.trainer_interaction", true, true)
     current_event_id += 1
   end
 
   # 20 Chests
   20.times do
-    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "chest", "Chests", 0, true, false, "pbDynamicChestLoot", true, false)
+    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "chest", "Chests", 0, true, false, "RoguelikeExtraction.chest_interaction", true, false)
     current_event_id += 1
   end
 
