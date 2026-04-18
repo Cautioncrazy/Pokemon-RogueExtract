@@ -16,7 +16,13 @@ class Interpreter
         # Build the error message payload, keeping it simple to avoid syntax issues.
         # Essentials already wraps eval() errors in EventScriptError and provides a robust string.
         error_msg = "=== EVENT SCRIPT CRASH ===\n"
-        error_msg += e.message + "\n"
+        if e.is_a?(EventScriptError) && e.respond_to?(:event_message)
+          error_msg += e.event_message + "\n"
+        elsif defined?(pbGetExceptionMessage)
+          error_msg += pbGetExceptionMessage(e) + "\n"
+        else
+          error_msg += e.message + "\n"
+        end
         error_msg += e.backtrace.join("\n") if e.backtrace
         error_msg += "\n\n"
 
