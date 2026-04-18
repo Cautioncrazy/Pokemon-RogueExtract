@@ -94,8 +94,9 @@ def pbBuildProceduralEvent(x, y, id, name, graphic_name, trigger, direction_fix,
   if script_str && !script_str.empty?
     safe_script_str += "begin\n"
     safe_script_str += script_str + "\n"
-    safe_script_str += "rescue => e\n"
-    safe_script_str += "  pbMessage(_INTL(\"CRASH CAUGHT: {1}\", e.message))\n"
+    safe_script_str += "rescue Exception => e\n"
+    safe_script_str += "  File.open('joiplay_crash_log.txt', 'a') { |f| f.puts(\"=== CRASH ===\\n\#{e.message}\\n\#{e.backtrace.join(\"\\n\")}\\n\") }\n"
+    safe_script_str += "  pbMessage(_INTL(\"CRASH CAUGHT! Check joiplay_crash_log.txt\")) rescue nil\n"
     safe_script_str += "end"
   end
 
