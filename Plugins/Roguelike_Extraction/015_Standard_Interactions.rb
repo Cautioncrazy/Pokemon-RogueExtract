@@ -7,7 +7,7 @@
 module RoguelikeExtraction
   class << self
 
-    def safe_interaction
+    def safe_interaction(interp)
       begin
         yield
       rescue Exception => e
@@ -19,38 +19,38 @@ module RoguelikeExtraction
           File.open("joiplay_crash_log.txt", "a") { |f| f.puts(error_msg) }
         rescue
         end
-        pbMessage(_INTL("CRASH CAUGHT! Check joiplay_crash_log.txt")) rescue nil
+        interp.pbMessage(_INTL("CRASH CAUGHT! Check joiplay_crash_log.txt")) rescue nil
       end
     end
 
-    def vip_interaction
-      safe_interaction { pbDynamicTrainer("A") }
+    def vip_interaction(interp)
+      safe_interaction(interp) { interp.pbDynamicTrainer("A") }
     end
 
-    def boss_pkmn_interaction
-      safe_interaction { pbDynamicBossPokemon }
+    def boss_pkmn_interaction(interp)
+      safe_interaction(interp) { interp.pbDynamicBossPokemon }
     end
 
-    def extract_interaction
-      safe_interaction { pbEarlyExtractPrompt }
+    def extract_interaction(interp)
+      safe_interaction(interp) { interp.pbEarlyExtractPrompt }
     end
 
-    def trader_interaction
-      safe_interaction { pbBlackMarketTrader }
+    def trader_interaction(interp)
+      safe_interaction(interp) { interp.pbBlackMarketTrader }
     end
 
-    def trainer_interaction
-      safe_interaction { pbDynamicTrainer("A") }
+    def trainer_interaction(interp)
+      safe_interaction(interp) { interp.pbDynamicTrainer("A") }
     end
 
-    def chest_interaction
-      safe_interaction { pbDynamicChestLoot }
+    def chest_interaction(interp)
+      safe_interaction(interp) { interp.pbDynamicChestLoot }
     end
 
-    def statue_interaction(switch_id)
-      safe_interaction do
-        pbSet(switch_id, true)
-        pbMessage(_INTL("A Rift energy pulses..."))
+    def statue_interaction(switch_id, interp)
+      safe_interaction(interp) do
+        interp.pbSet(switch_id, true)
+        interp.pbMessage(_INTL("A Rift energy pulses..."))
       end
     end
 
