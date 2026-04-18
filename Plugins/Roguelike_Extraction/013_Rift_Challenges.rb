@@ -56,6 +56,29 @@ class << self
   end
 end
 
+    def exit_interaction
+      if check_rift_bounty_complete
+        pbMessage(_INTL("The Rift objective is complete. Extracting..."))
+        exit_rift
+      else
+        pbMessage(_INTL("The dimensional lock holds strong. Complete the objective."))
+      end
+    end
+
+    def boss_interaction(event_id)
+      outcome = start_dynamic_boss_battle
+      if outcome
+        pbSetSelfSwitch(event_id, "A", true)
+      end
+    end
+
+    def trainer_interaction(event_id)
+      outcome = start_dynamic_trainer_battle
+      if outcome == 1
+        pbSetSelfSwitch(event_id, "A", true)
+      end
+    end
+
   end
 end
 
@@ -337,6 +360,11 @@ def transfer_to_rift(target_map_id)
   $game_temp.player_new_direction = 2
 end
 
+def enter_and_transfer_rift(target_map_id)
+  enter_rift(target_map_id)
+  transfer_to_rift(target_map_id)
+end
+
 def enter_rift(target_map_id)
 
       # Save scaling variables
@@ -416,7 +444,7 @@ if $game_map && $game_map.events
   new_id = ($game_map.events.keys.max || 0) + 1
 
   # Create script string for the portal
-  script_str = "RiftChallenges.enter_rift(#{target_map})\nRiftChallenges.transfer_to_rift(#{target_map})" # Defaulting to middle of a 20x20 map
+  script_str = "RiftChallenges.enter_and_transfer_rift(#{target_map})" # Defaulting to middle of a 20x20 map
 
   # Build event (using existing pbBuildProceduralEvent from Map Generator if available)
   if defined?(pbBuildProceduralEvent)
