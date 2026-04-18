@@ -100,9 +100,9 @@ def pbSpawnFloorMiningSpots(min_spots, max_spots)
     # Call mining game
     list.push(RPG::EventCommand.new(355, 0, ["pbMiningGame"]))
     # Set Self Switch A to erase
-    list.push(RPG::EventCommand.new(123, 0, ["A", 0])) # Control Self Switch A = ON
-    list.push(RPG::EventCommand.new(355, 0, ["$game_self_switches[[#{$game_map.map_id}, #{new_id}, 'A']] = true"]))
-    list.push(RPG::EventCommand.new(655, 0, ["$game_map.need_refresh = true"]))
+    # Use a single-line script command to avoid JoiPlay multi-line eval bugs
+    single_line_script = "$game_self_switches[[#{$game_map.map_id}, #{new_id}, 'A']] = true; $game_map.need_refresh = true"
+    list.push(RPG::EventCommand.new(355, 0, [single_line_script]))
     list.push(RPG::EventCommand.new(0, 0, []))
     page1.list = list
 
