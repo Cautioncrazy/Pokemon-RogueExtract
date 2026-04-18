@@ -141,13 +141,16 @@ class Battle::Scene
   def pbUpdate(*args)
     relic_hud_pbUpdate(*args)
 
-        # We want to show Relic HUD ONLY if the main EBUI :battler window is active
+    # Ensure UI elements are fully initialized before trying to read them
+    return unless @sprites && @sprites["enhancedUI"]
+
+    # We want to show Relic HUD ONLY if the main EBUI :battler window is active
     # and we are not deep into a nested screen.
     is_info_visible = defined?(@enhancedUIToggle) && @enhancedUIToggle == :battler
 
     # We also check if we are in a sub-menu of the info window by looking at our custom flag
     # @hide_relics_for_summary which is set when pbOpenBattlerInfo is running.
-    if is_info_visible && !@hide_relics_for_summary && @sprites["enhancedUI"] && @sprites["enhancedUI"].visible
+    if is_info_visible && !@hide_relics_for_summary && @sprites["enhancedUI"].visible
       should_show = true
     else
       should_show = false

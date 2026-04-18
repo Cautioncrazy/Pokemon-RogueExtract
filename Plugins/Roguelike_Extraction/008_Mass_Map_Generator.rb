@@ -273,19 +273,19 @@ def pbMassGenerateRoguelikeMaps
       map.events = {}
 
       # 1 VIP
-      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "pbDynamicTrainer(\"A\")", true, true)
+      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "RoguelikeExtraction.vip_interaction", true, true)
       current_event_id += 1
 
       # 1 Boss Pokemon
-      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "pbDynamicBossPokemon", true, true)
+      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction", true, true)
       current_event_id += 1
 
       # 1 Extract NPC
-      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "pbEarlyExtractPrompt", false, false)
+      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "RoguelikeExtraction.extract_interaction", false, false)
       current_event_id += 1
 
       # 1 Trader NPC
-      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trader", "Trader", 0, false, false, "pbBlackMarketTrader", false, false)
+      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trader", "Trader", 0, false, false, "RoguelikeExtraction.trader_interaction", false, false)
       current_event_id += 1
 
       # Scaling Standard Trainers
@@ -293,13 +293,13 @@ def pbMassGenerateRoguelikeMaps
       actual_trainers = rand(1..max_trainers)
 
       actual_trainers.times do
-        map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trainer", nil, 4, false, false, "pbDynamicTrainer(\"A\")", true, true)
+        map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trainer", nil, 4, false, false, "RoguelikeExtraction.trainer_interaction", true, true)
         current_event_id += 1
       end
 
       # 20 Chests
       20.times do
-        map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "chest", "Chests", 0, true, false, "pbDynamicChestLoot", true, false)
+        map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "chest", "Chests", 0, true, false, "RoguelikeExtraction.chest_interaction", true, false)
         current_event_id += 1
       end
 
@@ -312,7 +312,7 @@ if rand(100) < 30 # 30% chance to have statues on the map
     chosen_switch = switch_choices.sample
 
     # We just run a simple pbSet script on interaction
-    script_str = "pbSet(#{chosen_switch}, true)\npbMessage(_INTL(\"A Rift energy pulses...\"))"
+    script_str = "RoguelikeExtraction.statue_interaction(#{chosen_switch})"
     map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "statue", "Statue", 0, true, false, script_str, false, false)
     current_event_id += 1
   end
@@ -538,6 +538,91 @@ $PokemonGlobal.instance_variable_set(:@current_rift_manifest, current_manifests)
   mapinfo.order = map_id
   mapinfos[map_id] = mapinfo
   File.open(mapinfos_path, "wb") { |f| Marshal.dump(mapinfos, f) }
+
+  # Inject GameData::MapMetadata dynamically at runtime
+  GameData::MapMetadata.register({
+    :id       => map_id,
+    :dungeon  => true
+  })
+  GameData::MapMetadata.save
+
+  return true
+end
+
+def pbGenerateRegularFloor(map_id)
+  mapinfos_path = "Data/MapInfos.rxdata"
+  tilesets_path = "Data/Tilesets.rxdata"
+
+  begin
+    mapinfos = File.open(mapinfos_path, "rb") { |f| Marshal.load(f) }
+    tilesets = File.open(tilesets_path, "rb") { |f| Marshal.load(f) }
+  rescue
+    return false
+  end
+
+  dungeon_tilesets = tilesets.compact.select { |ts| ts.name && ts.name.start_with?("Dungeon") }
+  return false if dungeon_tilesets.empty?
+
+  chosen_ts = dungeon_tilesets.sample
+  width = rand(20..40)
+  height = rand(15..30)
+  map = RPG::Map.new(width, height)
+  map.tileset_id = chosen_ts.id
+
+  # Standard Floor Spawns
+  current_event_id = 1
+  map.events = {}
+
+  # 1 VIP
+  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "pbDynamicTrainer(\"A\")", true, true)
+  current_event_id += 1
+
+  # 1 Boss Pokemon
+  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "pbDynamicBossPokemon", true, true)
+  current_event_id += 1
+
+  # 1 Extract NPC
+  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "pbEarlyExtractPrompt", false, false)
+  current_event_id += 1
+
+  # 1 Trader NPC
+  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trader", "Trader", 0, false, false, "pbBlackMarketTrader", false, false)
+  current_event_id += 1
+
+  # Scaling Standard Trainers
+  floor = $PokemonGlobal.current_raid_floor || 1
+  max_trainers = [1 + (floor / 5).floor, 10].min
+  actual_trainers = rand(1..max_trainers)
+
+  actual_trainers.times do
+    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trainer", nil, 4, false, false, "pbDynamicTrainer(\"A\")", true, true)
+    current_event_id += 1
+  end
+
+  # 20 Chests
+  20.times do
+    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "chest", "Chests", 0, true, false, "pbDynamicChestLoot", true, false)
+    current_event_id += 1
+  end
+
+  # Save the physical MapXXX.rxdata file
+  filename = sprintf("Data/Map%03d.rxdata", map_id)
+  File.open(filename, "wb") { |f| Marshal.dump(map, f) }
+
+  # Create and link the MapInfo registry entry
+  mapinfo = RPG::MapInfo.new
+  mapinfo.name = sprintf("Procedural Floor %03d", map_id)
+  mapinfo.parent_id = 0
+  mapinfo.order = map_id
+  mapinfos[map_id] = mapinfo
+  File.open(mapinfos_path, "wb") { |f| Marshal.dump(mapinfos, f) }
+
+  # Inject GameData::MapMetadata dynamically at runtime
+  GameData::MapMetadata.register({
+    :id       => map_id,
+    :dungeon  => true
+  })
+  GameData::MapMetadata.save
 
   return true
 end
