@@ -54,7 +54,6 @@ class << self
   else
     pbMessage(_INTL("Extraction complete."))
   end
-end
 
     def exit_interaction
       if check_rift_bounty_complete
@@ -78,6 +77,8 @@ end
         pbSetSelfSwitch(event_id, "A", true)
       end
     end
+
+end
 
   end
 end
@@ -352,20 +353,20 @@ end
       return false
     end
 
-def transfer_to_rift(target_map_id)
-  $game_temp.player_transferring = true
-  $game_temp.player_new_map_id = target_map_id
-  $game_temp.player_new_x = 10
-  $game_temp.player_new_y = 10
-  $game_temp.player_new_direction = 2
-end
+    def transfer_to_rift(target_map_id)
+      $game_temp.player_transferring = true
+      $game_temp.player_new_map_id = target_map_id
+      $game_temp.player_new_x = 10
+      $game_temp.player_new_y = 10
+      $game_temp.player_new_direction = 2
+    end
 
-def enter_and_transfer_rift(target_map_id)
-  enter_rift(target_map_id)
-  transfer_to_rift(target_map_id)
-end
+    def enter_and_transfer_rift(target_map_id)
+      enter_rift(target_map_id)
+      transfer_to_rift(target_map_id)
+    end
 
-def enter_rift(target_map_id)
+    def enter_rift(target_map_id)
 
       # Save scaling variables
       $PokemonGlobal.instance_variable_set(:@saved_trainer_var, pbGet(TRAINER_VAR))
