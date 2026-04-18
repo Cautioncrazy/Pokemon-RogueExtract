@@ -88,22 +88,10 @@ def pbBuildProceduralEvent(x, y, id, name, graphic_name, trigger, direction_fix,
 
   event.name = final_name
 
-  # Wrap the script string in a rescue block to catch any unhandled exceptions
-  # especially useful when JoiPlay eats the backtrace
-  safe_script_str = ""
-  if script_str && !script_str.empty?
-    safe_script_str += "begin\n"
-    safe_script_str += script_str + "\n"
-    safe_script_str += "rescue Exception => e\n"
-    safe_script_str += "  File.open('joiplay_crash_log.txt', 'a') { |f| f.puts(\"=== CRASH ===\\n\#{e.message}\\n\#{e.backtrace.join(\"\\n\")}\\n\") }\n"
-    safe_script_str += "  pbMessage(_INTL(\"CRASH CAUGHT! Check joiplay_crash_log.txt\")) rescue nil\n"
-    safe_script_str += "end"
-  end
-
   # Page 1 Commands (The Script call)
   # Event Command 355 is "Script", 655 is "Script Continuation"
   list = []
-  lines = safe_script_str.split("\n")
+  lines = script_str.split("\n")
   lines.each_with_index do |line, i|
     code = (i == 0) ? 355 : 655
     list.push(RPG::EventCommand.new(code, 0, [line]))
