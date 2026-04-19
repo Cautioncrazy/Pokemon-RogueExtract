@@ -338,13 +338,11 @@ module RoguelikeExtraction
     pbMessage(_INTL("VIP defeated! Extraction successful. Your loot has been secured, and your progress saved."))
 
     # Teleport to Hub
-    pbFadeOutIn do
-      $game_temp.player_new_map_id = HUB_LOCATION[0]
-      $game_temp.player_new_x = HUB_LOCATION[1]
-      $game_temp.player_new_y = HUB_LOCATION[2]
-      $game_temp.player_new_direction = 2
-      $scene.transfer_player
-    end
+    $game_temp.player_transferring = true
+    $game_temp.player_new_map_id = HUB_LOCATION[0]
+    $game_temp.player_new_x = HUB_LOCATION[1]
+    $game_temp.player_new_y = HUB_LOCATION[2]
+    $game_temp.player_new_direction = 2
   end
 
   # Successfully leaves the raid, keeping all loot.
@@ -360,13 +358,11 @@ module RoguelikeExtraction
     pbMessage(_INTL("Extraction successful! Your loot has been secured."))
 
     # Teleport to Hub
-    pbFadeOutIn do
-      $game_temp.player_new_map_id = HUB_LOCATION[0]
-      $game_temp.player_new_x = HUB_LOCATION[1]
-      $game_temp.player_new_y = HUB_LOCATION[2]
-      $game_temp.player_new_direction = 2
-      $scene.transfer_player
-    end
+    $game_temp.player_transferring = true
+    $game_temp.player_new_map_id = HUB_LOCATION[0]
+    $game_temp.player_new_x = HUB_LOCATION[1]
+    $game_temp.player_new_y = HUB_LOCATION[2]
+    $game_temp.player_new_direction = 2
   end
 
   # Wipe Pokemon based on Standard/Easy mode.
@@ -477,13 +473,11 @@ module RoguelikeExtraction
     end
 
     # Teleport to Hub
-    pbFadeOutIn do
-      $game_temp.player_new_map_id = HUB_LOCATION[0]
-      $game_temp.player_new_x = HUB_LOCATION[1]
-      $game_temp.player_new_y = HUB_LOCATION[2]
-      $game_temp.player_new_direction = 6
-      $scene.transfer_player
-    end
+    $game_temp.player_transferring = true
+    $game_temp.player_new_map_id = HUB_LOCATION[0]
+    $game_temp.player_new_x = HUB_LOCATION[1]
+    $game_temp.player_new_y = HUB_LOCATION[2]
+    $game_temp.player_new_direction = 6
   end
 
   # Internal helper to transfer the player based on the current floor
@@ -512,17 +506,19 @@ module RoguelikeExtraction
     end
 
     # 3. Transfer the player to the newly generated map
-    pbFadeOutIn do
-      $game_temp.player_new_map_id = new_map_id
-      $game_temp.player_new_x = 10  # Standard entry X coordinate from pbGenerateRegularFloor
-      $game_temp.player_new_y = 10  # Standard entry Y coordinate
-      $game_temp.player_new_direction = 2
-      $scene.transfer_player
+    $game_temp.player_transferring = true
+    $game_temp.player_new_map_id = new_map_id
+    $game_temp.player_new_x = 10  # Standard entry X coordinate from pbGenerateRegularFloor
+    $game_temp.player_new_y = 10  # Standard entry Y coordinate
+    $game_temp.player_new_direction = 2
 
-      # Spawn 3 to 5 mining spots on the newly loaded floor map
-      if defined?(pbSpawnFloorMiningSpots)
-        pbSpawnFloorMiningSpots(3, 5)
-      end
+    # Since we removed pbFadeOutIn to allow the engine's native transfer logic to process,
+    # we need to schedule the mining spot generation to happen exactly after the map loads.
+    # The safest way is to hook it into the on_game_map_setup handler in 009_Persistent_Artifacts.rb,
+    # but for now we can just queue it dynamically.
+    if defined?(pbSpawnFloorMiningSpots)
+      # We must let the engine transfer the player first. The next frame's map setup will handle spawning.
+      $PokemonGlobal.instance_variable_set(:@pending_mining_spawns, true)
     end
   end
 end
