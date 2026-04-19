@@ -44,7 +44,7 @@ You are responsible for writing and maintaining scripts for the following core s
 - **Auto-Purge**: Hook into the `pbPokeCenterPC` access method to automatically release all Pokémon in any "Graveyard" box before the interface opens, avoiding overflow.
 
 ### 2. Procedural Dungeons & Dynamic Injection (Spawning)
-- **Dynamic Trainer Management System**: A new helper function, `pbSetAndStartDynamicTrainer`, simplifies event setups. This function randomizes the trainer's class/name, modifies their map graphic on the fly, shows the battle message, and initiates the battle. This removes the need for multiple parallel processes on a per-event basis.
+- **Dynamic Trainer Management System**: A new helper function, `pbSetAndStartDynamicTrainer`, simplifies event setups. This function randomizes the trainer's class/name using predefined pools in `017_Procedural_Encounters.rb`, dynamically constructs purely in-memory `NPCTrainer` and `Pokemon` objects to skip PBS compilation, modifies their map graphic on the fly, shows the battle message, and initiates the battle via `pbTrainerBattleCore`. This removes the need for multiple parallel processes on a per-event basis and removes dependency on Python PBS generation for trainers.
 - **Dungeons**: The project relies on the built-in `Overworld_RandomDungeons` module triggered via `Dungeon = true` map metadata. Dynamic event density is mathematically scaled during mass map generation so that early floors feel sparse, while deeper floors can be heavily populated.
 - **Valid Tile Detection**: Since standard static events spawn in walls on dynamically generated maps, we use a mobile-optimized random coordinate sampler to hook into the generator. The script scans tiles via a dual-check: passability (`passable?`) and predefined Terrain Tags (e.g., standard floor tags) to prevent heavy full-map iteration loops.
 - **Event Teleportation**: Dynamic entities are identified by parsing their RPG Maker Event Name (e.g., "VIP", "Trainer", "Chest") and teleported to valid coordinates using `.moveto(x, y)` right as the map loads.
@@ -87,7 +87,7 @@ We use a custom Python tool suite located in `tools/pbs_generator/` to automate 
   - `pbs_parser.py`: Custom, line-by-line parser designed to handle Pokémon Essentials v21.1 formatting safely, preserving duplicates and brackets.
   - `map_metadata_gen.py`: Appends new map blocks to `PBS/map_metadata.txt`.
   - `encounter_gen.py`: Generates weighted encounter tables in `PBS/encounters.txt`.
-  - `trainer_gen.py`: Appends procedurally generated themed trainers to `PBS/trainers.txt`.
+  - `trainer_gen.py`: Appends procedurally generated themed trainers to `PBS/trainers.txt`. *(Note: Largely deprecated in favor of on-the-fly in-memory generation via `017_Procedural_Encounters.rb`, but retained for legacy compilation).*
   - `main.py`: A Glassmorphism GUI (requires `PyQt6`) to drive the entire generation process easily.
   - `encounters.md` / `trainers.md`: Text definitions that act as rulesets mapping Themes (Grass, Poison, etc.) to valid Pokémon species and Trainer Classes.
 - **Automated Map Pipeline**: We employ a dual-script pipeline for generating procedural maps:
