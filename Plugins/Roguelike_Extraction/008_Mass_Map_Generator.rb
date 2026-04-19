@@ -487,8 +487,17 @@ def pbGenerateSingleRiftMap(map_id)
     return false
   end
 
-  dungeon_tilesets = tilesets.compact.select { |ts| ts.name && ts.name.start_with?("Dungeon") }
-  return false if dungeon_tilesets.empty?
+  # We strictly require the tilesets to be mapped in PBS/dungeon_tilesets.txt
+  valid_pbs_tilesets = GameData::DungeonTileset::DATA.keys
+  dungeon_tilesets = tilesets.compact.select do |ts|
+    ts.name && ts.name.start_with?("Dungeon") && valid_pbs_tilesets.include?(ts.id)
+  end
+
+  if dungeon_tilesets.empty?
+    # Fallback to pure PBS tilesets if names don't match, to guarantee generation
+    dungeon_tilesets = tilesets.compact.select { |ts| valid_pbs_tilesets.include?(ts.id) }
+    return false if dungeon_tilesets.empty?
+  end
 
   chosen_ts = dungeon_tilesets.sample
   width = rand(20..40)
@@ -569,6 +578,24 @@ def pbGenerateRegularFloor(map_id)
   map = RPG::Map.new(width, height)
   map.tileset_id = chosen_ts.id
 
+  # Dynamically assign the Dungeon Area based on the mapped theme
+  # This fixes the Overworld_RandomDungeons generation failing or rendering black maps
+  theme_suffix = chosen_ts.name.sub(/^Dungeon\s*/, "").strip
+  theme_sym = theme_suffix.downcase.to_sym
+
+  # Try to find a matching layout in DungeonParameters.
+  # Parameters are typically formatted as `theme_version` (e.g., `:forest_0`).
+  if GameData::DungeonParameters::DATA.keys.any? { |k| k.to_s.start_with?(theme_sym.to_s) }
+    $PokemonGlobal.dungeon_area = theme_sym
+  else
+    # Fallback: Find the FIRST valid area string
+    first_valid = GameData::DungeonParameters::DATA.keys.first
+    if first_valid
+      # `first_valid` is something like `:cave_0`
+      $PokemonGlobal.dungeon_area = first_valid.to_s.split('_').first.to_sym
+    end
+  end
+
   # Standard Floor Spawns
   current_event_id = 1
   map.events = {}
@@ -619,8 +646,8 @@ def pbGenerateRegularFloor(map_id)
 
   # Inject GameData::MapMetadata dynamically at runtime
   GameData::MapMetadata.register({
-    :id       => map_id,
-    :dungeon  => true
+    :id             => map_id,
+    :random_dungeon => true
   })
   GameData::MapMetadata.save
 
