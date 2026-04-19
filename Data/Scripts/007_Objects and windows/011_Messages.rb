@@ -245,7 +245,7 @@ end
 def pbGetBasicMapNameFromId(id)
   begin
     map = pbLoadMapInfos
-    return "" if !map
+    return "" if !map || !map[id]
     return map[id].name
   rescue
     return ""
