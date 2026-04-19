@@ -36,4 +36,20 @@ module ProceduralEncounters
     return TRAINER_POOLS[trainer_class] if TRAINER_POOLS.has_key?(trainer_class)
     return FALLBACK_POOL
   end
+
+  # ============================================================================
+  # Wild Encounter Thematic Pools
+  # ============================================================================
+  WILD_POOLS = {
+    :CAVE   => [:ZUBAT, :GEODUDE, :MACHOP, :GOLBAT, :GRAVELER, :CLEFAIRY, :PARAS, :ONIX],
+    :FOREST => [:CATERPIE, :METAPOD, :WEEDLE, :KAKUNA, :PIDGEY, :ODDISH, :BELLSPROUT, :VENONAT],
+    :WATER  => [:TENTACOOL, :MAGIKARP, :POLIWAG, :GOLDEEN, :STARYU, :SLOWPOKE, :SHELLDER],
+    :LAB    => [:VOLTORB, :MAGNEMITE, :PORYGON, :KOFFING, :GRIMER, :DITTO, :ELECTRODE]
+  }
+
+  def self.get_wild_pool(theme)
+    theme_sym = theme.to_s.upcase.to_sym
+    return WILD_POOLS[theme_sym] if WILD_POOLS.has_key?(theme_sym)
+    return FALLBACK_POOL
+  end
 end
