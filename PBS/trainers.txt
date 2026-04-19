@@ -1,5 +1,4 @@
-#---------Python Generated------
-
+﻿# See the documentation on the wiki to learn how to edit this file.
 #-------------------------------
 [TEAMROCKET_F,Quinn,7801]
 LoseText = I couldn't handle the floor 1 pressure!
@@ -12,19 +11,19 @@ Pokemon = FLITTLE,3
 Pokemon = NATU,2
 #-------------------------------
 [POKEMANIAC,Owen,7801]
-LoseText = I couldn't handle the floor 1 pressure!
 Items = POTION
+LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = SLOWPOKE,5
 #-------------------------------
 [CAMPER,Boss Yuri,7801]
-LoseText = Unbelievable... You're truly powerful.
 Items = POTION
+LoseText = Unbelievable... You're truly powerful.
 Pokemon = MANKEY,7
 Pokemon = MARILL,4
 #-------------------------------
 [SAILOR,Alex,7901]
-LoseText = I couldn't handle the floor 1 pressure!
 Items = POTION
+LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = LAPRAS,4
 #-------------------------------
 [SWIMMER_F,Rose,7901]
@@ -32,8 +31,8 @@ LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = LAPRAS,1
 #-------------------------------
 [POKEMANIAC,Liam,7901]
-LoseText = I couldn't handle the floor 1 pressure!
 Items = POTION
+LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = LAPRAS,5
 #-------------------------------
 [SWIMMER_F,Quinn,7901]
@@ -41,14 +40,14 @@ LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = LAPRAS,1
 #-------------------------------
 [POKEMANIAC,Boss Peter,7901]
-LoseText = Unbelievable... You're truly powerful.
 Items = POTION
+LoseText = Unbelievable... You're truly powerful.
 Pokemon = FRIGIBAX,4
 Pokemon = LAPRAS,4
 #-------------------------------
 [PICNICKER,Diana,8001]
-LoseText = I couldn't handle the floor 1 pressure!
 Items = POTION
+LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = MANKEY,2
 Pokemon = PONYTA,3
 #-------------------------------
@@ -62,14 +61,14 @@ Pokemon = PONYTA,2
 Pokemon = MANKEY,2
 #-------------------------------
 [PICNICKER,Penny,8001]
-LoseText = I couldn't handle the floor 1 pressure!
 Items = POTION
+LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = MANKEY,1
 Pokemon = MARILL,2
 #-------------------------------
 [PICNICKER,Boss Eve,8001]
-LoseText = Unbelievable... You're truly powerful.
 Items = POTION
+LoseText = Unbelievable... You're truly powerful.
 Pokemon = PONYTA,7
 Pokemon = MARILL,3
 Pokemon = MANKEY,4
@@ -79,8 +78,8 @@ LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = PONYTA,3
 #-------------------------------
 [PICNICKER,Sara,8101]
-LoseText = I couldn't handle the floor 1 pressure!
 Items = POTION
+LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = PONYTA,3
 Pokemon = MANKEY,4
 #-------------------------------
@@ -89,8 +88,8 @@ LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = MANKEY,2
 #-------------------------------
 [PICNICKER,Betty,8101]
-LoseText = I couldn't handle the floor 1 pressure!
 Items = POTION
+LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = MANKEY,2
 Pokemon = PONYTA,2
 #-------------------------------
@@ -99,15 +98,15 @@ LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = MANKEY,2
 #-------------------------------
 [CAMPER,Boss Brendan,8101]
-LoseText = Unbelievable... You're truly powerful.
 Items = POTION
+LoseText = Unbelievable... You're truly powerful.
 Pokemon = PONYTA,4
 Pokemon = MARILL,5
 Pokemon = MANKEY,5
 #-------------------------------
 [POKEMANIAC,Yuri,8201]
-LoseText = I couldn't handle the floor 1 pressure!
 Items = POTION
+LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = FRIGIBAX,4
 #-------------------------------
 [SWIMMER_F,Kara,8201]
@@ -115,16 +114,28 @@ LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = LAPRAS,3
 #-------------------------------
 [POKEMANIAC,Mike,8201]
-LoseText = I couldn't handle the floor 1 pressure!
 Items = POTION
+LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = LAPRAS,3
 #-------------------------------
 [POKEMANIAC,Felix,8201]
-LoseText = I couldn't handle the floor 1 pressure!
 Items = POTION
+LoseText = I couldn't handle the floor 1 pressure!
 Pokemon = LAPRAS,4
 #-------------------------------
 [SWIMMER_M,Boss Aaron,8201]
-LoseText = Unbelievable... You're truly powerful.
 Items = POTION
+LoseText = Unbelievable... You're truly powerful.
 Pokemon = LAPRAS,4
+#-------------------------------
+[FISHERMAN,Boss Finn,1]
+LoseText = ...
+Pokemon = SHELLDER,10
+#-------------------------------
+[CAMPER,Frank,1]
+LoseText = ...
+Pokemon = SQUIRTLE,10
+Pokemon = BULBASAUR,10
+Pokemon = BULBASAUR,10
+Pokemon = BEEDRILL,10
+Pokemon = NIDORANfE,10
