@@ -137,25 +137,46 @@ end
 # Hook into PokemonEncounters to force dynamic encounter pool based on weather
 #===============================================================================
 class PokemonEncounters
-  alias choose_wild_pokemon_rift choose_wild_pokemon
+  # Intercept has_encounter_type? so the engine knows dynamic maps *can* spawn Pokémon
+  # even though they lack a strict PBS entry.
+  alias has_encounter_type_dynamic_rift has_encounter_type?
+  def has_encounter_type?(enc_type)
+    return true if RiftChallenges.is_rift_map? && enc_type == :Cave # Force cave encounters inside Rifts
+    return true if $PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none
+    has_encounter_type_dynamic_rift(enc_type)
+  end
+
+  alias choose_wild_pokemon_dynamic_rift choose_wild_pokemon
   def choose_wild_pokemon(enc_type, chance_rolls = 1)
+    # 1. Handle Rift Specific Encounters
     if RiftChallenges.is_rift_map?
       pool = RiftChallenges.get_valid_species_for_weather
       chosen_species = pool.sample
 
-      # Determine an appropriate level based on current scaling settings or area
-      # Using a baseline level of the current party max, or any available logic
-      # But standard level scaling should take over after the encounter is created.
-      # For now, let's pull a level that is roughly around the first pokemon's level
       level = 10
-      if $player && $player.first_pokemon
-        level = $player.first_pokemon.level
-      end
+      level = $player.party.first.level if $player && $player.party && !$player.party.empty?
 
       return [chosen_species, level]
     end
 
-    choose_wild_pokemon_rift(enc_type, chance_rolls)
+    # 2. Handle standard Procedural Dungeons on-the-fly without PBS
+    if $PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none
+      # Fallback to the wild species pool based on the map's theme (stored in dungeon_area)
+      theme = $PokemonGlobal.dungeon_area.to_s.upcase.to_sym
+
+      pool = [:ZUBAT, :GEODUDE, :MACHOP, :GOLBAT, :GRAVELER]
+      if defined?(ProceduralEncounters) && ProceduralEncounters.respond_to?(:get_wild_pool)
+        pool = ProceduralEncounters.get_wild_pool(theme)
+      end
+
+      chosen_species = pool.sample
+      level = 10
+      level = $player.party.first.level if $player && $player.party && !$player.party.empty?
+
+      return [chosen_species, level]
+    end
+
+    choose_wild_pokemon_dynamic_rift(enc_type, chance_rolls)
   end
 end
 

@@ -391,7 +391,7 @@ end
     trainer.party = party
 
     # Start the battle directly bypassing GameData::Trainer PBS compilation
-    outcome = pbTrainerBattleCore(trainer)
+    outcome = TrainerBattle.start(trainer)
 
     if outcome == 1 || outcome == true
       # --- BOUNTY HOOK: SLAYER ---
