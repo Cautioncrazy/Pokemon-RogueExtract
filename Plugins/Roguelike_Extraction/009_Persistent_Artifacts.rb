@@ -21,6 +21,18 @@ if defined?(MiningGameScene)
 end
 
 #===============================================================================
+# Pending Spawns Hook for Map Load
+#===============================================================================
+EventHandlers.add(:on_enter_map, :spawn_pending_mining_spots,
+  proc { |_old_map_id|
+    if $PokemonGlobal.instance_variable_defined?(:@pending_mining_spawns) && $PokemonGlobal.instance_variable_get(:@pending_mining_spawns)
+      $PokemonGlobal.instance_variable_set(:@pending_mining_spawns, false)
+      pbSpawnFloorMiningSpots(3, 5) if defined?(pbSpawnFloorMiningSpots)
+    end
+  }
+)
+
+#===============================================================================
 # 2. Dynamic Mining Spot Spawner
 #===============================================================================
 # Helper to dynamically spawn mining spots on a procedural floor
