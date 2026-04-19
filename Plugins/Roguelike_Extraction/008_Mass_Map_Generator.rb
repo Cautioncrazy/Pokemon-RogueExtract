@@ -273,19 +273,19 @@ def pbMassGenerateRoguelikeMaps
       map.events = {}
 
       # 1 VIP
-      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "RoguelikeExtraction.vip_interaction", true, true)
+      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "RoguelikeExtraction.vip_interaction(self)", true, true)
       current_event_id += 1
 
       # 1 Boss Pokemon
-      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction", true, true)
+      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction(self)", true, true)
       current_event_id += 1
 
       # 1 Extract NPC
-      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "RoguelikeExtraction.extract_interaction", false, false)
+      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "RoguelikeExtraction.extract_interaction(self)", false, false)
       current_event_id += 1
 
       # 1 Trader NPC
-      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trader", "Trader", 0, false, false, "RoguelikeExtraction.trader_interaction", false, false)
+      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trader", "Trader", 0, false, false, "RoguelikeExtraction.trader_interaction(self)", false, false)
       current_event_id += 1
 
       # Scaling Standard Trainers
@@ -293,13 +293,13 @@ def pbMassGenerateRoguelikeMaps
       actual_trainers = rand(1..max_trainers)
 
       actual_trainers.times do
-        map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trainer", nil, 4, false, false, "RoguelikeExtraction.trainer_interaction", true, true)
+        map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trainer", nil, 4, false, false, "RoguelikeExtraction.trainer_interaction(self)", true, true)
         current_event_id += 1
       end
 
       # 20 Chests
       20.times do
-        map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "chest", "Chests", 0, true, false, "RoguelikeExtraction.chest_interaction", true, false)
+        map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "chest", "Chests", 0, true, false, "RoguelikeExtraction.chest_interaction(self)", true, false)
         current_event_id += 1
       end
 
@@ -312,7 +312,7 @@ if rand(100) < 30 # 30% chance to have statues on the map
     chosen_switch = switch_choices.sample
 
     # We just run a simple pbSet script on interaction
-    script_str = "RoguelikeExtraction.statue_interaction(#{chosen_switch})"
+    script_str = "RoguelikeExtraction.statue_interaction(#{chosen_switch}, self)"
     map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "statue", "Statue", 0, true, false, script_str, false, false)
     current_event_id += 1
   end
@@ -501,19 +501,19 @@ map = RPG::Map.new(width, height)
   map.events = {}
 
   # The Exit Portal (Gated by Bounty)
-  exit_script = "RiftChallenges.exit_interaction"
+  exit_script = "RiftChallenges.exit_interaction(self)"
   map.events[current_event_id] = pbBuildProceduralEvent(10, 10, current_event_id, "exit", "ExitGraphic", 0, false, false, exit_script, false, false)
   current_event_id += 1
 
   # The Final Alpha Boss
-  boss_script = "RiftChallenges.boss_interaction(#{current_event_id})"
+  boss_script = "RiftChallenges.boss_interaction(#{current_event_id}, self)"
   map.events[current_event_id] = pbBuildProceduralEvent(10, 8, current_event_id, "boss", "BossGraphic", 2, false, false, boss_script, true, true)
 
   current_event_id += 1
 
   actual_trainers = rand(2..5)
   actual_trainers.times do
-    trainer_script = "RiftChallenges.trainer_interaction(#{current_event_id})"
+    trainer_script = "RiftChallenges.trainer_interaction(#{current_event_id}, self)"
     map.events[current_event_id] = pbBuildProceduralEvent(rand(2..18), rand(2..18), current_event_id, "trainer", "TrainerGraphic", 2, false, false, trainer_script, true, true)
 
     current_event_id += 1
@@ -574,19 +574,19 @@ def pbGenerateRegularFloor(map_id)
   map.events = {}
 
   # 1 VIP
-  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "RoguelikeExtraction.vip_interaction", true, true)
+  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "RoguelikeExtraction.vip_interaction(self)", true, true)
   current_event_id += 1
 
   # 1 Boss Pokemon
-  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction", true, true)
+  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction(self)", true, true)
   current_event_id += 1
 
   # 1 Extract NPC
-  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "RoguelikeExtraction.extract_interaction", false, false)
+  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "RoguelikeExtraction.extract_interaction(self)", false, false)
   current_event_id += 1
 
   # 1 Trader NPC
-  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trader", "Trader", 0, false, false, "RoguelikeExtraction.trader_interaction", false, false)
+  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trader", "Trader", 0, false, false, "RoguelikeExtraction.trader_interaction(self)", false, false)
   current_event_id += 1
 
   # Scaling Standard Trainers
@@ -595,13 +595,13 @@ def pbGenerateRegularFloor(map_id)
   actual_trainers = rand(1..max_trainers)
 
   actual_trainers.times do
-    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trainer", nil, 4, false, false, "RoguelikeExtraction.trainer_interaction", true, true)
+    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "trainer", nil, 4, false, false, "RoguelikeExtraction.trainer_interaction(self)", true, true)
     current_event_id += 1
   end
 
   # 20 Chests
   20.times do
-    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "chest", "Chests", 0, true, false, "RoguelikeExtraction.chest_interaction", true, false)
+    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "chest", "Chests", 0, true, false, "RoguelikeExtraction.chest_interaction(self)", true, false)
     current_event_id += 1
   end
 

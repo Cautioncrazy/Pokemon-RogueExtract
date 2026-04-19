@@ -55,26 +55,26 @@ class << self
     pbMessage(_INTL("Extraction complete."))
   end
 
-    def exit_interaction
+    def exit_interaction(interp)
       if check_rift_bounty_complete
-        pbMessage(_INTL("The Rift objective is complete. Extracting..."))
+        interp.pbMessage(_INTL("The Rift objective is complete. Extracting..."))
         exit_rift
       else
-        pbMessage(_INTL("The dimensional lock holds strong. Complete the objective."))
+        interp.pbMessage(_INTL("The dimensional lock holds strong. Complete the objective."))
       end
     end
 
-    def boss_interaction(event_id)
+    def boss_interaction(event_id, interp)
       outcome = start_dynamic_boss_battle
       if outcome
-        pbSetSelfSwitch(event_id, "A", true)
+        interp.pbSetSelfSwitch(event_id, "A", true)
       end
     end
 
-    def trainer_interaction(event_id)
+    def trainer_interaction(event_id, interp)
       outcome = start_dynamic_trainer_battle
       if outcome == 1
-        pbSetSelfSwitch(event_id, "A", true)
+        interp.pbSetSelfSwitch(event_id, "A", true)
       end
     end
 
@@ -97,7 +97,7 @@ WEATHER_TYPES = {
 
 
   class << self
-def apply_rift_environment(map_id)
+def apply_rift_environment(map_id, interp = nil)
 
       # Select random weather
       weather_key = WEATHER_TYPES.keys.sample
@@ -108,7 +108,11 @@ def apply_rift_environment(map_id)
 
       $PokemonGlobal.instance_variable_set(:@rift_weather_types, data[:types])
 
-      pbMessage(_INTL("A strange anomalous weather has settled over the Rift..."))
+      if interp
+        interp.pbMessage(_INTL("A strange anomalous weather has settled over the Rift..."))
+      else
+        pbMessage(_INTL("A strange anomalous weather has settled over the Rift..."))
+      end
     end
 
     def get_valid_species_for_weather
@@ -290,7 +294,7 @@ end
 #===============================================================================
 module RiftChallenges
   class << self
-    def generate_rift_bounty(map_id)
+    def generate_rift_bounty(map_id, interp = nil)
       manifests = $PokemonGlobal.instance_variable_get(:@current_rift_manifest)
       return unless manifests
       manifest = manifests[map_id]
@@ -338,8 +342,11 @@ if defined?(QuestModule) && defined?(activateQuest)
   activateQuest(:Quest999) unless $PokemonGlobal.quests.active_quests.any? { |q| q.id == :Quest999 }
 end
 
-
-      pbMessage(_INTL("Rift Objective: {1} ({2}).", objective[:desc], objective[:amount]))
+      if interp
+        interp.pbMessage(_INTL("Rift Objective: {1} ({2}).", objective[:desc], objective[:amount]))
+      else
+        pbMessage(_INTL("Rift Objective: {1} ({2}).", objective[:desc], objective[:amount]))
+      end
     end
 
     def check_rift_bounty_complete
@@ -361,24 +368,24 @@ end
       $game_temp.player_new_direction = 2
     end
 
-    def enter_and_transfer_rift(target_map_id)
-      enter_rift(target_map_id)
+    def enter_and_transfer_rift(target_map_id, interp)
+      enter_rift(target_map_id, interp)
       transfer_to_rift(target_map_id)
     end
 
-    def enter_rift(target_map_id)
+    def enter_rift(target_map_id, interp)
 
       # Save scaling variables
       $PokemonGlobal.instance_variable_set(:@saved_trainer_var, pbGet(TRAINER_VAR))
       $PokemonGlobal.instance_variable_set(:@saved_wild_var, pbGet(WILD_VAR))
 
       # Increment scaling variables by +1 for the duration of the Rift
-      pbSet(TRAINER_VAR, pbGet(TRAINER_VAR) + 1)
-      pbSet(WILD_VAR, pbGet(WILD_VAR) + 1)
+      interp.pbSet(TRAINER_VAR, pbGet(TRAINER_VAR) + 1)
+      interp.pbSet(WILD_VAR, pbGet(WILD_VAR) + 1)
 
       # We must simulate passing the correct ID so the environment and bounty read the NEW map ID, not the old boss map.
-      apply_rift_environment(target_map_id)
-      generate_rift_bounty(target_map_id)
+      apply_rift_environment(target_map_id, interp)
+      generate_rift_bounty(target_map_id, interp)
     end
   end
 end
@@ -445,7 +452,7 @@ if $game_map && $game_map.events
   new_id = ($game_map.events.keys.max || 0) + 1
 
   # Create script string for the portal
-  script_str = "RiftChallenges.enter_and_transfer_rift(#{target_map})" # Defaulting to middle of a 20x20 map
+  script_str = "RiftChallenges.enter_and_transfer_rift(#{target_map}, self)" # Defaulting to middle of a 20x20 map
 
   # Build event (using existing pbBuildProceduralEvent from Map Generator if available)
   if defined?(pbBuildProceduralEvent)
