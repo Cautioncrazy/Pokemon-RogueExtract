@@ -541,8 +541,8 @@ $PokemonGlobal.instance_variable_set(:@current_rift_manifest, current_manifests)
 
   # Inject GameData::MapMetadata dynamically at runtime
   GameData::MapMetadata.register({
-    :id       => map_id,
-    :dungeon  => true
+    :id             => map_id,
+    :random_dungeon => true
   })
   GameData::MapMetadata.save
 

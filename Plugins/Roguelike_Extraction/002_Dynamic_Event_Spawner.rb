@@ -191,7 +191,7 @@ class Game_Map
     is_dungeon = false
     if GameData::MapMetadata.exists?(map_id)
       metadata = GameData::MapMetadata.get(map_id)
-      is_dungeon = metadata.has_flag?("Dungeon")
+      is_dungeon = metadata.random_dungeon
     end
 
     # 1. Run the native setup (which triggers Overworld_RandomDungeons and completely overwrites @map and @events)
