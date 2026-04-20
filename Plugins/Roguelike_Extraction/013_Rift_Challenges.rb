@@ -144,7 +144,18 @@ class PokemonEncounters
     return true if RiftChallenges.is_rift_map? && enc_type == :Cave # Force cave encounters inside Rifts
     # Return true for standard Land/Cave encounter slots on dynamic procedural floors
     if $PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none
-      return true if [:Land, :LandMorning, :LandDay, :LandNight, :Cave].include?(enc_type)
+      # Determine if the current theme is implicitly a Cave or Land map
+      # (e.g. CAVE defaults to :Cave encounters, FOREST defaults to :Land encounters)
+      theme = $PokemonGlobal.dungeon_area.to_s.upcase.to_sym
+      if theme == :CAVE || theme.to_s.include?("CAVE")
+        return true if enc_type == :Cave
+      else
+        # If it's not a CAVE, it uses normal Grass encounters.
+        # But wait: if we return true for Cave, then encounter_possible_here? will ALWAYS
+        # think the map is a Cave map and allow encounters everywhere on the map!
+        # By strictly matching the correct type here, we prevent land maps from acting like caves.
+        return true if [:Land, :LandMorning, :LandDay, :LandNight].include?(enc_type)
+      end
     end
     has_encounter_type_dynamic_rift(enc_type)
   end
@@ -153,6 +164,24 @@ class PokemonEncounters
   alias encounter_triggered_dynamic_rift encounter_triggered?
   def encounter_triggered?(enc_type, repel_active = false, triggered_by_step = true)
     if (RiftChallenges.is_rift_map? || ($PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none))
+      # Only process steps for the valid encounter types on this map
+      return false if !has_encounter_type?(enc_type)
+
+      # Ensure land encounters only trigger on valid terrain.
+      # If the generator assigned random tiles, some might not be land_wild_encounters!
+      # We check if the player's tile actually supports encounters for non-cave maps.
+      if !has_cave_encounters?
+        terrain_tag = $game_map.terrain_tag($game_player.x, $game_player.y)
+        return false if !terrain_tag.land_wild_encounters && triggered_by_step
+      end
+
+      # Respect Repels
+      if repel_active && $player.first_pokemon
+        # In a real setup, you'd check the generated encounter's level.
+        # For simplicity, if repel is active, skip.
+        return false if triggered_by_step
+      end
+
       # Standard ~10% step chance on dynamic procedural maps
       @step_count += 1
       return false if @step_count < 3 # Minimum grace period

@@ -41,15 +41,23 @@ module ProceduralEncounters
   # Wild Encounter Thematic Pools
   # ============================================================================
   WILD_POOLS = {
-    :CAVE   => [:ZUBAT, :GEODUDE, :MACHOP, :GOLBAT, :GRAVELER, :CLEFAIRY, :PARAS, :ONIX],
-    :FOREST => [:CATERPIE, :METAPOD, :WEEDLE, :KAKUNA, :PIDGEY, :ODDISH, :BELLSPROUT, :VENONAT],
-    :WATER  => [:TENTACOOL, :MAGIKARP, :POLIWAG, :GOLDEEN, :STARYU, :SLOWPOKE, :SHELLDER],
-    :LAB    => [:VOLTORB, :MAGNEMITE, :PORYGON, :KOFFING, :GRIMER, :DITTO, :ELECTRODE]
+    :CAVE       => [:ZUBAT, :GEODUDE, :MACHOP, :GOLBAT, :GRAVELER, :CLEFAIRY, :PARAS, :ONIX],
+    :FOREST     => [:CATERPIE, :METAPOD, :WEEDLE, :KAKUNA, :PIDGEY, :ODDISH, :BELLSPROUT, :VENONAT],
+    :FOREST_ICE => [:SWINUB, :SNEASEL, :DELIBIRD, :SEEL, :JYNX, :LAPRAS],
+    :WATER      => [:TENTACOOL, :MAGIKARP, :POLIWAG, :GOLDEEN, :STARYU, :SLOWPOKE, :SHELLDER],
+    :LAB        => [:VOLTORB, :MAGNEMITE, :PORYGON, :KOFFING, :GRIMER, :DITTO, :ELECTRODE]
   }
 
   def self.get_wild_pool(theme)
     theme_sym = theme.to_s.upcase.to_sym
     return WILD_POOLS[theme_sym] if WILD_POOLS.has_key?(theme_sym)
+
+    # If the theme has an underscore (e.g. FOREST_ICE), try parsing the first part
+    if theme.to_s.include?('_')
+      base_theme = theme.to_s.split('_').first.upcase.to_sym
+      return WILD_POOLS[base_theme] if WILD_POOLS.has_key?(base_theme)
+    end
+
     return FALLBACK_POOL
   end
 end
