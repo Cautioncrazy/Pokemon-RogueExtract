@@ -153,11 +153,13 @@ class PokemonEncounters
 
       if theme == :CAVE || theme.to_s.include?("CAVE")
         return true if is_cave_query
+        return false # A Cave map shouldn't trigger Land encounters natively
       else
         # To prevent has_cave_encounters? from picking up true from an unhandled fallback,
         # we explicitly return false if it asks for :Cave on a Land map!
         return false if is_cave_query
         return true if [:Land, :LandMorning, :LandDay, :LandNight].include?(enc_type)
+        return false
       end
     end
     has_encounter_type_dynamic_rift(enc_type)
