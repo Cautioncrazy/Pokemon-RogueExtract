@@ -147,12 +147,16 @@ class PokemonEncounters
       # Determine if the current theme is implicitly a Cave or Land map
       # (e.g. CAVE defaults to :Cave encounters, FOREST defaults to :Land encounters)
       theme = $PokemonGlobal.dungeon_area.to_s.upcase.to_sym
+
+      # We aggressively check against all core cave encounters (e.g. Cave, CaveNight)
+      is_cave_query = enc_type.to_s.upcase.include?("CAVE")
+
       if theme == :CAVE || theme.to_s.include?("CAVE")
-        return true if enc_type == :Cave
+        return true if is_cave_query
       else
         # To prevent has_cave_encounters? from picking up true from an unhandled fallback,
         # we explicitly return false if it asks for :Cave on a Land map!
-        return false if enc_type == :Cave
+        return false if is_cave_query
         return true if [:Land, :LandMorning, :LandDay, :LandNight].include?(enc_type)
       end
     end
@@ -186,10 +190,23 @@ class PokemonEncounters
         return false if triggered_by_step
       end
 
-      # Standard ~10% step chance on dynamic procedural maps
+      # Extremely reduced step chance to balance out procedural floors!
+      # The user requested to drastically fix the encounter rate.
+      # Default base engine was 10-15%, we will reduce it significantly.
       @step_count += 1
-      return false if @step_count < 3 # Minimum grace period
-      return rand(100) < 15
+      return false if @step_count < 5 # Minimum grace period extended to 5 steps
+
+      # 5% base chance per step (drastically reduced from 15%)
+      # Plus a slight increment per step so you aren't completely dry forever
+      chance = 5 + (@step_count / 10).to_i
+      chance = 20 if chance > 20
+
+      if rand(100) < chance
+        @step_count = 0 # Reset grace period
+        return true
+      end
+
+      return false
     end
     encounter_triggered_dynamic_rift(enc_type, repel_active, triggered_by_step)
   end
