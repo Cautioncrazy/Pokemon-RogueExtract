@@ -150,10 +150,9 @@ class PokemonEncounters
       if theme == :CAVE || theme.to_s.include?("CAVE")
         return true if enc_type == :Cave
       else
-        # If it's not a CAVE, it uses normal Grass encounters.
-        # But wait: if we return true for Cave, then encounter_possible_here? will ALWAYS
-        # think the map is a Cave map and allow encounters everywhere on the map!
-        # By strictly matching the correct type here, we prevent land maps from acting like caves.
+        # To prevent has_cave_encounters? from picking up true from an unhandled fallback,
+        # we explicitly return false if it asks for :Cave on a Land map!
+        return false if enc_type == :Cave
         return true if [:Land, :LandMorning, :LandDay, :LandNight].include?(enc_type)
       end
     end
@@ -170,6 +169,11 @@ class PokemonEncounters
       # Ensure land encounters only trigger on valid terrain.
       # If the generator assigned random tiles, some might not be land_wild_encounters!
       # We check if the player's tile actually supports encounters for non-cave maps.
+      # NOTE: In v21.1, encounter_possible_here? checks this BEFORE calling encounter_triggered?
+      # However, if encounter_possible_here? passes (because has_cave_encounters? was true),
+      # we need to make absolutely sure we don't trigger.
+      # Since we fixed has_cave_encounters? returning true on Land maps above,
+      # encounter_possible_here? will natively block steps on non-grass tiles.
       if !has_cave_encounters?
         terrain_tag = $game_map.terrain_tag($game_player.x, $game_player.y)
         return false if !terrain_tag.land_wild_encounters && triggered_by_step
