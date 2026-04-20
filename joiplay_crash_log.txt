@@ -1,13 +1,27 @@
-=== EVENT SCRIPT CRASH (Standard Interaction) ===
-undefined method `pbTrainerBattleCore' for #<Interpreter @event_id: 1>
-[Roguelike Extraction - Core Systems] 006_Dynamic_Spawns_And_Scaling.rb:394:in `pbSetAndStartDynamicTrainer'
-[Roguelike Extraction - Core Systems] 006_Dynamic_Spawns_And_Scaling.rb:213:in `pbDynamicTrainer'
-[Roguelike Extraction - Core Systems] 015_Standard_Interactions.rb:27:in `block in vip_interaction'
-[Roguelike Extraction - Core Systems] 015_Standard_Interactions.rb:12:in `safe_interaction'
-[Roguelike Extraction - Core Systems] 015_Standard_Interactions.rb:27:in `vip_interaction'
-(eval):1:in `execute_script'
-003_Interpreter.rb:138:in `eval'
-003_Interpreter.rb:138:in `execute_script'
+
+
+=== EVENT SCRIPT CRASH ===
+Script error in event 1 (coords 44,40), map 941 ()
+Exception: NoMethodError
+Message: undefined method `exit_interaction' for RiftChallenges:Module
+
+***Full script:
+RiftChallenges.exit_interaction(self)
+
+Backtrace:
+(eval):1:in `execute_script'
+003_Interpreter.rb:138:in `eval'
+003_Interpreter.rb:138:in `execute_script'
+[Roguelike Extraction - Core Systems] 014_JoiPlay_Crash_Logger.rb:14:in `execute_script'
+004_Interpreter_Commands.rb:1177:in `command_355'
+004_Interpreter_Commands.rb:116:in `execute_command'
+003_Interpreter.rb:130:in `block in update'
+003_Interpreter.rb:86:in `loop'
+003_Interpreter.rb:86:in `update'
+002_Scene_Map.rb:167:in `block in update'
+
+003_Interpreter.rb:177:in `rescue in execute_script'
+003_Interpreter.rb:136:in `execute_script'
 [Roguelike Extraction - Core Systems] 014_JoiPlay_Crash_Logger.rb:14:in `execute_script'
 004_Interpreter_Commands.rb:1177:in `command_355'
 004_Interpreter_Commands.rb:116:in `execute_command'
