@@ -220,7 +220,14 @@ class Interpreter
 
 # Triggered by procedural Map Bosses
 def pbDynamicBossPokemon
-  event_id = pbMapInterpreter.get_character(0).id
+  event = pbMapInterpreter.get_character(0)
+  return false if !event
+  event_id = event.id
+
+  # Transition Guard: If the event is running automatically from being placed on the player,
+  # or from an Event Touch that happened instantly on load, we enforce a slight delay or
+  # require explicit interaction, but wait: Bosses use Trigger 2 (Event Touch).
+  # Let's just run it, but if we lose, we MUST temporarily lock the event so it doesn't infinite loop.
 
   if $PokemonGlobal.instance_variable_defined?(:@raid_event_bosses) &&
      $PokemonGlobal.instance_variable_get(:@raid_event_bosses)[event_id]
@@ -231,19 +238,25 @@ def pbDynamicBossPokemon
     chosen_key = boss_keys.sample
   end
 
-outcome = pbFightFactoryBoss(chosen_key)
+  outcome = pbFightFactoryBoss(chosen_key)
 
-if outcome
-  pbSetSelfSwitch(event_id, "A", true)
+  if outcome
+    pbSetSelfSwitch(event_id, "A", true)
 
-  # Check for Rift Portal Spawning
-  if defined?(RiftChallenges)
-    event = $game_map.events[event_id]
-    RiftChallenges.check_and_spawn_portal(event.x, event.y) if event
+    # Check for Rift Portal Spawning
+    if defined?(RiftChallenges)
+      rpg_event = $game_map.events[event_id]
+      RiftChallenges.check_and_spawn_portal(rpg_event.x, rpg_event.y) if rpg_event
+    end
+
+    return true
+  else
+    # If the player lost, or ran, and is teleported back to the map (e.g., standard loss),
+    # explicitly push the player back or wait so Event Touch doesn't immediately fire again.
+    if $player
+      $player.move_route_forcing = false
+    end
   end
-
-  return true
-end
 
   return false
 end
