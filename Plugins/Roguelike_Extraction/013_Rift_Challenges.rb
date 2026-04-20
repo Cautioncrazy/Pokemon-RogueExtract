@@ -142,8 +142,23 @@ class PokemonEncounters
   alias has_encounter_type_dynamic_rift has_encounter_type?
   def has_encounter_type?(enc_type)
     return true if RiftChallenges.is_rift_map? && enc_type == :Cave # Force cave encounters inside Rifts
-    return true if $PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none
+    # Return true for standard Land/Cave encounter slots on dynamic procedural floors
+    if $PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none
+      return true if [:Land, :LandMorning, :LandDay, :LandNight, :Cave].include?(enc_type)
+    end
     has_encounter_type_dynamic_rift(enc_type)
+  end
+
+  # We also need to intercept the step chance check so it knows how likely encounters are
+  alias encounter_triggered_dynamic_rift encounter_triggered?
+  def encounter_triggered?(enc_type, repel_active = false, triggered_by_step = true)
+    if (RiftChallenges.is_rift_map? || ($PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none))
+      # Standard ~10% step chance on dynamic procedural maps
+      @step_count += 1
+      return false if @step_count < 3 # Minimum grace period
+      return rand(100) < 15
+    end
+    encounter_triggered_dynamic_rift(enc_type, repel_active, triggered_by_step)
   end
 
   alias choose_wild_pokemon_dynamic_rift choose_wild_pokemon
