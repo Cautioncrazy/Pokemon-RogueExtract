@@ -240,6 +240,9 @@ def pbDynamicBossPokemon
 
   outcome = pbFightFactoryBoss(chosen_key)
 
+  # DBK Visibility Cleanup
+  $game_player.transparent = false if $game_player
+
   if outcome
     pbSetSelfSwitch(event_id, "A", true)
 
@@ -251,8 +254,6 @@ def pbDynamicBossPokemon
 
     return true
   end
-
-  $game_player.transparent = false if $game_player
 
   return false
 end
@@ -401,6 +402,9 @@ end
 
     # Start the battle directly bypassing GameData::Trainer PBS compilation
     outcome = TrainerBattle.start(trainer)
+
+    # DBK Visibility Cleanup
+    $game_player.transparent = false if $game_player
 
     if outcome == 1 || outcome == true
       # --- BOUNTY HOOK: SLAYER ---
