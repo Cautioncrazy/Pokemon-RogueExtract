@@ -4,8 +4,6 @@
 #===============================================================================
 
 module RiftChallenges
-  RIFT_MAP_IDS = (900..999).to_a
-
   # Switches mapped as required
   SWITCH_RED = 130
   SWITCH_GREEN = 131
@@ -33,11 +31,13 @@ class << self
   end
 
     def is_rift_map?
-      return false unless $game_map
-      RIFT_MAP_IDS.include?($game_map.map_id)
+      return false unless $PokemonGlobal
+      return $PokemonGlobal.instance_variable_get(:@is_active_rift) || false
     end
 
     def exit_rift
+      $PokemonGlobal.instance_variable_set(:@is_active_rift, false) if $PokemonGlobal
+
       # Restore original difficulty scaling variables
       saved_trainer = $PokemonGlobal.instance_variable_get(:@saved_trainer_var)
       saved_wild = $PokemonGlobal.instance_variable_get(:@saved_wild_var)
@@ -45,15 +45,16 @@ class << self
       pbSet(TRAINER_VAR, saved_trainer) if saved_trainer
       pbSet(WILD_VAR, saved_wild) if saved_wild
 
-  # Turn off Rift switches
-  ALL_SWITCHES.each { |switch| $game_switches[switch] = false if $game_switches }
+      # Turn off Rift switches
+      ALL_SWITCHES.each { |switch| $game_switches[switch] = false if $game_switches }
 
-  # Progress to the next standard floor
-  if defined?(RoguelikeExtraction)
-    RoguelikeExtraction.advance_floor
-  else
-    pbMessage(_INTL("Extraction complete."))
-  end
+      # Progress to the next standard floor
+      if defined?(RoguelikeExtraction)
+        RoguelikeExtraction.advance_floor
+      else
+        pbMessage(_INTL("Extraction complete."))
+      end
+    end
 
     def exit_interaction(interp)
       if check_rift_bounty_complete
@@ -77,9 +78,6 @@ class << self
         interp.pbSetSelfSwitch(event_id, "A", true)
       end
     end
-
-end
-
   end
 end
 
@@ -488,6 +486,7 @@ end
     end
 
     def enter_rift(target_map_id, interp)
+      $PokemonGlobal.instance_variable_set(:@is_active_rift, true) if $PokemonGlobal
 
       # Save scaling variables
       $PokemonGlobal.instance_variable_set(:@saved_trainer_var, pbGet(TRAINER_VAR))
