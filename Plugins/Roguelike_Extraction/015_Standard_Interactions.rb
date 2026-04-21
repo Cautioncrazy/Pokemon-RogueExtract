@@ -19,7 +19,6 @@ module RoguelikeExtraction
           File.open("joiplay_crash_log.txt", "a") { |f| f.puts(error_msg) }
         rescue
         end
-        interp.pbMessage(_INTL("CRASH CAUGHT! Check joiplay_crash_log.txt")) rescue nil
       end
     end
 

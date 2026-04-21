@@ -253,8 +253,8 @@ def pbDynamicBossPokemon
   else
     # If the player lost, or ran, and is teleported back to the map (e.g., standard loss),
     # explicitly push the player back or wait so Event Touch doesn't immediately fire again.
-    if $player
-      $player.move_route_forcing = false
+    if $game_player
+      $game_player.move_route_forcing = false
     end
   end
 
