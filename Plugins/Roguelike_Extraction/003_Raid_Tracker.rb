@@ -308,9 +308,28 @@ module RoguelikeExtraction
     end
   end
 
+  def self.clear_procedural_state
+    return unless $PokemonGlobal
+
+    # 1. Reset standard procedural flags
+    $PokemonGlobal.instance_variable_set(:@is_active_rift, false)
+    $PokemonGlobal.instance_variable_set(:@dungeon_area, :none)
+
+    # 2. Clear Rift specific variables
+    $PokemonGlobal.instance_variable_set(:@current_rift_bounty, nil)
+    $PokemonGlobal.instance_variable_set(:@current_rift_manifest, nil)
+    $PokemonGlobal.instance_variable_set(:@rift_weather_types, nil)
+
+    # 3. Reset screen weather and tone to default
+    $game_screen.weather(:None, 0, 0) if $game_screen
+    $game_screen.start_tone_change(Tone.new(0, 0, 0, 0), 0) if $game_screen
+  end
+
   # Extracts via the VIP, securing loot but keeping the player's current floor progress.
   # This allows them to resume from the *next* floor later.
   def self.extract_vip
+    clear_procedural_state
+
     $PokemonGlobal.raid_bag_snapshot = nil # Clear the snapshot, loot is secured
     $game_system.save_disabled = false     # Re-enable saving
 
@@ -347,6 +366,8 @@ module RoguelikeExtraction
 
   # Successfully leaves the raid, keeping all loot.
   def self.extract
+    clear_procedural_state
+
     $PokemonGlobal.last_raid_floor = $PokemonGlobal.current_raid_floor
     $PokemonGlobal.current_raid_floor = 0
     $PokemonGlobal.raid_bag_snapshot = nil # Clear the snapshot, loot is secured
@@ -454,6 +475,8 @@ module RoguelikeExtraction
 
   # Fails the raid, penalizing the player based on the current Mode.
   def self.blackout
+    clear_procedural_state
+
     $PokemonGlobal.last_raid_floor = $PokemonGlobal.current_raid_floor
     $PokemonGlobal.current_raid_floor = 0
     $PokemonGlobal.save_disabled = false if $PokemonGlobal.respond_to?(:save_disabled)
