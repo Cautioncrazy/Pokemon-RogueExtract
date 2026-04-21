@@ -150,17 +150,45 @@ class PokemonEncounters
 
       # We aggressively check against all core cave encounters (e.g. Cave, CaveNight)
       is_cave_query = enc_type.to_s.upcase.include?("CAVE")
+      is_water_query = enc_type.to_s.upcase.include?("WATER")
 
       if theme == :CAVE || theme.to_s.include?("CAVE")
         return true if is_cave_query
+        return false # A Cave map shouldn't trigger Land encounters natively
       else
-        # To prevent has_cave_encounters? from picking up true from an unhandled fallback,
-        # we explicitly return false if it asks for :Cave on a Land map!
+        # For non-cave maps, explicitly block ANY cave query from returning true
+        # Also explicitly block water unless it's a water map (if you have water encounters)
         return false if is_cave_query
         return true if [:Land, :LandMorning, :LandDay, :LandNight].include?(enc_type)
+
+        # If it's not a recognized land type (like BugContest), return false
+        # so the engine doesn't misinterpret the map flags.
+        return false
       end
     end
     has_encounter_type_dynamic_rift(enc_type)
+  end
+
+  # We need to completely override encounter_possible_here? for dynamic maps
+  # because the base engine evaluates `has_cave_encounters?` globally for the whole map.
+  # If our map is a procedural Land map, we ONLY want encounters on `terrain_tag.land_wild_encounters`.
+  alias encounter_possible_here_dynamic_rift encounter_possible_here?
+  def encounter_possible_here?
+    if (RiftChallenges.is_rift_map? || ($PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none))
+      return true if $PokemonGlobal.surfing
+      terrain_tag = $game_map.terrain_tag($game_player.x, $game_player.y)
+      return false if terrain_tag.ice
+
+      theme = $PokemonGlobal.dungeon_area.to_s.upcase.to_sym
+      if theme == :CAVE || theme.to_s.include?("CAVE") || RiftChallenges.is_rift_map?
+        return true # Caves trigger encounters on any walkable tile
+      else
+        # Land maps STRICTLY require the tile to be flagged for wild encounters (e.g. Grass)
+        return true if terrain_tag.land_wild_encounters
+        return false
+      end
+    end
+    encounter_possible_here_dynamic_rift
   end
 
   # We also need to intercept the step chance check so it knows how likely encounters are
