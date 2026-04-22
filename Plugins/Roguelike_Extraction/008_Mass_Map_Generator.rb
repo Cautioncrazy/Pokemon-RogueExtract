@@ -130,12 +130,6 @@ def pbBuildProceduralEvent(x, y, id, name, graphic_name, trigger, direction_fix,
 
       # If it's a trainer/vip, page 2 just repeats the exact same script call to trigger battle
       list2 = []
-      # Add a safety step back if it's an Event Touch boss so the player isn't stuck in an infinite loop
-      # if they lose the battle and get placed exactly on the same tile
-      if page2.trigger == 2
-        list2.push(RPG::EventCommand.new(208, 0, [0, 0])) # Change Transparent Flag Off (dummy call)
-        # Actually, jumping back is better handled natively by the battle engine or player pushing.
-      end
 
       lines.each_with_index do |line, i|
         code = (i == 0) ? 355 : 655
