@@ -244,6 +244,9 @@ The files `Data/Scripts/016_UI/005_UI_Party.rb`, `006_UI_Summary.rb`, and `Data/
 - `$game_player`: Used strictly for manipulating the player's representation in the overworld (e.g., movement routes, `.move_route_forcing`, `.through`, map coordinates).
 - `$player`: Holds the player's trainer data (e.g., party, name, trainer card info). Do not attempt to call overworld manipulation methods on `$player`.
 
+**Procedural Event Constraints:**
+Never manually inject raw Event Command `208` (Change Transparent Flag) or `205` (Set Move Route) targeting the player in procedural event generators. Doing so permanently overrides and conflicts with the base engine's natural event handling (such as `pbNoticePlayer`), causing the player sprite to permanently disappear or lock up during encounters.
+
 ## Plugin Architecture & References
 
 ## 🛑 Behavioral & Execution Guidelines (JULES.md)
