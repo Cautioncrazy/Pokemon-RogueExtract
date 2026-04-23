@@ -287,6 +287,13 @@ module RoguelikeExtraction
 
       # Standard Mode: Create a new snapshot checkpoint at the start of each new floor.
       snapshot_bag
+
+      if $DEBUG
+        if pbConfirmMessage("DEBUG: Force an Alpha Boss on the next floor?")
+          $PokemonGlobal.instance_variable_set(:@debug_force_alpha, true)
+        end
+      end
+
       transfer_to_current_floor
     end
   end
