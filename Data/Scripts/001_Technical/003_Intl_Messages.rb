@@ -117,6 +117,7 @@ module Translator
         filename = sprintf("Data/Map%03d.rxdata", id)
         next if !pbRgssExists?(filename)
         map = load_data(filename)
+        next if map.nil? || !map.respond_to?(:events)
         items = []
         choices = []
         map.events.each_value do |event|
