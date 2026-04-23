@@ -568,6 +568,8 @@ $PokemonGlobal.instance_variable_set(:@current_rift_manifest, current_manifests)
 end
 
 def pbGenerateRegularFloor(map_id)
+  $PokemonGlobal.instance_variable_set(:@alpha_bosses_defeated, 0) if $PokemonGlobal
+
   mapinfos_path = "Data/MapInfos.rxdata"
   tilesets_path = "Data/Tilesets.rxdata"
 
