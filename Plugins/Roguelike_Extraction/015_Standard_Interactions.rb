@@ -23,11 +23,11 @@ module RoguelikeExtraction
     end
 
     def vip_interaction(interp)
-      safe_interaction(interp) { interp.pbDynamicTrainer("A") }
+      interp.pbDynamicTrainer("A")
     end
 
     def boss_pkmn_interaction(interp)
-      safe_interaction(interp) { interp.pbDynamicBossPokemon }
+      interp.pbDynamicBossPokemon
     end
 
     def extract_interaction(interp)
@@ -39,7 +39,7 @@ module RoguelikeExtraction
     end
 
     def trainer_interaction(interp)
-      safe_interaction(interp) { interp.pbDynamicTrainer("A") }
+      interp.pbDynamicTrainer("A")
     end
 
     def chest_interaction(interp)

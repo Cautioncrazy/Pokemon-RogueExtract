@@ -239,10 +239,8 @@ module RoguelikeExtraction
   end
 
   def self.reset_all_raid_maps
-    # Loop over the unique map IDs defined in RAID_FLOORS
-    RAID_FLOORS.map { |floor_data| floor_data[0] }.uniq.each do |map_id|
-      reset_map_events(map_id)
-    end
+    clear_procedural_state
+    $PokemonGlobal.current_raid_floor = 0
   end
 
   #-----------------------------------------------------------------------------
