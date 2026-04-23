@@ -220,7 +220,7 @@ class Interpreter
 
 # Triggered by procedural Map Bosses
 def pbDynamicBossPokemon
-  event = pbMapInterpreter.get_character(0)
+  event = get_character(0)
   return false if !event
   event_id = event.id
 
@@ -243,8 +243,8 @@ def pbDynamicBossPokemon
   # DBK Visibility Cleanup
   $game_player.transparent = false if $game_player
 
-  if outcome == 1 || outcome == 4 || outcome == true
-    $game_self_switches[[$game_map.map_id, event_id, "A"]] = true
+  if outcome && (outcome == 1 || outcome == 4 || outcome == true)
+    pbSetSelfSwitch(event_id, "A", true)
     $game_map.need_refresh = true
 
     # Check for Rift Portal Spawning
