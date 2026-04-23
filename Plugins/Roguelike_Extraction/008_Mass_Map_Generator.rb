@@ -277,9 +277,17 @@ def pbMassGenerateRoguelikeMaps
       map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "RoguelikeExtraction.vip_interaction(self)", true, true)
       current_event_id += 1
 
-      # 1 Boss Pokemon
-      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction(self)", true, true)
-      current_event_id += 1
+      force_alpha = $PokemonGlobal.instance_variable_get(:@debug_force_alpha)
+
+      # 10% chance to spawn naturally, or forced by debug
+      if force_alpha || rand(100) < 10
+        # 1 Boss Pokemon
+        map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction(self)", true, true)
+        current_event_id += 1
+
+        # Consume the debug flag so it only applies to the very next floor
+        $PokemonGlobal.instance_variable_set(:@debug_force_alpha, false) if force_alpha
+      end
 
       # 1 Extract NPC
       map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "RoguelikeExtraction.extract_interaction(self)", false, false)
@@ -605,9 +613,17 @@ def pbGenerateRegularFloor(map_id)
   map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "RoguelikeExtraction.vip_interaction(self)", true, true)
   current_event_id += 1
 
-  # 1 Boss Pokemon
-  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction(self)", true, true)
-  current_event_id += 1
+  force_alpha = $PokemonGlobal.instance_variable_get(:@debug_force_alpha)
+
+  # 10% chance to spawn naturally, or forced by debug
+  if force_alpha || rand(100) < 10
+    # 1 Boss Pokemon
+    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction(self)", true, true)
+    current_event_id += 1
+
+    # Consume the debug flag so it only applies to the very next floor
+    $PokemonGlobal.instance_variable_set(:@debug_force_alpha, false) if force_alpha
+  end
 
   # 1 Extract NPC
   map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "RoguelikeExtraction.extract_interaction(self)", false, false)
