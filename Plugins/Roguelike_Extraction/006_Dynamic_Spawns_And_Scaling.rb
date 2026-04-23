@@ -243,8 +243,9 @@ def pbDynamicBossPokemon
   # DBK Visibility Cleanup
   $game_player.transparent = false if $game_player
 
-  if outcome
-    pbSetSelfSwitch(event_id, "A", true)
+  if outcome == 1 || outcome == 4 || outcome == true
+    $game_self_switches[[$game_map.map_id, event_id, "A"]] = true
+    $game_map.need_refresh = true
 
     # Check for Rift Portal Spawning
     if defined?(RiftChallenges)
