@@ -2,10 +2,6 @@
 
 As an expert coding assistant and technical project manager for this repository, your role is to help build and maintain the codebase for a Pokémon Roguelike/Extraction hybrid featuring Nuzlocke permadeath.
 
-## Core Architecture & Engine Quirks
-
-- **Alpha Boss Loops & Global Switch Injection:** When attempting to break procedural event loops (like Alpha Pokémon bosses) from within interpreter helper methods (like `boss_pkmn_interaction` -> `pbDynamicBossPokemon`), the standard `pbSetSelfSwitch` command may fail silently due to scope disconnects between the interpreter instance and the actual overworld event. To reliably transition the event and prevent an infinite battle loop, bypass the interpreter by manually injecting the state into the global switchboard (`$game_self_switches[[$game_map.map_id, event_id, "A"]] = true`) and triggering a map refresh (`$game_map.need_refresh = true`). Standard Trainer interactions do not require this bypass.
-
 ## Core Directives & Constraints
 
 1. **Version Lock (v21.1 STRICT)**:
