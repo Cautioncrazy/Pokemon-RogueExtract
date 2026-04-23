@@ -224,6 +224,16 @@ def pbDynamicBossPokemon
   return false if !event
   event_id = event.id
 
+  # CIRCUIT BREAKER
+  defeated_count = $PokemonGlobal.instance_variable_get(:@alpha_bosses_defeated) || 0
+  max_alphas = 1
+
+  if defeated_count >= max_alphas
+    # Forcefully turn off the event's switch just in case, and silently abort
+    $game_self_switches[[$game_map.map_id, event_id, "A"]] = true if event_id
+    return false
+  end
+
   # Transition Guard: If the event is running automatically from being placed on the player,
   # or from an Event Touch that happened instantly on load, we enforce a slight delay or
   # require explicit interaction, but wait: Bosses use Trigger 2 (Event Touch).
@@ -244,6 +254,9 @@ def pbDynamicBossPokemon
   $game_player.transparent = false if $game_player
 
   if outcome && (outcome == 1 || outcome == 4 || outcome == true)
+    current_count = $PokemonGlobal.instance_variable_get(:@alpha_bosses_defeated) || 0
+    $PokemonGlobal.instance_variable_set(:@alpha_bosses_defeated, current_count + 1)
+
     pbSetSelfSwitch(event_id, "A", true)
     $game_map.need_refresh = true
 
