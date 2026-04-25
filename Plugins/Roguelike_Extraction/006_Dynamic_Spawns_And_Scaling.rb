@@ -224,21 +224,7 @@ def pbDynamicBossPokemon
   return false if !event
   event_id = event.id
 
-  # CIRCUIT BREAKER
-  defeated_count = $PokemonGlobal.instance_variable_get(:@alpha_bosses_defeated) || 0
-  max_alphas = 1
-
-  if defeated_count >= max_alphas
-    # Forcefully turn off the event's switch just in case, and silently abort
-    $game_self_switches[[$game_map.map_id, event_id, "A"]] = true if event_id
-    return false
-  end
-
-  # Transition Guard: If the event is running automatically from being placed on the player,
-  # or from an Event Touch that happened instantly on load, we enforce a slight delay or
-  # require explicit interaction, but wait: Bosses use Trigger 2 (Event Touch).
-  # Let's just run it, but if we lose, we MUST temporarily lock the event so it doesn't infinite loop.
-
+  # Fetch the boss key
   if $PokemonGlobal.instance_variable_defined?(:@raid_event_bosses) &&
      $PokemonGlobal.instance_variable_get(:@raid_event_bosses)[event_id]
     chosen_key = $PokemonGlobal.instance_variable_get(:@raid_event_bosses)[event_id]
@@ -248,28 +234,22 @@ def pbDynamicBossPokemon
     chosen_key = boss_keys.sample
   end
 
-  outcome = pbFightFactoryBoss(chosen_key)
+  # Run the battle (we don't care what it returns anymore!)
+  pbFightFactoryBoss(chosen_key)
 
   # DBK Visibility Cleanup
   $game_player.transparent = false if $game_player
 
-  if outcome && (outcome == 1 || outcome == 4 || outcome == true)
-    current_count = $PokemonGlobal.instance_variable_get(:@alpha_bosses_defeated) || 0
-    $PokemonGlobal.instance_variable_set(:@alpha_bosses_defeated, current_count + 1)
-
-    pbSetSelfSwitch(event_id, "A", true)
-    $game_map.need_refresh = true
-
-    # Check for Rift Portal Spawning
-    if defined?(RiftChallenges)
-      rpg_event = $game_map.events[event_id]
-      RiftChallenges.check_and_spawn_portal(rpg_event.x, rpg_event.y) if rpg_event
-    end
-
-    return true
+  # Spawn the Rift Portal if applicable
+  if defined?(RiftChallenges)
+    rpg_event = $game_map.events[event_id]
+    RiftChallenges.check_and_spawn_portal(rpg_event.x, rpg_event.y) if rpg_event
   end
 
-  return false
+  # THE NUCLEAR OPTION: Physically delete the event from the map memory
+  pbEraseThisEvent
+
+  return true
 end
 
 # Triggered manually in any Event Script box: pbFightSpecificBoss(:boss_castform_data)
