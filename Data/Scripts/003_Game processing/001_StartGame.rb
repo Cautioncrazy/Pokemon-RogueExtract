@@ -48,8 +48,15 @@ module Game
     SaveData.load_new_game_values
     $game_temp.last_uptime_refreshed_play_time = System.uptime
     $stats.play_sessions += 1
+
+    # Force the starting location to the Hub (Map 77)
+    $data_system.start_map_id = 77
+    $data_system.start_x = 18
+    $data_system.start_y = 13
+
     $map_factory = PokemonMapFactory.new($data_system.start_map_id)
     $game_player.moveto($data_system.start_x, $data_system.start_y)
+    $game_player.turn_down
     $game_player.refresh
     $PokemonEncounters = PokemonEncounters.new
     $PokemonEncounters.setup($game_map.map_id)
