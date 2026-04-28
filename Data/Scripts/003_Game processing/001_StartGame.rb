@@ -67,7 +67,6 @@ module Game
     if $DEBUG && defined?(pbBuildProceduralEvent)
       test_event = pbBuildProceduralEvent(18, 14, 999, "boss_pkmn", "BossGraphic", 0, false, false, "RoguelikeExtraction.boss_pkmn_interaction(self)", false, false)
       $game_map.events[999] = Game_Event.new($game_map.map_id, test_event, $game_map)
-      $scene.spriteset.addUserSprite(Game_Event.new($game_map.map_id, test_event, $game_map)) if $scene.is_a?(Scene_Map) && $scene.spriteset
     end
   end
 
