@@ -597,12 +597,48 @@ def pbGenerateRegularFloor(map_id)
   if GameData::DungeonParameters::DATA.keys.any? { |k| k.to_s.start_with?(theme_sym.to_s) }
     $PokemonGlobal.dungeon_area = theme_sym
   else
-    # Fallback: Find the FIRST valid area string
-    first_valid = GameData::DungeonParameters::DATA.keys.first
-    if first_valid
-      # `first_valid` is something like `:cave_0`
-      $PokemonGlobal.dungeon_area = first_valid.to_s.split('_').first.to_sym
+    # Fallback: Find the FIRST valid area string that matches the base prefix (e.g., `cave` from `cave_FIRE`)
+    base_prefix = theme_sym.to_s.split('_').first.to_sym
+    if GameData::DungeonParameters::DATA.keys.any? { |k| k.to_s.start_with?(base_prefix.to_s) }
+      # Ensure Overworld_RandomDungeons doesn't crash from a missing parameter while still preserving the suffix for spawns.
+      # Actually, since Overworld_RandomDungeons uses try_get($PokemonGlobal.dungeon_area),
+      # and try_get falls back to `self.new({})` if not found, we don't *strictly* need a mapped layout.
+      # BUT, to prevent an empty hash generating a 5x5 room, we should explicitly patch `dungeon_area` or let it fallback.
+      # Wait, if we keep `cave_FIRE`, `try_get` returns an empty layout because `cave_FIRE_0` doesn't exist.
+      # We need to set `dungeon_area` to the valid prefix for map generation, but then we lose the suffix for encounters!
+      # To solve this: we can dynamically alias or store the suffix separately, or just inject a copy into DATA.
+
+      # Let's inject a cloned parameter for the suffixed theme into GameData::DungeonParameters dynamically at runtime!
+      # Find a matching base parameter (e.g. `cave_0`)
+      base_key = GameData::DungeonParameters::DATA.keys.find { |k| k.to_s.start_with?(base_prefix.to_s) }
+      if base_key
+        base_param = GameData::DungeonParameters::DATA[base_key]
+        # Register a new clone in memory so the dungeon generates perfectly
+        clone_hash = {
+          :id => theme_sym,
+          :area => theme_sym,
+          :version => 0,
+          :dungeon_size => [base_param.cell_count_x, base_param.cell_count_y],
+          :cell_size => [base_param.cell_width, base_param.cell_height],
+          :min_room_size => [base_param.room_min_width, base_param.room_min_height],
+          :max_room_size => [base_param.room_max_width, base_param.room_max_height],
+          :corridor_width => base_param.corridor_width,
+          :random_corridor_shift => base_param.random_corridor_shift,
+          :node_layout => base_param.node_layout,
+          :room_layout => base_param.room_layout,
+          :room_chance => base_param.room_chance,
+          :extra_connections_count => base_param.extra_connections_count,
+          :floor_patches => [base_param.floor_patch_radius, base_param.floor_patch_chance, base_param.floor_patch_smooth_rate],
+          :floor_decorations => [base_param.floor_decoration_density, base_param.floor_decoration_large_density],
+          :void_decorations => [base_param.void_decoration_density, base_param.void_decoration_large_density],
+          :rng_seed => base_param.rng_seed,
+          :flags => base_param.flags,
+          :pbs_file_suffix => base_param.pbs_file_suffix
+        }
+        GameData::DungeonParameters::DATA["#{theme_sym}_0".to_sym] = GameData::DungeonParameters.new(clone_hash)
+      end
     end
+    $PokemonGlobal.dungeon_area = theme_sym
   end
 
   # Standard Floor Spawns
