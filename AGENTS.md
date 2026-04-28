@@ -34,9 +34,9 @@ This project has a strict long-term deployment goal of mobile optimization via J
    - The game will be pre-compiled on a PC to generate `.dat` files for deployment.
    - Do not write scripts that attempt to parse `PBS/*.txt` files dynamically during gameplay. If data needs scanning (like building an item blacklist), it must either occur during the PC compilation phase or rely on the pre-compiled GameData APIs (e.g., `GameData::Item.try_get(:ID)`).
 
-## Debugging & Testing Features
+## Core Architecture & Engine Quirks
 
-- **Force Alpha Boss Spawn:** To rapidly test Alpha Boss encounters, you can bypass the standard 10% RNG procedural map spawn chance by using the `@debug_force_alpha` flag. This flag is tied to the Steven NPC interaction. When `$DEBUG` is active, interacting with Steven to advance floors will prompt you with an option to force an Alpha Boss on the next floor. This guarantees a `boss_pkmn` event will be generated on the target map, and the flag will be consumed immediately afterward to prevent infinite forced spawns.
+- **Alpha Boss Loops & The Nuclear Kill-Switch:** When attempting to break procedural event loops (like Alpha Pokémon bosses) after a Deluxe Battle Kit (DBK) encounter, battle outcome evaluations might silently fail or get overridden. To permanently prevent infinite loops from overworld event touches, abandon Self-Switches entirely. Instead, use the engine's native `pbEraseThisEvent` command immediately after the battle concludes to physically delete the event from the map memory for the remainder of the session.
 
 ## Architectural Plan & Systems
 
