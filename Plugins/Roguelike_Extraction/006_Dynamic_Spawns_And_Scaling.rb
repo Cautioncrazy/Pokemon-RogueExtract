@@ -333,8 +333,8 @@ end
       party = []
       species_pool = ProceduralEncounters.get_pool(chosen_type)
 
-      party_size.times do
-        species = species_pool.sample
+      party_species = species_pool.sample(party_size)
+      party_species.each do |species|
         pkmn = Pokemon.new(species, level)
         pkmn.calc_stats
         party.push(pkmn)
