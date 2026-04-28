@@ -331,9 +331,45 @@ end
 
       # Build the In-Memory Party utilizing the Smart Procedural Encounter Pool
       party = []
-      species_pool = ProceduralEncounters.get_pool(chosen_type)
+
+      theme = $PokemonGlobal.instance_variable_defined?(:@dungeon_area) ? $PokemonGlobal.dungeon_area.to_s.upcase : ""
+      suffix_type = theme.include?('_') ? theme.split('_').last.to_sym : nil
+
+      if is_vip && suffix_type && GameData::Type.exists?(suffix_type)
+        # Boss Counters: if it's a VIP and there's a type theme, use a counter type
+        weaknesses = GameData::Type.get(suffix_type).weaknesses
+        if !weaknesses.empty?
+          counter_type = weaknesses.sample
+          # Scan entire species list for counter_type, rejecting Legendaries/Mythicals
+          species_pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(counter_type) }
+          species_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") } if !species_pool.empty? && GameData::Species.get(species_pool.first).respond_to?(:flags)
+        else
+          species_pool = ProceduralEncounters.get_pool(chosen_type)
+        end
+      elsif suffix_type && GameData::Type.exists?(suffix_type)
+        # Standard Trainers: filter their thematic pool by the floor's type suffix
+        base_pool = ProceduralEncounters.get_pool(chosen_type)
+        species_pool = base_pool.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
+
+        # Failsafe: if the filtered pool is empty, dynamically scan all species
+        if species_pool.empty?
+          species_pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
+          species_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") } if !species_pool.empty? && GameData::Species.get(species_pool.first).respond_to?(:flags)
+        end
+      else
+        species_pool = ProceduralEncounters.get_pool(chosen_type)
+      end
+
+      # Failsafe if the pool is somehow still empty
+      species_pool = ProceduralEncounters::FALLBACK_POOL if species_pool.empty?
 
       party_species = species_pool.sample(party_size)
+
+      # If we requested more unique species than the pool has, sample might return fewer. We'll duplicate if needed to fill party.
+      while party_species.length < party_size && !species_pool.empty?
+        party_species.push(species_pool.sample)
+      end
+
       party_species.each do |species|
         pkmn = Pokemon.new(species, level)
         pkmn.calc_stats

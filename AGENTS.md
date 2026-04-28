@@ -283,3 +283,6 @@ The Rift Challenge system is a dynamic, high-risk/high-reward instance generated
 ### Safety Rules
 - When generating maps, the `Rift Manifest` must be explicitly populated. To avoid manifest overlapping across multiple portals, the map and manifest should be uniquely tied to the Map ID.
 - Level scaling variables (99 and 100) are explicitly manipulated by incrementing upon entering the Rift and restoring from saved global instances (`@saved_trainer_var`, `@saved_wild_var`) upon exiting. DO NOT manipulate `LevelScalingSettings::DIFFICULTIES` directly.
+- **Map Theme Prefixes:** Prefixes (like `forest_` or `cave_`) strictly dictate physical encounter terrain rules (e.g., `forest` restricts wild encounters only to tall grass tiles).
+- **Map Theme Suffixes:** Suffixes (like `_ICE` or `_FIRE`) strictly dictate the Wild and Standard Trainer type pools.
+- **Boss Trainers:** Boss Trainers must always generate using a type pool drawn from the weaknesses of the floor's theme suffix, ensuring they act as type counters to the floor's theme.
