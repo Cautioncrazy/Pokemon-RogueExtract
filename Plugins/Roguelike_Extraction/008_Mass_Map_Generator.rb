@@ -277,9 +277,11 @@ def pbMassGenerateRoguelikeMaps
       map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "RoguelikeExtraction.vip_interaction(self)", true, true)
       current_event_id += 1
 
-      # Guaranteed 1 Boss Pokemon for testing the kill-switch
-      map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction(self)", true, true)
-      current_event_id += 1
+      # 10% chance to spawn an Alpha Boss
+      if rand(100) < 10
+        map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction(self)", true, true)
+        current_event_id += 1
+      end
 
       # 1 Extract NPC
       map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "RoguelikeExtraction.extract_interaction(self)", false, false)
@@ -607,9 +609,11 @@ def pbGenerateRegularFloor(map_id)
   map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "VIP", nil, 4, false, false, "RoguelikeExtraction.vip_interaction(self)", true, true)
   current_event_id += 1
 
-  # Guaranteed 1 Boss Pokemon for testing the kill-switch
-  map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction(self)", true, true)
-  current_event_id += 1
+  # 10% chance to spawn an Alpha Boss
+  if rand(100) < 10
+    map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "boss_pkmn", nil, 2, false, false, "RoguelikeExtraction.boss_pkmn_interaction(self)", true, true)
+    current_event_id += 1
+  end
 
   # 1 Extract NPC
   map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "extract", "ABRA", 0, false, true, "RoguelikeExtraction.extract_interaction(self)", false, false)
