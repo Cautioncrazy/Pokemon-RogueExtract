@@ -150,7 +150,11 @@ class PokemonEncounters
       is_cave_query = enc_type.to_s.upcase.include?("CAVE")
       is_water_query = enc_type.to_s.upcase.include?("WATER")
 
-      if theme == :CAVE || theme.to_s.include?("CAVE")
+      if theme.to_s.include?("FOREST")
+        return false if is_cave_query
+        return true if [:Land, :LandMorning, :LandDay, :LandNight].include?(enc_type)
+        return false
+      elsif theme == :CAVE || theme.to_s.include?("CAVE")
         return true if is_cave_query
         return false # A Cave map shouldn't trigger Land encounters natively
       else
@@ -178,7 +182,11 @@ class PokemonEncounters
       return false if terrain_tag.ice
 
       theme = $PokemonGlobal.dungeon_area.to_s.upcase.to_sym
-      if theme == :CAVE || theme.to_s.include?("CAVE") || RiftChallenges.is_rift_map?
+
+      if theme.to_s.include?("FOREST")
+        return true if terrain_tag.land_wild_encounters
+        return false
+      elsif theme == :CAVE || theme.to_s.include?("CAVE") || RiftChallenges.is_rift_map?
         return true # Caves trigger encounters on any walkable tile
       else
         # Land maps STRICTLY require the tile to be flagged for wild encounters (e.g. Grass)

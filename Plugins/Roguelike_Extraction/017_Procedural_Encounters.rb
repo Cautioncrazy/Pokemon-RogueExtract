@@ -52,10 +52,29 @@ module ProceduralEncounters
     theme_sym = theme.to_s.upcase.to_sym
     return WILD_POOLS[theme_sym] if WILD_POOLS.has_key?(theme_sym)
 
-    # If the theme has an underscore (e.g. FOREST_ICE), try parsing the first part
+    # If the theme has an underscore (e.g. FOREST_ICE), parse and filter
     if theme.to_s.include?('_')
-      base_theme = theme.to_s.split('_').first.upcase.to_sym
-      return WILD_POOLS[base_theme] if WILD_POOLS.has_key?(base_theme)
+      parts = theme.to_s.split('_')
+      base_theme = parts.first.upcase.to_sym
+      suffix_type = parts.last.upcase.to_sym
+
+      if WILD_POOLS.has_key?(base_theme)
+        base_pool = WILD_POOLS[base_theme]
+        filtered_pool = base_pool.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
+
+        if filtered_pool.empty?
+          # Failsafe: scan all game species for matching type
+          filtered_pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
+          # Exclude legendaries/mythicals where appropriate if possible, but basic filter here
+          filtered_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") } if !filtered_pool.empty? && GameData::Species.get(filtered_pool.first).respond_to?(:flags)
+        end
+        return filtered_pool unless filtered_pool.empty?
+      else
+        # Base theme not found, but we have a suffix. Generate dynamic pool
+        filtered_pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
+        filtered_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") } if !filtered_pool.empty? && GameData::Species.get(filtered_pool.first).respond_to?(:flags)
+        return filtered_pool unless filtered_pool.empty?
+      end
     end
 
     return FALLBACK_POOL
