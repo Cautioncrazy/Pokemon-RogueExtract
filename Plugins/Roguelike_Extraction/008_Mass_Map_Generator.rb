@@ -562,7 +562,11 @@ $PokemonGlobal.instance_variable_set(:@current_rift_manifest, current_manifests)
 end
 
 def pbGenerateRegularFloor(map_id)
-  $PokemonGlobal.instance_variable_set(:@alpha_bosses_defeated, 0) if $PokemonGlobal
+  if $PokemonGlobal
+    $PokemonGlobal.instance_variable_set(:@alpha_bosses_defeated, 0)
+    $PokemonGlobal.instance_variable_set(:@dynamic_trainers, {})
+    $PokemonGlobal.instance_variable_set(:@fought_raid_trainers, [])
+  end
 
   mapinfos_path = "Data/MapInfos.rxdata"
   tilesets_path = "Data/Tilesets.rxdata"
@@ -638,6 +642,10 @@ def pbGenerateRegularFloor(map_id)
     map.events[current_event_id] = pbBuildProceduralEvent(0, 0, current_event_id, "chest", "Chests", 0, true, false, "RoguelikeExtraction.chest_interaction(self)", true, false)
     current_event_id += 1
   end
+
+  map.autoplay_bgm = true
+  bgm_track = sprintf("bgm%d", rand(1..12))
+  map.bgm = RPG::AudioFile.new(bgm_track, 100, 100)
 
   # Save the physical MapXXX.rxdata file
   filename = sprintf("Data/Map%03d.rxdata", map_id)
