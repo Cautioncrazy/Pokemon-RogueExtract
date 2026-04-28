@@ -158,7 +158,7 @@ class PokemonEncounters
         return true if is_cave_query
         return false # A Cave map shouldn't trigger Land encounters natively
       else
-        # For non-cave maps, explicitly block ANY cave query from returning true
+        # For non-cave maps (like FOREST, LAB, RUINS), explicitly block ANY cave query from returning true
         # Also explicitly block water unless it's a water map (if you have water encounters)
         return false if is_cave_query
         return true if [:Land, :LandMorning, :LandDay, :LandNight].include?(enc_type)
@@ -183,6 +183,7 @@ class PokemonEncounters
 
       theme = $PokemonGlobal.dungeon_area.to_s.upcase.to_sym
 
+      # Always force standard encounter rules for anything matching FOREST, regardless of suffix
       if theme.to_s.include?("FOREST")
         return true if terrain_tag.land_wild_encounters
         return false
