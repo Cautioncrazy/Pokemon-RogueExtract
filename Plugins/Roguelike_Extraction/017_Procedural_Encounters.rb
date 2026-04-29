@@ -48,21 +48,25 @@ module ProceduralEncounters
   }
 
   def self.get_wild_pool(theme)
-    theme_str = theme.to_s
+    theme_str = theme.to_s.upcase
 
-    # If the theme has an underscore (e.g. cave_FIRE)
+    # If the theme has an underscore (e.g. cave_FIRE or cave_FIRE_0)
     if theme_str.include?('_')
-      suffix_type = theme_str.split('_').last.upcase.to_sym
+      valid_part = theme_str.split('_').find { |p| GameData::Type.exists?(p.to_sym) }
 
-      # Bypass the base pool entirely and go straight to the global scan
-      pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
+      if valid_part
+        suffix_type = valid_part.to_sym
 
-      # Exclude legendaries/mythicals
-      if !pool.empty? && GameData::Species.get(pool.first).respond_to?(:flags)
-        pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") }
+        # Bypass the base pool entirely and go straight to the global scan
+        pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
+
+        # Exclude legendaries/mythicals
+        if !pool.empty? && GameData::Species.get(pool.first).respond_to?(:flags)
+          pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") }
+        end
+
+        return pool unless pool.empty?
       end
-
-      return pool unless pool.empty?
     else
       # No underscore exists, return the base theme array from WILD_POOLS
       base_theme = theme_str.upcase.to_sym

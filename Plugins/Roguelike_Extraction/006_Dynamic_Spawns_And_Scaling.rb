@@ -333,7 +333,11 @@ end
       party = []
 
       theme = $PokemonGlobal.instance_variable_defined?(:@dungeon_area) ? $PokemonGlobal.dungeon_area.to_s.upcase : ""
-      suffix_type = theme.include?('_') ? theme.split('_').last.to_sym : nil
+      suffix_type = nil
+      if theme.include?('_')
+        valid_part = theme.split('_').find { |p| GameData::Type.exists?(p.to_sym) }
+        suffix_type = valid_part.to_sym if valid_part
+      end
 
       if is_vip && suffix_type && GameData::Type.exists?(suffix_type)
         # Boss Counters: if it's a VIP and there's a type theme, use a counter type
