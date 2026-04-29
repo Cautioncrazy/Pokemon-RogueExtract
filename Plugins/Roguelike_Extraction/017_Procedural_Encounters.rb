@@ -50,6 +50,15 @@ module ProceduralEncounters
   def self.get_wild_pool(theme)
     theme_data = DungeonThemes.get(theme)
 
+    # DEBUG INJECTION
+    debug_msg = "DEBUG - get_wild_pool\\nRaw theme string: '#{theme}'\\nResolved Hash: #{theme_data.inspect}"
+    if $game_temp && $game_temp.respond_to?(:message_window_showing)
+      pbMessage(debug_msg)
+    else
+      File.open("debug_theme.txt", "a") { |f| f.puts(debug_msg) }
+    end
+    # END DEBUG INJECTION
+
     if theme_data && theme_data[:type]
       # Scan global dictionary for the registered type
       pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(theme_data[:type]) }
