@@ -262,11 +262,11 @@ class PokemonEncounters
     # 2. Handle standard Procedural Dungeons on-the-fly without PBS
     if $PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none
       # Fallback to the wild species pool based on the map's theme (stored in dungeon_area)
-      theme = $PokemonGlobal.dungeon_area.to_s.upcase.to_sym
+      theme_str = $PokemonGlobal.dungeon_area.to_s
 
       pool = [:ZUBAT, :GEODUDE, :MACHOP, :GOLBAT, :GRAVELER]
       if defined?(ProceduralEncounters) && ProceduralEncounters.respond_to?(:get_wild_pool)
-        pool = ProceduralEncounters.get_wild_pool(theme)
+        pool = ProceduralEncounters.get_wild_pool(theme_str)
       end
 
       chosen_species = pool.sample
