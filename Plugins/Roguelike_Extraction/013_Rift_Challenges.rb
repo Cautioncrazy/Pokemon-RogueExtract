@@ -135,7 +135,10 @@ end
 # Hook into PokemonEncounters to force dynamic encounter pool based on weather
 #===============================================================================
 class PokemonEncounters
-  alias has_cave_encounters_dynamic_rift has_cave_encounters?
+  unless method_defined?(:has_cave_encounters_dynamic_rift)
+    alias has_cave_encounters_dynamic_rift has_cave_encounters?
+  end
+
   def has_cave_encounters?
     return true if RiftChallenges.is_rift_map?
     if $PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none
@@ -146,7 +149,10 @@ class PokemonEncounters
 
   # Intercept has_encounter_type? so the engine knows dynamic maps *can* spawn Pokémon
   # even though they lack a strict PBS entry.
-  alias has_encounter_type_dynamic_rift has_encounter_type?
+  unless method_defined?(:has_encounter_type_dynamic_rift)
+    alias has_encounter_type_dynamic_rift has_encounter_type?
+  end
+
   def has_encounter_type?(enc_type)
     return true if RiftChallenges.is_rift_map? && enc_type == :Cave # Force cave encounters inside Rifts
     # Return true for standard Land/Cave encounter slots on dynamic procedural floors
@@ -183,7 +189,10 @@ class PokemonEncounters
   # We need to completely override encounter_possible_here? for dynamic maps
   # because the base engine evaluates `has_cave_encounters?` globally for the whole map.
   # If our map is a procedural Land map, we ONLY want encounters on `terrain_tag.land_wild_encounters`.
-  alias encounter_possible_here_dynamic_rift encounter_possible_here?
+  unless method_defined?(:encounter_possible_here_dynamic_rift)
+    alias encounter_possible_here_dynamic_rift encounter_possible_here?
+  end
+
   def encounter_possible_here?
     if (RiftChallenges.is_rift_map? || ($PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none))
       return true if $PokemonGlobal.surfing
@@ -208,7 +217,10 @@ class PokemonEncounters
   end
 
   # We also need to intercept the step chance check so it knows how likely encounters are
-  alias encounter_triggered_dynamic_rift encounter_triggered?
+  unless method_defined?(:encounter_triggered_dynamic_rift)
+    alias encounter_triggered_dynamic_rift encounter_triggered?
+  end
+
   def encounter_triggered?(enc_type, repel_active = false, triggered_by_step = true)
     if (RiftChallenges.is_rift_map? || ($PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none))
       # Only process steps for the valid encounter types on this map
@@ -255,7 +267,10 @@ class PokemonEncounters
     encounter_triggered_dynamic_rift(enc_type, repel_active, triggered_by_step)
   end
 
-  alias choose_wild_pokemon_dynamic_rift choose_wild_pokemon
+  unless method_defined?(:choose_wild_pokemon_dynamic_rift)
+    alias choose_wild_pokemon_dynamic_rift choose_wild_pokemon
+  end
+
   def choose_wild_pokemon(enc_type, chance_rolls = 1)
     # 1. Handle Rift Specific Encounters
     if RiftChallenges.is_rift_map?

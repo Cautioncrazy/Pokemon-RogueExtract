@@ -156,7 +156,7 @@ class Interpreter
         backtrace_text += "\r\n"
         backtrace_text += "Backtrace:"
         e.backtrace[0, 10].each { |i| backtrace_text += "\r\n#{i}" }
-        backtrace_text.gsub!(/Section(\d+)/) { $RGSS_SCRIPTS[$1.to_i][1] } rescue nil
+        backtrace_text.gsub!(/Section(\d+)/) { $RGSS_SCRIPTS[$1.to_i][1] if $RGSS_SCRIPTS } rescue nil
         backtrace_text += "\r\n"
       end
       # Assemble error message

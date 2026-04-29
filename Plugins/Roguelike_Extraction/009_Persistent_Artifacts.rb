@@ -37,6 +37,18 @@ EventHandlers.add(:on_enter_map, :spawn_pending_mining_spots,
 #===============================================================================
 # Helper to dynamically spawn mining spots on a procedural floor
 def pbSpawnFloorMiningSpots(min_spots, max_spots)
+  # Ensure the dungeon area is valid before spawning
+  if $PokemonGlobal && $PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area
+    theme_str = $PokemonGlobal.dungeon_area.to_s
+    base_theme = theme_str.split('_').first.upcase.to_sym
+
+    # Abort if the base theme evaluates to nil or doesn't exist in parameters
+    # This prevents nil indexing crashes if a script attempts to lookup the floor type
+    return if base_theme.nil?
+  else
+    return # Abort if no dungeon area is defined
+  end
+
   # Determine number of spots to spawn
   num_spots = rand(min_spots..max_spots)
   return if num_spots <= 0
@@ -139,11 +151,6 @@ def pbSpawnFloorMiningSpots(min_spots, max_spots)
   if $scene && $scene.is_a?(Scene_Map)
     $scene.disposeSpritesets
     $scene.createSpritesets
-  end
-
-  # Notify the user via pbMessage how many spots were successfully spawned
-  if $DEBUG
-    pbMessage(_INTL("DEBUG: Spawned {1} Dynamic Mining Spots on the walls.", selected_spots.length))
   end
 end
 
