@@ -336,8 +336,8 @@ end
       theme_data = DungeonThemes.get(theme_str)
 
       # DEBUG INJECTION
-      debug_msg = "DEBUG - pbSetAndStartDynamicTrainer\\nRaw $PokemonGlobal.dungeon_area: '#{theme_str}'\\nResolved Hash: #{theme_data.inspect}"
-      pbMessage(debug_msg)
+      debug_msg = "DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: '#{theme_str}' | Resolved Hash: #{theme_data.inspect}"
+      File.open("debug_theme.txt", "a") { |f| f.puts(debug_msg) }
       # END DEBUG INJECTION
 
       suffix_type = theme_data ? theme_data[:type] : nil

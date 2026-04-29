@@ -51,12 +51,8 @@ module ProceduralEncounters
     theme_data = DungeonThemes.get(theme)
 
     # DEBUG INJECTION
-    debug_msg = "DEBUG - get_wild_pool\\nRaw theme string: '#{theme}'\\nResolved Hash: #{theme_data.inspect}"
-    if $game_temp && $game_temp.respond_to?(:message_window_showing)
-      pbMessage(debug_msg)
-    else
-      File.open("debug_theme.txt", "a") { |f| f.puts(debug_msg) }
-    end
+    debug_msg = "DEBUG - get_wild_pool | Raw theme string: '#{theme}' | Resolved Hash: #{theme_data.inspect}"
+    File.open("debug_theme.txt", "a") { |f| f.puts(debug_msg) }
     # END DEBUG INJECTION
 
     if theme_data && theme_data[:type]
