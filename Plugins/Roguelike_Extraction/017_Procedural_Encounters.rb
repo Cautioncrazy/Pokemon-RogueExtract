@@ -48,29 +48,25 @@ module ProceduralEncounters
   }
 
   def self.get_wild_pool(theme)
-    theme_str = theme.to_s.upcase
+    theme_data = DungeonThemes.get(theme)
 
-    # If the theme has an underscore (e.g. cave_FIRE or cave_FIRE_0)
-    if theme_str.include?('_')
-      valid_part = theme_str.split('_').find { |p| GameData::Type.exists?(p.to_sym) }
+    if theme_data && theme_data[:type]
+      # Scan global dictionary for the registered type
+      pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(theme_data[:type]) }
 
-      if valid_part
-        suffix_type = valid_part.to_sym
-
-        # Bypass the base pool entirely and go straight to the global scan
-        pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
-
-        # Exclude legendaries/mythicals
-        if !pool.empty? && GameData::Species.get(pool.first).respond_to?(:flags)
-          pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") }
-        end
-
-        return pool unless pool.empty?
+      # Exclude legendaries/mythicals
+      if !pool.empty? && GameData::Species.get(pool.first).respond_to?(:flags)
+        pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") }
       end
-    else
-      # No underscore exists, return the base theme array from WILD_POOLS
-      base_theme = theme_str.upcase.to_sym
-      return WILD_POOLS[base_theme] if WILD_POOLS.has_key?(base_theme)
+
+      return pool unless pool.empty?
+    end
+
+    # Fallback to base theme from WILD_POOLS if no specific elemental type is set (e.g. :cave)
+    if theme_data
+      # Convert standard lowercase keys like :cave to uppercase :CAVE for the hash lookup
+      base_theme_key = theme.to_s.sub(/_\d+$/, '').split('_').first.upcase.to_sym
+      return WILD_POOLS[base_theme_key] if WILD_POOLS.has_key?(base_theme_key)
     end
 
     return FALLBACK_POOL

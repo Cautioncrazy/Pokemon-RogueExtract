@@ -141,8 +141,9 @@ class Battle::Scene
   def pbUpdate(*args)
     relic_hud_pbUpdate(*args)
 
-    # Ensure UI elements are fully initialized before trying to read them
-    return unless @sprites && @sprites["enhancedUI"]
+    # Ensure UI elements are fully initialized and @sprites is actually a Hash
+    # to survive Delta Speed Up overrides that crash during DBK initialization
+    return unless @sprites && @sprites.is_a?(Hash) && @sprites["enhancedUI"]
 
     # We want to show Relic HUD ONLY if the main EBUI :battler window is active
     # and we are not deep into a nested screen.
