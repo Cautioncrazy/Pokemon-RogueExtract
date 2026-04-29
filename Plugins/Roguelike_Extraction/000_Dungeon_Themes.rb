@@ -15,8 +15,16 @@ module DungeonThemes
 
   def self.get(theme_str)
     return nil if !theme_str || theme_str == :none
-    # Strip any procedural floor numbers (e.g., "cave_FIRE_0" -> "cave_FIRE")
-    clean_theme = theme_str.to_s.sub(/_\d+$/, '').to_sym
-    return DATA[clean_theme] || DATA[:cave] # Fallback to standard cave
+    str = theme_str.to_s
+
+    # Sort keys by length descending to ensure we check specific themes (cave_FIRE)
+    # before generic themes (cave)
+    sorted_keys = DATA.keys.sort_by { |k| -k.to_s.length }
+
+    # Find the first key that is included anywhere in the map's theme string
+    match = sorted_keys.find { |k| str.include?(k.to_s) }
+
+    return DATA[match] if match
+    return DATA[:cave] # Ultimate fallback
   end
 end
