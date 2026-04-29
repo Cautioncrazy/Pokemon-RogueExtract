@@ -135,6 +135,15 @@ end
 # Hook into PokemonEncounters to force dynamic encounter pool based on weather
 #===============================================================================
 class PokemonEncounters
+  alias has_cave_encounters_dynamic_rift has_cave_encounters?
+  def has_cave_encounters?
+    return true if RiftChallenges.is_rift_map?
+    if $PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none
+      return true if $PokemonGlobal.dungeon_area.to_s.upcase.include?("CAVE")
+    end
+    has_cave_encounters_dynamic_rift
+  end
+
   # Intercept has_encounter_type? so the engine knows dynamic maps *can* spawn Pokémon
   # even though they lack a strict PBS entry.
   alias has_encounter_type_dynamic_rift has_encounter_type?

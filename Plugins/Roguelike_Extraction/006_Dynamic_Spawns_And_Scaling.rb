@@ -261,6 +261,9 @@ end
   # Bypasses the need for PBS-compiled Python files by generating NPCTrainer
   # and Pokemon objects dynamically in-memory based on Thematic Pools.
   def pbSetAndStartDynamicTrainer(possible_types = nil, possible_names = nil, victory_switch = "A")
+    theme = $PokemonGlobal.instance_variable_defined?(:@dungeon_area) ? $PokemonGlobal.dungeon_area.to_s : "NIL"
+    pbMessage(_INTL("DEBUG: Current Dungeon Area is '{1}'", theme)) if $DEBUG
+
     event = get_character(0)
     return false if !event
 
