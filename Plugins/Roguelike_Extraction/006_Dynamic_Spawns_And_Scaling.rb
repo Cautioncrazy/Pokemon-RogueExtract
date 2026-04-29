@@ -332,12 +332,9 @@ end
       # Build the In-Memory Party utilizing the Smart Procedural Encounter Pool
       party = []
 
-      theme = $PokemonGlobal.instance_variable_defined?(:@dungeon_area) ? $PokemonGlobal.dungeon_area.to_s.upcase : ""
-      suffix_type = nil
-      if theme.include?('_')
-        valid_part = theme.split('_').find { |p| GameData::Type.exists?(p.to_sym) }
-        suffix_type = valid_part.to_sym if valid_part
-      end
+      theme_str = $PokemonGlobal.instance_variable_defined?(:@dungeon_area) ? $PokemonGlobal.dungeon_area : :none
+      theme_data = DungeonThemes.get(theme_str)
+      suffix_type = theme_data ? theme_data[:type] : nil
 
       if is_vip && suffix_type && GameData::Type.exists?(suffix_type)
         # Boss Counters: if it's a VIP and there's a type theme, use a counter type
