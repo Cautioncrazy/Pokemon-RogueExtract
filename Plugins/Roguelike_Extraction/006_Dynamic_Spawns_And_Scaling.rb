@@ -347,14 +347,14 @@ end
           species_pool = ProceduralEncounters.get_pool(chosen_type)
         end
       elsif suffix_type && GameData::Type.exists?(suffix_type)
-        # Standard Trainers: filter their thematic pool by the floor's type suffix
-        base_pool = ProceduralEncounters.get_pool(chosen_type)
-        species_pool = base_pool.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
+        # Standard Trainers: Grab the suffix pool to completely overwrite the trainer's standard pool so they match the floor
+        theme_str = $PokemonGlobal.dungeon_area.to_s
+        suffix_pool = ProceduralEncounters.get_wild_pool(theme_str)
 
-        # Failsafe: if the filtered pool is empty, dynamically scan all species
-        if species_pool.empty?
-          species_pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
-          species_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") } if !species_pool.empty? && GameData::Species.get(species_pool.first).respond_to?(:flags)
+        if suffix_pool != ProceduralEncounters::FALLBACK_POOL
+          species_pool = suffix_pool
+        else
+          species_pool = ProceduralEncounters.get_pool(chosen_type)
         end
       else
         species_pool = ProceduralEncounters.get_pool(chosen_type)
