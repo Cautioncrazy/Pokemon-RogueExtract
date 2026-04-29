@@ -58,23 +58,27 @@ module ProceduralEncounters
       base_theme = parts.first.upcase.to_sym
       suffix_type = parts.last.upcase.to_sym
 
-      if WILD_POOLS.has_key?(base_theme)
-        base_pool = WILD_POOLS[base_theme]
-        filtered_pool = base_pool.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
+      base_pool = WILD_POOLS[base_theme] || []
 
-        if filtered_pool.empty?
-          # Failsafe: scan all game species for matching type
-          filtered_pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
-          # Exclude legendaries/mythicals where appropriate if possible, but basic filter here
-          filtered_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") } if !filtered_pool.empty? && GameData::Species.get(filtered_pool.first).respond_to?(:flags)
-        end
-        return filtered_pool unless filtered_pool.empty?
-      else
-        # Base theme not found, but we have a suffix. Generate dynamic pool
+      # Attempt Filter: Grab the array for the base_theme and filter it
+      filtered_pool = base_pool.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
+
+      # Failsafe 1 (Global Scan): If filtered_pool is empty, bypass the base pool and scan globally
+      if filtered_pool.empty?
         filtered_pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(suffix_type) }
-        filtered_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") } if !filtered_pool.empty? && GameData::Species.get(filtered_pool.first).respond_to?(:flags)
-        return filtered_pool unless filtered_pool.empty?
+        # Exclude legendaries/mythicals where appropriate if possible
+        if !filtered_pool.empty? && GameData::Species.get(filtered_pool.first).respond_to?(:flags)
+          filtered_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") }
+        end
       end
+
+      # Failsafe 2 (The Ultimate Fallback): If still empty, return the un-filtered base_theme pool or hardcoded fallback
+      if filtered_pool.empty?
+        return base_pool unless base_pool.empty?
+        return FALLBACK_POOL
+      end
+
+      return filtered_pool
     end
 
     return FALLBACK_POOL
