@@ -50,7 +50,9 @@ module ProceduralEncounters
     chosen_theme = themes.sample
     srand # Reset RNG back to normal
 
-    pbMessage(_INTL("DEBUG: Floor {1} Theme is {2}", floor, chosen_theme)) if $DEBUG
+    if $DEBUG
+      File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_dynamic_typeless_pool | Floor #{floor} Theme is #{chosen_theme}") }
+    end
 
     pool = GameData::Species.keys.select do |s|
       sp = GameData::Species.get(s)
