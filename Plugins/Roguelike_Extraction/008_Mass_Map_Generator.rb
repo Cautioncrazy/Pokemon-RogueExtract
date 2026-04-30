@@ -589,7 +589,10 @@ def pbGenerateRegularFloor(map_id)
 
   # Dynamically assign the Dungeon Area based on the mapped theme
   # This fixes the Overworld_RandomDungeons generation failing or rendering black maps
-  theme_suffix = chosen_ts.name.sub(/^Dungeon\s*/, "").strip
+  # We use tileset_name (the physical graphic filename) instead of name (the editor string)
+  # to guarantee prefixes like `cave_` are always accurately extracted.
+  ts_name_to_use = chosen_ts.tileset_name.empty? ? chosen_ts.name : chosen_ts.tileset_name
+  theme_suffix = ts_name_to_use.sub(/^Dungeon\s*/, "").strip
   theme_sym = theme_suffix.to_sym
 
   # Try to find a matching layout in DungeonParameters.
