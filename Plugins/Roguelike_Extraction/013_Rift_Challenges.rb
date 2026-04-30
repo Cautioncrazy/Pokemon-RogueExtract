@@ -397,10 +397,10 @@ module RiftChallenges
 # Register the procedural hash in Pokemon Factory data
 if defined?(ZBox::PokemonFactory)
   ZBox::PokemonFactory.data[boss_key.to_sym] = boss_hash
-  return boss_key
+  return boss_key.to_sym
 elsif defined?(PokemonFactory)
   PokemonFactory.data[boss_key.to_sym] = boss_hash
-  return boss_key
+  return boss_key.to_sym
 else
   # Fallback
   return nil
