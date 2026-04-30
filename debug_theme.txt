@@ -1,0 +1,5 @@
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'fire' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'fire' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_wild_pool | Raw theme string: 'fire' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_wild_pool | Raw theme string: 'fire' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_wild_pool | Raw theme string: 'fire' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
