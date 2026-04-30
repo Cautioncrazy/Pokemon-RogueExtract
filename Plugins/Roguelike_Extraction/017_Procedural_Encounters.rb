@@ -40,12 +40,35 @@ module ProceduralEncounters
   # ============================================================================
   # Wild Encounter Thematic Pools
   # ============================================================================
-  WILD_POOLS = {
-    :CAVE       => [:ZUBAT, :GEODUDE, :MACHOP, :GOLBAT, :GRAVELER, :CLEFAIRY, :PARAS, :ONIX],
-    :FOREST     => [:CATERPIE, :METAPOD, :WEEDLE, :KAKUNA, :PIDGEY, :ODDISH, :BELLSPROUT, :VENONAT],
-    :WATER      => [:TENTACOOL, :MAGIKARP, :POLIWAG, :GOLDEEN, :STARYU, :SLOWPOKE, :SHELLDER],
-    :LAB        => [:VOLTORB, :MAGNEMITE, :PORYGON, :KOFFING, :GRIMER, :DITTO, :ELECTRODE]
-  }
+
+  def self.get_dynamic_typeless_pool
+    floor = $PokemonGlobal.instance_variable_defined?(:@current_raid_floor) ? $PokemonGlobal.current_raid_floor : 1
+
+    # Seed RNG with the floor number so the theme is consistent for the whole floor
+    srand(floor * 100)
+    themes = [:HIGH_SPEED, :HEAVYWEIGHT, :MONSTER_EGG, :HIGH_BST, :WEATHER_SETTERS, :HARD_TO_CATCH]
+    chosen_theme = themes.sample
+    srand # Reset RNG back to normal
+
+    pbMessage(_INTL("DEBUG: Floor {1} Theme is {2}", floor, chosen_theme)) if $DEBUG
+
+    pool = GameData::Species.keys.select do |s|
+      sp = GameData::Species.get(s)
+      next false if sp.flags.include?("Legendary") || sp.flags.include?("Mythical")
+
+      case chosen_theme
+      when :HIGH_SPEED then sp.base_stats[:SPEED] >= 100
+      when :HEAVYWEIGHT then sp.weight >= 1000 # 100.0 kg
+      when :MONSTER_EGG then sp.egg_groups.include?(:Monster)
+      when :HIGH_BST then sp.base_stats.values.sum >= 450
+      when :WEATHER_SETTERS then sp.abilities.any? { |a| [:DROUGHT, :DRIZZLE, :SANDSTREAM, :SNOWWARNING].include?(a) }
+      when :HARD_TO_CATCH then sp.catch_rate <= 45
+      else true
+      end
+    end
+
+    return pool.empty? ? FALLBACK_POOL : pool
+  end
 
   def self.get_wild_pool(theme)
     theme_data = DungeonThemes.get(theme)
@@ -62,13 +85,12 @@ module ProceduralEncounters
       return pool unless pool.empty?
     end
 
-    # Fallback to base theme from WILD_POOLS if no specific elemental type is set (e.g. :cave)
-    if theme_data
-      # Convert standard lowercase keys like :cave to uppercase :CAVE for the hash lookup
-      base_theme_key = theme.to_s.sub(/_\d+$/, '').split('_').first.upcase.to_sym
-      return WILD_POOLS[base_theme_key] if WILD_POOLS.has_key?(base_theme_key)
+    # If a theme was found but it has no elemental type, generate a dynamic attribute pool
+    if theme_data && theme_data[:type].nil?
+      return get_dynamic_typeless_pool
     end
 
+    # Absolute failsafe for missing/nil data
     return FALLBACK_POOL
   end
 end
