@@ -33,3 +33,15 @@ DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | 
 DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
 DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
 DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
