@@ -336,6 +336,12 @@ end
       theme_data = DungeonThemes.get(theme_str)
       suffix_type = theme_data ? theme_data[:type] : nil
 
+
+      # DEBUG INJECTION
+      debug_msg = "DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: '#{theme_str}' | Resolved Hash: #{theme_data.inspect}"
+      File.open("debug_theme.txt", "a") { |f| f.puts(debug_msg) }
+      # END DEBUG INJECTION
+      
       if is_vip && suffix_type && GameData::Type.exists?(suffix_type)
         # Boss Counters: if it's a VIP and there's a type theme, use a counter type
         weaknesses = GameData::Type.get(suffix_type).weaknesses
