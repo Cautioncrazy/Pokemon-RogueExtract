@@ -82,6 +82,20 @@ You should rely on the following existing custom randomizer script calls wheneve
  
 ### 6. Standardized Trainer Pools
 - **Single Source of Truth**: The `trainers.md` file in the root directory is the absolute rulebook and central source of truth for all procedural trainer party generation.
+
+### 6a. Procedural Attribute Themes
+- **Overview**: Standard procedural floors without an elemental type suffix (e.g., standard cave or forest) utilize the `get_dynamic_typeless_pool` logic in `017_Procedural_Encounters.rb` instead of falling back to static lists. This creates dynamic attribute-based challenges.
+- **RNG Sourcing**: The pool generator explicitly seeds the Ruby RNG (`srand(floor * 100)`) using the current floor number (`$PokemonGlobal.current_raid_floor`). This guarantees that if a theme (like `:HIGH_SPEED`) is selected for Floor 5, the entire floor generates using that consistent pool, ensuring consistent thematic cohesion across multiple spawners. The RNG must always be reset afterward (`srand`) to prevent downstream sequence predictability.
+- **Adding New Themes**: Developers can expand the `chosen_theme` logic by defining a new symbol in the pool and adding a `when` condition to the `case` statement. The filter block iterates through `GameData::Species` where `sp` represents the species data object.
+- **Cheat Sheet for `GameData::Species` Properties**:
+  When checking for conditions in `get_dynamic_typeless_pool`, you can rely on the following standard v21.1 attributes on the `sp` object:
+  - `sp.base_stats` (Hash of `:HP`, `:ATTACK`, `:DEFENSE`, `:SPEED`, `:SPECIAL_ATTACK`, `:SPECIAL_DEFENSE`)
+  - `sp.egg_groups` (Array of symbols like `:Monster`, `:Water1`, `:Undiscovered`)
+  - `sp.weight` (Integer: 100 = 10.0 kg)
+  - `sp.height` (Integer: 10 = 1.0 m)
+  - `sp.types` (Array of symbols like `[:FIRE, :FIGHTING]`)
+  - `sp.catch_rate` (Integer from 1-255)
+  - `sp.abilities` (Array of defined abilities like `[:OVERGROW, :CHLOROPHYLL]`)
 - **Thematic Pools**: When generating, writing scripts for, or modifying the dynamic raid trainers in `PBS/trainers.txt`, you **must** strictly adhere to the thematic species pools assigned to each Trainer Class in `trainers.md`. Do not assign Pokémon outside of a class's designated theme (e.g., no Poochyenas for Hikers).
 - **Dynamic Re-generation**: If the user requests a new generation of the dynamic raid trainers, check `trainers.md` for any changes first, then programmatically pull base species from those pools and mathematically evolve them based on the Run/Floor level (which is mapped to the trainer version: 0, 1, or 2 in `PBS/trainers.txt`).
 
