@@ -37,6 +37,7 @@ This project has a strict long-term deployment goal of mobile optimization via J
 ## Core Architecture & Engine Quirks
 
 - **Alpha Boss Loops & The Nuclear Kill-Switch:** When attempting to break procedural event loops (like Alpha Pokémon bosses) after a Deluxe Battle Kit (DBK) encounter, battle outcome evaluations might silently fail or get overridden. To permanently prevent infinite loops from overworld event touches, abandon Self-Switches entirely. Instead, use the engine's native `pbEraseThisEvent` command immediately after the battle concludes to physically delete the event from the map memory for the remainder of the session.
+- **Strict Prohibition on UI Elements in Generators:** Never trigger UI elements like `pbMessage` during procedural generation hooks or auto-spawners (such as `pbSetAndStartDynamicTrainer`, `get_dynamic_typeless_pool`, or `pbSpawnFloorMiningSpots`). All dynamic trainers and procedural events start with a parallel process page to set up their internal configurations and physical graphics before activating. Triggering a text box during this initialization sequence immediately traps the engine in a catastrophic, infinite text box loop. Always log debugging outputs silently to physical text files (like `debug_theme.txt` or `joiplay_crash_log.txt`).
 
 ## Architectural Plan & Systems
 
