@@ -13,27 +13,101 @@ module ProceduralEncounters
   # A robust fallback pool in case a trainer class isn't explicitly defined below
   FALLBACK_POOL = [:RATTATA, :PIDGEY, :ZUBAT, :MEOWTH, :GEODUDE, :MACHOP, :ABRA, :GASTLY]
 
-  TRAINER_POOLS = {
-    :HIKER       => [:GEODUDE, :GRAVELER, :GOLEM, :ONIX, :MACHOP, :MACHOKE, :MACHAMP, :RHYHORN, :NOSEPASS],
-    :SWIMMER_M   => [:TENTACOOL, :TENTACRUEL, :SHELLDER, :MAGIKARP, :GOLDEEN, :STARYU, :HORSEA, :KRABBY],
-    :SWIMMER_F   => [:TENTACOOL, :TENTACRUEL, :SHELLDER, :MAGIKARP, :GOLDEEN, :STARYU, :HORSEA, :KRABBY],
-    :BURGLAR     => [:KOFFING, :VULPIX, :GRIMER, :ZUBAT, :GROWLITHE, :HOUNDOUR],
-    :BUGCATCHER  => [:CATERPIE, :METAPOD, :BUTTERFREE, :WEEDLE, :KAKUNA, :BEEDRILL, :PARAS, :VENONAT, :SCYTHER, :PINSIR],
-    :LASS        => [:PIDGEY, :RATTATA, :NIDORANfE, :CLEFAIRY, :JIGGLYPUFF, :ODDISH, :MEOWTH],
-    :YOUNGSTER   => [:PIDGEY, :RATTATA, :NIDORANmA, :MANKEY, :EKANS, :SPEAROW, :SANDSHREW],
-    :BIRD_KEEPER => [:PIDGEY, :PIDGEOTTO, :PIDGEOT, :SPEAROW, :FEAROW, :DODUO, :DODRIO, :FARFETCHD],
-    :SAILOR      => [:TENTACOOL, :SHELLDER, :KRABBY, :KINGLER, :HORSEA, :SEADRA, :STARYU, :STARMIE],
-    :BLACKBELT   => [:MACHOP, :MACHOKE, :MACHAMP, :MANKEY, :PRIMEAPE, :HITMONLEE, :HITMONCHAN],
-    :TEAMROCKET_M=> [:ZUBAT, :KOFFING, :GRIMER, :RATTATA, :RATICATE, :EKANS, :ARBOK, :MACHOP, :DROWZEE],
-    :TEAMROCKET_F=> [:ZUBAT, :KOFFING, :GRIMER, :RATTATA, :RATICATE, :EKANS, :ARBOK, :MACHOP, :DROWZEE],
-    :COOLTRAINER_M=>[:CHARMANDER, :BULBASAUR, :SQUIRTLE, :PIKACHU, :EEVEE, :NIDORINO, :NIDORINA, :KADABRA],
-    :COOLTRAINER_F=>[:CHARMANDER, :BULBASAUR, :SQUIRTLE, :PIKACHU, :EEVEE, :NIDORINO, :NIDORINA, :KADABRA],
-    :SCIENTIST   => [:VOLTORB, :ELECTRODE, :MAGNEMITE, :MAGNETON, :PORYGON, :KOFFING, :WEEZING, :MUK],
-    :SUPERNERD   => [:VOLTORB, :ELECTRODE, :MAGNEMITE, :MAGNETON, :PORYGON, :KOFFING, :WEEZING, :MUK]
+  # Maps Trainer Classes to their lore-accurate elemental typing
+  TRAINER_LORE_TYPES = {
+    :AROMALADY       => :GRASS,
+    :BEAUTY          => :FAIRY,
+    :BIKER           => :POISON,
+    :BIRDKEEPER      => :FLYING,
+    :BUGCATCHER      => :BUG,
+    :BURGLAR         => :DARK,
+    :CHANNELER       => :GHOST,
+    :CUEBALL         => :FIGHTING,
+    :ENGINEER        => :ELECTRIC,
+    :FISHERMAN       => :WATER,
+    :GAMBLER         => :DARK,
+    :HIKER           => :ROCK,
+    :JUGGLER         => :PSYCHIC,
+    :PAINTER         => :FAIRY,
+    :POKEMANIAC      => :DRAGON,
+    :ROCKER          => :ELECTRIC,
+    :RUINMANIAC      => :GROUND,
+    :SAILOR          => :WATER,
+    :SCIENTIST       => :ELECTRIC,
+    :SUPERNERD       => :STEEL,
+    :TAMER           => :NORMAL,
+    :BLACKBELT       => :FIGHTING,
+    :CRUSHGIRL       => :FIGHTING,
+    :CAMPER          => :GROUND,
+    :PICNICKER       => :GRASS,
+    :YOUNGSTER       => :NORMAL,
+    :LASS            => :FAIRY,
+    :POKEMONRANGER_M => :GRASS,
+    :POKEMONRANGER_F => :GRASS,
+    :PSYCHIC_M       => :PSYCHIC,
+    :PSYCHIC_F       => :PSYCHIC,
+    :SWIMMER_M       => :WATER,
+    :SWIMMER_F       => :WATER,
+    :SWIMMER2_M      => :WATER,
+    :SWIMMER2_F      => :WATER,
+    :TUBER_M         => :WATER,
+    :TUBER_F         => :WATER,
+    :TUBER2_M        => :WATER,
+    :TUBER2_F        => :WATER,
+    :TEAMROCKET_M    => :POISON,
+    :TEAMROCKET_F    => :POISON,
+    :ROCKETBOSS      => :DARK
   }
 
-  def self.get_pool(trainer_class)
-    return TRAINER_POOLS[trainer_class] if TRAINER_POOLS.has_key?(trainer_class)
+  def self.get_pool(trainer_class, floor_type = nil)
+    lore_type = TRAINER_LORE_TYPES[trainer_class]
+
+    # 1. Dual-Type Attempt (Lore Type + Floor Type)
+    if lore_type && floor_type && GameData::Type.exists?(lore_type) && GameData::Type.exists?(floor_type)
+      dual_pool = GameData::Species.keys.select do |s|
+        sp_types = GameData::Species.get(s).types
+        sp_types.include?(lore_type) && sp_types.include?(floor_type)
+      end
+
+      if !dual_pool.empty? && GameData::Species.get(dual_pool.first).respond_to?(:flags)
+        dual_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") }
+      end
+
+      # Require at least 2 unique species to avoid spamming a single Pokémon
+      if dual_pool.length >= 2
+        if $DEBUG
+          File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_pool | Trainer #{trainer_class} using Dual Type #{lore_type}/#{floor_type}") }
+        end
+        return dual_pool
+      end
+    end
+
+    # 2. Floor Type Fallback
+    if floor_type && GameData::Type.exists?(floor_type)
+      floor_pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(floor_type) }
+      if !floor_pool.empty? && GameData::Species.get(floor_pool.first).respond_to?(:flags)
+        floor_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") }
+      end
+      if !floor_pool.empty?
+        if $DEBUG
+          File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_pool | Trainer #{trainer_class} falling back to Floor Type #{floor_type}") }
+        end
+        return floor_pool
+      end
+    end
+
+    # 3. Lore Type Fallback
+    if lore_type && GameData::Type.exists?(lore_type)
+      lore_pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(lore_type) }
+      if !lore_pool.empty? && GameData::Species.get(lore_pool.first).respond_to?(:flags)
+        lore_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") }
+      end
+      if $DEBUG
+        File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_pool | Trainer #{trainer_class} using Lore Type #{lore_type}") }
+      end
+      return lore_pool unless lore_pool.empty?
+    end
+
     return FALLBACK_POOL
   end
 
