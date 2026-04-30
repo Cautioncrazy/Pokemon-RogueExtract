@@ -519,14 +519,14 @@ map = RPG::Map.new(width, height)
 
   # The Final Alpha Boss
   boss_script = "RiftChallenges.boss_interaction(#{current_event_id}, self)"
-  map.events[current_event_id] = pbBuildProceduralEvent(10, 8, current_event_id, "boss", "BossGraphic", 2, false, false, boss_script, true, true)
+  map.events[current_event_id] = pbBuildProceduralEvent(10, 8, current_event_id, "boss", "trchar000", 2, false, false, boss_script, true, true)
 
   current_event_id += 1
 
   actual_trainers = rand(2..5)
   actual_trainers.times do
     trainer_script = "RiftChallenges.trainer_interaction(#{current_event_id}, self)"
-    map.events[current_event_id] = pbBuildProceduralEvent(rand(2..18), rand(2..18), current_event_id, "trainer", "TrainerGraphic", 2, false, false, trainer_script, true, true)
+    map.events[current_event_id] = pbBuildProceduralEvent(rand(2..18), rand(2..18), current_event_id, "trainer", "trchar000", 2, false, false, trainer_script, true, true)
 
     current_event_id += 1
   end
