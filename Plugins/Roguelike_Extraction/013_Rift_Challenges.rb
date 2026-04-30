@@ -109,6 +109,8 @@ def apply_rift_environment(map_id, interp = nil)
       $game_screen.start_tone_change(data[:tint], 0)
 
       $PokemonGlobal.instance_variable_set(:@rift_weather_types, data[:types])
+      $PokemonGlobal.instance_variable_set(:@rift_current_weather, data[:weather])
+      $PokemonGlobal.instance_variable_set(:@rift_current_tint, data[:tint])
 
       if interp
         interp.pbMessage(_INTL("A strange anomalous weather has settled over the Rift..."))
@@ -629,3 +631,18 @@ end
     end
   end
 end
+#===============================================================================
+# Map Enter Hook to Reapply Rift Environment
+#===============================================================================
+EventHandlers.add(:on_enter_map, :rift_weather_reapply,
+  proc { |_old_map_id|
+    if RiftChallenges.is_rift_map?
+      if $PokemonGlobal.instance_variable_defined?(:@rift_current_weather) && $PokemonGlobal.instance_variable_defined?(:@rift_current_tint)
+        weather = $PokemonGlobal.instance_variable_get(:@rift_current_weather)
+        tint = $PokemonGlobal.instance_variable_get(:@rift_current_tint)
+        $game_screen.weather(weather, 9, 0) if weather
+        $game_screen.start_tone_change(tint, 0) if tint
+      end
+    end
+  }
+)
