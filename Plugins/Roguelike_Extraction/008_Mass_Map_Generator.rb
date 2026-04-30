@@ -514,7 +514,7 @@ map = RPG::Map.new(width, height)
 
   # The Exit Portal (Gated by Bounty)
   exit_script = "RiftChallenges.exit_interaction(self)"
-  map.events[current_event_id] = pbBuildProceduralEvent(10, 10, current_event_id, "exit", "ExitGraphic", 0, false, false, exit_script, false, false)
+  map.events[current_event_id] = pbBuildProceduralEvent(10, 10, current_event_id, "exit", "RIFT_PORTALS", 0, false, false, exit_script, false, false)
   current_event_id += 1
 
   # The Final Alpha Boss
