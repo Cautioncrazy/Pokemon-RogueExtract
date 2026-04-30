@@ -203,7 +203,7 @@ class PokemonEncounters
       if theme_data && theme_data[:terrain] == :Land
         return true if terrain_tag.land_wild_encounters
         return false
-      elsif (theme_data && theme_data[:terrain] == :Cave) || RiftChallenges.is_rift_map?
+      elsif theme_data && theme_data[:terrain] == :Cave
         return true # Caves trigger encounters on any walkable tile
       else
         # Land maps STRICTLY require the tile to be flagged for wild encounters (e.g. Grass)
