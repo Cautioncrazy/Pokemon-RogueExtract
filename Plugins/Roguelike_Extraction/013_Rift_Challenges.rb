@@ -70,14 +70,14 @@ class << self
     end
 
     def boss_interaction(event_id, interp)
-      outcome = start_dynamic_boss_battle
+      outcome = start_dynamic_boss_battle(event_id)
       if outcome
         interp.pbSetSelfSwitch(event_id, "A", true)
       end
     end
 
     def trainer_interaction(event_id, interp)
-      outcome = start_dynamic_trainer_battle
+      outcome = start_dynamic_trainer_battle(event_id)
       if outcome == 1
         interp.pbSetSelfSwitch(event_id, "A", true)
       end
@@ -338,8 +338,12 @@ trainer_class = trainer_keys.sample || :TEAMROCKET_M
       return trainer
     end
 
-def start_dynamic_trainer_battle
-  trainer = generate_dynamic_trainer
+def start_dynamic_trainer_battle(event_id = nil)
+  trainer = nil
+  if event_id && $PokemonGlobal.instance_variable_defined?(:@raid_event_trainers) && $PokemonGlobal.instance_variable_get(:@raid_event_trainers)
+    trainer = $PokemonGlobal.instance_variable_get(:@raid_event_trainers)[event_id]
+  end
+  trainer = generate_dynamic_trainer if trainer.nil?
 
   setBattleRule("canLose") if defined?(setBattleRule)
 outcome = TrainerBattle.start_core(trainer)
@@ -408,8 +412,13 @@ end
 
     end
 
-def start_dynamic_boss_battle
-  boss_key = generate_dynamic_boss
+def start_dynamic_boss_battle(event_id = nil)
+  boss_key = nil
+  if event_id && $PokemonGlobal.instance_variable_defined?(:@raid_event_bosses) && $PokemonGlobal.instance_variable_get(:@raid_event_bosses)
+    boss_key = $PokemonGlobal.instance_variable_get(:@raid_event_bosses)[event_id]
+  end
+  boss_key = generate_dynamic_boss if boss_key.nil?
+
   if boss_key && defined?(pbFightFactoryBoss)
     outcome = pbFightFactoryBoss(boss_key)
 
@@ -642,6 +651,71 @@ EventHandlers.add(:on_enter_map, :rift_weather_reapply,
         tint = $PokemonGlobal.instance_variable_get(:@rift_current_tint)
         $game_screen.weather(weather, 9, 0) if weather
         $game_screen.start_tone_change(tint, 0) if tint
+      end
+    end
+  }
+)
+
+#===============================================================================
+# Map Enter Hook to Initialize Rift Graphics & Pre-roll Encounters
+#===============================================================================
+EventHandlers.add(:on_enter_map, :init_rift_graphics,
+  proc { |_old_map_id|
+    if RiftChallenges.is_rift_map?
+      $PokemonGlobal.instance_variable_set(:@raid_event_bosses, {}) unless $PokemonGlobal.instance_variable_defined?(:@raid_event_bosses) && $PokemonGlobal.instance_variable_get(:@raid_event_bosses)
+      $PokemonGlobal.instance_variable_set(:@raid_event_trainers, {}) unless $PokemonGlobal.instance_variable_defined?(:@raid_event_trainers) && $PokemonGlobal.instance_variable_get(:@raid_event_trainers)
+
+      raid_bosses = $PokemonGlobal.instance_variable_get(:@raid_event_bosses)
+      raid_trainers = $PokemonGlobal.instance_variable_get(:@raid_event_trainers)
+
+      $game_map.events.values.each do |event|
+        rpg_event = event.instance_variable_get(:@event)
+        next unless rpg_event
+
+        name = rpg_event.name.downcase
+
+        if name.include?("boss") && !name.include?("extract")
+          boss_key = RiftChallenges.generate_dynamic_boss
+          raid_bosses[event.id] = boss_key if boss_key
+
+          # Extract species from the factory data
+          boss_data = nil
+          if defined?(ZBox::PokemonFactory) && ZBox::PokemonFactory.data[boss_key]
+            boss_data = ZBox::PokemonFactory.data[boss_key]
+          elsif defined?(PokemonFactory) && PokemonFactory.data[boss_key]
+            boss_data = PokemonFactory.data[boss_key]
+          end
+
+          if boss_data && boss_data[:species]
+            graphic_name = GameData::Species.ow_sprite_filename(boss_data[:species])
+            rpg_event.pages.each do |page|
+              if page.graphic
+                page.graphic.character_name = graphic_name
+                page.graphic.character_hue = 0
+              end
+            end
+            event.character_name = graphic_name
+            event.character_hue = 0
+            event.refresh if event.respond_to?(:refresh)
+          end
+
+        elsif name.include?("trainer") || name.include?("vip")
+          trainer = RiftChallenges.generate_dynamic_trainer
+          raid_trainers[event.id] = trainer
+
+          trainer_type = trainer.trainer_type
+          graphic_name = "trainer_#{trainer_type.to_s}"
+
+          rpg_event.pages.each do |page|
+            if page.graphic
+              page.graphic.character_name = graphic_name
+              page.graphic.character_hue = 0
+            end
+          end
+          event.character_name = graphic_name
+          event.character_hue = 0
+          event.refresh if event.respond_to?(:refresh)
+        end
       end
     end
   }
