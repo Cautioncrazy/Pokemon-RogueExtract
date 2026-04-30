@@ -338,3 +338,26 @@ DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' 
 DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
 DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
 DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
+DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
+DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
+DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
+DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
+DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
+DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
+DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
+DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 14 Theme is HIGH_BST
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 14 Theme is HIGH_BST
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 14 Theme is HIGH_BST
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 14 Theme is HIGH_BST
