@@ -15,6 +15,10 @@ module RiftChallenges
   TRAINER_VAR = 99
   WILD_VAR = 100
 
+  # Array of Map IDs designated as Rift maps
+  # (Developer will fill these in with their actual RPG Maker Map IDs)
+  RIFT_MAP_IDS = [100, 101, 102, 103]
+
 class << self
   # Debug helper to instantly spawn a portal in front of the player
   def debug_spawn_portal
