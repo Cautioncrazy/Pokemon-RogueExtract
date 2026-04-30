@@ -353,13 +353,8 @@ end
             species_pool = ProceduralEncounters.get_pool(chosen_type)
           end
         else
-          # Elemental Standard Trainers
-          suffix_pool = ProceduralEncounters.get_wild_pool(theme_str)
-          if suffix_pool != ProceduralEncounters::FALLBACK_POOL
-            species_pool = suffix_pool
-          else
-            species_pool = ProceduralEncounters.get_pool(chosen_type)
-          end
+          # Elemental Standard Trainers: Pass the floor type to attempt Dual-Typing synergy!
+          species_pool = ProceduralEncounters.get_pool(chosen_type, suffix_type)
         end
       elsif theme_data && suffix_type.nil?
         # TYPELESS THEMES: Both Standard Trainers and VIPs use the floor's attribute pool (No counters)
