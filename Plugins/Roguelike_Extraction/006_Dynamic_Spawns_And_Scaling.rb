@@ -332,38 +332,44 @@ end
       # Build the In-Memory Party utilizing the Smart Procedural Encounter Pool
       party = []
 
-      theme_str = $PokemonGlobal.instance_variable_defined?(:@dungeon_area) ? $PokemonGlobal.dungeon_area : :none
+      theme_str = $PokemonGlobal.instance_variable_defined?(:@dungeon_area) ? $PokemonGlobal.dungeon_area.to_s : "none"
       theme_data = DungeonThemes.get(theme_str)
       suffix_type = theme_data ? theme_data[:type] : nil
-
 
       # DEBUG INJECTION
       debug_msg = "DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: '#{theme_str}' | Resolved Hash: #{theme_data.inspect}"
       File.open("debug_theme.txt", "a") { |f| f.puts(debug_msg) }
       # END DEBUG INJECTION
-      
-      if is_vip && suffix_type && GameData::Type.exists?(suffix_type)
-        # Boss Counters: if it's a VIP and there's a type theme, use a counter type
-        weaknesses = GameData::Type.get(suffix_type).weaknesses
-        if !weaknesses.empty?
-          counter_type = weaknesses.sample
-          # Scan entire species list for counter_type, rejecting Legendaries/Mythicals
-          species_pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(counter_type) }
-          species_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") } if !species_pool.empty? && GameData::Species.get(species_pool.first).respond_to?(:flags)
-        else
-          species_pool = ProceduralEncounters.get_pool(chosen_type)
-        end
-      elsif suffix_type && GameData::Type.exists?(suffix_type)
-        # Standard Trainers: Grab the suffix pool to completely overwrite the trainer's standard pool so they match the floor
-        theme_str = $PokemonGlobal.dungeon_area.to_s
-        suffix_pool = ProceduralEncounters.get_wild_pool(theme_str)
 
-        if suffix_pool != ProceduralEncounters::FALLBACK_POOL
-          species_pool = suffix_pool
+      if suffix_type && GameData::Type.exists?(suffix_type)
+        if is_vip
+          # Elemental Boss Counters
+          weaknesses = GameData::Type.get(suffix_type).weaknesses
+          if !weaknesses.empty?
+            counter_type = weaknesses.sample
+            species_pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(counter_type) }
+            species_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") } if !species_pool.empty? && GameData::Species.get(species_pool.first).respond_to?(:flags)
+          else
+            species_pool = ProceduralEncounters.get_pool(chosen_type)
+          end
+        else
+          # Elemental Standard Trainers
+          suffix_pool = ProceduralEncounters.get_wild_pool(theme_str)
+          if suffix_pool != ProceduralEncounters::FALLBACK_POOL
+            species_pool = suffix_pool
+          else
+            species_pool = ProceduralEncounters.get_pool(chosen_type)
+          end
+        end
+      elsif theme_data && suffix_type.nil?
+        # TYPELESS THEMES: Both Standard Trainers and VIPs use the floor's attribute pool (No counters)
+        if defined?(ProceduralEncounters.get_dynamic_typeless_pool)
+          species_pool = ProceduralEncounters.get_dynamic_typeless_pool
         else
           species_pool = ProceduralEncounters.get_pool(chosen_type)
         end
       else
+        # Absolute Failsafe
         species_pool = ProceduralEncounters.get_pool(chosen_type)
       end
 
