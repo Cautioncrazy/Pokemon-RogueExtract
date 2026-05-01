@@ -687,7 +687,7 @@ EventHandlers.add(:on_enter_map, :init_rift_graphics,
           end
 
           if boss_data && boss_data[:species]
-            graphic_name = GameData::Species.ow_sprite_filename(boss_data[:species])
+            graphic_name = "Followers/#{boss_data[:species]}"
             rpg_event.pages.each do |page|
               if page.graphic
                 page.graphic.character_name = graphic_name
