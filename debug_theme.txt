@@ -53,3 +53,10 @@ DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
 DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
 DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
 DEBUG - get_dynamic_typeless_pool | Floor 13 Theme is MONSTER_EGG
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - get_pool | Trainer HIKER using Dual Type ROCK/FIRE
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - get_pool | Trainer SUPERNERD falling back to Floor Type FIRE
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - get_pool | Trainer CAMPER using Dual Type GROUND/FIRE
