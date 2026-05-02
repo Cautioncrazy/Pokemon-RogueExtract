@@ -285,6 +285,22 @@ Your success is measured by outputting the absolute minimum amount of code requi
 * **Deluxe Battle Kit (DBK):** The file `docs/DBK_API_REFERENCE.md` is our absolute source of truth for all Deluxe Battle Kit logic. You must keep its specific hooks (like `:RAIDBOSS` immunities, `isAlphaBoss?`, and UI aliases) in your active context for all future battle-engine tasks. Do not hallucinate vanilla Essentials rules for boss triggers.
 
 
+## Difficulty Tier & Progression
+
+**Floor Scaling & Progression (Risk of Rain Style)**
+The species pool for procedurally generated wild encounters and trainers is actively scaled based on a time-based / progression-based 8-Tier difficulty system.
+- This is controlled via `$game_variables[90]`.
+- All encountered species are passed through `ProceduralEncounters.filter_pool_by_bst_tier`, which calculates the Base Stat Total (BST) of each Pokémon and filters them against the current Tier's bracket:
+  - **Tier 1:** BST <= 320 (Early game bugs/birds)
+  - **Tier 2:** BST 250 - 380
+  - **Tier 3:** BST 300 - 430
+  - **Tier 4:** BST 350 - 480
+  - **Tier 5:** BST 400 - 520 (Mid-game staples)
+  - **Tier 6:** BST 450 - 560
+  - **Tier 7:** BST 480 - 600
+  - **Tier 8:** BST >= 500 (Endgame / Pseudos)
+- This ensures players do not encounter heavily overpowered or underpowered Pokémon for the current state of their run. The exact mathematical tiers can be adjusted within `Plugins/Roguelike_Extraction/017_Procedural_Encounters.rb`.
+
 ## Rift Challenges Architecture
 
 The Rift Challenge system is a dynamic, high-risk/high-reward instance generated at runtime.
