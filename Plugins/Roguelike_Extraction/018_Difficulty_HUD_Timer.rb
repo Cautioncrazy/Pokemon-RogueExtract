@@ -90,19 +90,21 @@ module RoguelikeDifficultyHUD
     if @last_drawn_text != text_str
       @hud_text.bitmap.clear
 
-      # Determine text width with generous padding for outlines/longer words
+      # Determine text width with generous padding
       base_width = @hud_text.bitmap.text_size(text_str).width
-      text_width = base_width + 40 # Increased padding
+      text_width = base_width + 40
       box_height = 32
 
-      # Center the box horizontally
-      box_x = (@hud_text.bitmap.width / 2) - (text_width / 2)
-      box_y = 2 # Nudged down slightly to frame the text better
+      # The exact center of our 500px wide canvas is 250
+      center_x = 250
+
+      box_x = center_x - (text_width / 2)
+      box_y = 2
 
       @hud_text.bitmap.fill_rect(box_x, box_y, text_width, box_height, Color.new(0, 0, 0, 150))
 
       text_pos = [
-        [text_str, @hud_text.bitmap.width / 2, 6, 2, Color.new(255, 255, 255), Color.new(0, 0, 0)]
+        [text_str, center_x, 6, 2, Color.new(255, 255, 255), Color.new(0, 0, 0)]
       ]
       pbDrawTextPositions(@hud_text.bitmap, text_pos)
       @last_drawn_text = text_str
@@ -186,11 +188,13 @@ module RoguelikeDifficultyHUD
     @hud_bar.visible = false
 
     @hud_text = Sprite.new(@hud_viewport)
-    @hud_text.bitmap = Bitmap.new(@hud_bg.bitmap.width, @hud_bg.bitmap.height)
-    @hud_text.x = HUD_BASE_X + (TEXT_OFFSET_X * HUD_SCALE)
+    # Give the text a massive 500px wide canvas so it never clips
+    @hud_text.bitmap = Bitmap.new(500, 100)
+
+    # Center this massive canvas over the scaled background
+    bg_scaled_width = @hud_bg.bitmap.width * HUD_SCALE
+    @hud_text.x = HUD_BASE_X + (bg_scaled_width / 2) - 250 # 250 is half the canvas width
     @hud_text.y = HUD_BASE_Y + (TEXT_OFFSET_Y * HUD_SCALE)
-    @hud_text.zoom_x = HUD_SCALE
-    @hud_text.zoom_y = HUD_SCALE
     @hud_text.z = 15
     @hud_text.visible = false
     pbSetSystemFont(@hud_text.bitmap)
