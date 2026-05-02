@@ -15,7 +15,7 @@ module RoguelikeDifficultyHUD
 
   # UI Positioning & Assets
   HUD_SCALE        = 0.66
-  HUD_BASE_X       = Graphics.width - 300
+  HUD_BASE_X       = Graphics.width - 350
   HUD_BASE_Y       = -40
   BAR_OFFSET_X     = 10
   BAR_OFFSET_Y     = 118
@@ -90,16 +90,19 @@ module RoguelikeDifficultyHUD
     if @last_drawn_text != text_str
       @hud_text.bitmap.clear
 
-      # Determine text width and draw background box
-      text_width = @hud_text.bitmap.text_size(text_str).width + 16
-      box_height = 28
+      # Determine text width with generous padding for outlines/longer words
+      base_width = @hud_text.bitmap.text_size(text_str).width
+      text_width = base_width + 40 # Increased padding
+      box_height = 32
+
+      # Center the box horizontally
       box_x = (@hud_text.bitmap.width / 2) - (text_width / 2)
-      box_y = 0
+      box_y = 2 # Nudged down slightly to frame the text better
 
       @hud_text.bitmap.fill_rect(box_x, box_y, text_width, box_height, Color.new(0, 0, 0, 150))
 
       text_pos = [
-        [text_str, @hud_text.bitmap.width / 2, 4, 2, Color.new(255, 255, 255), Color.new(0, 0, 0)]
+        [text_str, @hud_text.bitmap.width / 2, 6, 2, Color.new(255, 255, 255), Color.new(0, 0, 0)]
       ]
       pbDrawTextPositions(@hud_text.bitmap, text_pos)
       @last_drawn_text = text_str
