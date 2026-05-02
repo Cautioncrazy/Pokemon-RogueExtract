@@ -191,9 +191,15 @@ module RoguelikeDifficultyHUD
     # Give the text a massive 500px wide canvas so it never clips
     @hud_text.bitmap = Bitmap.new(500, 100)
 
-    # Center this massive canvas over the scaled background
+    # Re-apply the HUD_SCALE
+    @hud_text.zoom_x = HUD_SCALE
+    @hud_text.zoom_y = HUD_SCALE
+
+    # Center this massive scaled canvas over the scaled background
     bg_scaled_width = @hud_bg.bitmap.width * HUD_SCALE
-    @hud_text.x = HUD_BASE_X + (bg_scaled_width / 2) - 250 # 250 is half the canvas width
+    text_scaled_half_width = 250 * HUD_SCALE
+
+    @hud_text.x = HUD_BASE_X + (bg_scaled_width / 2) - text_scaled_half_width
     @hud_text.y = HUD_BASE_Y + (TEXT_OFFSET_Y * HUD_SCALE)
     @hud_text.z = 15
     @hud_text.visible = false
