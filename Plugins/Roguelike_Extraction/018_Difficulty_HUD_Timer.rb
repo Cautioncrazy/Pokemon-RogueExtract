@@ -14,11 +14,14 @@ module RoguelikeDifficultyHUD
   HUB_MAP_ID                  = 77
 
   # UI Positioning & Assets
-  HUD_SCALE     = 0.6
-  HUD_Y         = 10
-  BAR_OFFSET_X  = 10
-  BAR_OFFSET_Y  = 10
-  TEXT_OFFSET_Y = 5
+  HUD_SCALE        = 0.6
+  HUD_BASE_X       = Graphics.width - 250
+  HUD_BASE_Y       = 10
+  BAR_OFFSET_X     = 10
+  BAR_OFFSET_Y     = 120
+  TEXT_OFFSET_X    = 0
+  TEXT_OFFSET_Y    = 5
+  BAR_WINDOW_WIDTH = 190
   BG_IMAGE  = "Graphics/Plugins/Rogue Extract/Timer_UI"
   BAR_IMAGE = "Graphics/Plugins/Rogue Extract/Timer_Bar"
 
@@ -95,12 +98,17 @@ module RoguelikeDifficultyHUD
 
     # Animate Progress Bar
     if tier == 8
-      # Terminal: Bar stays 100% full
-      @hud_bar.src_rect.width = @hud_bar.bitmap.width
+      # Terminal: Bar stays panned to the absolute end of the image
+      max_scroll = @hud_bar.bitmap.width - BAR_WINDOW_WIDTH
+      @hud_bar.src_rect.x = max_scroll > 0 ? max_scroll : 0
     else
       progress_seconds = seconds % SECONDS_PER_TIER
       fill_percentage = progress_seconds.to_f / SECONDS_PER_TIER.to_f
-      @hud_bar.src_rect.width = (@hud_bar.bitmap.width * fill_percentage).to_i
+      max_scroll = @hud_bar.bitmap.width - BAR_WINDOW_WIDTH
+      max_scroll = 0 if max_scroll < 0 # Failsafe
+
+      # Slide the image leftwards behind the mask
+      @hud_bar.src_rect.x = (max_scroll * fill_percentage).to_i
     end
   end
 
@@ -153,8 +161,8 @@ module RoguelikeDifficultyHUD
 
     @hud_bg = Sprite.new(@hud_viewport)
     @hud_bg.bitmap = Bitmap.new(BG_IMAGE)
-    @hud_bg.x = Graphics.width - (@hud_bg.bitmap.width * HUD_SCALE) - 10
-    @hud_bg.y = HUD_Y
+    @hud_bg.x = HUD_BASE_X
+    @hud_bg.y = HUD_BASE_Y
     @hud_bg.zoom_x = HUD_SCALE
     @hud_bg.zoom_y = HUD_SCALE
     @hud_bg.z = 10
@@ -162,21 +170,21 @@ module RoguelikeDifficultyHUD
 
     @hud_bar = Sprite.new(@hud_viewport)
     @hud_bar.bitmap = Bitmap.new(BAR_IMAGE)
-    @hud_bar.src_rect = Rect.new(0, 0, @hud_bar.bitmap.width, @hud_bar.bitmap.height)
-    @hud_bar.x = @hud_bg.x + (BAR_OFFSET_X * HUD_SCALE)
-    @hud_bar.y = @hud_bg.y + (BAR_OFFSET_Y * HUD_SCALE)
+    @hud_bar.src_rect = Rect.new(0, 0, BAR_WINDOW_WIDTH, @hud_bar.bitmap.height)
+    @hud_bar.x = HUD_BASE_X + (BAR_OFFSET_X * HUD_SCALE)
+    @hud_bar.y = HUD_BASE_Y + (BAR_OFFSET_Y * HUD_SCALE)
     @hud_bar.zoom_x = HUD_SCALE
     @hud_bar.zoom_y = HUD_SCALE
-    @hud_bar.z = 11
+    @hud_bar.z = 5
     @hud_bar.visible = false
 
     @hud_text = Sprite.new(@hud_viewport)
     @hud_text.bitmap = Bitmap.new(@hud_bg.bitmap.width, @hud_bg.bitmap.height)
-    @hud_text.x = @hud_bg.x
-    @hud_text.y = @hud_bg.y + (TEXT_OFFSET_Y * HUD_SCALE)
+    @hud_text.x = HUD_BASE_X + (TEXT_OFFSET_X * HUD_SCALE)
+    @hud_text.y = HUD_BASE_Y + (TEXT_OFFSET_Y * HUD_SCALE)
     @hud_text.zoom_x = HUD_SCALE
     @hud_text.zoom_y = HUD_SCALE
-    @hud_text.z = 12
+    @hud_text.z = 15
     @hud_text.visible = false
     pbSetSystemFont(@hud_text.bitmap)
   end
