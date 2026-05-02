@@ -9,7 +9,7 @@ module RoguelikeDifficultyHUD
   # Configuration Constants
   DIFFICULTY_TIER_VAR         = 90
   TIMER_SECONDS_VAR           = 91
-  ROGUELIKE_RUN_ACTIVE_SWITCH = 100
+  ROGUELIKE_RUN_ACTIVE_SWITCH = 90
   SECONDS_PER_TIER            = 180
   HUB_MAP_ID                  = 77
 
