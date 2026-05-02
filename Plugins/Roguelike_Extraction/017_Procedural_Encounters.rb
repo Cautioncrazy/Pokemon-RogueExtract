@@ -10,8 +10,37 @@
 #===============================================================================
 
 module ProceduralEncounters
+  # Game Variable tracking the current 1-8 difficulty tier
+  DIFFICULTY_TIER_VAR = 90
+
   # A robust fallback pool in case a trainer class isn't explicitly defined below
   FALLBACK_POOL = [:RATTATA, :PIDGEY, :ZUBAT, :MEOWTH, :GEODUDE, :MACHOP, :ABRA, :GASTLY]
+
+  # Risk of Rain style BST Tier Filtering
+  def self.filter_pool_by_bst_tier(pool)
+    # Default to Tier 1 if the variable isn't set or is out of bounds
+    tier = $game_variables ? $game_variables[DIFFICULTY_TIER_VAR] : 1
+    tier = 1 if tier.nil? || tier < 1
+    tier = 8 if tier > 8
+
+    filtered_pool = pool.select do |s|
+      bst = GameData::Species.get(s).base_stats.values.sum
+      case tier
+      when 1 then bst <= 320                    # Early game bugs/birds
+      when 2 then bst >= 250 && bst <= 380
+      when 3 then bst >= 300 && bst <= 430
+      when 4 then bst >= 350 && bst <= 480
+      when 5 then bst >= 400 && bst <= 520      # Mid-game staples
+      when 6 then bst >= 450 && bst <= 560
+      when 7 then bst >= 480 && bst <= 600
+      when 8 then bst >= 500                    # Endgame / Pseudos
+      else true
+      end
+    end
+
+    # Failsafe: If the filter is too strict and empties the pool, return the original pool
+    return filtered_pool.empty? ? pool : filtered_pool
+  end
 
   # Maps Trainer Classes to their lore-accurate elemental typing
   TRAINER_LORE_TYPES = {
@@ -78,7 +107,7 @@ module ProceduralEncounters
         if $DEBUG
           File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_pool | Trainer #{trainer_class} using Dual Type #{lore_type}/#{floor_type}") }
         end
-        return dual_pool
+        return filter_pool_by_bst_tier(dual_pool)
       end
     end
 
@@ -92,7 +121,7 @@ module ProceduralEncounters
         if $DEBUG
           File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_pool | Trainer #{trainer_class} falling back to Floor Type #{floor_type}") }
         end
-        return floor_pool
+        return filter_pool_by_bst_tier(floor_pool)
       end
     end
 
@@ -105,10 +134,10 @@ module ProceduralEncounters
       if $DEBUG
         File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_pool | Trainer #{trainer_class} using Lore Type #{lore_type}") }
       end
-      return lore_pool unless lore_pool.empty?
+      return filter_pool_by_bst_tier(lore_pool) unless lore_pool.empty?
     end
 
-    return FALLBACK_POOL
+    return filter_pool_by_bst_tier(FALLBACK_POOL)
   end
 
   # ============================================================================
@@ -143,7 +172,8 @@ module ProceduralEncounters
       end
     end
 
-    return pool.empty? ? FALLBACK_POOL : pool
+    final_pool = pool.empty? ? FALLBACK_POOL : pool
+    return filter_pool_by_bst_tier(final_pool)
   end
 
   def self.get_wild_pool(theme)
@@ -158,15 +188,15 @@ module ProceduralEncounters
         pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") }
       end
 
-      return pool unless pool.empty?
+      return filter_pool_by_bst_tier(pool) unless pool.empty?
     end
 
     # If a theme was found but it has no elemental type, generate a dynamic attribute pool
     if theme_data && theme_data[:type].nil?
-      return get_dynamic_typeless_pool
+      return get_dynamic_typeless_pool # get_dynamic_typeless_pool is already filtered
     end
 
     # Absolute failsafe for missing/nil data
-    return FALLBACK_POOL
+    return filter_pool_by_bst_tier(FALLBACK_POOL)
   end
 end
