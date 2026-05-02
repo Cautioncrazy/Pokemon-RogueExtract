@@ -60,3 +60,8 @@ DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIR
 DEBUG - get_pool | Trainer SUPERNERD falling back to Floor Type FIRE
 DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
 DEBUG - get_pool | Trainer CAMPER using Dual Type GROUND/FIRE
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - get_pool | Trainer PICNICKER falling back to Floor Type FIRE
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - get_pool | Trainer PICNICKER falling back to Floor Type FIRE
