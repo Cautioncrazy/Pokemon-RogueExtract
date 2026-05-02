@@ -14,14 +14,14 @@ module RoguelikeDifficultyHUD
   HUB_MAP_ID                  = 77
 
   # UI Positioning & Assets
-  HUD_SCALE        = 0.6
-  HUD_BASE_X       = Graphics.width - 250
-  HUD_BASE_Y       = 10
+  HUD_SCALE        = 0.66
+  HUD_BASE_X       = Graphics.width - 300
+  HUD_BASE_Y       = -40
   BAR_OFFSET_X     = 10
-  BAR_OFFSET_Y     = 120
+  BAR_OFFSET_Y     = 118
   TEXT_OFFSET_X    = 0
-  TEXT_OFFSET_Y    = 5
-  BAR_WINDOW_WIDTH = 190
+  TEXT_OFFSET_Y    = 66
+  BAR_WINDOW_WIDTH = 225
   BG_IMAGE  = "Graphics/Plugins/Rogue Extract/Timer_UI"
   BAR_IMAGE = "Graphics/Plugins/Rogue Extract/Timer_Bar"
 
