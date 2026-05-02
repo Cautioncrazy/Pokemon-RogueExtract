@@ -253,6 +253,9 @@ module RoguelikeExtraction
     $game_system.save_disabled = true # Prevent mid-raid save-scumming
     $PokemonGlobal.current_raid_floor = 1
 
+    # Start the Difficulty Timer
+    $game_switches[90] = true
+
     # Reset raid states for the new run
     $PokemonGlobal.encounter_version = 0
     if $PokemonGlobal.instance_variable_defined?(:@fought_raid_trainers)
@@ -366,6 +369,9 @@ module RoguelikeExtraction
   def self.extract
     clear_procedural_state
 
+    # Stop the Difficulty Timer
+    $game_switches[90] = false
+
     $PokemonGlobal.last_raid_floor = $PokemonGlobal.current_raid_floor
     $PokemonGlobal.current_raid_floor = 0
     $PokemonGlobal.raid_bag_snapshot = nil # Clear the snapshot, loot is secured
@@ -474,6 +480,9 @@ module RoguelikeExtraction
   # Fails the raid, penalizing the player based on the current Mode.
   def self.blackout
     clear_procedural_state
+
+    # Stop the Difficulty Timer
+    $game_switches[90] = false
 
     $PokemonGlobal.last_raid_floor = $PokemonGlobal.current_raid_floor
     $PokemonGlobal.current_raid_floor = 0
