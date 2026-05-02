@@ -14,14 +14,14 @@ module RoguelikeDifficultyHUD
   HUB_MAP_ID                  = 77
 
   # UI Positioning & Assets
-  HUD_SCALE        = 0.6
-  HUD_BASE_X       = Graphics.width - 250
-  HUD_BASE_Y       = 10
+  HUD_SCALE        = 0.66
+  HUD_BASE_X       = Graphics.width - 300
+  HUD_BASE_Y       = -40
   BAR_OFFSET_X     = 10
-  BAR_OFFSET_Y     = 120
+  BAR_OFFSET_Y     = 118
   TEXT_OFFSET_X    = 0
-  TEXT_OFFSET_Y    = 5
-  BAR_WINDOW_WIDTH = 190
+  TEXT_OFFSET_Y    = 66
+  BAR_WINDOW_WIDTH = 225
   BG_IMAGE  = "Graphics/Plugins/Rogue Extract/Timer_UI"
   BAR_IMAGE = "Graphics/Plugins/Rogue Extract/Timer_Bar"
 
@@ -89,6 +89,15 @@ module RoguelikeDifficultyHUD
     @last_drawn_text ||= ""
     if @last_drawn_text != text_str
       @hud_text.bitmap.clear
+
+      # Determine text width and draw background box
+      text_width = @hud_text.bitmap.text_size(text_str).width + 16
+      box_height = 28
+      box_x = (@hud_text.bitmap.width / 2) - (text_width / 2)
+      box_y = 0
+
+      @hud_text.bitmap.fill_rect(box_x, box_y, text_width, box_height, Color.new(0, 0, 0, 150))
+
       text_pos = [
         [text_str, @hud_text.bitmap.width / 2, 4, 2, Color.new(255, 255, 255), Color.new(0, 0, 0)]
       ]
@@ -97,19 +106,15 @@ module RoguelikeDifficultyHUD
     end
 
     # Animate Progress Bar
-    if tier == 8
-      # Terminal: Bar stays panned to the absolute end of the image
-      max_scroll = @hud_bar.bitmap.width - BAR_WINDOW_WIDTH
-      @hud_bar.src_rect.x = max_scroll > 0 ? max_scroll : 0
-    else
-      progress_seconds = seconds % SECONDS_PER_TIER
-      fill_percentage = progress_seconds.to_f / SECONDS_PER_TIER.to_f
-      max_scroll = @hud_bar.bitmap.width - BAR_WINDOW_WIDTH
-      max_scroll = 0 if max_scroll < 0 # Failsafe
+    # The total seconds it takes to reach Tier 8
+    max_run_seconds = (8 - 1) * SECONDS_PER_TIER
+    fill_percentage = seconds.to_f / max_run_seconds.to_f
+    fill_percentage = 1.0 if fill_percentage > 1.0 # Clamp at 100%
 
-      # Slide the image leftwards behind the mask
-      @hud_bar.src_rect.x = (max_scroll * fill_percentage).to_i
-    end
+    max_scroll = @hud_bar.bitmap.width - BAR_WINDOW_WIDTH
+    max_scroll = 0 if max_scroll < 0 # Failsafe
+
+    @hud_bar.src_rect.x = (max_scroll * fill_percentage).to_i
   end
 
   # Timer Update Loop
@@ -139,11 +144,10 @@ module RoguelikeDifficultyHUD
         @frame_counter = 0
         $game_variables[TIMER_SECONDS_VAR] += 1
 
-        # Check for tier increase (Cap at 8)
-        current_tier = $game_variables[DIFFICULTY_TIER_VAR]
-        if current_tier < 8 && ($game_variables[TIMER_SECONDS_VAR] % SECONDS_PER_TIER == 0)
-          $game_variables[DIFFICULTY_TIER_VAR] += 1
-        end
+        # Calculate tier strictly based on total seconds (Floor division)
+        # Tier 1 = 0-179s, Tier 2 = 180-359s, etc.
+        calculated_tier = ($game_variables[TIMER_SECONDS_VAR] / SECONDS_PER_TIER) + 1
+        $game_variables[DIFFICULTY_TIER_VAR] = calculated_tier > 8 ? 8 : calculated_tier
       end
     }
   )
