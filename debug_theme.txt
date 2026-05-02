@@ -288,3 +288,9 @@ DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' 
 DEBUG - get_dynamic_typeless_pool | Floor 12 Theme is HIGH_BST
 DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
 DEBUG - get_dynamic_typeless_pool | Floor 12 Theme is HIGH_BST
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 12 Theme is HIGH_BST
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 12 Theme is HIGH_BST
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 12 Theme is HIGH_BST
