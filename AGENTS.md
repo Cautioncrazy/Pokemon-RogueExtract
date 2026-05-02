@@ -301,6 +301,16 @@ The species pool for procedurally generated wild encounters and trainers is acti
   - **Tier 8:** BST >= 500 (Endgame / Pseudos)
 - This ensures players do not encounter heavily overpowered or underpowered Pokémon for the current state of their run. The exact mathematical tiers can be adjusted within `Plugins/Roguelike_Extraction/017_Procedural_Encounters.rb`.
 
+**Timer & HUD Overlay (018_Difficulty_HUD_Timer.rb)**
+- The progression system is actively tied to a real-time ticking clock managed by `RoguelikeDifficultyHUD`.
+- **Variables & Switches:**
+  - `ROGUELIKE_RUN_ACTIVE_SWITCH` (Switch 100): Master switch. If OFF, the timer halts and the HUD hides. Toggling this from OFF to ON automatically resets the timer to 0 and the tier to 1.
+  - `TIMER_SECONDS_VAR` (Variable 91): Tracks the total elapsed real-time seconds of the run.
+  - `DIFFICULTY_TIER_VAR` (Variable 90): Tracks the current 1-8 difficulty tier.
+- **Scaling Interval:** The tier increases by 1 every 3 minutes (180 seconds).
+- **Pause Conditions:** The timer automatically pauses (and the HUD hides) under specific conditions to ensure fair play: during battles, inside menus, when message boxes are active, when event scripts are running, or when the player is resting on the Hub Map (Map 77).
+- **Terminal State:** Upon reaching Tier 8 ("Terminal"), the difficulty cap is hit, and the progress bar remains permanently filled at 100%.
+
 ## Rift Challenges Architecture
 
 The Rift Challenge system is a dynamic, high-risk/high-reward instance generated at runtime.
