@@ -14,8 +14,11 @@ module RoguelikeDifficultyHUD
   HUB_MAP_ID                  = 77
 
   # UI Positioning & Assets
-  HUD_X = Graphics.width - 200 # Adjust based on actual asset width later if needed
-  HUD_Y = 10
+  HUD_SCALE     = 0.6
+  HUD_Y         = 10
+  BAR_OFFSET_X  = 10
+  BAR_OFFSET_Y  = 10
+  TEXT_OFFSET_Y = 5
   BG_IMAGE  = "Graphics/Plugins/Rogue Extract/Timer_UI"
   BAR_IMAGE = "Graphics/Plugins/Rogue Extract/Timer_Bar"
 
@@ -150,20 +153,30 @@ module RoguelikeDifficultyHUD
 
     @hud_bg = Sprite.new(@hud_viewport)
     @hud_bg.bitmap = Bitmap.new(BG_IMAGE)
-    @hud_bg.x = HUD_X
+    @hud_bg.x = Graphics.width - (@hud_bg.bitmap.width * HUD_SCALE) - 10
     @hud_bg.y = HUD_Y
+    @hud_bg.zoom_x = HUD_SCALE
+    @hud_bg.zoom_y = HUD_SCALE
+    @hud_bg.z = 10
     @hud_bg.visible = false
 
     @hud_bar = Sprite.new(@hud_viewport)
     @hud_bar.bitmap = Bitmap.new(BAR_IMAGE)
-    @hud_bar.x = HUD_X
-    @hud_bar.y = HUD_Y
+    @hud_bar.src_rect = Rect.new(0, 0, @hud_bar.bitmap.width, @hud_bar.bitmap.height)
+    @hud_bar.x = @hud_bg.x + (BAR_OFFSET_X * HUD_SCALE)
+    @hud_bar.y = @hud_bg.y + (BAR_OFFSET_Y * HUD_SCALE)
+    @hud_bar.zoom_x = HUD_SCALE
+    @hud_bar.zoom_y = HUD_SCALE
+    @hud_bar.z = 11
     @hud_bar.visible = false
 
     @hud_text = Sprite.new(@hud_viewport)
     @hud_text.bitmap = Bitmap.new(@hud_bg.bitmap.width, @hud_bg.bitmap.height)
-    @hud_text.x = HUD_X
-    @hud_text.y = HUD_Y
+    @hud_text.x = @hud_bg.x
+    @hud_text.y = @hud_bg.y + (TEXT_OFFSET_Y * HUD_SCALE)
+    @hud_text.zoom_x = HUD_SCALE
+    @hud_text.zoom_y = HUD_SCALE
+    @hud_text.z = 12
     @hud_text.visible = false
     pbSetSystemFont(@hud_text.bitmap)
   end
