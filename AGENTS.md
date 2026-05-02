@@ -304,7 +304,7 @@ The species pool for procedurally generated wild encounters and trainers is acti
 **Timer & HUD Overlay (018_Difficulty_HUD_Timer.rb)**
 - The progression system is actively tied to a real-time ticking clock managed by `RoguelikeDifficultyHUD`.
 - **Variables & Switches:**
-  - `ROGUELIKE_RUN_ACTIVE_SWITCH` (Switch 100): Master switch. If OFF, the timer halts and the HUD hides. Toggling this from OFF to ON automatically resets the timer to 0 and the tier to 1.
+  - `ROGUELIKE_RUN_ACTIVE_SWITCH` (Switch 90): Master switch. If OFF, the timer halts and the HUD hides. Toggling this from OFF to ON automatically resets the timer to 0 and the tier to 1. Triggered dynamically in `003_Raid_Tracker.rb` during run start, extraction, and wipe flows.
   - `TIMER_SECONDS_VAR` (Variable 91): Tracks the total elapsed real-time seconds of the run.
   - `DIFFICULTY_TIER_VAR` (Variable 90): Tracks the current 1-8 difficulty tier.
 - **Scaling Interval:** The tier increases by 1 every 3 minutes (180 seconds).
