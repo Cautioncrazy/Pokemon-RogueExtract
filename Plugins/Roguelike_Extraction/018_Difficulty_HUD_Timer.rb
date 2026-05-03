@@ -12,6 +12,7 @@ module RoguelikeDifficultyHUD
   ROGUELIKE_RUN_ACTIVE_SWITCH = 90
   SECONDS_PER_TIER            = 180
   HUB_MAP_ID                  = 77
+  JOIPLAY_COMPAT_SWITCH       = 85
 
   # UI Positioning & Assets
   HUD_SCALE        = 0.66
@@ -111,15 +112,27 @@ module RoguelikeDifficultyHUD
     end
 
     # Animate Progress Bar
-    # The total seconds it takes to reach Tier 8
+    # Calculate total progress
     max_run_seconds = (8 - 1) * SECONDS_PER_TIER
     fill_percentage = seconds.to_f / max_run_seconds.to_f
-    fill_percentage = 1.0 if fill_percentage > 1.0 # Clamp at 100%
+    fill_percentage = 1.0 if fill_percentage > 1.0
 
-    max_scroll = @hud_bar.bitmap.width - BAR_WINDOW_WIDTH
-    max_scroll = 0 if max_scroll < 0 # Failsafe
+    if $game_switches && $game_switches[JOIPLAY_COMPAT_SWITCH]
+      # JoiPlay Rendering (blt)
+      max_scroll = @bar_source_bmp.width - BAR_WINDOW_WIDTH
+      max_scroll = 0 if max_scroll < 0
+      scroll_x = (max_scroll * fill_percentage).to_i
 
-    @hud_bar.src_rect.x = (max_scroll * fill_percentage).to_i
+      @hud_bar.bitmap.clear
+      @hud_bar.bitmap.blt(0, 0, @bar_source_bmp, Rect.new(scroll_x, 0, BAR_WINDOW_WIDTH, @bar_source_bmp.height))
+    else
+      # Standard PC Rendering (src_rect)
+      max_scroll = @hud_bar.bitmap.width - BAR_WINDOW_WIDTH
+      max_scroll = 0 if max_scroll < 0
+      scroll_x = (max_scroll * fill_percentage).to_i
+
+      @hud_bar.src_rect.x = scroll_x
+    end
   end
 
   # Timer Update Loop
@@ -178,12 +191,22 @@ module RoguelikeDifficultyHUD
     @hud_bg.visible = false
 
     @hud_bar = Sprite.new(@hud_viewport)
-    @hud_bar.bitmap = Bitmap.new(BAR_IMAGE)
-    @hud_bar.src_rect = Rect.new(0, 0, BAR_WINDOW_WIDTH, @hud_bar.bitmap.height)
-    @hud_bar.x = HUD_BASE_X + (BAR_OFFSET_X * HUD_SCALE)
-    @hud_bar.y = HUD_BASE_Y + (BAR_OFFSET_Y * HUD_SCALE)
+    @bar_source_bmp = nil
+
+    # Check if JoiPlay Compatibility is enabled
+    if $game_switches && $game_switches[JOIPLAY_COMPAT_SWITCH]
+      @bar_source_bmp = Bitmap.new(BAR_IMAGE)
+      @hud_bar.bitmap = Bitmap.new(BAR_WINDOW_WIDTH, @bar_source_bmp.height)
+    else
+      # Standard PC Initialization
+      @hud_bar.bitmap = Bitmap.new(BAR_IMAGE)
+      @hud_bar.src_rect = Rect.new(0, 0, BAR_WINDOW_WIDTH, @hud_bar.bitmap.height)
+    end
+
     @hud_bar.zoom_x = HUD_SCALE
     @hud_bar.zoom_y = HUD_SCALE
+    @hud_bar.x = HUD_BASE_X + (BAR_OFFSET_X * HUD_SCALE)
+    @hud_bar.y = HUD_BASE_Y + (BAR_OFFSET_Y * HUD_SCALE)
     @hud_bar.z = 5
     @hud_bar.visible = false
 
@@ -211,6 +234,8 @@ module RoguelikeDifficultyHUD
     @hud_bg = nil
     @hud_bar.dispose if @hud_bar && !@hud_bar.disposed?
     @hud_bar = nil
+    @bar_source_bmp.dispose if @bar_source_bmp && !@bar_source_bmp.disposed?
+    @bar_source_bmp = nil
     @hud_text.dispose if @hud_text && !@hud_text.disposed?
     @hud_text = nil
     @hud_viewport.dispose if @hud_viewport && !@hud_viewport.disposed?
