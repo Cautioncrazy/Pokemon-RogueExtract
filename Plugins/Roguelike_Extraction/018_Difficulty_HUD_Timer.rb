@@ -112,20 +112,20 @@ module RoguelikeDifficultyHUD
     end
 
     # Animate Progress Bar (Color Panning & Endless Loop)
-    max_run_seconds = 7 * SECONDS_PER_TIER
-    max_scroll = 7 * BAR_SECTION_WIDTH
+    max_run_seconds = 8 * SECONDS_PER_TIER
+    max_scroll = 8 * BAR_SECTION_WIDTH
 
     if seconds < max_run_seconds
-      # Normal panning for Tiers 1-7 (Scrolls from 0 to 1694)
+      # Normal panning for the first 8 blocks (Scrolls from 0 to 1936)
       fill_percentage = seconds.to_f / max_run_seconds.to_f
       @hud_bar.src_rect.x = (max_scroll * fill_percentage).to_i
     else
-      # Endless loop of the final segment (Tier 8+)
+      # Endless loop of the final 9th segment
       # How many seconds into the current endless loop are we?
       overflow_seconds = seconds - max_run_seconds
       loop_progress = (overflow_seconds % SECONDS_PER_TIER).to_f / SECONDS_PER_TIER.to_f
 
-      # Start at 1694 and slide to 1936. When it hits 1936 (at 24 mins), it snaps back to 1694.
+      # Start at 1936 and slide to 2178. When it hits 2178 (at 27 mins), it snaps back to 1936.
       loop_start_x = max_scroll
 
       @hud_bar.src_rect.x = (loop_start_x + (BAR_SECTION_WIDTH * loop_progress)).to_i
