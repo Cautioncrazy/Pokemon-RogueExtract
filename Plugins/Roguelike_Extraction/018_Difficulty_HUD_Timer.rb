@@ -12,7 +12,6 @@ module RoguelikeDifficultyHUD
   ROGUELIKE_RUN_ACTIVE_SWITCH = 90
   SECONDS_PER_TIER            = 180
   HUB_MAP_ID                  = 77
-  JOIPLAY_COMPAT_SWITCH       = 85
 
   # UI Positioning & Assets
   HUD_SCALE        = 0.66
@@ -112,26 +111,21 @@ module RoguelikeDifficultyHUD
     end
 
     # Animate Progress Bar
-    # Calculate total progress
     max_run_seconds = (8 - 1) * SECONDS_PER_TIER
     fill_percentage = seconds.to_f / max_run_seconds.to_f
     fill_percentage = 1.0 if fill_percentage > 1.0
 
-    if $game_switches && $game_switches[JOIPLAY_COMPAT_SWITCH]
-      # JoiPlay Rendering (blt)
-      max_scroll = @bar_source_bmp.width - BAR_WINDOW_WIDTH
-      max_scroll = 0 if max_scroll < 0
-      scroll_x = (max_scroll * fill_percentage).to_i
+    # Universal Blt Rendering
+    max_scroll = @bar_source_bmp.width - BAR_WINDOW_WIDTH
+    max_scroll = 0 if max_scroll < 0
+    scroll_x = (max_scroll * fill_percentage).to_i
 
+    # Only clear and redraw the bitmap if the scroll position has actually changed
+    @last_scroll_x ||= -1
+    if @last_scroll_x != scroll_x
       @hud_bar.bitmap.clear
       @hud_bar.bitmap.blt(0, 0, @bar_source_bmp, Rect.new(scroll_x, 0, BAR_WINDOW_WIDTH, @bar_source_bmp.height))
-    else
-      # Standard PC Rendering (src_rect)
-      max_scroll = @hud_bar.bitmap.width - BAR_WINDOW_WIDTH
-      max_scroll = 0 if max_scroll < 0
-      scroll_x = (max_scroll * fill_percentage).to_i
-
-      @hud_bar.src_rect.x = scroll_x
+      @last_scroll_x = scroll_x
     end
   end
 
@@ -191,17 +185,10 @@ module RoguelikeDifficultyHUD
     @hud_bg.visible = false
 
     @hud_bar = Sprite.new(@hud_viewport)
-    @bar_source_bmp = nil
 
-    # Check if JoiPlay Compatibility is enabled
-    if $game_switches && $game_switches[JOIPLAY_COMPAT_SWITCH]
-      @bar_source_bmp = Bitmap.new(BAR_IMAGE)
-      @hud_bar.bitmap = Bitmap.new(BAR_WINDOW_WIDTH, @bar_source_bmp.height)
-    else
-      # Standard PC Initialization
-      @hud_bar.bitmap = Bitmap.new(BAR_IMAGE)
-      @hud_bar.src_rect = Rect.new(0, 0, BAR_WINDOW_WIDTH, @hud_bar.bitmap.height)
-    end
+    # Unified Universal Initialization
+    @bar_source_bmp = Bitmap.new(BAR_IMAGE)
+    @hud_bar.bitmap = Bitmap.new(BAR_WINDOW_WIDTH, @bar_source_bmp.height)
 
     @hud_bar.zoom_x = HUD_SCALE
     @hud_bar.zoom_y = HUD_SCALE
