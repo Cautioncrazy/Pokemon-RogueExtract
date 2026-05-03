@@ -38,8 +38,30 @@ module ProceduralEncounters
       end
     end
 
-    # Failsafe: If the filter is too strict and empties the pool, return the original pool
-    return filtered_pool.empty? ? pool : filtered_pool
+    # Failsafe check
+    final_pool = filtered_pool.empty? ? pool : filtered_pool
+
+    # Debug Logging
+    if $DEBUG
+      File.open("debug_theme.txt", "a") do |f|
+        f.puts("===================================================")
+        f.puts("DEBUG - BST FILTER CALLED")
+        f.puts("Current Run Tier: #{tier}")
+        f.puts("Original Pool Size: #{pool.length} species")
+        f.puts("Filtered Pool Size: #{filtered_pool.length} species")
+
+        if filtered_pool.empty?
+          f.puts("WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).")
+        else
+          # Output a small sample of what survived the filter as proof
+          sample = final_pool.take(5).join(", ")
+          f.puts("Sample Allowed Species: #{sample}")
+        end
+        f.puts("===================================================")
+      end
+    end
+
+    return final_pool
   end
 
   # Maps Trainer Classes to their lore-accurate elemental typing
