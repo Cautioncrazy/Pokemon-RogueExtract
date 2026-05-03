@@ -22,6 +22,7 @@ module RoguelikeDifficultyHUD
   TEXT_OFFSET_X    = 0
   TEXT_OFFSET_Y    = 66
   BAR_WINDOW_WIDTH = 225
+  BAR_SECTION_WIDTH= 242
   BG_IMAGE  = "Graphics/Plugins/Rogue Extract/Timer_UI"
   BAR_IMAGE = "Graphics/Plugins/Rogue Extract/Timer_Bar"
 
@@ -41,8 +42,8 @@ module RoguelikeDifficultyHUD
 
   # When the master switch is toggled ON, reset the timer and tier
   EventHandlers.add(:on_game_switch_change, :roguelike_timer_reset,
-    proc { |switch_id, value|
-      if switch_id == ROGUELIKE_RUN_ACTIVE_SWITCH && value == true
+    proc { |switch_id|
+      if switch_id == ROGUELIKE_RUN_ACTIVE_SWITCH && $game_switches[switch_id] == true
         $game_variables[TIMER_SECONDS_VAR] = 0
         $game_variables[DIFFICULTY_TIER_VAR] = 1
         @frame_counter = 0 # reset internal frame tracker
@@ -112,8 +113,7 @@ module RoguelikeDifficultyHUD
 
     # Animate Progress Bar (Color Panning & Endless Loop)
     max_run_seconds = (8 - 1) * SECONDS_PER_TIER
-    max_scroll = @hud_bar.bitmap.width - BAR_WINDOW_WIDTH
-    max_scroll = 0 if max_scroll < 0 # Failsafe
+    max_scroll = 7 * BAR_SECTION_WIDTH
 
     if seconds < max_run_seconds
       # Normal panning for Tiers 1-7
@@ -121,18 +121,15 @@ module RoguelikeDifficultyHUD
       @hud_bar.src_rect.x = (max_scroll * fill_percentage).to_i
     else
       # Endless loop of the final segment (Tier 8+)
-      # Calculate the pixel width of one tier's scroll distance
-      pixels_per_tier = max_scroll / 7.0
-
       # How many seconds into the current endless loop are we?
       overflow_seconds = seconds - max_run_seconds
       loop_progress = (overflow_seconds % SECONDS_PER_TIER).to_f / SECONDS_PER_TIER.to_f
 
-      # Start at the final segment, pan forward, and snap back when the 3 mins are up
-      loop_start_x = max_scroll - pixels_per_tier
-      loop_start_x = 0 if loop_start_x < 0
+      # Start at the final segment, pan forward across exactly 1 section length
+      # We subtract 1 section from the max scroll to jump back and loop the final block
+      loop_start_x = max_scroll - BAR_SECTION_WIDTH
 
-      @hud_bar.src_rect.x = (loop_start_x + (pixels_per_tier * loop_progress)).to_i
+      @hud_bar.src_rect.x = (loop_start_x + (BAR_SECTION_WIDTH * loop_progress)).to_i
     end
 
     # Ensure the width is permanently locked so it always fills the UI hole
@@ -225,12 +222,24 @@ module RoguelikeDifficultyHUD
   end
 
   def self.dispose_hud
-    @hud_bg.dispose if @hud_bg && !@hud_bg.disposed?
+    if @hud_bg && !@hud_bg.disposed?
+      @hud_bg.bitmap.dispose if @hud_bg.bitmap && !@hud_bg.bitmap.disposed?
+      @hud_bg.dispose
+    end
     @hud_bg = nil
-    @hud_bar.dispose if @hud_bar && !@hud_bar.disposed?
+
+    if @hud_bar && !@hud_bar.disposed?
+      @hud_bar.bitmap.dispose if @hud_bar.bitmap && !@hud_bar.bitmap.disposed?
+      @hud_bar.dispose
+    end
     @hud_bar = nil
-    @hud_text.dispose if @hud_text && !@hud_text.disposed?
+
+    if @hud_text && !@hud_text.disposed?
+      @hud_text.bitmap.dispose if @hud_text.bitmap && !@hud_text.bitmap.disposed?
+      @hud_text.dispose
+    end
     @hud_text = nil
+
     @hud_viewport.dispose if @hud_viewport && !@hud_viewport.disposed?
     @hud_viewport = nil
   end
