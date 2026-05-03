@@ -386,3 +386,20 @@ DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' 
 DEBUG - get_dynamic_typeless_pool | Floor 12 Theme is HIGH_BST
 DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
 DEBUG - get_dynamic_typeless_pool | Floor 12 Theme is HIGH_BST
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 12 Theme is HIGH_BST
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 12 Theme is HIGH_BST
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - get_pool | Trainer HIKER using Dual Type ROCK/FIRE
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - get_pool | Trainer CAMPER using Dual Type GROUND/FIRE
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - get_pool | Trainer PICNICKER falling back to Floor Type FIRE
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 12 Theme is HIGH_BST
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 12 Theme is HIGH_BST
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 12 Theme is HIGH_BST
