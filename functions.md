@@ -102,6 +102,14 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
     *   **Description:** Opens a loop dialogue where the player can feed random eligible relics from their bag to a 3D Printer to gain a specific printed relic item.
     *   **Usage:** Used as a standalone interactable map event.
 
+*   **`pbRaidMart`**
+    *   **Description:** Opens a dynamic shop offering 6 to 8 randomized general items (e.g., Potions, Poké Balls). The available item pool expands to include higher-tier items based on the player's progression (`$PokemonGlobal.last_raid_floor`).
+    *   **Usage:** Used natively in NPC events via script call (e.g., `pbRaidMart()`).
+
+*   **`pbRaidMartTM`**
+    *   **Description:** Opens a dynamic shop offering 4 to 6 randomized TMs, with a rare 10% chance to additionally offer a random HM. TMs and HMs are automatically populated from `GameData::Item`.
+    *   **Usage:** Used natively in NPC events via script call (e.g., `pbRaidMartTM()`).
+
 *   **`pbSpawnFloorMiningSpots`**
     *   **Description:** Dynamically scans the current map for passable floor tiles adjacent to impassable walls and spawns interactive, invisible mining spots with a sparkle animation. When interacted with, they launch the DPt Mining Minigame.
     *   **Usage:** `pbSpawnFloorMiningSpots(min_spots, max_spots)` inside the teleport/map transfer event when generating or entering a new floor.
