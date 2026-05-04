@@ -1,0 +1,17 @@
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - get_pool | Trainer LASS falling back to Floor Type FIRE
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 88 species
+Filtered Pool Size: 18 species
+Sample Allowed Species: CHARMANDER, VULPIX, CYNDAQUIL, SLUGMA, TORCHIC
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 88 species
+Filtered Pool Size: 18 species
+Sample Allowed Species: CHARMANDER, VULPIX, CYNDAQUIL, SLUGMA, TORCHIC
+===================================================
