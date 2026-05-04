@@ -40,13 +40,13 @@ module RoguelikeDifficultyHUD
   # State variables
   @frame_counter = 0
 
-  # When the master switch is toggled ON, reset the timer and tier
+  # When the master switch is toggled, reset the timer and tier
   EventHandlers.add(:on_game_switch_change, :roguelike_timer_reset,
-    proc { |switch_id|
-      if switch_id == ROGUELIKE_RUN_ACTIVE_SWITCH && $game_switches[switch_id] == true
+    proc { |switch_id, value|
+      if switch_id == ROGUELIKE_RUN_ACTIVE_SWITCH
         $game_variables[TIMER_SECONDS_VAR] = 0
         $game_variables[DIFFICULTY_TIER_VAR] = 1
-        @frame_counter = 0 # reset internal frame tracker
+        @frame_counter = 0 if value == true
       end
     }
   )
