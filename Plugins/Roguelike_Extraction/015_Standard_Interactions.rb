@@ -55,3 +55,57 @@ module RoguelikeExtraction
 
   end
 end
+
+#===============================================================================
+# Global Script Calls for Hub / Standard Events
+#===============================================================================
+
+# Generates a random mart of 6-8 general items based on progression.
+def pbRaidMart
+  floor = $PokemonGlobal.last_raid_floor || 0
+
+  # Always available
+  pool = [:POKEBALL, :POTION, :ANTIDOTE, :PARALYZEHEAL, :AWAKENING, :REPEL]
+
+  # Mid-Tier
+  if floor >= 5
+    pool += [:GREATBALL, :SUPERPOTION, :FULLHEAL, :ESCAPEROPE]
+  end
+
+  # High-Tier
+  if floor >= 10
+    pool += [:ULTRABALL, :HYPERPOTION, :REVIVE, :MAXREPEL]
+  end
+
+  num_items = rand(6..8)
+  selected_items = pool.sample(num_items)
+
+  # Sort items by price to keep the mart looking clean
+  selected_items.sort_by! { |s| GameData::Item.get(s).price }
+
+  pbPokemonMart(selected_items)
+end
+
+# Generates a random mart of 4-6 TMs with a rare chance for an HM.
+def pbRaidMartTM
+  tm_pool = []
+  hm_pool = []
+
+  GameData::Item.each do |item|
+    tm_pool << item.id if item.is_TM?
+    hm_pool << item.id if item.is_HM?
+  end
+
+  num_items = rand(4..6)
+  selected_items = tm_pool.sample(num_items)
+
+  # 10% chance to add a rare HM to the stock
+  if rand(100) < 10 && !hm_pool.empty?
+    selected_items << hm_pool.sample
+  end
+
+  # Sort items by price to keep the mart looking clean
+  selected_items.sort_by! { |s| GameData::Item.get(s).price }
+
+  pbPokemonMart(selected_items)
+end
