@@ -255,6 +255,8 @@ module RoguelikeExtraction
 
     # Start the Difficulty Timer
     $game_switches[90] = true
+    $game_variables[91] = 0
+    $game_variables[90] = 1
 
     # Reset raid states for the new run
     $PokemonGlobal.encounter_version = 0
@@ -371,6 +373,8 @@ module RoguelikeExtraction
 
     # Stop the Difficulty Timer
     $game_switches[90] = false
+    $game_variables[91] = 0
+    $game_variables[90] = 1
 
     $PokemonGlobal.last_raid_floor = $PokemonGlobal.current_raid_floor
     $PokemonGlobal.current_raid_floor = 0
@@ -483,6 +487,8 @@ module RoguelikeExtraction
 
     # Stop the Difficulty Timer
     $game_switches[90] = false
+    $game_variables[91] = 0
+    $game_variables[90] = 1
 
     $PokemonGlobal.last_raid_floor = $PokemonGlobal.current_raid_floor
     $PokemonGlobal.current_raid_floor = 0
@@ -673,7 +679,6 @@ def pbStartOver(*args)
   if $PokemonGlobal && $PokemonGlobal.current_raid_floor.to_i > 0
     # Player organically lost a battle mid-raid.
     # Block the default Pokémon Center heal entirely.
-    $game_switches[90] = false
     RoguelikeExtraction.blackout
     return true # Returning true assumes the script handled the wipe sequence.
   else

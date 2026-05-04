@@ -8,6 +8,7 @@ As an expert coding assistant and technical project manager for this repository,
    - This project is strictly built on **Pokémon Essentials v21.1**.
    - All Ruby (RGSS) scripts you write MUST adhere to v21.1 syntax and standard practices. Do not use deprecated methods or syntax from older versions (e.g., v20 or earlier).
    - Use standard Essentials APIs, variables (like `$player`, `$PokemonBag`, `$PokemonStorage`), and PBS file formats specific to v21.1.
+   - In Pokémon Essentials v21.1, changing a switch state directly via code (e.g., `$game_switches[X] = false`) does not natively broadcast an `:on_game_switch_change` event across the engine. Event handlers listening for switch changes will fail silently unless triggered through standard RPG Maker event commands. Always use hardcoded logic or manual triggers for vital state changes.
 
 2. **Asset Management (NO MEDIA ASSETS)**:
    - This repository will strictly contain code (Ruby scripts) and configuration data (PBS files).
