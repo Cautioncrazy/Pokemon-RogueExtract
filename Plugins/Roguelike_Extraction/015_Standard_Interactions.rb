@@ -60,30 +60,22 @@ end
 # Global Script Calls for Hub / Standard Events
 #===============================================================================
 
-# Generates a random mart of 6-8 general items based on progression.
+# Generates a static, tiered mart of general items based on progression.
 def pbRaidMart
-  floor = $PokemonGlobal.last_raid_floor || 0
+  floor = $PokemonGlobal.last_raid_floor.to_i
 
-  # Always available
-  pool = [:POKEBALL, :POTION, :ANTIDOTE, :PARALYZEHEAL, :AWAKENING, :REPEL]
-
-  # Mid-Tier
-  if floor >= 5
-    pool += [:GREATBALL, :SUPERPOTION, :FULLHEAL, :ESCAPEROPE]
-  end
-
-  # High-Tier
   if floor >= 10
-    pool += [:ULTRABALL, :HYPERPOTION, :REVIVE, :MAXREPEL]
+    # Tier 3 (Floor 10+)
+    pool = [:ULTRABALL, :HYPERPOTION, :FULLRESTORE, :MAXREPEL, :REVIVE]
+  elsif floor >= 5
+    # Tier 2 (Floor 5 - 9)
+    pool = [:GREATBALL, :SUPERPOTION, :FULLHEAL, :SUPERREPEL, :ESCAPEROPE]
+  else
+    # Tier 1 (Floor 0 - 4)
+    pool = [:POKEBALL, :POTION, :ANTIDOTE, :PARALYZEHEAL, :AWAKENING, :REPEL]
   end
 
-  num_items = rand(6..8)
-  selected_items = pool.sample(num_items)
-
-  # Sort items by price to keep the mart looking clean
-  selected_items.sort_by! { |s| GameData::Item.get(s).price }
-
-  pbPokemonMart(selected_items)
+  pbPokemonMart(pool)
 end
 
 # Generates a random mart of 4-6 TMs with a rare chance for an HM.
@@ -92,12 +84,14 @@ def pbRaidMartTM
   hm_pool = []
 
   GameData::Item.each do |item|
-    tm_pool << item.id if item.is_TM?
-    hm_pool << item.id if item.is_HM?
+    item_id_str = item.id.to_s
+    tm_pool << item.id if item_id_str.start_with?("TM")
+    hm_pool << item.id if item_id_str.start_with?("HM")
   end
 
   num_items = rand(4..6)
-  selected_items = tm_pool.sample(num_items)
+  # Failsafe in case tm_pool is empty
+  selected_items = tm_pool.empty? ? [] : tm_pool.sample(num_items)
 
   # 10% chance to add a rare HM to the stock
   if rand(100) < 10 && !hm_pool.empty?
@@ -105,7 +99,7 @@ def pbRaidMartTM
   end
 
   # Sort items by price to keep the mart looking clean
-  selected_items.sort_by! { |s| GameData::Item.get(s).price }
+  selected_items.sort_by! { |s| GameData::Item.get(s).price } unless selected_items.empty?
 
   pbPokemonMart(selected_items)
 end

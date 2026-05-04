@@ -103,7 +103,7 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
     *   **Usage:** Used as a standalone interactable map event.
 
 *   **`pbRaidMart`**
-    *   **Description:** Opens a dynamic shop offering 6 to 8 randomized general items (e.g., Potions, Poké Balls). The available item pool expands to include higher-tier items based on the player's progression (`$PokemonGlobal.last_raid_floor`).
+    *   **Description:** Opens a static shop offering a set list of general items (e.g., Potions, Poké Balls). The items offered are strictly defined by the player's progression tier (`$PokemonGlobal.last_raid_floor`), completely replacing lower-tier versions with upgraded items (e.g., replacing Potions with Super Potions) at Floors 5 and 10.
     *   **Usage:** Used natively in NPC events via script call (e.g., `pbRaidMart()`).
 
 *   **`pbRaidMartTM`**
