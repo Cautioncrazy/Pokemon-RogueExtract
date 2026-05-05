@@ -107,7 +107,7 @@ This document outlines all of the custom script calls (the `pb...` methods) crea
     *   **Usage:** Used natively in NPC events via script call (e.g., `pbRaidMart()`).
 
 *   **`pbRaidMartTM`**
-    *   **Description:** Opens a dynamic shop offering 4 to 6 randomized TMs, with a rare 10% chance to additionally offer a random HM. TMs and HMs are automatically populated from `GameData::Item`.
+    *   **Description:** Opens a dynamic shop offering 4 to 6 randomized TMs. TMs are automatically populated from `GameData::Item`.
     *   **Usage:** Used natively in NPC events via script call (e.g., `pbRaidMartTM()`).
 
 *   **`pbSpawnFloorMiningSpots`**
