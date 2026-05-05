@@ -283,3 +283,45 @@ Original Pool Size: 102 species
 Filtered Pool Size: 36 species
 Sample Allowed Species: VENUSAUR, CHARIZARD, BLASTOISE, NIDOQUEEN, NIDOKING
 ===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 174 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Cave, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 174 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 174 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 174 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 174 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
