@@ -5165,7 +5165,7 @@ Description = The target is gripped and squeezed from both sides to inflict dama
 #-------------------------------
 [CUT]
 Name = Cut
-Type = NORMAL
+Type = STEEL
 Category = Physical
 Power = 50
 Accuracy = 95
