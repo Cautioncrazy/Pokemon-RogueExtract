@@ -62,18 +62,20 @@ end
 
 # Generates a static, tiered mart of general items based on progression.
 def pbRaidMart
-  floor = $PokemonGlobal.last_raid_floor.to_i
+  floor = $PokemonGlobal.last_raid_floor || 0
+  floor = floor.to_i
 
+  # Completely overwrite the pool based on highest tier reached
   if floor >= 10
-    # Tier 3 (Floor 10+)
-    pool = [:ULTRABALL, :HYPERPOTION, :FULLRESTORE, :MAXREPEL, :REVIVE]
+    pool = [:ULTRABALL, :HYPERPOTION, :FULLHEAL, :MAXREPEL, :REVIVE, :ESCAPEROPE, :FULLRESTORE, :MAXPOTION]
   elsif floor >= 5
-    # Tier 2 (Floor 5 - 9)
-    pool = [:GREATBALL, :SUPERPOTION, :FULLHEAL, :SUPERREPEL, :ESCAPEROPE]
+    pool = [:GREATBALL, :SUPERPOTION, :ANTIDOTE, :PARALYZEHEAL, :SUPERREPEL, :ESCAPEROPE, :REVIVE, :FRESHWATER]
   else
-    # Tier 1 (Floor 0 - 4)
-    pool = [:POKEBALL, :POTION, :ANTIDOTE, :PARALYZEHEAL, :AWAKENING, :REPEL]
+    pool = [:POKEBALL, :POTION, :ANTIDOTE, :PARALYZEHEAL, :AWAKENING, :REPEL, :BURNHEAL, :ICEHEAL]
   end
+
+  # Sort items by price to keep the mart looking clean
+  pool.sort_by! { |s| GameData::Item.get(s).price }
 
   pbPokemonMart(pool)
 end
@@ -98,8 +100,20 @@ def pbRaidMartTM
     selected_items << hm_pool.sample
   end
 
-  # Sort items by price to keep the mart looking clean
+  # Sort items by price first (must be done before converting to arrays)
   selected_items.sort_by! { |s| GameData::Item.get(s).price } unless selected_items.empty?
 
-  pbPokemonMart(selected_items)
+  # Apply custom prices to HMs and any free TMs so they aren't $0
+  final_stock = selected_items.map do |item_sym|
+    item_data = GameData::Item.get(item_sym)
+    if item_data.is_HM? || item_data.id.to_s.start_with?("HM")
+      [item_sym, 15000] # HMs cost $15,000
+    elsif item_data.price == 0
+      [item_sym, 5000]  # Failsafe: Free TMs cost $5,000
+    else
+      item_sym          # Normal TMs use their default PBS price
+    end
+  end
+
+  pbPokemonMart(final_stock)
 end
