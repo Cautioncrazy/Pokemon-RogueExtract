@@ -100,20 +100,8 @@ def pbRaidMartTM
     selected_items << hm_pool.sample
   end
 
-  # Sort items by price first (must be done before converting to arrays)
+  # Sort items by price
   selected_items.sort_by! { |s| GameData::Item.get(s).price } unless selected_items.empty?
 
-  # Apply custom prices to HMs and any free TMs so they aren't $0
-  final_stock = selected_items.map do |item_sym|
-    item_data = GameData::Item.get(item_sym)
-    if item_data.is_HM? || item_data.id.to_s.start_with?("HM")
-      [item_sym, 15000] # HMs cost $15,000
-    elsif item_data.price == 0
-      [item_sym, 5000]  # Failsafe: Free TMs cost $5,000
-    else
-      item_sym          # Normal TMs use their default PBS price
-    end
-  end
-
-  pbPokemonMart(final_stock)
+  pbPokemonMart(selected_items)
 end
