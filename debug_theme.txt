@@ -117,3 +117,13 @@ Original Pool Size: 2 species
 Filtered Pool Size: 1 species
 Sample Allowed Species: SANDSHREW_1
 ===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Cave, :type=>:FIRE}
+DEBUG - get_pool | Trainer HIKER using Dual Type ROCK/FIRE
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 5 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
