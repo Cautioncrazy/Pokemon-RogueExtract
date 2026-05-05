@@ -82,6 +82,13 @@ end
 
 # Generates a random mart of 4-6 TMs with a rare chance for an HM.
 def pbRaidMartTM
+  # Check if we already rolled a shop inventory for this Hub stay
+  cached_stock = $PokemonGlobal.instance_variable_get(:@hub_tm_cache)
+  if cached_stock && !cached_stock.empty?
+    pbPokemonMart(cached_stock)
+    return
+  end
+
   tm_pool = []
   hm_pool = []
 
@@ -102,6 +109,9 @@ def pbRaidMartTM
 
   # Sort items by price
   selected_items.sort_by! { |s| GameData::Item.get(s).price } unless selected_items.empty?
+
+  # Save the rolled inventory so it persists until the player leaves the Hub
+  $PokemonGlobal.instance_variable_set(:@hub_tm_cache, selected_items)
 
   pbPokemonMart(selected_items)
 end

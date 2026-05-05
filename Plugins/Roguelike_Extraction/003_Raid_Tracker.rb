@@ -258,6 +258,11 @@ module RoguelikeExtraction
     $game_variables[91] = 0
     $game_variables[90] = 1
 
+    # Clear Hub shop caches so they reroll next visit
+    if $PokemonGlobal.instance_variable_defined?(:@hub_tm_cache)
+      $PokemonGlobal.instance_variable_set(:@hub_tm_cache, nil)
+    end
+
     # Reset raid states for the new run
     $PokemonGlobal.encounter_version = 0
     if $PokemonGlobal.instance_variable_defined?(:@fought_raid_trainers)
