@@ -14,6 +14,7 @@ As an expert coding assistant and technical project manager for this repository,
 2. **Hub-Based State Management**:
    - Map 77 is the static Hub. Whenever possible, use the act of returning to the Hub (via `extract`, `extract_vip`, or `blackout`) as the master trigger for resetting run-based variables, switches, and caches.
    - Additionally, use `$game_map && $game_map.map_id == 77` as the standard condition for UI restrictions or features that should only be accessible outside of dungeon runs.
+   - **Hub Economy:** The TM Shop (`pbRaidMartTM`) strictly generates randomized TMs. HMs are intentionally excluded from the randomized Hub economy.
 
 3. **Asset Management (NO MEDIA ASSETS)**:
    - This repository will strictly contain code (Ruby scripts) and configuration data (PBS files).
