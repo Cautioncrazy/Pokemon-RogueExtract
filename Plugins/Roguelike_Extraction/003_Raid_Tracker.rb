@@ -258,11 +258,6 @@ module RoguelikeExtraction
     $game_variables[91] = 0
     $game_variables[90] = 1
 
-    # Clear Hub shop caches so they reroll next visit
-    if $PokemonGlobal.instance_variable_defined?(:@hub_tm_cache)
-      $PokemonGlobal.instance_variable_set(:@hub_tm_cache, nil)
-    end
-
     # Reset raid states for the new run
     $PokemonGlobal.encounter_version = 0
     if $PokemonGlobal.instance_variable_defined?(:@fought_raid_trainers)
@@ -364,6 +359,11 @@ module RoguelikeExtraction
 
     pbMessage(_INTL("VIP defeated! Extraction successful. Your loot has been secured, and your progress saved."))
 
+    # Clear Hub shop caches so they reroll for the next visit
+    if $PokemonGlobal.instance_variable_defined?(:@hub_tm_cache)
+      $PokemonGlobal.instance_variable_set(:@hub_tm_cache, nil)
+    end
+
     # Teleport to Hub
     $game_temp.player_transferring = true
     $game_temp.player_new_map_id = HUB_LOCATION[0]
@@ -390,6 +390,11 @@ module RoguelikeExtraction
     reset_all_raid_maps
 
     pbMessage(_INTL("Extraction successful! Your loot has been secured."))
+
+    # Clear Hub shop caches so they reroll for the next visit
+    if $PokemonGlobal.instance_variable_defined?(:@hub_tm_cache)
+      $PokemonGlobal.instance_variable_set(:@hub_tm_cache, nil)
+    end
 
     # Teleport to Hub
     $game_temp.player_transferring = true
@@ -511,6 +516,11 @@ module RoguelikeExtraction
       revert_bag_to_snapshot
       wipe_pokemon_standard
       pbMessage(_INTL("You blacked out! The loot you found on this floor was lost..."))
+    end
+
+    # Clear Hub shop caches so they reroll for the next visit
+    if $PokemonGlobal.instance_variable_defined?(:@hub_tm_cache)
+      $PokemonGlobal.instance_variable_set(:@hub_tm_cache, nil)
     end
 
     # Teleport to Hub
