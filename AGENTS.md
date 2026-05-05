@@ -11,14 +11,18 @@ As an expert coding assistant and technical project manager for this repository,
    - In Pokémon Essentials v21.1, changing a switch state directly via code (e.g., `$game_switches[X] = false`) does not natively broadcast an `:on_game_switch_change` event across the engine. Event handlers listening for switch changes will fail silently unless triggered through standard RPG Maker event commands. Always use hardcoded logic or manual triggers for vital state changes.
    - In Pokémon Essentials v21.1, `pbPokemonMart` strictly expects an array of item symbols. It cannot accept nested arrays (e.g., `[item_symbol, custom_price]`) to dynamically override item prices.
 
-2. **Asset Management (NO MEDIA ASSETS)**:
+2. **Hub-Based State Management**:
+   - Map 77 is the static Hub. Whenever possible, use the act of returning to the Hub (via `extract`, `extract_vip`, or `blackout`) as the master trigger for resetting run-based variables, switches, and caches.
+   - Additionally, use `$game_map && $game_map.map_id == 77` as the standard condition for UI restrictions or features that should only be accessible outside of dungeon runs.
+
+3. **Asset Management (NO MEDIA ASSETS)**:
    - This repository will strictly contain code (Ruby scripts) and configuration data (PBS files).
    - **Do NOT** generate, request, or attempt to manage image or audio assets.
    - Visual and audio implementations will be handled manually by the user in RPG Maker XP.
    - Reference PBS files directly when you need to call a specific Pokémon, Item, or Move name.
    - **Exception:** If user explicitly asks agent to manage image/audio files
 
-3. **Plugin Management (meta.txt)**:
+4. **Plugin Management (meta.txt)**:
    - Any custom plugins created for the repository must include a `meta.txt` file in their directory (containing Name, Version, etc.), or else Pokémon Essentials will not load them.
 
 ## Mobile Deployment Standards (JoiPlay Optimization)
