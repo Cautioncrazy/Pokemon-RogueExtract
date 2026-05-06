@@ -1,0 +1,5 @@
+[Sand]
+Id_number = 3
+IsSand = true
+BattleEnvironment = Sand
+LandWildEncounters = true
