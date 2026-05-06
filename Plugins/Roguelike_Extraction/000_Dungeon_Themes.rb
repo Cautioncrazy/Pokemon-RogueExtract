@@ -7,8 +7,8 @@
 
 module DungeonThemes
   DATA = {
-    :cave       => { :terrain => :Cave, :type => nil },
-    :cave_FIRE  => { :terrain => :Cave, :type => :FIRE },
+    :cave       => { :terrain => :Land, :type => nil },
+    :cave_FIRE  => { :terrain => :Land, :type => :FIRE },
     :forest     => { :terrain => :Land, :type => nil },
     :forest_ICE => { :terrain => :Land, :type => :ICE }
   }

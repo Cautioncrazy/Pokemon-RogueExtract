@@ -116,26 +116,9 @@ We use a custom Python tool suite located in `tools/pbs_generator/` to automate 
   - `trainer_gen.py`: Appends procedurally generated themed trainers to `PBS/trainers.txt`. *(Note: Largely deprecated in favor of on-the-fly in-memory generation via `017_Procedural_Encounters.rb`, but retained for legacy compilation).*
   - `main.py`: A Glassmorphism GUI (requires `PyQt6`) to drive the entire generation process easily.
   - `encounters.md` / `trainers.md`: Text definitions that act as rulesets mapping Themes (Grass, Poison, etc.) to valid Pokémon species and Trainer Classes.
-- **Automated Map Pipeline**: We employ a dual-script pipeline for generating procedural maps:
-  1. **In-Engine (`.rxdata`)**: Open RPG Maker XP, run the game in Debug mode, and select `Other editors... -> Mass Generate RL Maps`. Input a Map ID range. This generates the physical `MapXXX.rxdata` files and links them to the editor registry (`MapInfos.rxdata`). **You must completely restart RPG Maker XP to see the new maps.**
-      - *Tileset Naming & Theme Bridging*: The Ruby script randomly assigns a tileset to each new map. It ONLY selects tilesets whose names strictly begin with `Dungeon`. If the tileset name contains a theme suffix (e.g., `Dungeon forest_ICE`), the Ruby script writes this map-to-theme mapping into `tools/pbs_generator/map_themes.json`.
-  2. **PBS Metadata (`map_metadata.txt`)**: Use the Python GUI tool to mass-generate the corresponding metadata. The tool automatically injects random names, the `Dungeon = true` flag, and randomly selects a BGM by scanning the `Audio/BGM/` directory.
-      - *Theme Overrides*: When you run bulk generation in the Python GUI, it natively reads `map_themes.json`. If a map has an assigned tileset theme (like `ICE`), it forcefully overrides whatever "Floor Theme" you selected in the GUI dropdown, guaranteeing that map's encounters and trainers match its physical tileset.
-
-- **Usage**:
-  1. Ensure `PyQt6` is installed (`pip install PyQt6`).
-  2. Run `python tools/pbs_generator/main.py` from the root of the repository.
-  3. Use the GUI for **bulk generation** by specifying:
-     - **Start Map ID** & **End Map ID**: The range of maps to generate data for.
-     - **Number of Floors**: The number of versions/floors each map in the range will have generated.
-     - **Floor Theme**: Select a specific theme or use "Random".
-     - **Apply Selected Theme to All Maps**: A toggle checkbox. If checked, it applies the exact selected theme to all floors. If the selected theme is "Random", it will pick a *new* random theme for *every* individual floor. If the checkbox is unchecked, it completely ignores the dropdown and forces a *new* random theme for *every* individual floor.
-     - **Step Chance Config**: Defines the encounter step chance increment. You input a min chance (e.g., 5%), max chance (e.g., 20%), and a "Chunk" size. Floors are grouped into these chunks, and the step chance linearly scales from min to max across the total number of chunks.
-     - **Grunt Pool Size**: A min/max configuration that dictates how many distinct standard trainers the script will generate per map version, providing a wider pool for the randomizer to pull from and reducing clone armies on the map.
-     - **Index Filter**: An optional semantic filter powered by `pokemon_index.json`. You can select a category (e.g., `bst_tier`, `encounter_rarity`) and a value (e.g., `earlygame`, `legendary`) to restrict the pool of generated Pokémon. The filter applies natively to Wild Encounters and features an automated fallback system (e.g., trying `midgame` if `earlygame` yields 0 Pokémon) to guarantee generation. You can toggle whether this filter also applies to procedurally generated Trainer Parties.
-     - **Boss Generation**: Controls if Boss trainers are generated (`Include Boss`, `Exclude Boss`, or `Only Boss`). When generated, Boss trainers receive the `"Boss "` name prefix, a +1 party size increase, +2 level boost, unique LoseText, and a guaranteed set of healing items that scale with the floor depth (e.g., `POTION` on F1, scaling up to `FULLRESTORE,SITRUSBERRY,LUMBERRY` on F13+). Standard trainers also have a 50% chance to receive slightly weaker, slower-scaling items.
-     - **Overwrite Existing Data**: If checked, the tool actively finds and deletes matching PBS sections before rewriting them. **Important**: When overwrite is active, dynamic trainers are generated with deterministic names (e.g., `Boss M1_F5`) instead of random names (e.g., `Boss Alice`) to ensure the PBS parser can accurately locate and delete the specific previous procedural entry.
-- **Role**: As the agent, you are responsible for maintaining and expanding these Python tools alongside the standard Ruby scripts, ensuring the custom parser remains intact and never falls back to standard `configparser` or `json` libraries.
+- **Map Generation**:
+  - **On-The-Fly Generation**: The old Python mass-generation tools and 008_Mass_Map_Generator are deprecated. Maps and encounters are generated strictly on-the-fly during runtime.
+  - **Encounter Types**: All dynamically generated maps must strictly use `:Land` encounters, regardless of visual theme. This prevents hardcoded full-map cave encounters and allows custom terrain tags (like Sand/Grass) to act as optional combat zones.
 
 ### 8. External Utilities & Tools
 - **Pokemon Factory Mobile Generator**: `tools/Pokemon_Factory_Mobile_Generator.html`
