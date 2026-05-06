@@ -94,6 +94,7 @@ GameData::TerrainTag.register({
 GameData::TerrainTag.register({
   :id                     => :Sand,
   :id_number              => 3,
+  :land_wild_encounters   => true,
   :battle_environment     => :Sand
 })
 
