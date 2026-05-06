@@ -401,3 +401,31 @@ Original Pool Size: 2 species
 Filtered Pool Size: 1 species
 Sample Allowed Species: SNOM
 ===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - get_pool | Trainer BUGCATCHER using Dual Type BUG/ICE
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 2 species
+Filtered Pool Size: 1 species
+Sample Allowed Species: SNOM
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 102 species
+Filtered Pool Size: 23 species
+Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORANmA
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 102 species
+Filtered Pool Size: 23 species
+Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORANmA
+===================================================
