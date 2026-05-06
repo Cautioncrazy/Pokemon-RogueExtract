@@ -146,11 +146,10 @@ class PokemonEncounters
   end
 
   def has_cave_encounters?
+    # We strictly enforce Land encounters for all procedural maps to prevent forced full-map cave encounters
+    # so custom terrain tags (like Sand/Grass) act as optional combat zones.
+    return false if $PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none
     return true if RiftChallenges.is_rift_map?
-    if $PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none
-      theme_data = DungeonThemes.get($PokemonGlobal.dungeon_area)
-      return true if theme_data && theme_data[:terrain] == :Cave
-    end
     has_cave_encounters_dynamic_rift
   end
 
@@ -162,25 +161,12 @@ class PokemonEncounters
 
   def has_encounter_type?(enc_type)
     return true if RiftChallenges.is_rift_map? && enc_type == :Cave # Force cave encounters inside Rifts
-    # Return true for standard Land/Cave encounter slots on dynamic procedural floors
+    # Return true for standard Land encounter slots on dynamic procedural floors, bypassing Cave encounters.
     if $PokemonGlobal.instance_variable_defined?(:@dungeon_area) && $PokemonGlobal.dungeon_area != :none
-      theme_data = DungeonThemes.get($PokemonGlobal.dungeon_area)
       is_cave_query = enc_type.to_s.upcase.include?("CAVE")
-      is_water_query = enc_type.to_s.upcase.include?("WATER")
-
-      if theme_data && theme_data[:terrain] == :Land
-        return false if is_cave_query
-        return true if [:Land, :LandMorning, :LandDay, :LandNight].include?(enc_type)
-        return false
-      elsif theme_data && theme_data[:terrain] == :Cave
-        return true if is_cave_query
-        return false # A Cave map shouldn't trigger Land encounters natively
-      else
-        # Fallback explicitly block ANY cave query from returning true on unknown terrain
-        return false if is_cave_query
-        return true if [:Land, :LandMorning, :LandDay, :LandNight].include?(enc_type)
-        return false
-      end
+      return false if is_cave_query
+      return true if [:Land, :LandMorning, :LandDay, :LandNight].include?(enc_type)
+      return false
     end
     has_encounter_type_dynamic_rift(enc_type)
   end
@@ -198,18 +184,10 @@ class PokemonEncounters
       terrain_tag = $game_map.terrain_tag($game_player.x, $game_player.y)
       return false if terrain_tag.ice
 
-      theme_data = DungeonThemes.get($PokemonGlobal.dungeon_area)
-
-      if theme_data && theme_data[:terrain] == :Land
-        return true if terrain_tag.land_wild_encounters
-        return false
-      elsif theme_data && theme_data[:terrain] == :Cave
-        return true # Caves trigger encounters on any walkable tile
-      else
-        # Land maps STRICTLY require the tile to be flagged for wild encounters (e.g. Grass)
-        return true if terrain_tag.land_wild_encounters
-        return false
-      end
+      # All dynamic maps STRICTLY require the tile to be flagged for wild encounters (e.g. Grass/Sand)
+      # to prevent full-map forced encounters, turning Cave terrains into "safe path" dungeons.
+      return true if terrain_tag.land_wild_encounters
+      return false
     end
     encounter_possible_here_dynamic_rift
   end
