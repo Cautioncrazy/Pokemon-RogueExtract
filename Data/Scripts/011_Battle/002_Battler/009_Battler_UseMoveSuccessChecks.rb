@@ -68,6 +68,22 @@ class Battle::Battler
       end
       return false
     end
+    # Fear
+    if @effects[PBEffects::Fear] > 0 && move.damagingMove? && !specialUsage
+      if showMessages
+        msg = _INTL("{1} is paralyzed by fear and cannot attack!", pbThis)
+        (commandPhase) ? @battle.pbDisplayPaused(msg) : @battle.pbDisplay(msg)
+      end
+      return false
+    end
+    # Reckless
+    if @effects[PBEffects::Reckless] > 0 && move.statusMove? && !specialUsage
+      if showMessages
+        msg = _INTL("{1} is acting recklessly and must attack!", pbThis)
+        (commandPhase) ? @battle.pbDisplayPaused(msg) : @battle.pbDisplay(msg)
+      end
+      return false
+    end
     # Torment
     if @effects[PBEffects::Torment] && !@effects[PBEffects::Instructed] && !specialUsage &&
        @lastMoveUsed && move.id == @lastMoveUsed && move.id != @battle.struggle.id
