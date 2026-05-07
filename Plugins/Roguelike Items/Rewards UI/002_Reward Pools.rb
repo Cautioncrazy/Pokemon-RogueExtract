@@ -127,13 +127,7 @@ class Battle
   end
   def pbRecordAndStoreCaughtPokemon(*args)
     __roguelike__pbRecordAndStoreCaughtPokemon(*args)
-
-    # Only allow rewards on Win (1) or Catch (4)
-    return unless @decision == 1 || @decision == 4
-
-    # Only allow rewards for Trainer Battles or Boss/Alpha battles (Switch 95)
-    return unless trainerBattle? || $game_switches[95]
-
+    return if [2, 5].include?(@decision)
     if RewardItemUI::REWARD_SCREEN_ENABLE_SWITCH > 0 && !$game_switches[RewardItemUI::REWARD_SCREEN_ENABLE_SWITCH]
       return
     end
