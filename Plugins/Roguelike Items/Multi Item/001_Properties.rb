@@ -11,6 +11,7 @@ class Pokemon
   end
 
   def add_item(item)
+    @items ||= []
     return nil if !GameData::Item.exists?(item)
     return nil if items_full?
     @items.push(GameData::Item.get(item).id)
@@ -18,6 +19,7 @@ class Pokemon
   end
 
   def remove_item(item = nil)
+    @items ||= []
     return nil if items_empty?
     target_item = item || @items.last
     return nil unless GameData::Item.exists?(target_item)
@@ -26,21 +28,28 @@ class Pokemon
   end
 
   def each_item
+    @items ||= []
     @items.each { |i| yield GameData::Item.try_get(i) }
   end
 
-  def item_count; return @items.size; end
+  def items
+    @items ||= []
+  end
+
+  def item_count; return items.size; end
 
   def items_full?; return item_count == MAX_ITEM_COUNT; end
 
   def items_empty?; return item_count == 0; end
 
   def item_id
+    @items ||= []
     return nil if items_empty?
     return GameData::Item.get(@items.last).id
   end
 
   def item
+    @items ||= []
     return nil if items_empty?
     return GameData::Item.get(@items.last)
   end
