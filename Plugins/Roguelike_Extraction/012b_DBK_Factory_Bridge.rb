@@ -57,7 +57,9 @@ def pbFightFactoryBoss(boss_key)
   setBattleRule("cannotRun")
   setBattleRule("databoxStyle", [:Long, "{1}"])
 
+  $game_switches[95] = true
   outcome = WildBattle.start(pkmn)
+  $game_switches[95] = false
 
   return (outcome == 1 || outcome == 4)
 end
