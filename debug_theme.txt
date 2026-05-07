@@ -429,3 +429,63 @@ Original Pool Size: 102 species
 Filtered Pool Size: 23 species
 Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORANmA
 ===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 174 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 174 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 102 species
+Filtered Pool Size: 23 species
+Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORANmA
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 102 species
+Filtered Pool Size: 23 species
+Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORANmA
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 102 species
+Filtered Pool Size: 23 species
+Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORANmA
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 8
+Original Pool Size: 102 species
+Filtered Pool Size: 36 species
+Sample Allowed Species: VENUSAUR, CHARIZARD, BLASTOISE, NIDOQUEEN, NIDOKING
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 8
+Original Pool Size: 102 species
+Filtered Pool Size: 36 species
+Sample Allowed Species: VENUSAUR, CHARIZARD, BLASTOISE, NIDOQUEEN, NIDOKING
+===================================================
