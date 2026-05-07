@@ -84,6 +84,15 @@ class Battle::Battler
   # Effects after all hits (i.e. at end of move usage)
   #=============================================================================
   def pbEffectsAfterMove(user, targets, move, numHits)
+    # Reckless Recoil
+    if user.effects[PBEffects::Reckless] > 0 && move.damagingMove? && numHits > 0 && !user.fainted?
+      hpLoss = [1, user.totalhp / 8].max
+      @battle.scene.pbDamageAnimation(user)
+      user.pbReduceHP(hpLoss, false)
+      @battle.pbDisplay(_INTL("{1} was hurt by its reckless assault!", user.pbThis))
+      user.pbItemHPHealCheck
+      user.pbFaint if user.fainted?
+    end
     # Defrost
     if move.damagingMove?
       targets.each do |b|
