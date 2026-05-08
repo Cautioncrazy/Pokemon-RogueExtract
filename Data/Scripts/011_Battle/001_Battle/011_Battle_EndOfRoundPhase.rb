@@ -342,6 +342,14 @@ end
     pbEORCountDownBattlerEffect(priority, PBEffects::Taunt) do |battler|
       pbDisplay(_INTL("{1}'s taunt wore off!", battler.pbThis))
     end
+    # Fear
+    pbEORCountDownBattlerEffect(priority, PBEffects::Fear) do |battler|
+      pbDisplay(_INTL("{1} overcame its fear!", battler.pbThis))
+    end
+    # Reckless
+    pbEORCountDownBattlerEffect(priority, PBEffects::Reckless) do |battler|
+      pbDisplay(_INTL("{1} calmed down and stopped acting recklessly.", battler.pbThis))
+    end
     # Encore
     priority.each do |battler|
       next if battler.fainted? || battler.effects[PBEffects::Encore] == 0

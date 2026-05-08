@@ -259,6 +259,8 @@ class Battle::Battler
     @effects[PBEffects::Taunt]               = 0
     @effects[PBEffects::ThroatChop]          = 0
     @effects[PBEffects::Torment]             = false
+    @effects[PBEffects::Fear]                = 0
+    @effects[PBEffects::Reckless]            = 0
     @effects[PBEffects::Toxic]               = 0
     @effects[PBEffects::Transform]           = false
     @effects[PBEffects::TransformSpecies]    = nil

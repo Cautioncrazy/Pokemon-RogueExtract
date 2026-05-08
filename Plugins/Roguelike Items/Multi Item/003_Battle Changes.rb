@@ -207,14 +207,30 @@ class Battle
 
   alias __roguelike__pbEndOfBattle pbEndOfBattle unless method_defined?(:__roguelike__pbEndOfBattle)
   def pbEndOfBattle(*args)
-    old_items = []
+    # 1. Save the state of ALL party members' full item arrays before vanilla logic runs
+    saved_party_items = []
     pbParty(0).each_with_index do |pkmn, i|
-      old_items[i] = pkmn.item if pkmn
+      saved_party_items[i] = pkmn ? pkmn.items.clone : []
     end
+
+    # 2. Update with any item changes (consumed berries, stolen items) from active battlers
+    @battlers.each do |b|
+      next if !b || !b.pokemon || !b.pbOwnedByPlayer? || !b.respond_to?(:items)
+      party_index = pbParty(0).index(b.pokemon)
+      if party_index
+        saved_party_items[party_index] = b.items.clone
+      end
+    end
+
+    # 3. Run vanilla logic (which will wrongly try to set single items to nil)
     ret = __roguelike__pbEndOfBattle(*args)
+
+    # 4. Restore the fully updated arrays back to the party, bypassing the wipe
     pbParty(0).each_with_index do |pkmn, i|
-      pkmn&.add_item(old_items[i])
+      next if !pkmn
+      pkmn.items = saved_party_items[i]
     end
+
     return ret
   end
 

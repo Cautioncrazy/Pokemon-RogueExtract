@@ -36,6 +36,11 @@ class Pokemon
     @items ||= []
   end
 
+  # NEW SETTER: Allows safe transfer of the full array post-battle
+  def items=(value)
+    @items = value.is_a?(Array) ? value.clone : []
+  end
+
   def item_count; return items.size; end
 
   def items_full?; return item_count == MAX_ITEM_COUNT; end
