@@ -1,3 +1,4 @@
+```ruby
 #-------------------------------------------------------------------------------
 # Multiple item main code
 #-------------------------------------------------------------------------------
@@ -34,6 +35,11 @@ class Pokemon
 
   def items
     @items ||= []
+  end
+
+  # NEW SETTER: Allows safe transfer of the full array post-battle
+  def items=(value)
+    @items = value.is_a?(Array) ? value.clone : []
   end
 
   def item_count; return items.size; end
@@ -97,3 +103,5 @@ class GameData::Trainer
     return ret
   end
 end
+
+```
