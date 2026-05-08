@@ -571,3 +571,29 @@ Original Pool Size: 12 species
 Filtered Pool Size: 2 species
 Sample Allowed Species: HIPPOPOTAS, SNOVER
 ===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 5 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 2
+Original Pool Size: 102 species
+Filtered Pool Size: 33 species
+Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORINA
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 5 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 2
+Original Pool Size: 102 species
+Filtered Pool Size: 33 species
+Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORINA
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 5 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 2
+Original Pool Size: 102 species
+Filtered Pool Size: 33 species
+Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORINA
+===================================================
