@@ -43,7 +43,7 @@ class Pokemon
 
   def item_count; return items.size; end
 
-  def items_full?; return item_count == MAX_ITEM_COUNT; end
+  def items_full?; return false; end
 
   def items_empty?; return item_count == 0; end
 
