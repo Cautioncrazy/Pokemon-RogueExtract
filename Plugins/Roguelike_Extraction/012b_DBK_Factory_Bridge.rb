@@ -39,6 +39,45 @@ def pbFightFactoryBoss(boss_key)
     boss_data[:moves].each { |m| pkmn.learn_move(m) }
   end
 
+  # --- Roguelike Advanced Level Scaling & Difficulty Modifiers ---
+  floor = $PokemonGlobal.instance_variable_defined?(:@current_raid_floor) ? $PokemonGlobal.current_raid_floor : 1
+  diff_setting = $game_variables[110] || 1 # 0 = Easy, 1 = Normal, 2 = Hard
+
+  if defined?(AutomaticLevelScaling)
+    case diff_setting
+    when 0 then AutomaticLevelScaling.difficulty = 1 # Easy
+    when 1 then AutomaticLevelScaling.difficulty = 4 # Normal
+    when 2 then AutomaticLevelScaling.difficulty = 3 # Hard
+    end
+    AutomaticLevelScaling.setNewLevel(pkmn)
+    AutomaticLevelScaling.setNewStage(pkmn)
+  end
+
+  case diff_setting
+  when 0 # Easy
+    GameData::Stat.each_main { |s| pkmn.iv[s.id] = rand(10..15) }
+    GameData::Stat.each_main { |s| pkmn.ev[s.id] = 0 }
+  when 2 # Hard
+    GameData::Stat.each_main { |s| pkmn.iv[s.id] = 31 }
+    GameData::Stat.each_main { |s| pkmn.ev[s.id] = 252 }
+  end
+
+  if floor >= 7
+    # Find if this species has a mega form
+    mega_stone_item = nil
+    GameData::Species.each do |data|
+      if data.species == pkmn.species && data.unmega_form == pkmn.form && data.mega_stone
+        mega_stone_item = data.mega_stone
+        break
+      end
+    end
+
+    if mega_stone_item
+      pkmn.item = mega_stone_item
+    end
+  end
+  # -------------------------------------------------------------
+
   pkmn.calc_stats
   pkmn.heal
 

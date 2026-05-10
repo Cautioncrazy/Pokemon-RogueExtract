@@ -23,8 +23,18 @@ module ProceduralEncounters
     tier = 1 if tier.nil? || tier < 1
     tier = 8 if tier > 8
 
+    floor = $PokemonGlobal.instance_variable_defined?(:@current_raid_floor) ? $PokemonGlobal.current_raid_floor : 1
+
     filtered_pool = pool.select do |s|
-      bst = GameData::Species.get(s).base_stats.values.sum
+      sp_data = GameData::Species.get(s)
+
+      # Exclude explicit Mega forms if floor < 7
+      # PBS pokemon_forms.txt defines MegaStone = CHARIZARDITEX on the Mega form itself.
+      if floor < 7 && (sp_data.mega_stone || sp_data.mega_move || (sp_data.respond_to?(:unmega_form) && sp_data.unmega_form > 0))
+        next false
+      end
+
+      bst = sp_data.base_stats.values.sum
       case tier
       when 1 then bst <= 320                    # Early game bugs/birds
       when 2 then bst >= 250 && bst <= 380
