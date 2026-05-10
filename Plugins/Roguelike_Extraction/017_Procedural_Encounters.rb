@@ -28,13 +28,30 @@ module ProceduralEncounters
     filtered_pool = pool.select do |s|
       sp_data = GameData::Species.get(s)
 
-      # Exclude explicit Mega forms if floor < 7
+      # Exclude explicit Mega forms entirely.
       # PBS pokemon_forms.txt defines MegaStone = CHARIZARDITEX on the Mega form itself.
-      if floor < 7 && (sp_data.mega_stone || sp_data.mega_move || (sp_data.respond_to?(:unmega_form) && sp_data.unmega_form > 0))
+      if sp_data.mega_stone || sp_data.mega_move || (sp_data.respond_to?(:unmega_form) && sp_data.unmega_form > 0)
         next false
       end
 
+      # Ban Special Classes (Legendaries, Mythicals, Ultra Beasts, Paradox) before Floor 10
+      if floor < 10 && sp_data.respond_to?(:has_flag?)
+        if sp_data.has_flag?("Legendary") || sp_data.has_flag?("Mythical") || sp_data.has_flag?("UltraBeast") || sp_data.has_flag?("Paradox")
+          next false
+        end
+      end
+
       bst = sp_data.base_stats.values.sum
+
+      # Apply hard BST ceiling caps based on the current floor to prevent single-stage anomalies
+      if floor <= 3 && bst > 350
+        next false
+      elsif floor <= 6 && bst > 450
+        next false
+      elsif floor <= 9 && bst > 550
+        next false
+      end
+
       case tier
       when 1 then bst <= 320                    # Early game bugs/birds
       when 2 then bst >= 250 && bst <= 380
