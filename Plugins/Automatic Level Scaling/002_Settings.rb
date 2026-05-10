@@ -15,7 +15,7 @@ module LevelScalingSettings
   # Each difficulty has an index in the Hash, which represents the difficulty
   # You can change the active difficulty by updating TRAINER_VARIABLE or WILD_VARIABLE according to these indexes
   DIFFICULTIES = {
-    1 => Difficulty.new(fixed_increase: -2, random_increase: 2),  # Easy
+    1 => Difficulty.new(fixed_increase: -5, random_increase: 1),  # Easy
     2 => Difficulty.new(random_increase: 2),                      # Medium
     3 => Difficulty.new(fixed_increase: 3, random_increase: 3),   # Hard
     4 => Difficulty.new,                                          # Avarage

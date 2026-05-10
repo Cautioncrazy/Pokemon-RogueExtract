@@ -28,10 +28,18 @@ module ProceduralEncounters
     filtered_pool = pool.select do |s|
       sp_data = GameData::Species.get(s)
 
-      # Exclude explicit Mega forms entirely.
-      # PBS pokemon_forms.txt defines MegaStone = CHARIZARDITEX on the Mega form itself.
-      if sp_data.mega_stone || sp_data.mega_move || (sp_data.respond_to?(:unmega_form) && sp_data.unmega_form > 0)
-        next false
+      # 1. Strict Base Forms check: prevent Megas and alternate forms from entering the pool early.
+      if floor < 7
+        next false if sp_data.form != 0
+
+        # 2. Strict Baby Check: forces the engine to only pick the lowest stage of an evolutionary family
+        next false if sp_data.species != sp_data.get_baby_species
+      else
+        # Exclude explicit Mega forms entirely even on later floors.
+        # PBS pokemon_forms.txt defines MegaStone = CHARIZARDITEX on the Mega form itself.
+        if sp_data.mega_stone || sp_data.mega_move || (sp_data.respond_to?(:unmega_form) && sp_data.unmega_form > 0)
+          next false
+        end
       end
 
       # Ban Special Classes (Legendaries, Mythicals, Ultra Beasts, Paradox) before Floor 10
@@ -41,7 +49,11 @@ module ProceduralEncounters
         end
       end
 
-      bst = sp_data.base_stats.values.sum
+      # Foolproof BST Calculation
+      bst = 0
+      [:HP, :ATTACK, :DEFENSE, :SPECIAL_ATTACK, :SPECIAL_DEFENSE, :SPEED].each do |stat|
+        bst += sp_data.base_stats[stat] if sp_data.base_stats[stat]
+      end
 
       # Apply hard BST ceiling caps based on the current floor to prevent single-stage anomalies
       if floor <= 3 && bst > 350

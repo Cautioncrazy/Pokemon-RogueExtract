@@ -16,6 +16,9 @@ def pbFightFactoryBoss(boss_key)
   level = boss_data[:level] || 50
   pkmn = Pokemon.new(species, level)
 
+  floor = $PokemonGlobal.instance_variable_defined?(:@current_raid_floor) ? $PokemonGlobal.current_raid_floor : 1
+  pkmn.form = 0 if floor < 7
+
   # 2. SAFE FACTORY OVERRIDES
   # Extract and apply attributes from the Factory hash manually to bypass engine sanity checks safely
   pkmn.name = boss_data[:nickname] if boss_data[:nickname]

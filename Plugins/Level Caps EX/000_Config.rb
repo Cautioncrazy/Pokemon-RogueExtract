@@ -16,7 +16,7 @@ module LevelCapsEX
   LEVEL_CAP_MODE_VARIABLE = 41
 
   # Set this to the default mode of the Level Cap
-  DEFAULT_LEVEL_CAP_MODE  = 1
+  DEFAULT_LEVEL_CAP_MODE  = 0
 
   # Set this to the Game Switch which, when ON, disables level cap for enemy trainers
   LEVEL_CAP_BYPASS_SWITCH = 61
