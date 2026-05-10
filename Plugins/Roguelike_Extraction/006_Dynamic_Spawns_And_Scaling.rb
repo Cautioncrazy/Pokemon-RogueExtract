@@ -328,7 +328,6 @@ end
       level += 2 if is_vip # VIPs are a bit stronger
 
       floor = $PokemonGlobal.instance_variable_defined?(:@current_raid_floor) ? $PokemonGlobal.current_raid_floor : 1
-
       # Determine party size based on floor
       if is_vip
         party_size = [2 + (floor / 2), 6].min
@@ -390,6 +389,9 @@ end
       mega_assigned = false
       party_species.each do |species|
         pkmn = Pokemon.new(species, level)
+
+        # Enforce base form for early floors (failsafe in case of direct species instantiation)
+        pkmn.form = 0 if floor < 7
 
         # --- Roguelike Advanced Level Scaling & Difficulty Modifiers ---
         if defined?(AutomaticLevelScaling)
