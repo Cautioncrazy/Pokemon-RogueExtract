@@ -1,32 +1,26 @@
 #==============================================================================
-# ** Parche para Sprites Personalizados **
 # ** Custom Sprite Patch **
 #==============================================================================
 module GameData
   class Species
     class << self
-      # --- Parche para Sprites (Front, Back, etc.) ---
       # --- Patch for Sprites (Front, Back, etc.) ---
       alias_method :zbox_sprite_bitmap_from_pokemon, :sprite_bitmap_from_pokemon
       def sprite_bitmap_from_pokemon(pkmn, back = false, species = nil)
-        # Comprueba si hay un override y si el Pokémon es válido.
         # Checks if there is an override and if the Pokémon is valid.
         if pkmn&.respond_to?(:zbox_sprite_override) && pkmn.zbox_sprite_override
           custom_species = pkmn.zbox_sprite_override
           is_shadow = pkmn.respond_to?(:shadow?) ? pkmn.shadow? : pkmn.shadow
           args = [custom_species, pkmn.form, pkmn.gender, pkmn.shiny?, is_shadow, back, pkmn.egg?]
-          # Verifica si el archivo del sprite personalizado existe.
           # Check if the custom sprite file exists.
           if GameData::Species.sprite_filename(*args)
             return GameData::Species.sprite_bitmap(*args)
           end
         end
-        # Si no hay override o el archivo personalizado no existe, llama al método original.
         # If there is no override or the custom file does not exist, call the original method.
         return zbox_sprite_bitmap_from_pokemon(pkmn, back, species)
       end
 
-      # --- Parche para Iconos ---
       # --- Icon Patch ---
       alias_method :zbox_icon_filename_from_pokemon, :icon_filename_from_pokemon
       def icon_filename_from_pokemon(pkmn)
@@ -43,12 +37,10 @@ module GameData
 end
 
 #==============================================================================
-# ** Gestor de Caché para Palette Swap **
 # ** Cache Manager for Palette Swap **
 #==============================================================================
 
 module PaletteSwapCacheManager
-  # Inicializa la caché global si no existe.
   # Initialize the global cache if it does not exist.
   $zbox_palette_swap_cache ||= {}
 
@@ -57,19 +49,15 @@ module PaletteSwapCacheManager
 
     cache_key = [original_path, palette_name]
 
-    # --- Devuelve el resultado cacheado al instante ---
     # --- Returns the cached result instantly ---
     if $zbox_palette_swap_cache.key?(cache_key)
       cached_value = $zbox_palette_swap_cache[cache_key]
 
-      # Se comprueba si el valor cacheado es un bitmap y si ha sido liberado.
       # Check if the cached value is a bitmap and if it has been stale.
       if cached_value.is_a?(Bitmap) && cached_value.disposed?
-        # El bitmap es obsoleto. Se elimina de la caché y se procede como un "Cache Miss".
         # The bitmap is stale. It is removed from the cache and the process continues.
         $zbox_palette_swap_cache.delete(cache_key)
       else
-        # El valor es válido (o es `false` para un sprite omitido).
         # The value is valid (or `false` for a skipped sprite).
         return nil if cached_value == false
         return cached_value.copy
@@ -82,11 +70,9 @@ module PaletteSwapCacheManager
       return nil
     end
 
-    # Se aplica el paletteswap al bitmap completo.
     # The paletteswap is applied to the entire bitmap.
     original_bmp.paletteswap(palette_name, tolerance)
 
-    # Se guarda el resultado en la caché y se devuelve una copia.
     # The result is saved in the cache and a copy is returned.
     $zbox_palette_swap_cache[cache_key] = original_bmp
     return original_bmp.copy
@@ -94,27 +80,24 @@ module PaletteSwapCacheManager
 end
 
 #==============================================================================
-# ** Parche para Tono y Cambio de Paleta Personalizado **
 # ** Custom Hue and PaletteSwap Patch **
 #==============================================================================
 
 class Bitmap
   def copy
-    # Crea un nuevo objeto Bitmap vacío del mismo tamaño.
     # Creates a new empty Bitmap object of the same size.
     new_bitmap = Bitmap.new(self.width, self.height)
 
-    # Copia el contenido del bitmap actual al nuevo.
     # Copies the content of the current bitmap to the new one.
     new_bitmap.blt(0, 0, self, self.rect)
 
-    # Devuelve el nuevo bitmap duplicado.
     # Returns the new duplicated bitmap.
     return new_bitmap
   end
 
   unless method_defined?(:hue_change)
     def hue_change(hue)
+      hue = hue.to_i # SAFEGUARD: Forces nil values to become 0 to prevent crashes
       return if disposed? || hue == 0
       hue_shift = hue % 360
       (0...self.height).each do |y|
@@ -286,6 +269,7 @@ end
 
 class AnimatedBitmap
   def hue_change(hue)
+    hue = hue.to_i # SAFEGUARD: Forces nil to 0
     if @bitmaps && @bitmaps.is_a?(Array)
       @bitmaps.each { |bmp| bmp.hue_change(hue) }
     elsif self.bitmap && !self.bitmap.disposed?
@@ -310,14 +294,13 @@ class AnimatedBitmap
   end
 end
 
-# --- Método para generar el cambio de HUE en los Super Shiny ---
 # --- Method to generate the HUE change in Super Shiny ---
 class Pokemon
   def zbox_get_super_shiny_hue
     return 0 unless self.super_shiny?
 
     if self.instance_variable_defined?(:@zbox_super_shiny_hue)
-      return self.instance_variable_get(:@zbox_super_shiny_hue)
+      return self.instance_variable_get(:@zbox_super_shiny_hue).to_i
     end
 
     safe_threshold = defined?(Settings::VARIATION_COLOR) ? Settings::VARIATION_COLOR : 30
@@ -334,7 +317,6 @@ class Pokemon
   end
 end
 
-# --- Parche para Sprites Fuera de Batalla ---
 # --- Out of Battle Sprite Patch ---
 class PokemonSprite < Sprite
   def setPokemonBitmap(pokemon, back = false)
@@ -353,9 +335,9 @@ class PokemonSprite < Sprite
     if @_iconbitmap && pokemon
       hue = 0
       if pokemon.respond_to?(:zbox_hue_value) && pokemon.zbox_hue_value
-        hue = pokemon.zbox_hue_value
+        hue = pokemon.zbox_hue_value.to_i
       elsif pokemon.super_shiny?
-        hue = pokemon.zbox_get_super_shiny_hue
+        hue = pokemon.zbox_get_super_shiny_hue.to_i
       end
 
       @_iconbitmap.hue_change(hue) if hue != 0
@@ -393,9 +375,9 @@ class PokemonSprite < Sprite
     if @_iconbitmap && pokemon
       hue = 0
       if pokemon.respond_to?(:zbox_hue_value) && pokemon.zbox_hue_value
-        hue = pokemon.zbox_hue_value
+        hue = pokemon.zbox_hue_value.to_i
       elsif pokemon.super_shiny?
-        hue = pokemon.zbox_get_super_shiny_hue
+        hue = pokemon.zbox_get_super_shiny_hue.to_i
       end
       @_iconbitmap.hue_change(hue) if hue != 0
 
@@ -408,7 +390,6 @@ class PokemonSprite < Sprite
   end
 end
 
-# --- Parche para Iconos ---
 # --- Icon Patch ---
 class PokemonIconSprite < Sprite
   alias_method :zbox_pokemon_setter, :pokemon=
@@ -425,9 +406,9 @@ class PokemonIconSprite < Sprite
 
     hue = 0
     if @pokemon.respond_to?(:zbox_hue_value) && @pokemon.zbox_hue_value
-      hue = @pokemon.zbox_hue_value
+      hue = @pokemon.zbox_hue_value.to_i
     elsif @pokemon.super_shiny?
-      hue = @pokemon.zbox_get_super_shiny_hue
+      hue = @pokemon.zbox_get_super_shiny_hue.to_i
     end
 
     filename = GameData::Species.icon_filename_from_pokemon(value)
@@ -467,9 +448,9 @@ class PokemonBoxIcon < IconSprite
 
     hue = 0
     if @pokemon.respond_to?(:zbox_hue_value) && @pokemon.zbox_hue_value
-      hue = @pokemon.zbox_hue_value
+      hue = @pokemon.zbox_hue_value.to_i
     elsif @pokemon.super_shiny?
-      hue = @pokemon.zbox_get_super_shiny_hue
+      hue = @pokemon.zbox_get_super_shiny_hue.to_i
     end
 
     animBitmap = AnimatedBitmap.new(filename, hue)
@@ -490,7 +471,6 @@ class PokemonBoxIcon < IconSprite
   end
 end
 
-# --- Parche para Sprites de Batalla ---
 # --- Battle Sprite Patch ---
 class Battle::Scene::BattlerSprite < RPG::Sprite
 
@@ -513,9 +493,9 @@ class Battle::Scene::BattlerSprite < RPG::Sprite
 
     hue = 0
     if pkmn.respond_to?(:zbox_hue_value) && pkmn.zbox_hue_value
-      hue = pkmn.zbox_hue_value
+      hue = pkmn.zbox_hue_value.to_i
     elsif pkmn.super_shiny?
-      hue = pkmn.zbox_get_super_shiny_hue
+      hue = pkmn.zbox_get_super_shiny_hue.to_i
     end
 
     @_iconBitmap.hue_change(hue) if hue != 0

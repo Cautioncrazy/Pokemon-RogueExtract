@@ -203,6 +203,22 @@ MenuHandlers.add(:pause_menu, :bag, {
   }
 })
 
+MenuHandlers.add(:pause_menu, :quests, {
+  "name"      =>  _INTL("Bounties"),
+  "order"     => 50,
+  "condition" => proc { next hasAnyQuests? },
+  "effect"    => proc { |menu|
+    pbPlayDecisionSE
+    pbFadeOutIn {
+      scene = QuestList_Scene.new
+      screen = QuestList_Screen.new(scene)
+      screen.pbStartScreen
+      menu.pbRefresh
+    }
+    next false
+  }
+})
+
 MenuHandlers.add(:pause_menu, :pokegear, {
   "name"      => _INTL("Pokégear"),
   "order"     => 40,
