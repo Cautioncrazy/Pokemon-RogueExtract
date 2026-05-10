@@ -3,6 +3,34 @@
 #===============================================================================
 
 module RoguelikeExtraction
+  # The Universal Bouncer: Prevents invalid, overpowered, or mega species from generating
+  def self.pbIsValidRoguelikeSpawn?(species_id, current_floor)
+    species_data = GameData::Species.try_get(species_id)
+    return false if !species_data
+
+    # 1. Base Form Only
+    return false if species_data.form != 0
+
+    # 2. Strict Baby Check (must be lowest stage of evolution family)
+    return false if species_data.species != species_data.get_baby_species
+
+    # 3. Must Evolve (Bans Legendaries, Mythicals, Ultra Beasts, Paradoxes, etc.)
+    evolutions = species_data.get_evolutions
+    return false if evolutions.nil? || evolutions.empty?
+
+    # 4. Strict BST Check
+    bst = 0
+    [:HP, :ATTACK, :DEFENSE, :SPECIAL_ATTACK, :SPECIAL_DEFENSE, :SPEED].each do |stat|
+      bst += species_data.base_stats[stat] if species_data.base_stats[stat]
+    end
+
+    return false if current_floor <= 3 && bst > 350
+    return false if current_floor <= 6 && bst > 450
+    return false if current_floor <= 9 && bst > 550
+
+    return true
+  end
+
   # Defines scaling loot pools based on the player's current floor.
   # The pools strictly exclude revive items.
   # Format: { Floor_Tier => [ array_of_possible_items ] }
@@ -375,13 +403,17 @@ end
       end
 
       # Failsafe if the pool is somehow still empty
-      species_pool = ProceduralEncounters::FALLBACK_POOL if species_pool.empty?
+      species_pool = [:CATERPIE] if species_pool.empty?
 
-      party_species = species_pool.sample(party_size)
-
-      # If we requested more unique species than the pool has, sample might return fewer. We'll duplicate if needed to fill party.
-      while party_species.length < party_size && !species_pool.empty?
-        party_species.push(species_pool.sample)
+      party_species = []
+      party_size.times do
+        species = nil
+        10.times do
+          species = species_pool.sample
+          break if RoguelikeExtraction.pbIsValidRoguelikeSpawn?(species, floor)
+        end
+        species = species_pool.sample if !species
+        party_species.push(species)
       end
 
       diff_setting = $game_variables[110] || 1 # 0 = Easy, 1 = Normal, 2 = Hard

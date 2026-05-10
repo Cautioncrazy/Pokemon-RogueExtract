@@ -78,7 +78,16 @@ module ProceduralEncounters
     end
 
     # Failsafe check
-    final_pool = filtered_pool.empty? ? pool : filtered_pool
+    if filtered_pool.empty?
+      # Generate generic safe pool using the universal bouncer
+      safe_pool = GameData::Species.keys.select do |s|
+        RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, floor)
+      end
+
+      final_pool = safe_pool.empty? ? [:CATERPIE] : safe_pool
+    else
+      final_pool = filtered_pool
+    end
 
     # Debug Logging
     if $DEBUG
@@ -90,7 +99,7 @@ module ProceduralEncounters
         f.puts("Filtered Pool Size: #{filtered_pool.length} species")
 
         if filtered_pool.empty?
-          f.puts("WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).")
+          f.puts("WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning safe pool).")
         else
           # Output a small sample of what survived the filter as proof
           sample = final_pool.take(5).join(", ")
@@ -198,7 +207,7 @@ module ProceduralEncounters
       return filter_pool_by_bst_tier(lore_pool) unless lore_pool.empty?
     end
 
-    return filter_pool_by_bst_tier(FALLBACK_POOL)
+    return filter_pool_by_bst_tier([])
   end
 
   # ============================================================================
@@ -233,8 +242,7 @@ module ProceduralEncounters
       end
     end
 
-    final_pool = pool.empty? ? FALLBACK_POOL : pool
-    return filter_pool_by_bst_tier(final_pool)
+    return filter_pool_by_bst_tier(pool)
   end
 
   def self.get_wild_pool(theme)
@@ -258,6 +266,6 @@ module ProceduralEncounters
     end
 
     # Absolute failsafe for missing/nil data
-    return filter_pool_by_bst_tier(FALLBACK_POOL)
+    return filter_pool_by_bst_tier([])
   end
 end
