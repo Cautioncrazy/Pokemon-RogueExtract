@@ -327,7 +327,14 @@ end
       end
       level += 2 if is_vip # VIPs are a bit stronger
 
-      party_size = is_vip ? rand(4..6) : rand(1..4)
+      floor = $PokemonGlobal.instance_variable_defined?(:@current_raid_floor) ? $PokemonGlobal.current_raid_floor : 1
+
+      # Determine party size based on floor
+      if is_vip
+        party_size = [2 + (floor / 2), 6].min
+      else
+        party_size = [1 + (floor / 2), 6].min
+      end
 
       # Build the In-Memory Party utilizing the Smart Procedural Encounter Pool
       party = []
@@ -378,8 +385,50 @@ end
         party_species.push(species_pool.sample)
       end
 
+      diff_setting = $game_variables[110] || 1 # 0 = Easy, 1 = Normal, 2 = Hard
+
+      mega_assigned = false
       party_species.each do |species|
         pkmn = Pokemon.new(species, level)
+
+        # --- Roguelike Advanced Level Scaling & Difficulty Modifiers ---
+        if defined?(AutomaticLevelScaling)
+          case diff_setting
+          when 0 then AutomaticLevelScaling.difficulty = 1 # Easy
+          when 1 then AutomaticLevelScaling.difficulty = 4 # Normal
+          when 2 then AutomaticLevelScaling.difficulty = 3 # Hard
+          end
+          AutomaticLevelScaling.setNewLevel(pkmn)
+          AutomaticLevelScaling.setNewStage(pkmn)
+        end
+
+        case diff_setting
+        when 0 # Easy
+          GameData::Stat.each_main { |s| pkmn.iv[s.id] = rand(10..15) }
+          GameData::Stat.each_main { |s| pkmn.ev[s.id] = 0 }
+        when 2 # Hard
+          GameData::Stat.each_main { |s| pkmn.iv[s.id] = 31 }
+          GameData::Stat.each_main { |s| pkmn.ev[s.id] = 252 }
+        end
+
+        # Assign Mega Stone if eligible (only 1 per trainer)
+        if floor >= 7 && !mega_assigned
+          # Find if this species has a mega form
+          mega_stone_item = nil
+          GameData::Species.each do |data|
+            if data.species == pkmn.species && data.unmega_form == pkmn.form && data.mega_stone
+              mega_stone_item = data.mega_stone
+              break
+            end
+          end
+
+          if mega_stone_item
+            pkmn.item = mega_stone_item
+            mega_assigned = true
+          end
+        end
+        # -------------------------------------------------------------
+
         pkmn.calc_stats
         party.push(pkmn)
       end
@@ -437,6 +486,16 @@ end
     # Construct the pure In-Memory NPCTrainer
     trainer = NPCTrainer.new(display_name, chosen_type)
     trainer.party = party
+
+    # --- Apply AI Skill based on Difficulty ---
+    diff_setting = $game_variables[110] || 1
+    case diff_setting
+    when 0 then trainer.skill_level = 10  # Easy
+    when 2 then trainer.skill_level = 100 # Hard
+    else
+      # Normal (Vanilla behavior, skill usually defaults to something reasonable)
+    end
+    # ------------------------------------------
 
     # Start the battle directly bypassing GameData::Trainer PBS compilation
     outcome = TrainerBattle.start(trainer)
