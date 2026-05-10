@@ -487,16 +487,6 @@ end
     trainer = NPCTrainer.new(display_name, chosen_type)
     trainer.party = party
 
-    # --- Apply AI Skill based on Difficulty ---
-    diff_setting = $game_variables[110] || 1
-    case diff_setting
-    when 0 then trainer.skill_level = 10  # Easy
-    when 2 then trainer.skill_level = 100 # Hard
-    else
-      # Normal (Vanilla behavior, skill usually defaults to something reasonable)
-    end
-    # ------------------------------------------
-
     # Start the battle directly bypassing GameData::Trainer PBS compilation
     outcome = TrainerBattle.start(trainer)
 
