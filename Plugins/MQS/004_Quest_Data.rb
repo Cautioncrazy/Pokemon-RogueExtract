@@ -1,7 +1,116 @@
 module QuestModule
   
+  #=============================================================================
+  # NEW PLAYER MISSIONS (1)
+  #=============================================================================
   Quest1 = {
     :ID => "1",
+    :Name => "Orientation",
+    :QuestGiver => "Steven",
+    :Stage1 => "Talk to the Nurse at The Hub.",
+    :Location1 => "The Hub",
+    :QuestDescription => "Before heading out on your first extraction run, make sure you know where the medical facilities are. Speak to the Nurse.",
+    :RewardString => "Access to Healing Services"
+  }
+
+  #=============================================================================
+  # EMPTY BOUNTY SLOTS (2-10)
+  #=============================================================================
+  Quest2 = {
+    :ID => "2",
+    :Name => "Available Bounty",
+    :QuestGiver => "nil",
+    :Stage1 => "TBD",
+    :Location1 => "nil",
+    :QuestDescription => "Reserved for future Hub mission.",
+    :RewardString => "nil"
+  }
+
+  Quest3 = {
+    :ID => "3",
+    :Name => "Available Bounty",
+    :QuestGiver => "nil",
+    :Stage1 => "TBD",
+    :Location1 => "nil",
+    :QuestDescription => "Reserved for future Hub mission.",
+    :RewardString => "nil"
+  }
+
+  Quest4 = {
+    :ID => "4",
+    :Name => "Available Bounty",
+    :QuestGiver => "nil",
+    :Stage1 => "TBD",
+    :Location1 => "nil",
+    :QuestDescription => "Reserved for future Hub mission.",
+    :RewardString => "nil"
+  }
+
+  Quest5 = {
+    :ID => "5",
+    :Name => "Available Bounty",
+    :QuestGiver => "nil",
+    :Stage1 => "TBD",
+    :Location1 => "nil",
+    :QuestDescription => "Reserved for future Hub mission.",
+    :RewardString => "nil"
+  }
+
+  Quest6 = {
+    :ID => "6",
+    :Name => "Available Bounty",
+    :QuestGiver => "nil",
+    :Stage1 => "TBD",
+    :Location1 => "nil",
+    :QuestDescription => "Reserved for future Hub mission.",
+    :RewardString => "nil"
+  }
+
+  Quest7 = {
+    :ID => "7",
+    :Name => "Available Bounty",
+    :QuestGiver => "nil",
+    :Stage1 => "TBD",
+    :Location1 => "nil",
+    :QuestDescription => "Reserved for future Hub mission.",
+    :RewardString => "nil"
+  }
+
+  Quest8 = {
+    :ID => "8",
+    :Name => "Available Bounty",
+    :QuestGiver => "nil",
+    :Stage1 => "TBD",
+    :Location1 => "nil",
+    :QuestDescription => "Reserved for future Hub mission.",
+    :RewardString => "nil"
+  }
+
+  Quest9 = {
+    :ID => "9",
+    :Name => "Available Bounty",
+    :QuestGiver => "nil",
+    :Stage1 => "TBD",
+    :Location1 => "nil",
+    :QuestDescription => "Reserved for future Hub mission.",
+    :RewardString => "nil"
+  }
+
+  Quest10 = {
+    :ID => "10",
+    :Name => "Available Bounty",
+    :QuestGiver => "nil",
+    :Stage1 => "TBD",
+    :Location1 => "nil",
+    :QuestDescription => "Reserved for future Hub mission.",
+    :RewardString => "nil"
+  }
+
+  #=============================================================================
+  # REASSIGNED MISSIONS (11+)
+  #=============================================================================
+  Quest11 = {
+    :ID => "11",
     :Name => "Bounty: Slayer",
     :QuestGiver => "Bounty Board",
     :Stage1 => "Defeat 5 VIP/Boss Trainers in runs.",
@@ -10,8 +119,8 @@ module QuestModule
     :RewardString => "5 Hollowed Souls"
   }
 
-  Quest2 = {
-    :ID => "2",
+  Quest12 = {
+    :ID => "12",
     :Name => "Bounty: Gatherer",
     :QuestGiver => "Bounty Board",
     :Stage1 => "Mine 10 Hollowed Souls.",
@@ -20,8 +129,8 @@ module QuestModule
     :RewardString => "1 Fortune Coin Artifact"
   }
 
-  Quest3 = {
-    :ID => "3",
+  Quest13 = {
+    :ID => "13",
     :Name => "Bounty: Survivor",
     :QuestGiver => "Bounty Board",
     :Stage1 => "Reach Floor 20 in a single run.",
@@ -30,8 +139,8 @@ module QuestModule
     :RewardString => "1 Vitality Root Artifact"
   }
 
-  Quest6 = {
-    :ID => "6",
+  Quest14 = {
+    :ID => "14",
     :Name => "Apex Predator I",
     :QuestGiver => "Bounty Board",
     :Stage1 => "Defeat 15 VIP/Boss Trainers.",
@@ -40,8 +149,8 @@ module QuestModule
     :RewardString => "1 Master Ball"
   }
 
-  Quest7 = {
-    :ID => "7",
+  Quest15 = {
+    :ID => "15",
     :Name => "Apex Predator II",
     :QuestGiver => "Bounty Board",
     :Stage1 => "Defeat 30 VIP/Boss Trainers.",
@@ -50,9 +159,8 @@ module QuestModule
     :RewardString => "3 Master Balls"
   }
 
-  # Here's an example of not defining the quest giver and reward text
-  Quest4 = {
-    :ID => "4",
+  Quest16 = {
+    :ID => "16",
     :Name => "A new beginning",
     :QuestGiver => "nil",
     :Stage1 => "Turning over a new leaf... literally!",
@@ -63,9 +171,8 @@ module QuestModule
     :RewardString => "nil"
   }
 
-  # Other random examples you can look at if you want to fill out the UI and check out the page scrolling
-  Quest5 = {
-    :ID => "5",
+  Quest17 = {
+    :ID => "17",
     :Name => "All of my friends",
     :QuestGiver => "Barry",
     :Stage1 => "Meet your friends near Acuity Lake.",
@@ -73,8 +180,8 @@ module QuestModule
     :RewardString => "You win nothing for giving in to peer pressure."
   }
 
-  Quest6 = {
-    :ID => "6",
+  Quest18 = {
+    :ID => "18",
     :Name => "The journey begins",
     :QuestGiver => "Professor Oak",
     :Stage1 => "Deliver the parcel to the Pokémon Mart in Viridian City.",
@@ -85,8 +192,8 @@ module QuestModule
     :RewardString => "nil"
   }
 
-  Quest7 = {
-    :ID => "7",
+  Quest19 = {
+    :ID => "19",
     :Name => "Close encounters of the... first kind?",
     :QuestGiver => "nil",
     :Stage1 => "Make contact with the strange creatures.",
@@ -95,8 +202,8 @@ module QuestModule
     :RewardString => "A possible probing."
   }
 
-  Quest8 = {
-    :ID => "8",
+  Quest20 = {
+    :ID => "20",
     :Name => "These boots were made for walking",
     :QuestGiver => "Musician #1",
     :Stage1 => "Listen to the musician's, uhh, music.",
@@ -106,8 +213,8 @@ module QuestModule
     :QuestDescription => "A musician was feeling down because he thinks no one likes his music. I should help him drum up some business."
   }
 
-  Quest9 = {
-    :ID => "9",
+  Quest21 = {
+    :ID => "21",
     :Name => "Got any grapes?",
     :QuestGiver => "Duck",
     :Stage1 => "Listen to The Duck Song.",
@@ -117,8 +224,8 @@ module QuestModule
     :RewardString => "A loss of braincells. Hurray!"
   }
 
-  Quest10 = {
-    :ID => "10",
+  Quest22 = {
+    :ID => "22",
     :Name => "Singing in the rain",
     :QuestGiver => "Some old dude",
     :Stage1 => "I've run out of things to write.",
@@ -128,8 +235,8 @@ module QuestModule
     :RewardString => "Wet clothes."
   }
 
-  Quest11 = {
-    :ID => "11",
+  Quest23 = {
+    :ID => "23",
     :Name => "When is this list going to end?",
     :QuestGiver => "Me",
     :Stage1 => "When IS this list going to end?",
@@ -140,8 +247,8 @@ module QuestModule
     :RewardString => "nil"
   }
 
-  Quest12 = {
-    :ID => "12",
+  Quest24 = {
+    :ID => "24",
     :Name => "The laaast melon",
     :QuestGiver => "Some stupid dodo",
     :Stage1 => "Fight for the last of the food.",
