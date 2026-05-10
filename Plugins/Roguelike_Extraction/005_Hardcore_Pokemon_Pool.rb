@@ -1,82 +1,44 @@
 #===============================================================================
-# Hardcore Starter Pool
-#===============================================================================
-# This script defines a weighted pool of early route Pokémon and rare Pokémon
-# for the Hardcore Mode blackout sequence.
+# Hardcore Starter Pool (Dynamic Generator - v21.1 Fix)
 #===============================================================================
 
-module RoguelikeExtraction
-  # The pool of Pokémon that can be drafted when starting over after a hardcore wipe.
-  # The structure is { :SPECIES => weight }. The total weight is the sum of all values.
-  HARDCORE_STARTER_POOL = {
-    # Common Early Route (approx. 90-95% total weight)
-    :CATERPIE   => 50,
-    :WEEDLE     => 50,
-    :PIDGEY     => 50,
-    :RATTATA    => 50,
-    :SPEAROW    => 50,
-    :SENTRET    => 50,
-    :HOOTHOOT   => 50,
-    :LEDYBA     => 50,
-    :SPINARAK   => 50,
-    :POOCHYENA  => 50,
-    :ZIGZAGOON  => 50,
-    :WURMPLE    => 50,
-    :TAILLOW    => 50,
-    :BIDOOF     => 50,
-    :STARLY     => 50,
-    :KRICKETOT  => 50,
-    :PATRAT     => 50,
-    :LILLIPUP   => 50,
-    :PIDOVE     => 50,
-    :BUNNELBY   => 50,
-    :FLETCHLING => 50,
-    :SCATTERBUG => 50,
-    :YUNGOOS    => 50,
-    :PIKIPEK    => 50,
-    :GRUBBIN    => 50,
-    :SKWOVET    => 50,
-    :ROOKIDEE   => 50,
-    :BLIPBUG    => 50,
-    :LECHONK    => 50,
-    :TAROUNTULA => 50,
-    :NYMBLE     => 50,
-
-    # Rare Pokémon (approx. 5-10% total weight)
-    :DRATINI    => 8,
-    :LARVITAR   => 8,
-    :BAGON      => 8,
-    :BELDUM     => 8,
-    :GIBLE      => 8,
-    :RIOLU      => 15,
-    :DEINO      => 8,
-    :GOOMY      => 8,
-    :JANGMOO    => 8,
-    :DREEPY     => 8,
-    :FRIGIBAX   => 8,
-  }
-end
-
-#===============================================================================
-# Helper Method
-#===============================================================================
 def pbChooseHardcorePokemon
-  pool = RoguelikeExtraction::HARDCORE_STARTER_POOL
-  total_weight = pool.values.sum
-  random_weight = rand(total_weight)
-
-  current_weight = 0
-  pool.each do |species, weight|
-    current_weight += weight
-    return species if random_weight < current_weight
+  valid_starters = []
+  
+  GameData::Species.each do |species_data|
+    # 1. Base forms only
+    next if species_data.form != 0 
+    
+    # NEW FIX: Check if the species is the lowest stage of its evolution family
+    next if species_data.species != species_data.get_baby_species
+    
+    # 2. MUST be capable of evolving (Bans Legendaries, Togedemaru, Cryogonal)
+    evolutions = species_data.get_evolutions
+    next if evolutions.nil? || evolutions.empty?
+    
+    # 3. Foolproof BST Calculation
+    bst = 0
+    [:HP, :ATTACK, :DEFENSE, :SPECIAL_ATTACK, :SPECIAL_DEFENSE, :SPEED].each do |stat|
+      bst += species_data.base_stats[stat] if species_data.base_stats[stat]
+    end
+    
+    # 4. Strict BST ceiling and floor (Locked at 300 to 350)
+    next if bst < 300
+    next if bst > 350
+            
+    # If it passes all checks, add it to our draft pool!
+    valid_starters.push(species_data.id)
   end
-
-  # Fallback just in case
-  return pool.keys.first
+  
+  # Return a random valid starter, with a true starter as the safety fallback
+  return valid_starters.empty? ? :BULBASAUR : valid_starters.sample
 end
 
 def pbGiveHardcoreStarter
   species = pbChooseHardcorePokemon
-  pkmn = Pokemon.new(species, 5)
+  
+  # pbGenerateWildPokemon acts as the factory, triggering all your custom hooks (like hue shifts!)
+  pkmn = pbGenerateWildPokemon(species, 5)
+  
   pbAddPokemon(pkmn)
 end
