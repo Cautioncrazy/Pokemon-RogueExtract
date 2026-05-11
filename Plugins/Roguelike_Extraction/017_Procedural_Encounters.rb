@@ -84,7 +84,7 @@ module ProceduralEncounters
         RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, floor)
       end
 
-      final_pool = safe_pool.empty? ? [:CATERPIE] : safe_pool
+      final_pool = safe_pool.empty? ? [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY] : safe_pool
     else
       final_pool = filtered_pool
     end

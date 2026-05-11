@@ -402,17 +402,14 @@ end
         species_pool = ProceduralEncounters.get_pool(chosen_type)
       end
 
-      # Failsafe if the pool is somehow still empty
-      species_pool = [:CATERPIE] if species_pool.empty?
+      valid_pool = species_pool.select { |s| RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, floor) }
+      if valid_pool.empty?
+        valid_pool = [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY]
+      end
 
       party_species = []
       party_size.times do
-        species = nil
-        10.times do
-          species = species_pool.sample
-          break if RoguelikeExtraction.pbIsValidRoguelikeSpawn?(species, floor)
-        end
-        species = species_pool.sample if !species
+        species = valid_pool.sample
         party_species.push(species)
       end
 

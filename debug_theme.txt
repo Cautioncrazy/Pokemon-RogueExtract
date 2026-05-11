@@ -1041,3 +1041,173 @@ Original Pool Size: 174 species
 Filtered Pool Size: 0 species
 WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
 ===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Land, :type=>:FIRE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Land, :type=>:FIRE}
+DEBUG - get_pool | Trainer CAMPER using Dual Type GROUND/FIRE
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 3 species
+Filtered Pool Size: 1 species
+Sample Allowed Species: NUMEL
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 88 species
+Filtered Pool Size: 18 species
+Sample Allowed Species: CHARMANDER, VULPIX, CYNDAQUIL, SLUGMA, TORCHIC
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - get_pool | Trainer BUGCATCHER using Dual Type BUG/ICE
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 2 species
+Filtered Pool Size: 1 species
+Sample Allowed Species: SNOM
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 57 species
+Filtered Pool Size: 9 species
+Sample Allowed Species: SWINUB, SMOOCHUM, SNORUNT, SPHEAL, VANILLITE
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 57 species
+Filtered Pool Size: 9 species
+Sample Allowed Species: SWINUB, SMOOCHUM, SNORUNT, SPHEAL, VANILLITE
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 57 species
+Filtered Pool Size: 9 species
+Sample Allowed Species: SWINUB, SMOOCHUM, SNORUNT, SPHEAL, VANILLITE
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 3 Theme is HEAVYWEIGHT
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 169 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 3 Theme is HEAVYWEIGHT
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 169 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 3 Theme is HEAVYWEIGHT
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 169 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Land, :type=>:FIRE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Land, :type=>:FIRE}
+DEBUG - get_pool | Trainer HIKER using Dual Type ROCK/FIRE
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 5 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 88 species
+Filtered Pool Size: 18 species
+Sample Allowed Species: CHARMANDER, VULPIX, CYNDAQUIL, SLUGMA, TORCHIC
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 88 species
+Filtered Pool Size: 18 species
+Sample Allowed Species: CHARMANDER, VULPIX, CYNDAQUIL, SLUGMA, TORCHIC
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 88 species
+Filtered Pool Size: 18 species
+Sample Allowed Species: CHARMANDER, VULPIX, CYNDAQUIL, SLUGMA, TORCHIC
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Land, :type=>:FIRE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Land, :type=>:FIRE}
+DEBUG - get_pool | Trainer BUGCATCHER using Dual Type BUG/FIRE
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 4 species
+Filtered Pool Size: 1 species
+Sample Allowed Species: SIZZLIPEDE
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 88 species
+Filtered Pool Size: 18 species
+Sample Allowed Species: CHARMANDER, VULPIX, CYNDAQUIL, SLUGMA, TORCHIC
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 88 species
+Filtered Pool Size: 18 species
+Sample Allowed Species: CHARMANDER, VULPIX, CYNDAQUIL, SLUGMA, TORCHIC
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 88 species
+Filtered Pool Size: 18 species
+Sample Allowed Species: CHARMANDER, VULPIX, CYNDAQUIL, SLUGMA, TORCHIC
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 174 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 174 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 174 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 8
+Original Pool Size: 174 species
+Filtered Pool Size: 0 species
+WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning original pool).
+===================================================
