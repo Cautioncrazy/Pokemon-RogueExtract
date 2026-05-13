@@ -245,6 +245,9 @@ class Battle::Move
     if target.status == :DROWSY
       multipliers[:final_damage_multiplier] *= 4 / 3.0
     end
+    if target.status == :EXPLOITED && Effectiveness.super_effective?(target.damageState.typeMod)
+      multipliers[:final_damage_multiplier] *= 1.5
+    end
   end
   
   #-----------------------------------------------------------------------------

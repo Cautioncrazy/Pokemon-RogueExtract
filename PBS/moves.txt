@@ -441,9 +441,10 @@ Power = 80
 Accuracy = 0
 TotalPP = 10
 Target = NearOther
-FunctionCode = None
+FunctionCode = ExploitTarget
+EffectChance = 30
 Flags = Contact,CanProtect,CanMirrorMove,CannotMetronome
-Description = The user pretends to bow its head, but then it stabs the target with its disheveled hair. Never misses.
+Description = The user pretends to bow its head, but then it stabs the target with its disheveled hair. Never misses. Has a 30% chance to leave the target Exploited.
 #-------------------------------
 [JAWLOCK]
 Name = Jaw Lock
@@ -993,9 +994,10 @@ Power = 80
 Accuracy = 100
 TotalPP = 15
 Target = NearOther
-FunctionCode = None
+FunctionCode = FearTarget
+EffectChance = 30
 Flags = Contact,CanProtect,CanMirrorMove
-Description = The user slashes the target with huge, sharp claws.
+Description = The user slashes the target with huge, sharp claws. Has a 30% chance to strike Fear into the target.
 #-------------------------------
 [BREAKINGSWIPE]
 Name = Breaking Swipe
@@ -2212,9 +2214,10 @@ Accuracy = 100
 TotalPP = 30
 Target = NearOther
 Priority = 1
-FunctionCode = None
+FunctionCode = RecklessTarget
+EffectChance = 30
 Flags = CanProtect,CanMirrorMove
-Description = The user whirls its fists to send a wave of pure vacuum at the target. This move always goes first.
+Description = The user whirls its fists to send a wave of pure vacuum at the target. This move always goes first. Has a 30% chance to make the target Reckless.
 #-------------------------------
 [DOUBLEKICK]
 Name = Double Kick
@@ -4028,9 +4031,10 @@ Power = 95
 Accuracy = 95
 TotalPP = 10
 Target = NearOther
-FunctionCode = None
+FunctionCode = ShakenTarget
+EffectChance = 30
 Flags = Contact,CanProtect,CanMirrorMove
-Description = The user fiercely attacks the target using its entire body.
+Description = The user fiercely attacks the target using its entire body. Has a 30% chance to leave the target Shaken.
 #-------------------------------
 [EARTHPOWER]
 Name = Earth Power
@@ -5171,9 +5175,10 @@ Power = 50
 Accuracy = 95
 TotalPP = 30
 Target = NearOther
-FunctionCode = None
+FunctionCode = BleedTarget
+EffectChance = 30
 Flags = Contact,CanProtect,CanMirrorMove,Slicing
-Description = The target is cut with a scythe or a claw. It can also be used to cut down thin trees.
+Description = The target is cut with a scythe or a claw. It can also be used to cut down thin trees. Has a 30% chance to leave the target Bleeding.
 #-------------------------------
 [RAPIDSPIN]
 Name = Rapid Spin
@@ -7071,8 +7076,9 @@ Accuracy = 100
 TotalPP = 10
 Target = NearOther
 FunctionCode = UseTargetDefenseInsteadOfTargetSpDef
+EffectChance = 30
 Flags = CanProtect,CanMirrorMove
-Description = The user materializes an odd psychic wave to attack the target. This attack does physical damage.
+Description = The user materializes an odd psychic wave to attack the target. This attack does physical damage. Has a 30% chance to leave the target Blinded.
 #-------------------------------
 [FREEZINGGLARE]
 Name = Freezing Glare
