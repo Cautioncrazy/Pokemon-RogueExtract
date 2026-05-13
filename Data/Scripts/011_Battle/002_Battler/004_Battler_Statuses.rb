@@ -322,6 +322,12 @@ if hasImmuneType
         @battle.pbDisplay(_INTL("{1} was frozen solid!", pbThis))
       when :EXPLOITED
         @battle.pbDisplay(_INTL("{1}'s weaknesses are being exploited!", pbThis))
+      when :BLEEDING
+        @battle.pbDisplay(_INTL("{1} began to bleed!", pbThis))
+      when :BLINDNESS
+        @battle.pbDisplay(_INTL("{1} was blinded!", pbThis))
+      when :SHAKEN
+        @battle.pbDisplay(_INTL("{1} was shaken!", pbThis))
       end
     end
     PBDebug.log("[Status change] #{pbThis}'s sleep count is #{newStatusCount}") if newStatus == :SLEEP
