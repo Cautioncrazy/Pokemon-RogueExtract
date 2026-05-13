@@ -261,3 +261,123 @@ Original Pool Size: 625 species
 Filtered Pool Size: 387 species
 Sample Allowed Species: VENUSAUR, CHARIZARD, BLASTOISE, PIDGEOT, RAICHU
 ===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - get_pool | Trainer LASS falling back to Floor Type ICE
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 57 species
+Filtered Pool Size: 11 species
+Sample Allowed Species: SWINUB, SMOOCHUM, SNORUNT, SPHEAL, SNOVER
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 57 species
+Filtered Pool Size: 11 species
+Sample Allowed Species: SWINUB, SMOOCHUM, SNORUNT, SPHEAL, SNOVER
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 57 species
+Filtered Pool Size: 11 species
+Sample Allowed Species: SWINUB, SMOOCHUM, SNORUNT, SPHEAL, SNOVER
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 102 species
+Filtered Pool Size: 26 species
+Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORANmA
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 1
+Original Pool Size: 102 species
+Filtered Pool Size: 26 species
+Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORANmA
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 2
+Original Pool Size: 102 species
+Filtered Pool Size: 26 species
+Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORANmA
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 3 Theme is HEAVYWEIGHT
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 2
+Original Pool Size: 169 species
+Filtered Pool Size: 2 species
+Sample Allowed Species: RHYHORN, CUFANT
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 3 Theme is HEAVYWEIGHT
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 2
+Original Pool Size: 169 species
+Filtered Pool Size: 2 species
+Sample Allowed Species: RHYHORN, CUFANT
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - get_pool | Trainer PICNICKER using Dual Type GRASS/ICE
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 3
+Original Pool Size: 3 species
+Filtered Pool Size: 1 species
+Sample Allowed Species: SNOVER
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 3
+Original Pool Size: 57 species
+Filtered Pool Size: 11 species
+Sample Allowed Species: SWINUB, SMOOCHUM, SNORUNT, SPHEAL, SNOVER
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 3
+Original Pool Size: 57 species
+Filtered Pool Size: 11 species
+Sample Allowed Species: SWINUB, SMOOCHUM, SNORUNT, SPHEAL, SNOVER
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 3
+Original Pool Size: 57 species
+Filtered Pool Size: 11 species
+Sample Allowed Species: SWINUB, SMOOCHUM, SNORUNT, SPHEAL, SNOVER
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 3
+Original Pool Size: 57 species
+Filtered Pool Size: 11 species
+Sample Allowed Species: SWINUB, SMOOCHUM, SNORUNT, SPHEAL, SNOVER
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 3
+Original Pool Size: 57 species
+Filtered Pool Size: 11 species
+Sample Allowed Species: SWINUB, SMOOCHUM, SNORUNT, SPHEAL, SNOVER
+===================================================
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 3
+Original Pool Size: 57 species
+Filtered Pool Size: 11 species
+Sample Allowed Species: SWINUB, SMOOCHUM, SNORUNT, SPHEAL, SNOVER
+===================================================
