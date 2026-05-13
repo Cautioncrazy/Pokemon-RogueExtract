@@ -64,7 +64,6 @@ module RoguelikeDifficultyHUD
     seconds = $game_variables[TIMER_SECONDS_VAR] || 0
     tier = $game_variables[DIFFICULTY_TIER_VAR] || 1
     tier = 1 if tier < 1
-    tier = 8 if tier > 8
 
     # Format Time (MM:SS)
     mm = seconds / 60
@@ -72,7 +71,8 @@ module RoguelikeDifficultyHUD
     time_str = sprintf("%02d:%02d", mm, ss)
 
     # Format Tier
-    tier_name = TIER_NAMES[tier - 1] || "Unknown"
+    display_tier = tier > 8 ? 8 : tier
+    tier_name = TIER_NAMES[display_tier - 1] || "Unknown"
     text_str = "Time: #{time_str} | Tier: #{tier} (#{tier_name})"
 
     # Check if text needs to be redrawn (to save performance)
@@ -154,7 +154,7 @@ module RoguelikeDifficultyHUD
         # Calculate tier strictly based on total seconds (Floor division)
         # Tier 1 = 0-179s, Tier 2 = 180-359s, etc.
         calculated_tier = ($game_variables[TIMER_SECONDS_VAR] / SECONDS_PER_TIER) + 1
-        $game_variables[DIFFICULTY_TIER_VAR] = calculated_tier > 8 ? 8 : calculated_tier
+        $game_variables[DIFFICULTY_TIER_VAR] = calculated_tier # Tier scales infinitely past 8 now
       end
     }
   )

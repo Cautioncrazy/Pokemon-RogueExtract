@@ -16,8 +16,9 @@ def pbFightFactoryBoss(boss_key)
   level = boss_data[:level] || 50
   pkmn = Pokemon.new(species, level)
 
-  floor = $PokemonGlobal.instance_variable_defined?(:@current_raid_floor) ? $PokemonGlobal.current_raid_floor : 1
-  pkmn.form = 0 if floor < 7
+  tier = $game_variables[ProceduralEncounters::DIFFICULTY_TIER_VAR] || 1
+  tier = 1 if tier < 1
+  pkmn.form = 0 if tier <= 6
 
   # 2. SAFE FACTORY OVERRIDES
   # Extract and apply attributes from the Factory hash manually to bypass engine sanity checks safely
@@ -65,7 +66,7 @@ def pbFightFactoryBoss(boss_key)
     GameData::Stat.each_main { |s| pkmn.ev[s.id] = 252 }
   end
 
-  if floor >= 7
+  if tier >= 7
     # Find if this species has a mega form
     mega_stone_item = nil
     GameData::Species.each do |data|

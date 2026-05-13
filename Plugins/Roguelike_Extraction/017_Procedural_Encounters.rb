@@ -21,67 +21,17 @@ module ProceduralEncounters
     # Default to Tier 1 if the variable isn't set or is out of bounds
     tier = $game_variables ? $game_variables[DIFFICULTY_TIER_VAR] : 1
     tier = 1 if tier.nil? || tier < 1
-    tier = 8 if tier > 8
 
-    floor = $PokemonGlobal.instance_variable_defined?(:@current_raid_floor) ? $PokemonGlobal.current_raid_floor : 1
-
+    # Apply the universal bouncer instead of duplicating the logic
     filtered_pool = pool.select do |s|
-      sp_data = GameData::Species.get(s)
-
-      # 1. Strict Base Forms check: prevent Megas and alternate forms from entering the pool early.
-      if floor < 7
-        next false if sp_data.form != 0
-
-        # 2. Strict Baby Check: forces the engine to only pick the lowest stage of an evolutionary family
-        next false if sp_data.species != sp_data.get_baby_species
-      else
-        # Exclude explicit Mega forms entirely even on later floors.
-        # PBS pokemon_forms.txt defines MegaStone = CHARIZARDITEX on the Mega form itself.
-        if sp_data.mega_stone || sp_data.mega_move || (sp_data.respond_to?(:unmega_form) && sp_data.unmega_form > 0)
-          next false
-        end
-      end
-
-      # Ban Special Classes (Legendaries, Mythicals, Ultra Beasts, Paradox) before Floor 10
-      if floor < 10 && sp_data.respond_to?(:has_flag?)
-        if sp_data.has_flag?("Legendary") || sp_data.has_flag?("Mythical") || sp_data.has_flag?("UltraBeast") || sp_data.has_flag?("Paradox")
-          next false
-        end
-      end
-
-      # Foolproof BST Calculation
-      bst = 0
-      [:HP, :ATTACK, :DEFENSE, :SPECIAL_ATTACK, :SPECIAL_DEFENSE, :SPEED].each do |stat|
-        bst += sp_data.base_stats[stat] if sp_data.base_stats[stat]
-      end
-
-      # Apply hard BST ceiling caps based on the current floor to prevent single-stage anomalies
-      if floor <= 3 && bst > 350
-        next false
-      elsif floor <= 6 && bst > 450
-        next false
-      elsif floor <= 9 && bst > 550
-        next false
-      end
-
-      case tier
-      when 1 then bst <= 320                    # Early game bugs/birds
-      when 2 then bst >= 250 && bst <= 380
-      when 3 then bst >= 300 && bst <= 430
-      when 4 then bst >= 350 && bst <= 480
-      when 5 then bst >= 400 && bst <= 520      # Mid-game staples
-      when 6 then bst >= 450 && bst <= 560
-      when 7 then bst >= 480 && bst <= 600
-      when 8 then bst >= 500                    # Endgame / Pseudos
-      else true
-      end
+      RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, tier)
     end
 
     # Failsafe check
     if filtered_pool.empty?
       # Generate generic safe pool using the universal bouncer
       safe_pool = GameData::Species.keys.select do |s|
-        RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, floor)
+        RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, tier)
       end
 
       final_pool = safe_pool.empty? ? [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY] : safe_pool
