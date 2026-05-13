@@ -95,3 +95,10 @@ GameData::Status.register({
   :animation     => "Shaken",
   :icon_position => 8
 })
+
+GameData::Status.register({
+  :id            => :EXPLOITED,
+  :name          => _INTL("Exploited"),
+  :animation     => "Exploited",
+  :icon_position => 9
+})

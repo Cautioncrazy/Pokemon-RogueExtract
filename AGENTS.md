@@ -239,6 +239,16 @@ Mechanics for each custom status are integrated directly into the `Battle::Battl
 - **Bleeding** (Steel): Scales damage each turn exactly like Toxic. Hooked in `Data/Scripts/011_Battle/001_Battle/011_Battle_EndOfRoundPhase.rb` (`pbEORStatusProblemDamage`). It uniquely resets `PBEffects::Toxic` when inflicted.
 - **Blindness** (Psychic): 20% chance to fail executing any move. Hooked in `Data/Scripts/011_Battle/002_Battler/009_Battler_UseMoveSuccessChecks.rb` (`pbTryUseMove`).
 - **Shaken** (Ground): Halves physical Defense and reduces the critical hit stage by 1. Hooked in `Data/Scripts/011_Battle/003_Move/003_Move_UsageCalculations.rb` (`pbGetDefenseStats` via `pbCalcDamage` logic, and `pbIsCritical?`).
+- **Exploited** (Dark): Multiplies damage taken from Super Effective moves by 1.5x. Hooked in `Plugins/[DBK_000] Deluxe Battle Kit/[000] Essentials Patches/[002] Damage Calc Refactor.rb` (`pbCalcDamageMults_Status`).
+
+**Custom Move Function Codes:**
+To apply these statuses via move secondary effects, the following Function Codes are defined in `Data/Scripts/011_Battle/003_Move/007_MoveEffects_BattlerOther.rb` and can be assigned to moves in `moves.txt`:
+- `BleedTarget` (inflicts `:BLEEDING`)
+- `BlindnessTarget` (inflicts `:BLINDNESS`)
+- `ShakenTarget` (inflicts `:SHAKEN`)
+- `ExploitTarget` (inflicts `:EXPLOITED`)
+- `FearTarget` (inflicts `PBEffects::Fear`)
+- `RecklessTarget` (inflicts `PBEffects::Reckless`)
 
 **Dynamic Type Immunity Framework:**
 Immunities are managed dynamically in `Data/Scripts/011_Battle/002_Battler/004_Battler_Statuses.rb` (`pbCanInflictStatus?`).

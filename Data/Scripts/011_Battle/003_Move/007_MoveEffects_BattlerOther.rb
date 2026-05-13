@@ -280,6 +280,154 @@ class Battle::Move::BurnFlinchTarget < Battle::Move
 end
 
 #===============================================================================
+# Bleeds the target.
+#===============================================================================
+class Battle::Move::BleedTarget < Battle::Move
+  def canMagicCoat?; return true; end
+
+  def pbFailsAgainstTarget?(user, target, show_message)
+    return false if damagingMove?
+    return !target.pbCanBleed?(user, show_message, self)
+  end
+
+  def pbEffectAgainstTarget(user, target)
+    return if damagingMove?
+    target.pbBleed(user)
+  end
+
+  def pbAdditionalEffect(user, target)
+    return if target.damageState.substitute
+    target.pbBleed(user) if target.pbCanBleed?(user, false, self)
+  end
+end
+
+#===============================================================================
+# Blinds the target.
+#===============================================================================
+class Battle::Move::BlindnessTarget < Battle::Move
+  def canMagicCoat?; return true; end
+
+  def pbFailsAgainstTarget?(user, target, show_message)
+    return false if damagingMove?
+    return !target.pbCanBlind?(user, show_message, self)
+  end
+
+  def pbEffectAgainstTarget(user, target)
+    return if damagingMove?
+    target.pbBlind(user)
+  end
+
+  def pbAdditionalEffect(user, target)
+    return if target.damageState.substitute
+    target.pbBlind(user) if target.pbCanBlind?(user, false, self)
+  end
+end
+
+#===============================================================================
+# Shakes the target.
+#===============================================================================
+class Battle::Move::ShakenTarget < Battle::Move
+  def canMagicCoat?; return true; end
+
+  def pbFailsAgainstTarget?(user, target, show_message)
+    return false if damagingMove?
+    return !target.pbCanShake?(user, show_message, self)
+  end
+
+  def pbEffectAgainstTarget(user, target)
+    return if damagingMove?
+    target.pbShake(user)
+  end
+
+  def pbAdditionalEffect(user, target)
+    return if target.damageState.substitute
+    target.pbShake(user) if target.pbCanShake?(user, false, self)
+  end
+end
+
+#===============================================================================
+# Exploits the target.
+#===============================================================================
+class Battle::Move::ExploitTarget < Battle::Move
+  def canMagicCoat?; return true; end
+
+  def pbFailsAgainstTarget?(user, target, show_message)
+    return false if damagingMove?
+    return !target.pbCanExploit?(user, show_message, self)
+  end
+
+  def pbEffectAgainstTarget(user, target)
+    return if damagingMove?
+    target.pbExploit(user)
+  end
+
+  def pbAdditionalEffect(user, target)
+    return if target.damageState.substitute
+    target.pbExploit(user) if target.pbCanExploit?(user, false, self)
+  end
+end
+
+#===============================================================================
+# Strikes Fear into the target.
+#===============================================================================
+class Battle::Move::FearTarget < Battle::Move
+  def canMagicCoat?; return true; end
+
+  def pbFailsAgainstTarget?(user, target, show_message)
+    return false if damagingMove?
+    if target.effects[PBEffects::Fear] > 0
+      @battle.pbDisplay(_INTL("But it failed!")) if show_message
+      return true
+    end
+    return false
+  end
+
+  def pbEffectAgainstTarget(user, target)
+    return if damagingMove?
+    target.effects[PBEffects::Fear] = 3
+    @battle.pbDisplay(_INTL("{1} was paralyzed with fear!", target.pbThis))
+  end
+
+  def pbAdditionalEffect(user, target)
+    return if target.damageState.substitute
+    if target.effects[PBEffects::Fear] == 0
+      target.effects[PBEffects::Fear] = 3
+      @battle.pbDisplay(_INTL("{1} was paralyzed with fear!", target.pbThis))
+    end
+  end
+end
+
+#===============================================================================
+# Makes the target Reckless.
+#===============================================================================
+class Battle::Move::RecklessTarget < Battle::Move
+  def canMagicCoat?; return true; end
+
+  def pbFailsAgainstTarget?(user, target, show_message)
+    return false if damagingMove?
+    if target.effects[PBEffects::Reckless] > 0
+      @battle.pbDisplay(_INTL("But it failed!")) if show_message
+      return true
+    end
+    return false
+  end
+
+  def pbEffectAgainstTarget(user, target)
+    return if damagingMove?
+    target.effects[PBEffects::Reckless] = 4
+    @battle.pbDisplay(_INTL("{1} started acting recklessly!", target.pbThis))
+  end
+
+  def pbAdditionalEffect(user, target)
+    return if target.damageState.substitute
+    if target.effects[PBEffects::Reckless] == 0
+      target.effects[PBEffects::Reckless] = 4
+      @battle.pbDisplay(_INTL("{1} started acting recklessly!", target.pbThis))
+    end
+  end
+end
+
+#===============================================================================
 # Freezes the target.
 #===============================================================================
 class Battle::Move::FreezeTarget < Battle::Move

@@ -38,6 +38,7 @@ when :FROZEN    then msg = _INTL("{1} is already frozen solid!", pbThis)
 when :BLEEDING  then msg = _INTL("{1} is already bleeding!", pbThis)
 when :BLINDNESS then msg = _INTL("{1} is already blinded!", pbThis)
 when :SHAKEN    then msg = _INTL("{1} is already shaken!", pbThis)
+when :EXPLOITED then msg = _INTL("{1} is already exploited!", pbThis)
 end
 
         @battle.pbDisplay(msg)
@@ -104,7 +105,8 @@ else
   status_types = {
     :BLEEDING  => :STEEL,
     :BLINDNESS => :PSYCHIC,
-    :SHAKEN    => :GROUND
+    :SHAKEN    => :GROUND,
+    :EXPLOITED => :DARK
   }
   status_type = status_types[newStatus]
   if status_type
@@ -241,6 +243,50 @@ if hasImmuneType
   end
 
   #=============================================================================
+  # Bleeding
+  #=============================================================================
+  def pbCanBleed?(user, showMessages, move = nil)
+    return pbCanInflictStatus?(:BLEEDING, user, showMessages, move)
+  end
+
+  def pbBleed(user = nil, msg = nil)
+    pbInflictStatus(:BLEEDING, 0, msg, user)
+  end
+
+  #=============================================================================
+  # Blindness
+  #=============================================================================
+  def pbCanBlind?(user, showMessages, move = nil)
+    return pbCanInflictStatus?(:BLINDNESS, user, showMessages, move)
+  end
+
+  def pbBlind(user = nil, msg = nil)
+    pbInflictStatus(:BLINDNESS, 0, msg, user)
+  end
+
+  #=============================================================================
+  # Shaken
+  #=============================================================================
+  def pbCanShake?(user, showMessages, move = nil)
+    return pbCanInflictStatus?(:SHAKEN, user, showMessages, move)
+  end
+
+  def pbShake(user = nil, msg = nil)
+    pbInflictStatus(:SHAKEN, 0, msg, user)
+  end
+
+  #=============================================================================
+  # Exploited
+  #=============================================================================
+  def pbCanExploit?(user, showMessages, move = nil)
+    return pbCanInflictStatus?(:EXPLOITED, user, showMessages, move)
+  end
+
+  def pbExploit(user = nil, msg = nil)
+    pbInflictStatus(:EXPLOITED, 0, msg, user)
+  end
+
+  #=============================================================================
   # Generalised infliction of status problem
   #=============================================================================
   def pbInflictStatus(newStatus, newStatusCount = 0, msg = nil, user = nil)
@@ -274,6 +320,8 @@ if hasImmuneType
         @battle.pbDisplay(_INTL("{1} is paralyzed! It may be unable to move!", pbThis))
       when :FROZEN
         @battle.pbDisplay(_INTL("{1} was frozen solid!", pbThis))
+      when :EXPLOITED
+        @battle.pbDisplay(_INTL("{1}'s weaknesses are being exploited!", pbThis))
       end
     end
     PBDebug.log("[Status change] #{pbThis}'s sleep count is #{newStatusCount}") if newStatus == :SLEEP
@@ -467,6 +515,7 @@ end
       when :BURN      then @battle.pbDisplay(_INTL("{1}'s burn was healed.", pbThis))
       when :PARALYSIS then @battle.pbDisplay(_INTL("{1} was cured of paralysis.", pbThis))
       when :FROZEN    then @battle.pbDisplay(_INTL("{1} thawed out!", pbThis))
+      when :EXPLOITED then @battle.pbDisplay(_INTL("{1} is no longer being exploited.", pbThis))
       end
     end
     PBDebug.log("[Status change] #{pbThis}'s status was cured") if !showMessages

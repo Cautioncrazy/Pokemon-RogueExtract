@@ -1213,6 +1213,11 @@ class Battle::Move::UseTargetDefenseInsteadOfTargetSpDef < Battle::Move
   def pbGetDefenseStats(user, target)
     return target.defense, target.stages[:DEFENSE] + Battle::Battler::STAT_STAGE_MAXIMUM
   end
+
+  def pbAdditionalEffect(user, target)
+    return if target.damageState.substitute
+    target.pbBlind(user) if target.pbCanBlind?(user, false, self)
+  end
 end
 
 #===============================================================================
