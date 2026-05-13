@@ -1,93 +1,263 @@
-DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
 DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
 ===================================================
 DEBUG - BST FILTER CALLED
 Current Run Tier: 1
 Original Pool Size: 174 species
-Filtered Pool Size: 0 species
-WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning safe pool).
+Filtered Pool Size: 1 species
+Sample Allowed Species: VOLTORB
 ===================================================
-DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
 DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
 ===================================================
 DEBUG - BST FILTER CALLED
 Current Run Tier: 1
 Original Pool Size: 174 species
-Filtered Pool Size: 0 species
-WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning safe pool).
+Filtered Pool Size: 1 species
+Sample Allowed Species: VOLTORB
 ===================================================
-DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Land, :type=>:FIRE}
-DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Land, :type=>:FIRE}
-DEBUG - get_pool | Trainer PICNICKER falling back to Floor Type FIRE
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
 ===================================================
 DEBUG - BST FILTER CALLED
 Current Run Tier: 1
-Original Pool Size: 88 species
-Filtered Pool Size: 18 species
-Sample Allowed Species: CHARMANDER, VULPIX, CYNDAQUIL, SLUGMA, TORCHIC
+Original Pool Size: 174 species
+Filtered Pool Size: 1 species
+Sample Allowed Species: VOLTORB
 ===================================================
-===================================================
-DEBUG - BST FILTER CALLED
-Current Run Tier: 2
-Original Pool Size: 88 species
-Filtered Pool Size: 20 species
-Sample Allowed Species: CHARMANDER, VULPIX, GROWLITHE, CYNDAQUIL, SLUGMA
-===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
 ===================================================
 DEBUG - BST FILTER CALLED
 Current Run Tier: 2
-Original Pool Size: 88 species
-Filtered Pool Size: 20 species
-Sample Allowed Species: CHARMANDER, VULPIX, GROWLITHE, CYNDAQUIL, SLUGMA
+Original Pool Size: 174 species
+Filtered Pool Size: 1 species
+Sample Allowed Species: VOLTORB
 ===================================================
-DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
-DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
-DEBUG - get_pool | Trainer YOUNGSTER falling back to Floor Type ICE
+DEBUG - get_dynamic_typeless_pool | Floor 1 Theme is HIGH_SPEED
 ===================================================
 DEBUG - BST FILTER CALLED
 Current Run Tier: 2
-Original Pool Size: 57 species
-Filtered Pool Size: 11 species
-Sample Allowed Species: SWINUB, DELIBIRD, SMOOCHUM, SNORUNT, SPHEAL
+Original Pool Size: 174 species
+Filtered Pool Size: 1 species
+Sample Allowed Species: VOLTORB
 ===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
 ===================================================
 DEBUG - BST FILTER CALLED
 Current Run Tier: 2
-Original Pool Size: 57 species
-Filtered Pool Size: 11 species
-Sample Allowed Species: SWINUB, DELIBIRD, SMOOCHUM, SNORUNT, SPHEAL
+Original Pool Size: 102 species
+Filtered Pool Size: 26 species
+Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORANmA
 ===================================================
-DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
-DEBUG - get_dynamic_typeless_pool | Floor 3 Theme is HEAVYWEIGHT
-===================================================
-DEBUG - BST FILTER CALLED
-Current Run Tier: 3
-Original Pool Size: 169 species
-Filtered Pool Size: 2 species
-Sample Allowed Species: RHYHORN, CUFANT
-===================================================
-DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
-DEBUG - get_dynamic_typeless_pool | Floor 3 Theme is HEAVYWEIGHT
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
 ===================================================
 DEBUG - BST FILTER CALLED
-Current Run Tier: 3
-Original Pool Size: 169 species
-Filtered Pool Size: 2 species
-Sample Allowed Species: RHYHORN, CUFANT
+Current Run Tier: 2
+Original Pool Size: 102 species
+Filtered Pool Size: 26 species
+Sample Allowed Species: BULBASAUR, CHARMANDER, SQUIRTLE, NIDORANfE, NIDORANmA
 ===================================================
-DEBUG - get_dynamic_typeless_pool | Floor 3 Theme is HEAVYWEIGHT
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 5
+Original Pool Size: 102 species
+Filtered Pool Size: 46 species
+Sample Allowed Species: BULBASAUR, IVYSAUR, CHARMANDER, CHARMELEON, SQUIRTLE
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 6
+Original Pool Size: 102 species
+Filtered Pool Size: 46 species
+Sample Allowed Species: BULBASAUR, IVYSAUR, CHARMANDER, CHARMELEON, SQUIRTLE
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 6
+Original Pool Size: 102 species
+Filtered Pool Size: 46 species
+Sample Allowed Species: BULBASAUR, IVYSAUR, CHARMANDER, CHARMELEON, SQUIRTLE
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 6
+Original Pool Size: 102 species
+Filtered Pool Size: 46 species
+Sample Allowed Species: BULBASAUR, IVYSAUR, CHARMANDER, CHARMELEON, SQUIRTLE
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 6
+Original Pool Size: 102 species
+Filtered Pool Size: 46 species
+Sample Allowed Species: BULBASAUR, IVYSAUR, CHARMANDER, CHARMELEON, SQUIRTLE
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 2 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 6
+Original Pool Size: 102 species
+Filtered Pool Size: 46 species
+Sample Allowed Species: BULBASAUR, IVYSAUR, CHARMANDER, CHARMELEON, SQUIRTLE
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Land, :type=>:FIRE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave_FIRE' | Resolved Hash: {:terrain=>:Land, :type=>:FIRE}
+DEBUG - get_pool | Trainer CAMPER using Dual Type GROUND/FIRE
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 6
+Original Pool Size: 3 species
+Filtered Pool Size: 1 species
+Sample Allowed Species: NUMEL
+===================================================
 ===================================================
 DEBUG - BST FILTER CALLED
 Current Run Tier: 7
-Original Pool Size: 169 species
-Filtered Pool Size: 0 species
-WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning safe pool).
+Original Pool Size: 88 species
+Filtered Pool Size: 69 species
+Sample Allowed Species: CHARMANDER, CHARMELEON, CHARIZARD, VULPIX, NINETALES
 ===================================================
-DEBUG - get_dynamic_typeless_pool | Floor 3 Theme is HEAVYWEIGHT
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 4 Theme is WEATHER_SETTERS
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 12 species
+Filtered Pool Size: 8 species
+Sample Allowed Species: PELIPPER, TORKOAL, HIPPOPOTAS, HIPPOWDON, SNOVER
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 4 Theme is WEATHER_SETTERS
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 12 species
+Filtered Pool Size: 8 species
+Sample Allowed Species: PELIPPER, TORKOAL, HIPPOPOTAS, HIPPOWDON, SNOVER
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 4 Theme is WEATHER_SETTERS
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 12 species
+Filtered Pool Size: 8 species
+Sample Allowed Species: PELIPPER, TORKOAL, HIPPOPOTAS, HIPPOWDON, SNOVER
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 4 Theme is WEATHER_SETTERS
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 12 species
+Filtered Pool Size: 8 species
+Sample Allowed Species: PELIPPER, TORKOAL, HIPPOPOTAS, HIPPOWDON, SNOVER
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 5 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 102 species
+Filtered Pool Size: 81 species
+Sample Allowed Species: BULBASAUR, IVYSAUR, VENUSAUR, CHARMANDER, CHARMELEON
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave 2' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 5 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 102 species
+Filtered Pool Size: 81 species
+Sample Allowed Species: BULBASAUR, IVYSAUR, VENUSAUR, CHARMANDER, CHARMELEON
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 5 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 102 species
+Filtered Pool Size: 81 species
+Sample Allowed Species: BULBASAUR, IVYSAUR, VENUSAUR, CHARMANDER, CHARMELEON
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 5 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 102 species
+Filtered Pool Size: 81 species
+Sample Allowed Species: BULBASAUR, IVYSAUR, VENUSAUR, CHARMANDER, CHARMELEON
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 5 Theme is MONSTER_EGG
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 102 species
+Filtered Pool Size: 81 species
+Sample Allowed Species: BULBASAUR, IVYSAUR, VENUSAUR, CHARMANDER, CHARMELEON
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - get_pool | Trainer HIKER using Dual Type ROCK/ICE
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 3 species
+Filtered Pool Size: 2 species
+Sample Allowed Species: AMAURA, AURORUS
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'forest_ICE' | Resolved Hash: {:terrain=>:Land, :type=>:ICE}
+DEBUG - get_pool | Trainer PICNICKER using Dual Type GRASS/ICE
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 3 species
+Filtered Pool Size: 2 species
+Sample Allowed Species: SNOVER, ABOMASNOW
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 7 Theme is HIGH_BST
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 625 species
+Filtered Pool Size: 387 species
+Sample Allowed Species: VENUSAUR, CHARIZARD, BLASTOISE, PIDGEOT, RAICHU
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 7 Theme is HIGH_BST
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 625 species
+Filtered Pool Size: 387 species
+Sample Allowed Species: VENUSAUR, CHARIZARD, BLASTOISE, PIDGEOT, RAICHU
+===================================================
+DEBUG - pbSetAndStartDynamicTrainer | Raw $PokemonGlobal.dungeon_area: 'cave' | Resolved Hash: {:terrain=>:Land, :type=>nil}
+DEBUG - get_dynamic_typeless_pool | Floor 7 Theme is HIGH_BST
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 7
+Original Pool Size: 625 species
+Filtered Pool Size: 387 species
+Sample Allowed Species: VENUSAUR, CHARIZARD, BLASTOISE, PIDGEOT, RAICHU
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 7 Theme is HIGH_BST
 ===================================================
 DEBUG - BST FILTER CALLED
 Current Run Tier: 8
-Original Pool Size: 169 species
-Filtered Pool Size: 0 species
-WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning safe pool).
+Original Pool Size: 625 species
+Filtered Pool Size: 387 species
+Sample Allowed Species: VENUSAUR, CHARIZARD, BLASTOISE, PIDGEOT, RAICHU
+===================================================
+DEBUG - get_dynamic_typeless_pool | Floor 7 Theme is HIGH_BST
+===================================================
+DEBUG - BST FILTER CALLED
+Current Run Tier: 9
+Original Pool Size: 625 species
+Filtered Pool Size: 387 species
+Sample Allowed Species: VENUSAUR, CHARIZARD, BLASTOISE, PIDGEOT, RAICHU
 ===================================================
