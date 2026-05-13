@@ -123,10 +123,11 @@ def apply_rift_environment(map_id, interp = nil)
       types = $PokemonGlobal.instance_variable_get(:@rift_weather_types) || [:NORMAL]
       pool = []
 
-      floor = $PokemonGlobal.instance_variable_defined?(:@current_raid_floor) ? $PokemonGlobal.current_raid_floor : 1
+      tier = $game_variables[ProceduralEncounters::DIFFICULTY_TIER_VAR] || 1
+      tier = 1 if tier < 1
 
       GameData::Species.each do |species|
-        next if !RoguelikeExtraction.pbIsValidRoguelikeSpawn?(species.id, floor)
+        next if !RoguelikeExtraction.pbIsValidRoguelikeSpawn?(species.id, tier)
 
         if species.types.any? { |t| types.include?(t) }
           pool.push(species.id)
@@ -251,13 +252,14 @@ class PokemonEncounters
   end
 
   def choose_wild_pokemon(enc_type, chance_rolls = 1)
-    floor = $PokemonGlobal.instance_variable_defined?(:@current_raid_floor) ? $PokemonGlobal.current_raid_floor : 1
+    tier = $game_variables[ProceduralEncounters::DIFFICULTY_TIER_VAR] || 1
+    tier = 1 if tier < 1
 
     # 1. Handle Rift Specific Encounters
     if RiftChallenges.is_rift_map?
       pool = RiftChallenges.get_valid_species_for_weather
 
-      valid_pool = pool.select { |s| RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, floor) }
+      valid_pool = pool.select { |s| RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, tier) }
       if valid_pool.empty?
         valid_pool = [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY]
       end
@@ -279,7 +281,7 @@ class PokemonEncounters
         pool = ProceduralEncounters.get_wild_pool(theme_str)
       end
 
-      valid_pool = pool.select { |s| RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, floor) }
+      valid_pool = pool.select { |s| RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, tier) }
       if valid_pool.empty?
         valid_pool = [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY]
       end
@@ -322,16 +324,19 @@ trainer_class = trainer_keys.sample || :TEAMROCKET_M
       end
 
       party_size.times do
-        floor = $PokemonGlobal.instance_variable_defined?(:@current_raid_floor) ? $PokemonGlobal.current_raid_floor : 1
+        tier = $game_variables[ProceduralEncounters::DIFFICULTY_TIER_VAR] || 1
+        tier = 1 if tier < 1
 
-        valid_pool = pool.select { |s| RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, floor) }
+        valid_pool = pool.select { |s| RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, tier) }
         if valid_pool.empty?
           valid_pool = [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY]
         end
         species = valid_pool.sample
 
         pkmn = Pokemon.new(species, level)
-        pkmn.form = 0 if floor < 7
+
+        # Enforce base form manually for earlier tiers if validation somehow misses
+        pkmn.form = 0 if tier <= 6
 
         pkmn.calc_stats
         trainer.party.push(pkmn)
@@ -380,9 +385,10 @@ module RiftChallenges
     def generate_dynamic_boss
       pool = get_valid_species_for_weather
 
-      floor = $PokemonGlobal.instance_variable_defined?(:@current_raid_floor) ? $PokemonGlobal.current_raid_floor : 1
+      tier = $game_variables[ProceduralEncounters::DIFFICULTY_TIER_VAR] || 1
+      tier = 1 if tier < 1
 
-      valid_pool = pool.select { |s| RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, floor) }
+      valid_pool = pool.select { |s| RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, tier) }
       if valid_pool.empty?
         valid_pool = [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY]
       end

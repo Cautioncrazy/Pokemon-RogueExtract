@@ -4,29 +4,37 @@
 
 module RoguelikeExtraction
   # The Universal Bouncer: Prevents invalid, overpowered, or mega species from generating
-  def self.pbIsValidRoguelikeSpawn?(species_id, current_floor)
+  def self.pbIsValidRoguelikeSpawn?(species_id, current_tier)
     species_data = GameData::Species.try_get(species_id)
     return false if !species_data
 
-    # 1. Base Form Only
-    return false if species_data.form != 0
-
-    # 2. Strict Baby Check (must be lowest stage of evolution family)
-    return false if species_data.species != species_data.get_baby_species
-
-    # 3. Must Evolve (Bans Legendaries, Mythicals, Ultra Beasts, Paradoxes, etc.)
-    evolutions = species_data.get_evolutions
-    return false if evolutions.nil? || evolutions.empty?
-
-    # 4. Strict BST Check
+    # Calculate BST
     bst = 0
     [:HP, :ATTACK, :DEFENSE, :SPECIAL_ATTACK, :SPECIAL_DEFENSE, :SPEED].each do |stat|
       bst += species_data.base_stats[stat] if species_data.base_stats[stat]
     end
 
-    return false if current_floor <= 3 && bst > 350
-    return false if current_floor <= 6 && bst > 450
-    return false if current_floor <= 9 && bst > 550
+    # TIERS 1-3: Strict Early Game (Babies/Base forms only, < 350 BST)
+    if current_tier <= 3
+      return false if species_data.form != 0
+      return false if species_data.species != species_data.get_baby_species
+      return false if species_data.get_evolutions.empty?
+      return false if bst > 350
+    end
+
+    # TIERS 4-6: Mid Game (Looser locks, middle evos allowed, < 450 BST)
+    if current_tier <= 6
+      return false if species_data.form != 0 # Keep Megas locked out
+      return false if bst > 450
+    end
+
+    # TIERS 7-9: Late Game (Fully evolved allowed, strict Mega lockout, < 550 BST)
+    if current_tier <= 9
+      return false if species_data.form != 0 # Keep Megas locked out
+      return false if bst > 550
+    end
+
+    # TIER 10+: Endless/Boss Tier (Anything goes, no locks)
 
     return true
   end
@@ -402,7 +410,10 @@ end
         species_pool = ProceduralEncounters.get_pool(chosen_type)
       end
 
-      valid_pool = species_pool.select { |s| RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, floor) }
+      tier = $game_variables[ProceduralEncounters::DIFFICULTY_TIER_VAR] || 1
+      tier = 1 if tier < 1
+
+      valid_pool = species_pool.select { |s| RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, tier) }
       if valid_pool.empty?
         valid_pool = [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY]
       end
@@ -419,8 +430,8 @@ end
       party_species.each do |species|
         pkmn = Pokemon.new(species, level)
 
-        # Enforce base form for early floors (failsafe in case of direct species instantiation)
-        pkmn.form = 0 if floor < 7
+        # Enforce base form for early tiers (failsafe in case of direct species instantiation)
+        pkmn.form = 0 if tier <= 6
 
         # --- Roguelike Advanced Level Scaling & Difficulty Modifiers ---
         if defined?(AutomaticLevelScaling)
@@ -443,7 +454,7 @@ end
         end
 
         # Assign Mega Stone if eligible (only 1 per trainer)
-        if floor >= 7 && !mega_assigned
+        if tier >= 7 && !mega_assigned
           # Find if this species has a mega form
           mega_stone_item = nil
           GameData::Species.each do |data|
