@@ -503,7 +503,8 @@ Power = 70
 Accuracy = 100
 TotalPP = 15
 Target = NearOther
-FunctionCode = None
+FunctionCode = InflictExploited
+EffectChance = 100
 Flags = Contact,CanProtect,CanMirrorMove,HighCriticalHitRate,Slicing
 Description = The user slashes the target the instant an opportunity arises. Critical hits land more easily.
 #-------------------------------
@@ -7078,7 +7079,7 @@ Target = NearOther
 FunctionCode = UseTargetDefenseInsteadOfTargetSpDef
 EffectChance = 30
 Flags = CanProtect,CanMirrorMove
-Description = The user materializes an odd psychic wave to attack the target. This attack does physical damage. Has a 30% chance to leave the target Blinded.
+Description = The user materializes an odd psychic wave to attack the target. This attack does physical damage.
 #-------------------------------
 [FREEZINGGLARE]
 Name = Freezing Glare
@@ -7224,12 +7225,13 @@ Name = Psycho Cut
 Type = PSYCHIC
 Category = Physical
 Power = 70
-Accuracy = 100
+Accuracy = 30
 TotalPP = 20
 Target = NearOther
-FunctionCode = None
+FunctionCode = InflictBlindness
+EffectChance = 100
 Flags = CanProtect,CanMirrorMove,HighCriticalHitRate,Slicing
-Description = The user tears at the target with blades formed by psychic power. Critical hits land more easily.
+Description = The user tears at the target with blades formed by psychic power. Critical hits land more easily. Has a 30% chance to leave the target Blinded.
 #-------------------------------
 [PSYBEAM]
 Name = Psybeam

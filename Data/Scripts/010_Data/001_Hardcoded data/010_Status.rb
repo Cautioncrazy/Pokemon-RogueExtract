@@ -79,26 +79,26 @@ GameData::Status.register({
   :id            => :BLEEDING,
   :name          => _INTL("Bleeding"),
   :animation     => "Bleeding",
-  :icon_position => 6
+  :icon_position => 7
 })
 
 GameData::Status.register({
   :id            => :BLINDNESS,
   :name          => _INTL("Blindness"),
   :animation     => "Blindness",
-  :icon_position => 7
+  :icon_position => 8
 })
 
 GameData::Status.register({
   :id            => :SHAKEN,
   :name          => _INTL("Shaken"),
   :animation     => "Shaken",
-  :icon_position => 8
+  :icon_position => 9
 })
 
 GameData::Status.register({
   :id            => :EXPLOITED,
   :name          => _INTL("Exploited"),
   :animation     => "Exploited",
-  :icon_position => 9
+  :icon_position => 10
 })

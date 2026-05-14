@@ -624,3 +624,55 @@ class Battle::Move::PledgeMove < Battle::Move
     return super
   end
 end
+
+#===============================================================================
+# Damaging move. Has a chance to inflict Bleeding.
+# Function code in PBS MUST be: InflictBleeding
+#===============================================================================
+class Battle::Move::InflictBleeding < Battle::Move
+  def pbAdditionalEffect(user, target)
+    return if target.damageState.substitute
+    if target.pbCanBleed?(user, false, self)
+      target.pbBleed(user)
+    end
+  end
+end
+
+#===============================================================================
+# Damaging move. Has a chance to inflict Blindness.
+# Function code in PBS MUST be: InflictBlindness
+#===============================================================================
+class Battle::Move::InflictBlindness < Battle::Move
+  def pbAdditionalEffect(user, target)
+    return if target.damageState.substitute
+    if target.pbCanBlind?(user, false, self)
+      target.pbBlind(user)
+    end
+  end
+end
+
+#===============================================================================
+# Damaging move. Has a chance to inflict Shaken.
+# Function code in PBS MUST be: InflictShaken
+#===============================================================================
+class Battle::Move::InflictShaken < Battle::Move
+  def pbAdditionalEffect(user, target)
+    return if target.damageState.substitute
+    if target.pbCanShake?(user, false, self)
+      target.pbShake(user)
+    end
+  end
+end
+
+#===============================================================================
+# Damaging move. Has a chance to inflict Exploited.
+# Function code in PBS MUST be: InflictExploited
+#===============================================================================
+class Battle::Move::InflictExploited < Battle::Move
+  def pbAdditionalEffect(user, target)
+    return if target.damageState.substitute
+    if target.pbCanExploit?(user, false, self)
+      target.pbExploit(user)
+    end
+  end
+end
