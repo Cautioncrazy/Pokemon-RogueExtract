@@ -27,18 +27,6 @@ module ProceduralEncounters
       RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, tier)
     end
 
-    # Failsafe check
-    if filtered_pool.empty?
-      # Generate generic safe pool using the universal bouncer
-      safe_pool = GameData::Species.keys.select do |s|
-        RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, tier)
-      end
-
-      final_pool = safe_pool.empty? ? [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY] : safe_pool
-    else
-      final_pool = filtered_pool
-    end
-
     # Debug Logging
     if $DEBUG
       File.open("debug_theme.txt", "a") do |f|
@@ -49,17 +37,17 @@ module ProceduralEncounters
         f.puts("Filtered Pool Size: #{filtered_pool.length} species")
 
         if filtered_pool.empty?
-          f.puts("WARNING: Filter was too strict and emptied the pool! Failsafe triggered (returning safe pool).")
+          f.puts("WARNING: Filter was too strict and emptied the pool! Returning empty array.")
         else
           # Output a small sample of what survived the filter as proof
-          sample = final_pool.take(5).join(", ")
+          sample = filtered_pool.take(5).join(", ")
           f.puts("Sample Allowed Species: #{sample}")
         end
         f.puts("===================================================")
       end
     end
 
-    return final_pool
+    return filtered_pool
   end
 
   # Maps Trainer Classes to their lore-accurate elemental typing
@@ -124,10 +112,13 @@ module ProceduralEncounters
 
       # Require at least 2 unique species to avoid spamming a single Pokémon
       if dual_pool.length >= 2
-        if $DEBUG
-          File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_pool | Trainer #{trainer_class} using Dual Type #{lore_type}/#{floor_type}") }
+        filtered_dual_pool = filter_pool_by_bst_tier(dual_pool)
+        if !filtered_dual_pool.empty?
+          if $DEBUG
+            File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_pool | Trainer #{trainer_class} using Dual Type #{lore_type}/#{floor_type}") }
+          end
+          return filtered_dual_pool
         end
-        return filter_pool_by_bst_tier(dual_pool)
       end
     end
 
@@ -138,10 +129,13 @@ module ProceduralEncounters
         floor_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") }
       end
       if !floor_pool.empty?
-        if $DEBUG
-          File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_pool | Trainer #{trainer_class} falling back to Floor Type #{floor_type}") }
+        filtered_floor_pool = filter_pool_by_bst_tier(floor_pool)
+        if !filtered_floor_pool.empty?
+          if $DEBUG
+            File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_pool | Trainer #{trainer_class} falling back to Floor Type #{floor_type}") }
+          end
+          return filtered_floor_pool
         end
-        return filter_pool_by_bst_tier(floor_pool)
       end
     end
 
@@ -151,13 +145,23 @@ module ProceduralEncounters
       if !lore_pool.empty? && GameData::Species.get(lore_pool.first).respond_to?(:flags)
         lore_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") }
       end
-      if $DEBUG
-        File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_pool | Trainer #{trainer_class} using Lore Type #{lore_type}") }
+      if !lore_pool.empty?
+        filtered_lore_pool = filter_pool_by_bst_tier(lore_pool)
+        if !filtered_lore_pool.empty?
+          if $DEBUG
+            File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_pool | Trainer #{trainer_class} using Lore Type #{lore_type}") }
+          end
+          return filtered_lore_pool
+        end
       end
-      return filter_pool_by_bst_tier(lore_pool) unless lore_pool.empty?
     end
 
-    return filter_pool_by_bst_tier([])
+    # 4. Final Absolute Fallback (Generic Safe Tier Pool)
+    if $DEBUG
+      File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_pool | Trainer #{trainer_class} falling back to generic tier pool.") }
+    end
+    generic_pool = filter_pool_by_bst_tier(GameData::Species.keys)
+    return generic_pool.empty? ? [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY] : generic_pool
   end
 
   # ============================================================================
@@ -192,7 +196,17 @@ module ProceduralEncounters
       end
     end
 
-    return filter_pool_by_bst_tier(pool)
+    filtered_pool = filter_pool_by_bst_tier(pool)
+
+    if filtered_pool.empty?
+      if $DEBUG
+        File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_dynamic_typeless_pool | Theme #{chosen_theme} pool empty after BST filter. Falling back to generic tier pool.") }
+      end
+      generic_pool = filter_pool_by_bst_tier(GameData::Species.keys)
+      return generic_pool.empty? ? [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY] : generic_pool
+    end
+
+    return filtered_pool
   end
 
   def self.get_wild_pool(theme)
@@ -207,15 +221,22 @@ module ProceduralEncounters
         pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") }
       end
 
-      return filter_pool_by_bst_tier(pool) unless pool.empty?
+      if !pool.empty?
+        filtered_pool = filter_pool_by_bst_tier(pool)
+        return filtered_pool unless filtered_pool.empty?
+      end
     end
 
-    # If a theme was found but it has no elemental type, generate a dynamic attribute pool
-    if theme_data && theme_data[:type].nil?
-      return get_dynamic_typeless_pool # get_dynamic_typeless_pool is already filtered
+    # If a theme was found but it has no elemental type, or the elemental type pool was empty/filtered out, generate a dynamic attribute pool
+    if theme_data
+      return get_dynamic_typeless_pool # get_dynamic_typeless_pool handles its own filtering and generic fallback
     end
 
     # Absolute failsafe for missing/nil data
-    return filter_pool_by_bst_tier([])
+    if $DEBUG
+      File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - get_wild_pool | Missing theme data. Falling back to generic tier pool.") }
+    end
+    generic_pool = filter_pool_by_bst_tier(GameData::Species.keys)
+    return generic_pool.empty? ? [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY] : generic_pool
   end
 end

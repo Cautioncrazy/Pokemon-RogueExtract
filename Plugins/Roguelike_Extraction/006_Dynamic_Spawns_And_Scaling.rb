@@ -383,6 +383,9 @@ end
       File.open("debug_theme.txt", "a") { |f| f.puts(debug_msg) }
       # END DEBUG INJECTION
 
+      tier = $game_variables[ProceduralEncounters::DIFFICULTY_TIER_VAR] || 1
+      tier = 1 if tier < 1
+
       if suffix_type && GameData::Type.exists?(suffix_type)
         if is_vip
           # Elemental Boss Counters
@@ -391,6 +394,15 @@ end
             counter_type = weaknesses.sample
             species_pool = GameData::Species.keys.select { |s| GameData::Species.get(s).types.include?(counter_type) }
             species_pool.reject! { |s| GameData::Species.get(s).flags.include?("Legendary") || GameData::Species.get(s).flags.include?("Mythical") } if !species_pool.empty? && GameData::Species.get(species_pool.first).respond_to?(:flags)
+
+            # Apply bouncer immediately. If it completely empties the boss pool, fall back!
+            species_pool = ProceduralEncounters.filter_pool_by_bst_tier(species_pool)
+            if species_pool.empty?
+              if $DEBUG
+                File.open("debug_theme.txt", "a") { |f| f.puts("DEBUG - pbSetAndStartDynamicTrainer | Boss counter pool empty after BST filter. Falling back to get_pool.") }
+              end
+              species_pool = ProceduralEncounters.get_pool(chosen_type)
+            end
           else
             species_pool = ProceduralEncounters.get_pool(chosen_type)
           end
@@ -410,12 +422,14 @@ end
         species_pool = ProceduralEncounters.get_pool(chosen_type)
       end
 
-      tier = $game_variables[ProceduralEncounters::DIFFICULTY_TIER_VAR] || 1
-      tier = 1 if tier < 1
-
+      # Since all `get_pool` and `get_dynamic_typeless_pool` methods now pre-filter and fallback internally,
+      # we still do a final safety check just to be absolutely certain we don't crash.
       valid_pool = species_pool.select { |s| RoguelikeExtraction.pbIsValidRoguelikeSpawn?(s, tier) }
+
       if valid_pool.empty?
-        valid_pool = [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY]
+        # Absolute last resort if something catastrophically failed
+        generic_pool = ProceduralEncounters.filter_pool_by_bst_tier(GameData::Species.keys)
+        valid_pool = generic_pool.empty? ? [:CATERPIE, :WEEDLE, :RATTATA, :PIDGEY] : generic_pool
       end
 
       party_species = []
